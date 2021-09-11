@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Focus;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class LayoutBlockStateList : FocusBlockStateList, ICollection<ILayoutBlockState>, IEnumerable<ILayoutBlockState>, IList<ILayoutBlockState>, IReadOnlyCollection<ILayoutBlockState>, IReadOnlyList<ILayoutBlockState>

@@ -8,6 +8,13 @@
     public class FocusInnerDictionary<TKey> : FrameInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusInner>>, IEnumerable<KeyValuePair<TKey, IFocusInner>>, IDictionary<TKey, IFocusInner>, IReadOnlyCollection<KeyValuePair<TKey, IFocusInner>>, IReadOnlyDictionary<TKey, IFocusInner>, IEqualComparable
     {
         /// <inheritdoc/>
+        public FocusInnerDictionary() : base() { }
+        /// <inheritdoc/>
+        public FocusInnerDictionary(IDictionary<TKey, IFocusInner> dictionary) : base() { foreach (KeyValuePair<TKey, IFocusInner> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public FocusInnerDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IFrameInner Value); value = (IFocusInner)Value; return Result; }
 
         #region TKey, IFocusInner

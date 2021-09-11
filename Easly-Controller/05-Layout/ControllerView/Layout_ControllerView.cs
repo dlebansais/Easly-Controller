@@ -40,7 +40,7 @@
         private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
-            return new LayoutStateViewDictionary();
+            return new LayoutNodeStateViewDictionary();
         }
 
         /// <summary>

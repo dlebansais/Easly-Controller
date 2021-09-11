@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Focus;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class LayoutNodeStateList : FocusNodeStateList, ICollection<ILayoutNodeState>, IEnumerable<ILayoutNodeState>, IList<ILayoutNodeState>, IReadOnlyCollection<ILayoutNodeState>, IReadOnlyList<ILayoutNodeState>
@@ -15,7 +15,7 @@
         bool ICollection<ILayoutNodeState>.Contains(ILayoutNodeState item) { return Contains(item); }
         void ICollection<ILayoutNodeState>.CopyTo(ILayoutNodeState[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<ILayoutNodeState>.Remove(ILayoutNodeState item) { return Remove(item); }
-        bool ICollection<ILayoutNodeState>.IsReadOnly { get { return ((ICollection<IReadOnlyNodeState>)this).IsReadOnly; } }
+        bool ICollection<ILayoutNodeState>.IsReadOnly { get { return ((ICollection<IFocusNodeState>)this).IsReadOnly; } }
         IEnumerator<ILayoutNodeState> IEnumerable<ILayoutNodeState>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeState)iterator.Current; } }
         ILayoutNodeState IList<ILayoutNodeState>.this[int index] { get { return (ILayoutNodeState)this[index]; } set { this[index] = value; } }
         int IList<ILayoutNodeState>.IndexOf(ILayoutNodeState item) { return IndexOf(item); }

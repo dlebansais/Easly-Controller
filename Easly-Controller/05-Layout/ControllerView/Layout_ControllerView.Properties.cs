@@ -18,7 +18,7 @@
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new LayoutStateViewDictionary StateViewTable { get { return (LayoutStateViewDictionary)base.StateViewTable; } }
+        public new LayoutNodeStateViewDictionary StateViewTable { get { return (LayoutNodeStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.

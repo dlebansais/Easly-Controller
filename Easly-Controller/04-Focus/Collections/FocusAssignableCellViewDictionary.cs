@@ -7,6 +7,13 @@
     public class FocusAssignableCellViewDictionary<TKey> : FrameAssignableCellViewDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>, IDictionary<TKey, IFocusAssignableCellView>, IReadOnlyCollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
     {
         /// <inheritdoc/>
+        public FocusAssignableCellViewDictionary() : base() { }
+        /// <inheritdoc/>
+        public FocusAssignableCellViewDictionary(IDictionary<TKey, IFocusAssignableCellView> dictionary) : base() { foreach (KeyValuePair<TKey, IFocusAssignableCellView> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public FocusAssignableCellViewDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(TKey key, out IFocusAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (IFocusAssignableCellView)Value; return Result; }
 
         #region TKey, IFocusAssignableCellView

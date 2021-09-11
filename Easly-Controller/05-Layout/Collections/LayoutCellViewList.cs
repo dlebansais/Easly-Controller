@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
@@ -24,30 +23,30 @@
         ILayoutCellView IReadOnlyList<ILayoutCellView>.this[int index] { get { return (ILayoutCellView)this[index]; } }
         #endregion
 
-        #region Debugging
-        /// <inheritdoc/>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out LayoutCellViewList AsCellViewList))
-                return comparer.Failed();
-
-            if (!comparer.IsSameCount(Count, AsCellViewList.Count))
-                return comparer.Failed();
-
-            for (int i = 0; i < Count; i++)
-                if (!comparer.VerifyEqual(this[i], AsCellViewList[i]))
-                    return comparer.Failed();
-
-            return true;
-        }
-        #endregion
-
         /// <inheritdoc/>
         public override FrameCellViewReadOnlyList ToReadOnly()
         {
             return new LayoutCellViewReadOnlyList(this);
         }
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            System.Diagnostics.Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out LayoutCellViewList AsOtherList))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsOtherList.Count))
+                return comparer.Failed();
+
+            for (int i = 0; i < Count; i++)
+                if (!comparer.VerifyEqual(this[i], AsOtherList[i]))
+                    return comparer.Failed();
+
+            return true;
+        }
+        #endregion
     }
 }

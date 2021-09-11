@@ -55,7 +55,7 @@
         /// <summary>
         /// State table.
         /// </summary>
-        public new LayoutIndexNodeStateReadOnlyDictionary StateTable { get { return (LayoutIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        public new LayoutNodeStateReadOnlyDictionary StateTable { get { return (LayoutNodeStateReadOnlyDictionary)base.StateTable; } }
 
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
@@ -82,7 +82,7 @@
         private protected override ReadOnlyNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutController));
-            return new LayoutIndexNodeStateDictionary();
+            return new LayoutNodeStateDictionary();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@
         private protected override ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutController));
-            return new LayoutIndexNodeStateDictionary();
+            return new LayoutNodeStateDictionary();
         }
 
         /// <summary>

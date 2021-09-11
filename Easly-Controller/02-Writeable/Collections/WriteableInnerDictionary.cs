@@ -7,6 +7,13 @@
     public class WriteableInnerDictionary<TKey> : ReadOnlyInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IWriteableInner>>, IEnumerable<KeyValuePair<TKey, IWriteableInner>>, IDictionary<TKey, IWriteableInner>, IReadOnlyCollection<KeyValuePair<TKey, IWriteableInner>>, IReadOnlyDictionary<TKey, IWriteableInner>, IEqualComparable
     {
         /// <inheritdoc/>
+        public WriteableInnerDictionary() : base() { }
+        /// <inheritdoc/>
+        public WriteableInnerDictionary(IDictionary<TKey, IWriteableInner> dictionary) : base() { foreach (KeyValuePair<TKey, IWriteableInner> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public WriteableInnerDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(TKey key, out IWriteableInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IWriteableInner)Value; return Result; }
 
         #region TKey, IWriteableInner

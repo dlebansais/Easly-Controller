@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using EaslyController.ReadOnly;
     using EaslyController.Focus;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class LayoutBrowsingListNodeIndexList : FocusBrowsingListNodeIndexList, ICollection<ILayoutBrowsingListNodeIndex>, IEnumerable<ILayoutBrowsingListNodeIndex>, IList<ILayoutBrowsingListNodeIndex>, IReadOnlyCollection<ILayoutBrowsingListNodeIndex>, IReadOnlyList<ILayoutBrowsingListNodeIndex>

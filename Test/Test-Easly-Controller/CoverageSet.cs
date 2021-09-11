@@ -15020,7 +15020,7 @@ namespace Coverage
             LayoutController ControllerBase = LayoutController.Create(RootIndex);
             LayoutController Controller = LayoutController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(LayoutIndexNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(LayoutNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
 
             using (LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CoverageLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default))
             {
@@ -16402,7 +16402,7 @@ namespace Coverage
 
                 // ILayoutStateViewDictionary
 
-                LayoutStateViewDictionary LayoutStateViewTable = ControllerView.StateViewTable;
+                LayoutNodeStateViewDictionary LayoutStateViewTable = ControllerView.StateViewTable;
                 WriteableNodeStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
                 FrameNodeStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;

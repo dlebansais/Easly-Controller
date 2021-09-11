@@ -8,6 +8,13 @@
     public class FrameInnerDictionary<TKey> : WriteableInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IFrameInner>>, IEnumerable<KeyValuePair<TKey, IFrameInner>>, IDictionary<TKey, IFrameInner>, IReadOnlyCollection<KeyValuePair<TKey, IFrameInner>>, IReadOnlyDictionary<TKey, IFrameInner>, IEqualComparable
     {
         /// <inheritdoc/>
+        public FrameInnerDictionary() : base() { }
+        /// <inheritdoc/>
+        public FrameInnerDictionary(IDictionary<TKey, IFrameInner> dictionary) : base() { foreach (KeyValuePair<TKey, IFrameInner> Entry in dictionary) Add(Entry.Key, Entry.Value); }
+        /// <inheritdoc/>
+        public FrameInnerDictionary(int capacity) : base(capacity) { }
+
+        /// <inheritdoc/>
         public bool TryGetValue(TKey key, out IFrameInner value) { bool Result = TryGetValue(key, out IWriteableInner Value); value = (IFrameInner)Value; return Result; }
 
         #region TKey, IFrameInner

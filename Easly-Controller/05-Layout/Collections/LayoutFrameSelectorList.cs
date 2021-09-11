@@ -1,7 +1,6 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using EaslyController.Focus;
 
     /// <inheritdoc/>
@@ -23,30 +22,30 @@
         ILayoutFrameSelector IReadOnlyList<ILayoutFrameSelector>.this[int index] { get { return (ILayoutFrameSelector)this[index]; } }
         #endregion
 
-        #region Debugging
-        /// <inheritdoc/>
-        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
-        {
-            Debug.Assert(other != null);
-
-            if (!comparer.IsSameType(other, out LayoutFrameSelectorList AsFrameSelectorList))
-                return comparer.Failed();
-
-            if (!comparer.IsSameCount(Count, AsFrameSelectorList.Count))
-                return comparer.Failed();
-
-            for (int i = 0; i < Count; i++)
-                if (!comparer.VerifyEqual(this[i], AsFrameSelectorList[i]))
-                    return comparer.Failed();
-
-            return true;
-        }
-        #endregion
-
         /// <inheritdoc/>
         public override FocusFrameSelectorReadOnlyList ToReadOnly()
         {
             return new LayoutFrameSelectorReadOnlyList(this);
         }
+
+        #region Debugging
+        /// <inheritdoc/>
+        public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
+        {
+            System.Diagnostics.Debug.Assert(other != null);
+
+            if (!comparer.IsSameType(other, out LayoutFrameSelectorList AsOtherList))
+                return comparer.Failed();
+
+            if (!comparer.IsSameCount(Count, AsOtherList.Count))
+                return comparer.Failed();
+
+            for (int i = 0; i < Count; i++)
+                if (!comparer.VerifyEqual(this[i], AsOtherList[i]))
+                    return comparer.Failed();
+
+            return true;
+        }
+        #endregion
     }
 }
