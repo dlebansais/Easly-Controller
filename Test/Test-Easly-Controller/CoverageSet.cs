@@ -2747,7 +2747,7 @@ namespace Coverage
             WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
             WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(WriteableIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(WriteableNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
 
             using (WriteableControllerView ControllerView = WriteableControllerView.Create(Controller))
             {
@@ -2901,7 +2901,7 @@ namespace Coverage
                 ReadOnlyBrowsingListNodeIndexList ListNodeIndexListAsReadOnly = ListNodeIndexList;
                 Assert.That(ListNodeIndexListAsReadOnly[0] == FirstListNodeIndex);
 
-                // WriteableIndexNodeStateDictionary
+                // WriteableNodeStateDictionary
                 if (ControllerStateTable != null)
                 {
                     foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in ControllerStateTable)
@@ -2945,7 +2945,7 @@ namespace Coverage
 
                 // IWriteableIndexNodeStateReadOnlyDictionary
 
-                ReadOnlyIndexNodeStateReadOnlyDictionary StateTable = Controller.StateTable;
+                ReadOnlyNodeStateReadOnlyDictionary StateTable = Controller.StateTable;
                 IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState> StateTableAsDictionary = StateTable;
                 Assert.That(StateTable.TryGetValue(RootIndex, out IReadOnlyNodeState RootStateValue) == StateTableAsDictionary.TryGetValue(RootIndex, out IReadOnlyNodeState RootStateValueFromDictionary) && RootStateValue == RootStateValueFromDictionary);
                 Assert.That(StateTableAsDictionary.Keys != null);
@@ -3112,8 +3112,8 @@ namespace Coverage
                 Assert.That(PlaceholderNodeStateListAsEnumerable != null);
                 Assert.That(PlaceholderNodeStateListAsEnumerable.GetEnumerator() != null);
 
-                // WriteableStateViewDictionary
-                WriteableStateViewDictionary StateViewTable = ControllerView.StateViewTable;
+                // WriteableNodeStateViewDictionary
+                WriteableNodeStateViewDictionary StateViewTable = ControllerView.StateViewTable;
 
                 IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> StateViewTableAsDictionary = StateViewTable;
                 Assert.That(StateViewTableAsDictionary != null);
@@ -5379,7 +5379,7 @@ namespace Coverage
             FrameController ControllerBase = FrameController.Create(RootIndex);
             FrameController Controller = FrameController.Create(RootIndex);
 
-            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(FrameIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(FrameNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
 
             using (FrameControllerView ControllerView = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
@@ -5680,7 +5680,7 @@ namespace Coverage
                         break;
                     }
 
-                    WriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableIndexNodeStateDictionary;
+                    WriteableNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableNodeStateDictionary;
                     foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)WriteableControllerStateTable)
                     {
                         break;
@@ -5744,8 +5744,8 @@ namespace Coverage
 
                 // IFrameIndexNodeStateReadOnlyDictionary
 
-                ReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
-                WriteableIndexNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
+                ReadOnlyNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
+                WriteableNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
                 Assert.That(WriteableStateTable.ContainsKey(RootIndex));
                 Assert.That(WriteableStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 WriteableStateTable.GetEnumerator();
@@ -6154,8 +6154,8 @@ namespace Coverage
                 }
 
                 // IFrameStateViewDictionary
-                FrameStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
-                WriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
+                FrameNodeStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
+                WriteableNodeStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
 
                 IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> ReadOnlyStateViewTableAsDictionary = FrameStateViewTable;
@@ -9731,7 +9731,7 @@ namespace Coverage
             FocusController ControllerBase = FocusController.Create(RootIndex);
             FocusController Controller = FocusController.Create(RootIndex);
 
-            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(FocusIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(FocusIndexNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
 
             using (FocusControllerView ControllerView = FocusControllerView.Create(Controller, TestDebug.CoverageFocusTemplateSet.FocusTemplateSet))
             {
@@ -10163,7 +10163,7 @@ namespace Coverage
                     }
 
 
-                    WriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableIndexNodeStateDictionary;
+                    WriteableNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableNodeStateDictionary;
                     foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)WriteableControllerStateTable)
                     {
                         break;
@@ -10232,7 +10232,7 @@ namespace Coverage
 
                 // IFocusIndexNodeStateReadOnlyDictionary
 
-                ReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
+                ReadOnlyNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
 
                 IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState> ReadOnlyStateTableAsDictionary = ReadOnlyStateTable;
                 Assert.That(ReadOnlyStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValue) == ReadOnlyStateTableAsDictionary.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValueFromDictionary) && ReadOnlyRootStateValue == ReadOnlyRootStateValueFromDictionary);
@@ -10240,7 +10240,7 @@ namespace Coverage
                 Assert.That(ReadOnlyStateTableAsDictionary.Values != null);
                 ReadOnlyStateTableAsDictionary.GetEnumerator();
 
-                WriteableIndexNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
+                WriteableNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
                 Assert.That(WriteableStateTable.ContainsKey(RootIndex));
                 Assert.That(WriteableStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 WriteableStateTable.GetEnumerator();
@@ -10254,7 +10254,7 @@ namespace Coverage
                 WriteableStateTableAsEnumerable.GetEnumerator();
 
 
-                FrameIndexNodeStateReadOnlyDictionary FrameStateTable = Controller.StateTable;
+                FrameNodeStateReadOnlyDictionary FrameStateTable = Controller.StateTable;
                 Assert.That(FrameStateTable.ContainsKey(RootIndex));
                 Assert.That(FrameStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 FrameStateTable.GetEnumerator();
@@ -10812,9 +10812,9 @@ namespace Coverage
 
                 // IFocusStateViewDictionary
                 FocusStateViewDictionary FocusStateViewTable = ControllerView.StateViewTable;
-                WriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
+                WriteableNodeStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
-                FrameStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
+                FrameNodeStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
                 FrameStateViewTable.GetEnumerator();
 
                 IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> ReadOnlyStateViewTableAsDictionary = FocusStateViewTable;
@@ -15020,7 +15020,7 @@ namespace Coverage
             LayoutController ControllerBase = LayoutController.Create(RootIndex);
             LayoutController Controller = LayoutController.Create(RootIndex);
 
-            ReadOnlyIndexNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(LayoutIndexNodeStateDictionary)) as ReadOnlyIndexNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(LayoutIndexNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
 
             using (LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CoverageLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default))
             {
@@ -15541,7 +15541,7 @@ namespace Coverage
                         break;
                     }
 
-                    WriteableIndexNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableIndexNodeStateDictionary;
+                    WriteableNodeStateDictionary WriteableControllerStateTable = ControllerStateTable as WriteableNodeStateDictionary;
                     foreach (KeyValuePair<IWriteableIndex, IWriteableNodeState> Entry in (ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>)WriteableControllerStateTable)
                     {
                         break;
@@ -15641,7 +15641,7 @@ namespace Coverage
 
                 // ILayoutIndexNodeStateReadOnlyDictionary
 
-                ReadOnlyIndexNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
+                ReadOnlyNodeStateReadOnlyDictionary ReadOnlyStateTable = Controller.StateTable;
 
                 IReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState> ReadOnlyStateTableAsDictionary = ReadOnlyStateTable;
                 Assert.That(ReadOnlyStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValue) == ReadOnlyStateTableAsDictionary.TryGetValue(RootIndex, out IReadOnlyNodeState ReadOnlyRootStateValueFromDictionary) && ReadOnlyRootStateValue == ReadOnlyRootStateValueFromDictionary);
@@ -15649,7 +15649,7 @@ namespace Coverage
                 Assert.That(ReadOnlyStateTableAsDictionary.Values != null);
                 ReadOnlyStateTableAsDictionary.GetEnumerator();
 
-                WriteableIndexNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
+                WriteableNodeStateReadOnlyDictionary WriteableStateTable = Controller.StateTable;
                 Assert.That(WriteableStateTable.ContainsKey(RootIndex));
                 Assert.That(WriteableStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 WriteableStateTable.GetEnumerator();
@@ -15662,7 +15662,7 @@ namespace Coverage
                 IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>> WriteableStateTableAsEnumerable = ReadOnlyStateTable as IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>;
                 WriteableStateTableAsEnumerable.GetEnumerator();
 
-                FrameIndexNodeStateReadOnlyDictionary FrameStateTable = Controller.StateTable;
+                FrameNodeStateReadOnlyDictionary FrameStateTable = Controller.StateTable;
                 Assert.That(FrameStateTable.ContainsKey(RootIndex));
                 Assert.That(FrameStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 FrameStateTable.GetEnumerator();
@@ -16403,9 +16403,9 @@ namespace Coverage
                 // ILayoutStateViewDictionary
 
                 LayoutStateViewDictionary LayoutStateViewTable = ControllerView.StateViewTable;
-                WriteableStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
+                WriteableNodeStateViewDictionary WriteableStateViewTable = ControllerView.StateViewTable;
                 WriteableStateViewTable.GetEnumerator();
-                FrameStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
+                FrameNodeStateViewDictionary FrameStateViewTable = ControllerView.StateViewTable;
                 FrameStateViewTable.GetEnumerator();
 
                 IDictionary<IReadOnlyNodeState, IReadOnlyNodeStateView> ReadOnlyStateViewTableAsDictionary = LayoutStateViewTable;

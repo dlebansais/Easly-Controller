@@ -1,0 +1,97 @@
+@echo off
+setlocal
+
+set GEN=C:\Projects\CollectionGenerator\CollectionGenerator\bin\x64\Debug\net5.0\CollectionGenerator.exe
+
+cd C:\Projects\Easly-Controller\Easly-Controller\01-ReadOnly\Collections
+
+%GEN% List EaslyController.ReadOnly IReadOnlyBlockState
+%GEN% ReadOnlyList EaslyController.ReadOnly IReadOnlyBlockState
+%GEN% Dictionary EaslyController.ReadOnly IEqualComparable IReadOnlyBlockState ReadOnlyBlockStateView
+%GEN% ReadOnlyDictionary EaslyController.ReadOnly IEqualComparable IReadOnlyBlockState ReadOnlyBlockStateView
+%GEN% List EaslyController.ReadOnly IReadOnlyBrowsingBlockNodeIndex
+%GEN% ReadOnlyList EaslyController.ReadOnly IReadOnlyBrowsingBlockNodeIndex
+%GEN% List EaslyController.ReadOnly IReadOnlyBrowsingListNodeIndex
+%GEN% ReadOnlyList EaslyController.ReadOnly IReadOnlyBrowsingListNodeIndex
+%GEN% List EaslyController.ReadOnly IReadOnlyIndexCollection
+%GEN% ReadOnlyList EaslyController.ReadOnly IReadOnlyIndexCollection
+%GEN% Dictionary EaslyController.ReadOnly IReadOnlyIndex IReadOnlyNodeState
+%GEN% ReadOnlyDictionary EaslyController.ReadOnly IReadOnlyIndex IReadOnlyNodeState
+%GEN% DictionaryTKey EaslyController.ReadOnly IEqualComparable IReadOnlyInner
+%GEN% ReadOnlyDictionaryTKey EaslyController.ReadOnly IEqualComparable IReadOnlyInner
+%GEN% List EaslyController.ReadOnly IReadOnlyNodeState
+%GEN% ReadOnlyList EaslyController.ReadOnly IReadOnlyNodeState
+%GEN% List EaslyController.ReadOnly IEqualComparable IReadOnlyPlaceholderNodeState
+%GEN% ReadOnlyList EaslyController.ReadOnly IEqualComparable IReadOnlyPlaceholderNodeState
+%GEN% Dictionary EaslyController.ReadOnly IEqualComparable IReadOnlyNodeState IReadOnlyNodeStateView
+%GEN% ReadOnlyDictionary EaslyController.ReadOnly IEqualComparable IReadOnlyNodeState IReadOnlyNodeStateView
+
+cd C:\Projects\Easly-Controller\Easly-Controller\02-Writeable\Collections
+
+%GEN% List EaslyController.Writeable IWriteableBlockState EaslyController.ReadOnly.IReadOnlyBlockState
+%GEN% ReadOnlyList EaslyController.Writeable IWriteableBlockState EaslyController.ReadOnly.IReadOnlyBlockState
+%GEN% Dictionary EaslyController.Writeable IEqualComparable IWriteableBlockState WriteableBlockStateView IReadOnlyBlockState EaslyController.ReadOnly.ReadOnlyBlockStateView
+%GEN% ReadOnlyDictionary EaslyController.Writeable IEqualComparable IWriteableBlockState WriteableBlockStateView IReadOnlyBlockState EaslyController.ReadOnly.ReadOnlyBlockStateView
+%GEN% List EaslyController.Writeable IWriteableBrowsingBlockNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingBlockNodeIndex
+%GEN% ReadOnlyList EaslyController.Writeable IWriteableBrowsingBlockNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingBlockNodeIndex
+%GEN% List EaslyController.Writeable IWriteableBrowsingListNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingListNodeIndex
+%GEN% ReadOnlyList EaslyController.Writeable IWriteableBrowsingListNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingListNodeIndex
+%GEN% List EaslyController.Writeable IWriteableIndexCollection EaslyController.ReadOnly.IReadOnlyIndexCollection
+%GEN% ReadOnlyList EaslyController.Writeable IWriteableIndexCollection EaslyController.ReadOnly.IReadOnlyIndexCollection
+%GEN% Dictionary EaslyController.Writeable IWriteableIndex IWriteableNodeState IReadOnlyIndex EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% ReadOnlyDictionary EaslyController.Writeable IWriteableIndex IWriteableNodeState IReadOnlyIndex EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% DictionaryTKey EaslyController.Writeable IEqualComparable IWriteableInner EaslyController.ReadOnly.IReadOnlyInner
+%GEN% ReadOnlyDictionaryTKey EaslyController.Writeable IEqualComparable IWriteableInner EaslyController.ReadOnly.IReadOnlyInner
+%GEN% List EaslyController.Writeable IWriteableNodeState EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% ReadOnlyList EaslyController.Writeable IWriteableNodeState EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% List EaslyController.Writeable IEqualComparable IWriteablePlaceholderNodeState EaslyController.ReadOnly.IReadOnlyPlaceholderNodeState
+%GEN% ReadOnlyList EaslyController.Writeable IEqualComparable IWriteablePlaceholderNodeState EaslyController.ReadOnly.IReadOnlyPlaceholderNodeState
+%GEN% Dictionary EaslyController.Writeable IEqualComparable IWriteableNodeState IWriteableNodeStateView IReadOnlyNodeState EaslyController.ReadOnly.IReadOnlyNodeStateView
+%GEN% ReadOnlyDictionary EaslyController.Writeable IEqualComparable IWriteableNodeState IWriteableNodeStateView IReadOnlyNodeState EaslyController.ReadOnly.IReadOnlyNodeStateView
+%GEN% List EaslyController.Writeable IWriteableOperation
+%GEN% ReadOnlyList EaslyController.Writeable IWriteableOperation
+%GEN% List EaslyController.Writeable WriteableOperationGroup
+%GEN% ReadOnlyList EaslyController.Writeable WriteableOperationGroup
+
+cd C:\Projects\Easly-Controller\Easly-Controller\03-Frame\Collections
+
+%GEN% List EaslyController.Frame IFrameBlockState EaslyController.Writeable.IWriteableBlockState EaslyController.ReadOnly.IReadOnlyBlockState
+%GEN% ReadOnlyList EaslyController.Frame IFrameBlockState EaslyController.Writeable.IWriteableBlockState EaslyController.ReadOnly.IReadOnlyBlockState
+%GEN% Dictionary EaslyController.Frame IEqualComparable IFrameBlockState FrameBlockStateView IWriteableBlockState EaslyController.Writeable.WriteableBlockStateView IReadOnlyBlockState EaslyController.ReadOnly.ReadOnlyBlockStateView
+%GEN% ReadOnlyDictionary EaslyController.Frame IEqualComparable IFrameBlockState FrameBlockStateView IWriteableBlockState EaslyController.Writeable.WriteableBlockStateView IReadOnlyBlockState EaslyController.ReadOnly.ReadOnlyBlockStateView
+%GEN% List EaslyController.Frame IFrameBrowsingBlockNodeIndex EaslyController.Writeable.IWriteableBrowsingBlockNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingBlockNodeIndex
+%GEN% ReadOnlyList EaslyController.Frame IFrameBrowsingBlockNodeIndex EaslyController.Writeable.IWriteableBrowsingBlockNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingBlockNodeIndex
+%GEN% List EaslyController.Frame IFrameBrowsingListNodeIndex EaslyController.Writeable.IWriteableBrowsingListNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingListNodeIndex
+%GEN% ReadOnlyList EaslyController.Frame IFrameBrowsingListNodeIndex EaslyController.Writeable.IWriteableBrowsingListNodeIndex EaslyController.ReadOnly.IReadOnlyBrowsingListNodeIndex
+%GEN% List EaslyController.Frame IFrameIndexCollection EaslyController.Writeable.IWriteableIndexCollection EaslyController.ReadOnly.IReadOnlyIndexCollection
+%GEN% ReadOnlyList EaslyController.Frame IFrameIndexCollection EaslyController.Writeable.IWriteableIndexCollection EaslyController.ReadOnly.IReadOnlyIndexCollection
+%GEN% Dictionary EaslyController.Frame IFrameIndex IFrameNodeState IWriteableIndex EaslyController.Writeable.IWriteableNodeState IReadOnlyIndex EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% ReadOnlyDictionary EaslyController.Frame IFrameIndex IFrameNodeState IWriteableIndex EaslyController.Writeable.IWriteableNodeState IReadOnlyIndex EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% DictionaryTKey EaslyController.Frame IEqualComparable IFrameInner EaslyController.Writeable.IWriteableInner EaslyController.ReadOnly.IReadOnlyInner
+%GEN% ReadOnlyDictionaryTKey EaslyController.Frame IEqualComparable IFrameInner EaslyController.Writeable.IWriteableInner EaslyController.ReadOnly.IReadOnlyInner
+%GEN% List EaslyController.Frame IFrameNodeState EaslyController.Writeable.IWriteableNodeState EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% ReadOnlyList EaslyController.Frame IFrameNodeState EaslyController.Writeable.IWriteableNodeState EaslyController.ReadOnly.IReadOnlyNodeState
+%GEN% List EaslyController.Frame IEqualComparable IFramePlaceholderNodeState EaslyController.Writeable.IWriteablePlaceholderNodeState EaslyController.ReadOnly.IReadOnlyPlaceholderNodeState
+%GEN% ReadOnlyList EaslyController.Frame IEqualComparable IFramePlaceholderNodeState EaslyController.Writeable.IWriteablePlaceholderNodeState EaslyController.ReadOnly.IReadOnlyPlaceholderNodeState
+%GEN% Dictionary EaslyController.Frame IEqualComparable IFrameNodeState IFrameNodeStateView IWriteableNodeState EaslyController.Writeable.IWriteableNodeStateView IReadOnlyNodeState EaslyController.ReadOnly.IReadOnlyNodeStateView
+%GEN% ReadOnlyDictionary EaslyController.Frame IEqualComparable IFrameNodeState IFrameNodeStateView IWriteableNodeState EaslyController.Writeable.IWriteableNodeStateView IReadOnlyNodeState EaslyController.ReadOnly.IReadOnlyNodeStateView
+%GEN% List EaslyController.Frame IFrameOperation EaslyController.Writeable.IWriteableOperation
+%GEN% ReadOnlyList EaslyController.Frame IFrameOperation EaslyController.Writeable.IWriteableOperation
+%GEN% List EaslyController.Frame FrameOperationGroup EaslyController.Writeable.WriteableOperationGroup
+%GEN% ReadOnlyList EaslyController.Frame FrameOperationGroup EaslyController.Writeable.WriteableOperationGroup
+%GEN% DictionaryTKey EaslyController.Frame IEqualComparable IFrameAssignableCellView
+%GEN% ReadOnlyDictionaryTKey EaslyController.Frame IEqualComparable IFrameAssignableCellView
+%GEN% List EaslyController.Frame IEqualComparable IFrameCellView
+%GEN% ReadOnlyList EaslyController.Frame IEqualComparable IFrameCellView
+%GEN% List EaslyController.Frame IFrameFrame
+%GEN% ReadOnlyList EaslyController.Frame IFrameFrame
+%GEN% List EaslyController.Frame IFrameKeywordFrame
+%GEN% ReadOnlyList EaslyController.Frame IFrameKeywordFrame
+%GEN% Dictionary EaslyController.Frame System.Type IFrameTemplate
+%GEN% ReadOnlyDictionary EaslyController.Frame System.Type IFrameTemplate
+%GEN% List EaslyController.Frame IFrameTemplate
+%GEN% ReadOnlyList EaslyController.Frame IFrameTemplate
+%GEN% List EaslyController.Frame IFrameVisibleCellView
+%GEN% ReadOnlyList EaslyController.Frame IFrameVisibleCellView
+
+cd C:\Projects\Easly-Controller

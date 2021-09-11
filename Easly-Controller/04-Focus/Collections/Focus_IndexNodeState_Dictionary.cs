@@ -5,7 +5,7 @@
     using EaslyController.Frame;
 
     /// <inheritdoc/>
-    public class FocusIndexNodeStateDictionary : FrameIndexNodeStateDictionary, ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>, IDictionary<IFocusIndex, IFocusNodeState>, IReadOnlyCollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IReadOnlyDictionary<IFocusIndex, IFocusNodeState>
+    public class FocusIndexNodeStateDictionary : FrameNodeStateDictionary, ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>, IDictionary<IFocusIndex, IFocusNodeState>, IReadOnlyCollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IReadOnlyDictionary<IFocusIndex, IFocusNodeState>
     {
         /// <inheritdoc/>
         public bool TryGetValue(IFocusIndex key, out IFocusNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IFocusNodeState)Value; return Result; }
@@ -34,7 +34,7 @@
         #endregion
 
         /// <inheritdoc/>
-        public override ReadOnlyIndexNodeStateReadOnlyDictionary ToReadOnly()
+        public override ReadOnlyNodeStateReadOnlyDictionary ToReadOnly()
         {
             return new FocusIndexNodeStateReadOnlyDictionary(this);
         }

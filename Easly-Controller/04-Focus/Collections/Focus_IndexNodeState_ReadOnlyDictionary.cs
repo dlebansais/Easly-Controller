@@ -5,7 +5,7 @@
     using EaslyController.Frame;
 
     /// <inheritdoc/>
-    public class FocusIndexNodeStateReadOnlyDictionary : FrameIndexNodeStateReadOnlyDictionary, ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>, IDictionary<IFocusIndex, IFocusNodeState>, IReadOnlyCollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IReadOnlyDictionary<IFocusIndex, IFocusNodeState>
+    public class FocusIndexNodeStateReadOnlyDictionary : FrameNodeStateReadOnlyDictionary, ICollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IEnumerable<KeyValuePair<IFocusIndex, IFocusNodeState>>, IDictionary<IFocusIndex, IFocusNodeState>, IReadOnlyCollection<KeyValuePair<IFocusIndex, IFocusNodeState>>, IReadOnlyDictionary<IFocusIndex, IFocusNodeState>
     {
         /// <inheritdoc/>
         public FocusIndexNodeStateReadOnlyDictionary(FocusIndexNodeStateDictionary dictionary)

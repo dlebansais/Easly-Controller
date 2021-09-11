@@ -67,7 +67,7 @@
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public ReadOnlyStateViewDictionary StateViewTable { get; }
+        public ReadOnlyNodeStateViewDictionary StateViewTable { get; }
 
         /// <summary>
         /// Table of views of each block state in the controller.
@@ -214,10 +214,10 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected virtual ReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected virtual ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
-            return new ReadOnlyStateViewDictionary();
+            return new ReadOnlyNodeStateViewDictionary();
         }
 
         /// <summary>

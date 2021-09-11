@@ -223,7 +223,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override ReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected override ReadOnlyNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusIndexNodeStateDictionary();
@@ -241,7 +241,7 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override ReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected override ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusIndexNodeStateDictionary();

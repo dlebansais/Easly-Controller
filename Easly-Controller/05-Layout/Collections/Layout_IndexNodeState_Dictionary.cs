@@ -34,7 +34,7 @@
         #endregion
 
         /// <inheritdoc/>
-        public override ReadOnlyIndexNodeStateReadOnlyDictionary ToReadOnly()
+        public override ReadOnlyNodeStateReadOnlyDictionary ToReadOnly()
         {
             return new LayoutIndexNodeStateReadOnlyDictionary(this);
         }

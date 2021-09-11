@@ -49,7 +49,7 @@
             IFrameListInner<IFrameBrowsingListNodeIndex> Inner = State.InnerTable[PropertyName] as IFrameListInner<IFrameBrowsingListNodeIndex>;
             Debug.Assert(Inner != null);
 
-            FrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
+            FrameNodeStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             FrameCellViewList CellViewList = CreateCellViewList();
             IFrameCellViewCollection EmbeddingCellView = CreateEmbeddingCellView(context.StateView, parentCellView, CellViewList);
             ValidateEmbeddingCellView(context, EmbeddingCellView);

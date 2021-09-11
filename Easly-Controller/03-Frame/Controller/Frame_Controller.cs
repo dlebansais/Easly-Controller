@@ -48,7 +48,7 @@
         /// <summary>
         /// State table.
         /// </summary>
-        public new FrameIndexNodeStateReadOnlyDictionary StateTable { get { return (FrameIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        public new FrameNodeStateReadOnlyDictionary StateTable { get { return (FrameNodeStateReadOnlyDictionary)base.StateTable; } }
 
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.
@@ -67,10 +67,10 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override ReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected override ReadOnlyNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameIndexNodeStateDictionary();
+            return new FrameNodeStateDictionary();
         }
 
         /// <summary>
@@ -85,10 +85,10 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override ReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected override ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameIndexNodeStateDictionary();
+            return new FrameNodeStateDictionary();
         }
 
         /// <summary>

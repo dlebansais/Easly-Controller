@@ -22,7 +22,7 @@
         /// <summary>
         /// State table.
         /// </summary>
-        public new WriteableIndexNodeStateReadOnlyDictionary StateTable { get { return (WriteableIndexNodeStateReadOnlyDictionary)base.StateTable; } }
+        public new WriteableNodeStateReadOnlyDictionary StateTable { get { return (WriteableNodeStateReadOnlyDictionary)base.StateTable; } }
 
         /// <summary>
         /// List of operations that have been performed, and can be undone or redone.

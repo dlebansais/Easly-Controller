@@ -77,7 +77,7 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected override ReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
             return new FocusStateViewDictionary();

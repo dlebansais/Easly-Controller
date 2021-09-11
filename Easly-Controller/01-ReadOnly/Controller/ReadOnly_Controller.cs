@@ -133,8 +133,8 @@
         /// <summary>
         /// State table.
         /// </summary>
-        public ReadOnlyIndexNodeStateReadOnlyDictionary StateTable { get; }
-        private ReadOnlyIndexNodeStateDictionary _StateTable;
+        public ReadOnlyNodeStateReadOnlyDictionary StateTable { get; }
+        private ReadOnlyNodeStateDictionary _StateTable;
 #pragma warning disable 1591
         [Conditional("DEBUG")]
         public void DebugGetStateTable() { DebugObjects.AddReference(_StateTable); }
@@ -381,7 +381,7 @@
             InitState(BrowseContext, parentInner, nodeIndex, InnerTable);
 
             // Build uninitialized states for each child
-            ReadOnlyIndexNodeStateDictionary ChildrenStateTable = BuildChildrenStateTable(BrowseContext);
+            ReadOnlyNodeStateDictionary ChildrenStateTable = BuildChildrenStateTable(BrowseContext);
 
             // Continue to build the table for each of them
             BuildChildrenStates(BrowseContext, ChildrenStateTable);
@@ -485,7 +485,7 @@
             NotifyNodeStateInitialized(State);
         }
 
-        private protected virtual ReadOnlyIndexNodeStateDictionary BuildChildrenStateTable(ReadOnlyBrowseContext browseContext)
+        private protected virtual ReadOnlyNodeStateDictionary BuildChildrenStateTable(ReadOnlyBrowseContext browseContext)
         {
             Debug.Assert(browseContext != null);
 
@@ -493,7 +493,7 @@
             ReadOnlyInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
             ReadOnlyIndexCollectionReadOnlyList IndexCollectionList = browseContext.IndexCollectionList;
 
-            ReadOnlyIndexNodeStateDictionary ChildStateTable = CreateChildStateTable();
+            ReadOnlyNodeStateDictionary ChildStateTable = CreateChildStateTable();
 
             foreach (ReadOnlyIndexCollection<IReadOnlyBrowsingChildIndex> NodeIndexCollection in IndexCollectionList)
             {
@@ -557,7 +557,7 @@
             return ChildState;
         }
 
-        private protected virtual void BuildChildrenStates(ReadOnlyBrowseContext browseContext, ReadOnlyIndexNodeStateDictionary childrenStateTable)
+        private protected virtual void BuildChildrenStates(ReadOnlyBrowseContext browseContext, ReadOnlyNodeStateDictionary childrenStateTable)
         {
             Debug.Assert(browseContext != null);
             Debug.Assert(childrenStateTable != null);
@@ -721,10 +721,10 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected virtual ReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected virtual ReadOnlyNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyIndexNodeStateDictionary();
+            return new ReadOnlyNodeStateDictionary();
         }
 
         /// <summary>
@@ -739,10 +739,10 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected virtual ReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected virtual ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
-            return new ReadOnlyIndexNodeStateDictionary();
+            return new ReadOnlyNodeStateDictionary();
         }
 
         /// <summary>

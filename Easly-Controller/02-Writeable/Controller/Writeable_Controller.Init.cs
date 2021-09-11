@@ -39,10 +39,10 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override ReadOnlyIndexNodeStateDictionary CreateStateTable()
+        private protected override ReadOnlyNodeStateDictionary CreateStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableIndexNodeStateDictionary();
+            return new WriteableNodeStateDictionary();
         }
 
         /// <summary>
@@ -57,10 +57,10 @@
         /// <summary>
         /// Creates a IxxxIndexNodeStateDictionary object.
         /// </summary>
-        private protected override ReadOnlyIndexNodeStateDictionary CreateChildStateTable()
+        private protected override ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteableIndexNodeStateDictionary();
+            return new WriteableNodeStateDictionary();
         }
 
         /// <summary>

@@ -62,7 +62,7 @@
         #endregion
 
         /// <inheritdoc/>
-        public override ReadOnlyStateViewReadOnlyDictionary ToReadOnly()
+        public override ReadOnlyNodeStateViewReadOnlyDictionary ToReadOnly()
         {
             return new LayoutStateViewReadOnlyDictionary(this);
         }

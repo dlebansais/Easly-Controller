@@ -63,7 +63,7 @@
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new FrameStateViewDictionary StateViewTable { get { return (FrameStateViewDictionary)base.StateViewTable; } }
+        public new FrameNodeStateViewDictionary StateViewTable { get { return (FrameNodeStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.
@@ -1129,10 +1129,10 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected override ReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
-            return new FrameStateViewDictionary();
+            return new FrameNodeStateViewDictionary();
         }
 
         /// <summary>

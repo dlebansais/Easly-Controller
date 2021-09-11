@@ -51,7 +51,7 @@
             Debug.Assert(Inner.ChildState != null);
             IFrameNodeState ChildState = Inner.ChildState;
 
-            FrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
+            FrameNodeStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
             IFrameNodeStateView StateView = context.StateView;

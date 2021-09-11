@@ -65,7 +65,7 @@
         /// <summary>
         /// Table of views of each state in the controller.
         /// </summary>
-        public new WriteableStateViewDictionary StateViewTable { get { return (WriteableStateViewDictionary)base.StateViewTable; } }
+        public new WriteableNodeStateViewDictionary StateViewTable { get { return (WriteableNodeStateViewDictionary)base.StateViewTable; } }
 
         /// <summary>
         /// Table of views of each block state in the controller.
@@ -369,10 +369,10 @@
         /// <summary>
         /// Creates a IxxxStateViewDictionary object.
         /// </summary>
-        private protected override ReadOnlyStateViewDictionary CreateStateViewTable()
+        private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
-            return new WriteableStateViewDictionary();
+            return new WriteableNodeStateViewDictionary();
         }
 
         /// <summary>

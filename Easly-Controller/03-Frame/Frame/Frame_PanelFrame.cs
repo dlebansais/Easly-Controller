@@ -163,7 +163,7 @@
 
         private protected virtual IFrameCellView BuildPlaceholderCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView, IFrameNodeState childState, IFramePlaceholderFrame frame)
         {
-            FrameStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
+            FrameNodeStateViewDictionary StateViewTable = context.ControllerView.StateViewTable;
             Debug.Assert(StateViewTable.ContainsKey(childState));
 
             IFrameNodeStateView StateView = context.StateView;

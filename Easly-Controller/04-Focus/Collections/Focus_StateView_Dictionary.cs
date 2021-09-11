@@ -6,7 +6,7 @@
     using EaslyController.Frame;
 
     /// <inheritdoc/>
-    public class FocusStateViewDictionary : FrameStateViewDictionary, ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IEnumerable<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IDictionary<IFocusNodeState, IFocusNodeStateView>, IReadOnlyCollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>, IEqualComparable
+    public class FocusStateViewDictionary : FrameNodeStateViewDictionary, ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IEnumerable<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IDictionary<IFocusNodeState, IFocusNodeStateView>, IReadOnlyCollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public bool TryGetValue(IFocusNodeState key, out IFocusNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IFocusNodeStateView)Value; return Result; }
@@ -62,7 +62,7 @@
         #endregion
 
         /// <inheritdoc/>
-        public override ReadOnlyStateViewReadOnlyDictionary ToReadOnly()
+        public override ReadOnlyNodeStateViewReadOnlyDictionary ToReadOnly()
         {
             return new FocusStateViewReadOnlyDictionary(this);
         }
