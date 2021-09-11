@@ -16,7 +16,7 @@
         void ICollection<ILayoutTemplate>.CopyTo(ILayoutTemplate[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<ILayoutTemplate>.Remove(ILayoutTemplate item) { return Remove(item); }
         bool ICollection<ILayoutTemplate>.IsReadOnly { get { return ((ICollection<IFocusTemplate>)this).IsReadOnly; } }
-        IEnumerator<ILayoutTemplate> IEnumerable<ILayoutTemplate>.GetEnumerator() { return ((IList<ILayoutTemplate>)this).GetEnumerator(); }
+        IEnumerator<ILayoutTemplate> IEnumerable<ILayoutTemplate>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutTemplate)iterator.Current; } }
         ILayoutTemplate IList<ILayoutTemplate>.this[int index] { get { return (ILayoutTemplate)this[index]; } set { this[index] = value; } }
         int IList<ILayoutTemplate>.IndexOf(ILayoutTemplate item) { return IndexOf(item); }
         void IList<ILayoutTemplate>.Insert(int index, ILayoutTemplate item) { Insert(index, item); }

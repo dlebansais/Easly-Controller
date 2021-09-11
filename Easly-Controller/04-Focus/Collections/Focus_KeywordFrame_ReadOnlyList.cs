@@ -16,7 +16,7 @@
         public new IFocusKeywordFrame this[int index] { get { return (IFocusKeywordFrame)base[index]; } }
 
         #region IFocusKeywordFrame
-        IEnumerator<IFocusKeywordFrame> IEnumerable<IFocusKeywordFrame>.GetEnumerator() { return ((IList<IFocusKeywordFrame>)this).GetEnumerator(); }
+        IEnumerator<IFocusKeywordFrame> IEnumerable<IFocusKeywordFrame>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusKeywordFrame)iterator.Current; } }
         IFocusKeywordFrame IReadOnlyList<IFocusKeywordFrame>.this[int index] { get { return (IFocusKeywordFrame)this[index]; } }
         #endregion
     }

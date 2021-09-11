@@ -57,8 +57,8 @@
             IsValid &= !string.IsNullOrEmpty(PropertyName);
             IsValid &= MaxInvisibleCount >= 0;
 
-            Type ChildInterfaceType, ChildNodeType;
-            IsValid &= NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out ChildNodeType) || NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out ChildInterfaceType, out ChildNodeType);
+            Type /*ChildInterfaceType,*/ ChildNodeType;
+            IsValid &= NodeTreeHelperList.IsNodeListProperty(nodeType, PropertyName, out ChildNodeType) || NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, /*out ChildInterfaceType,*/ out ChildNodeType);
 
             return IsValid;
         }

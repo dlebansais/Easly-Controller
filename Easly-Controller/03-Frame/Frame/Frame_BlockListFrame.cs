@@ -28,7 +28,7 @@
             bool IsValid = true;
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
-            IsValid &= NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildNodeType);
+            IsValid &= NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, /*out Type ChildInterfaceType,*/ out Type ChildNodeType);
 
             Debug.Assert(IsValid);
             return IsValid;

@@ -17,7 +17,7 @@
         void ICollection<IFocusPlaceholderNodeState>.CopyTo(IFocusPlaceholderNodeState[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IFocusPlaceholderNodeState>.Remove(IFocusPlaceholderNodeState item) { return Remove(item); }
         bool ICollection<IFocusPlaceholderNodeState>.IsReadOnly { get { return ((ICollection<IReadOnlyPlaceholderNodeState>)this).IsReadOnly; } }
-        IEnumerator<IFocusPlaceholderNodeState> IEnumerable<IFocusPlaceholderNodeState>.GetEnumerator() { return ((IList<IFocusPlaceholderNodeState>)this).GetEnumerator(); }
+        IEnumerator<IFocusPlaceholderNodeState> IEnumerable<IFocusPlaceholderNodeState>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusPlaceholderNodeState)iterator.Current; } }
         IFocusPlaceholderNodeState IList<IFocusPlaceholderNodeState>.this[int index] { get { return (IFocusPlaceholderNodeState)this[index]; } set { this[index] = value; } }
         int IList<IFocusPlaceholderNodeState>.IndexOf(IFocusPlaceholderNodeState item) { return IndexOf(item); }
         void IList<IFocusPlaceholderNodeState>.Insert(int index, IFocusPlaceholderNodeState item) { Insert(index, item); }

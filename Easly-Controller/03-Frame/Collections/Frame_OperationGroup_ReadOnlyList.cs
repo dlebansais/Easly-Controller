@@ -16,7 +16,7 @@
         public new FrameOperationGroup this[int index] { get { return (FrameOperationGroup)base[index]; } }
 
         #region FrameOperationGroup
-        IEnumerator<FrameOperationGroup> IEnumerable<FrameOperationGroup>.GetEnumerator() { return ((IList<FrameOperationGroup>)this).GetEnumerator(); }
+        IEnumerator<FrameOperationGroup> IEnumerable<FrameOperationGroup>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (FrameOperationGroup)iterator.Current; } }
         FrameOperationGroup IReadOnlyList<FrameOperationGroup>.this[int index] { get { return (FrameOperationGroup)this[index]; } }
         #endregion
     }

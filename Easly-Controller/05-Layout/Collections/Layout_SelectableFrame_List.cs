@@ -15,7 +15,7 @@
         void ICollection<ILayoutSelectableFrame>.CopyTo(ILayoutSelectableFrame[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<ILayoutSelectableFrame>.Remove(ILayoutSelectableFrame item) { return Remove(item); }
         bool ICollection<ILayoutSelectableFrame>.IsReadOnly { get { return ((ICollection<IFocusSelectableFrame>)this).IsReadOnly; } }
-        IEnumerator<ILayoutSelectableFrame> IEnumerable<ILayoutSelectableFrame>.GetEnumerator() { return ((IList<ILayoutSelectableFrame>)this).GetEnumerator(); }
+        IEnumerator<ILayoutSelectableFrame> IEnumerable<ILayoutSelectableFrame>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutSelectableFrame)iterator.Current; } }
         ILayoutSelectableFrame IList<ILayoutSelectableFrame>.this[int index] { get { return (ILayoutSelectableFrame)this[index]; } set { this[index] = value; } }
         int IList<ILayoutSelectableFrame>.IndexOf(ILayoutSelectableFrame item) { return IndexOf(item); }
         void IList<ILayoutSelectableFrame>.Insert(int index, ILayoutSelectableFrame item) { Insert(index, item); }

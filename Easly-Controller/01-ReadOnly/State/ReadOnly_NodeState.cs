@@ -200,7 +200,7 @@
             foreach (string PropertyName in PropertyNames)
             {
                 Node ChildNode;
-                Type ChildInterfaceType, ChildNodeType;
+                Type /*ChildInterfaceType,*/ ChildNodeType;
                 IReadOnlyList<Node> ChildNodeList;
                 IReadOnlyList<NodeTreeBlock> ChildBlockList;
                 bool IsHandled = false;
@@ -238,7 +238,7 @@
 
                     IsHandled = true;
                 }
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, /*out ChildInterfaceType,*/ out ChildNodeType))
                 {
                     NodeTreeHelperBlockList.GetChildBlockList(node, PropertyName, out ChildBlockList);
                     Debug.Assert(ChildBlockList != null);

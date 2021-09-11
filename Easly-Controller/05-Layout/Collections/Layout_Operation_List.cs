@@ -16,7 +16,7 @@
         void ICollection<LayoutOperation>.CopyTo(LayoutOperation[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<LayoutOperation>.Remove(LayoutOperation item) { return Remove(item); }
         bool ICollection<LayoutOperation>.IsReadOnly { get { return ((ICollection<FocusOperation>)this).IsReadOnly; } }
-        IEnumerator<LayoutOperation> IEnumerable<LayoutOperation>.GetEnumerator() { return ((IList<LayoutOperation>)this).GetEnumerator(); }
+        IEnumerator<LayoutOperation> IEnumerable<LayoutOperation>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (LayoutOperation)iterator.Current; } }
         LayoutOperation IList<LayoutOperation>.this[int index] { get { return (LayoutOperation)this[index]; } set { this[index] = value; } }
         int IList<LayoutOperation>.IndexOf(LayoutOperation item) { return IndexOf(item); }
         void IList<LayoutOperation>.Insert(int index, LayoutOperation item) { Insert(index, item); }

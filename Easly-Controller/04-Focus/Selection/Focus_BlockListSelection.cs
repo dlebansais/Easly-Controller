@@ -49,7 +49,7 @@
             : base(stateView)
         {
             Node Node = stateView.State.Node;
-            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(Node, propertyName, out Type childInterfaceType, out Type childNodeType));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(Node, propertyName, /*out Type childInterfaceType,*/ out Type childNodeType));
 
             PropertyName = propertyName;
 
@@ -159,8 +159,10 @@
 
                 if (BlockList.Count > 0)
                 {
-                    NodeTreeHelperBlockList.GetBlockType(BlockList[0], out Type ChildInterfaceType, out Type ChildItemType);
-                    IsAssignable = ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType);
+                    NodeTreeHelperBlockList.GetBlockType(BlockList[0], /*out Type ChildInterfaceType,*/ out Type ChildItemType);
+
+                    // IsAssignable = ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType);
+                    IsAssignable = ParentInner.InterfaceType.IsAssignableFrom(ChildItemType);
                 }
 
                 if (IsAssignable)

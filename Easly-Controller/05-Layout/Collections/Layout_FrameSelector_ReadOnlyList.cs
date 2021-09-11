@@ -17,7 +17,7 @@
         public new ILayoutFrameSelector this[int index] { get { return (ILayoutFrameSelector)base[index]; } }
 
         #region ILayoutFrameSelector
-        IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { return ((IList<ILayoutFrameSelector>)this).GetEnumerator(); }
+        IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFrameSelector)iterator.Current; } }
         ILayoutFrameSelector IReadOnlyList<ILayoutFrameSelector>.this[int index] { get { return (ILayoutFrameSelector)this[index]; } }
         #endregion
 

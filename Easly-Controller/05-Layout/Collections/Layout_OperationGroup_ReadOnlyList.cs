@@ -16,7 +16,7 @@
         public new LayoutOperationGroup this[int index] { get { return (LayoutOperationGroup)base[index]; } }
 
         #region LayoutOperationGroup
-        IEnumerator<LayoutOperationGroup> IEnumerable<LayoutOperationGroup>.GetEnumerator() { return ((IList<LayoutOperationGroup>)this).GetEnumerator(); }
+        IEnumerator<LayoutOperationGroup> IEnumerable<LayoutOperationGroup>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (LayoutOperationGroup)iterator.Current; } }
         LayoutOperationGroup IReadOnlyList<LayoutOperationGroup>.this[int index] { get { return (LayoutOperationGroup)this[index]; } }
         #endregion
     }

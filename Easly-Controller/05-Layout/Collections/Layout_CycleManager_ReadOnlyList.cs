@@ -16,7 +16,7 @@
         public new LayoutCycleManager this[int index] { get { return (LayoutCycleManager)base[index]; } }
 
         #region LayoutCycleManager
-        IEnumerator<LayoutCycleManager> IEnumerable<LayoutCycleManager>.GetEnumerator() { return ((IList<LayoutCycleManager>)this).GetEnumerator(); }
+        IEnumerator<LayoutCycleManager> IEnumerable<LayoutCycleManager>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (LayoutCycleManager)iterator.Current; } }
         LayoutCycleManager IReadOnlyList<LayoutCycleManager>.this[int index] { get { return (LayoutCycleManager)this[index]; } }
         #endregion
     }

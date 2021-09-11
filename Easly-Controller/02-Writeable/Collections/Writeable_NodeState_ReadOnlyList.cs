@@ -16,7 +16,7 @@
         public new IWriteableNodeState this[int index] { get { return (IWriteableNodeState)base[index]; } }
 
         #region IWriteableNodeState
-        IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { return ((IList<IWriteableNodeState>)this).GetEnumerator(); }
+        IEnumerator<IWriteableNodeState> IEnumerable<IWriteableNodeState>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableNodeState)iterator.Current; } }
         IWriteableNodeState IReadOnlyList<IWriteableNodeState>.this[int index] { get { return (IWriteableNodeState)this[index]; } }
         #endregion
     }

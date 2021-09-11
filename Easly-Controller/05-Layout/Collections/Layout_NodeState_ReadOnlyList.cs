@@ -16,7 +16,7 @@
         public new ILayoutNodeState this[int index] { get { return (ILayoutNodeState)base[index]; } }
 
         #region ILayoutNodeState
-        IEnumerator<ILayoutNodeState> IEnumerable<ILayoutNodeState>.GetEnumerator() { return ((IList<ILayoutNodeState>)this).GetEnumerator(); }
+        IEnumerator<ILayoutNodeState> IEnumerable<ILayoutNodeState>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeState)iterator.Current; } }
         ILayoutNodeState IReadOnlyList<ILayoutNodeState>.this[int index] { get { return (ILayoutNodeState)this[index]; } }
         #endregion
     }

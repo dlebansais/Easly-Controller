@@ -16,7 +16,7 @@
         void ICollection<IFrameBlockState>.CopyTo(IFrameBlockState[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IFrameBlockState>.Remove(IFrameBlockState item) { return Remove(item); }
         bool ICollection<IFrameBlockState>.IsReadOnly { get { return ((ICollection<IWriteableBlockState>)this).IsReadOnly; } }
-        IEnumerator<IFrameBlockState> IEnumerable<IFrameBlockState>.GetEnumerator() { return ((IList<IFrameBlockState>)this).GetEnumerator(); }
+        IEnumerator<IFrameBlockState> IEnumerable<IFrameBlockState>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameBlockState)iterator.Current; } }
         IFrameBlockState IList<IFrameBlockState>.this[int index] { get { return (IFrameBlockState)this[index]; } set { this[index] = value; } }
         int IList<IFrameBlockState>.IndexOf(IFrameBlockState item) { return IndexOf(item); }
         void IList<IFrameBlockState>.Insert(int index, IFrameBlockState item) { Insert(index, item); }

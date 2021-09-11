@@ -16,7 +16,7 @@
         public new IWriteableBlockState this[int index] { get { return (IWriteableBlockState)base[index]; } }
 
         #region IWriteableBlockState
-        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { return ((IList<IWriteableBlockState>)this).GetEnumerator(); }
+        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBlockState)iterator.Current; } }
         IWriteableBlockState IReadOnlyList<IWriteableBlockState>.this[int index] { get { return (IWriteableBlockState)this[index]; } }
         #endregion
     }

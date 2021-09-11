@@ -284,7 +284,7 @@ namespace Test
                     }
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     stats.BlockListCount++;
 
@@ -1945,7 +1945,7 @@ namespace Test
                     }
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     IWriteableBlockListInner Inner = (IWriteableBlockListInner)State.PropertyToInner(PropertyName);
                     if (!test(Inner))
@@ -2048,7 +2048,7 @@ namespace Test
                     }
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     IWriteableBlockListInner Inner = (IWriteableBlockListInner)State.PropertyToInner(PropertyName);
 
@@ -3802,7 +3802,7 @@ namespace Test
                     }
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     IFrameBlockListInner Inner = (IFrameBlockListInner)State.PropertyToInner(PropertyName);
                     if (!test(Inner))
@@ -5959,7 +5959,7 @@ namespace Test
                     }
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     IFocusBlockListInner Inner = (IFocusBlockListInner)State.PropertyToInner(PropertyName);
                     if (!test(Inner))
@@ -8125,7 +8125,7 @@ namespace Test
                     }
                 }
 
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(Node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     ILayoutBlockListInner Inner = (ILayoutBlockListInner)State.PropertyToInner(PropertyName);
                     if (!test(Inner))

@@ -16,7 +16,7 @@
         public new IFrameBlockState this[int index] { get { return (IFrameBlockState)base[index]; } }
 
         #region IFrameBlockState
-        IEnumerator<IFrameBlockState> IEnumerable<IFrameBlockState>.GetEnumerator() { return ((IList<IFrameBlockState>)this).GetEnumerator(); }
+        IEnumerator<IFrameBlockState> IEnumerable<IFrameBlockState>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameBlockState)iterator.Current; } }
         IFrameBlockState IReadOnlyList<IFrameBlockState>.this[int index] { get { return (IFrameBlockState)this[index]; } }
         #endregion
     }

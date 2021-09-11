@@ -16,7 +16,7 @@
         public new IWriteableIndexCollection this[int index] { get { return (IWriteableIndexCollection)base[index]; } }
 
         #region IWriteableIndexCollection
-        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return ((IList<IWriteableIndexCollection>)this).GetEnumerator(); }
+        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableIndexCollection)iterator.Current; } }
         IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return (IWriteableIndexCollection)this[index]; } }
         #endregion
     }

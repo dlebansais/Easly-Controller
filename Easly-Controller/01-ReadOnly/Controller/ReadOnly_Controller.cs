@@ -394,7 +394,7 @@
             Debug.Assert(browseContext.ToString() != null); // For code coverage.
 
             IReadOnlyNodeState State = browseContext.State;
-            ((ReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).BrowseChildren(browseContext, parentInner);
+            ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).BrowseChildren(browseContext, parentInner);
 
             CheckContextConsistency(browseContext);
         }

@@ -16,7 +16,7 @@
         public new ILayoutFocus this[int index] { get { return (ILayoutFocus)base[index]; } }
 
         #region ILayoutFocus
-        IEnumerator<ILayoutFocus> IEnumerable<ILayoutFocus>.GetEnumerator() { return ((IList<ILayoutFocus>)this).GetEnumerator(); }
+        IEnumerator<ILayoutFocus> IEnumerable<ILayoutFocus>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFocus)iterator.Current; } }
         ILayoutFocus IReadOnlyList<ILayoutFocus>.this[int index] { get { return (ILayoutFocus)this[index]; } }
         #endregion
     }

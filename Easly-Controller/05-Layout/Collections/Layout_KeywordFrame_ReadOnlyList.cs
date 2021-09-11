@@ -16,7 +16,7 @@
         public new ILayoutKeywordFrame this[int index] { get { return (ILayoutKeywordFrame)base[index]; } }
 
         #region ILayoutKeywordFrame
-        IEnumerator<ILayoutKeywordFrame> IEnumerable<ILayoutKeywordFrame>.GetEnumerator() { return ((IList<ILayoutKeywordFrame>)this).GetEnumerator(); }
+        IEnumerator<ILayoutKeywordFrame> IEnumerable<ILayoutKeywordFrame>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutKeywordFrame)iterator.Current; } }
         ILayoutKeywordFrame IReadOnlyList<ILayoutKeywordFrame>.this[int index] { get { return (ILayoutKeywordFrame)this[index]; } }
         #endregion
     }

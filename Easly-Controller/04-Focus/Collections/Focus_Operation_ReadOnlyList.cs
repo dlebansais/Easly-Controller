@@ -16,7 +16,7 @@
         public new FocusOperation this[int index] { get { return (FocusOperation)base[index]; } }
 
         #region FocusOperation
-        IEnumerator<FocusOperation> IEnumerable<FocusOperation>.GetEnumerator() { return ((IList<FocusOperation>)this).GetEnumerator(); }
+        IEnumerator<FocusOperation> IEnumerable<FocusOperation>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperation)iterator.Current; } }
         FocusOperation IReadOnlyList<FocusOperation>.this[int index] { get { return (FocusOperation)this[index]; } }
         #endregion
     }

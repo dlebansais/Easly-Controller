@@ -16,7 +16,7 @@
         public new IFocusVisibleCellView this[int index] { get { return (IFocusVisibleCellView)base[index]; } }
 
         #region IFocusVisibleCellView
-        IEnumerator<IFocusVisibleCellView> IEnumerable<IFocusVisibleCellView>.GetEnumerator() { return ((IList<IFocusVisibleCellView>)this).GetEnumerator(); }
+        IEnumerator<IFocusVisibleCellView> IEnumerable<IFocusVisibleCellView>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusVisibleCellView)iterator.Current; } }
         IFocusVisibleCellView IReadOnlyList<IFocusVisibleCellView>.this[int index] { get { return (IFocusVisibleCellView)this[index]; } }
         #endregion
     }

@@ -17,7 +17,7 @@
         void ICollection<ILayoutCellView>.CopyTo(ILayoutCellView[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<ILayoutCellView>.Remove(ILayoutCellView item) { return Remove(item); }
         bool ICollection<ILayoutCellView>.IsReadOnly { get { return ((ICollection<IFocusCellView>)this).IsReadOnly; } }
-        IEnumerator<ILayoutCellView> IEnumerable<ILayoutCellView>.GetEnumerator() { return ((IList<ILayoutCellView>)this).GetEnumerator(); }
+        IEnumerator<ILayoutCellView> IEnumerable<ILayoutCellView>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutCellView)iterator.Current; } }
         ILayoutCellView IList<ILayoutCellView>.this[int index] { get { return (ILayoutCellView)this[index]; } set { this[index] = value; } }
         int IList<ILayoutCellView>.IndexOf(ILayoutCellView item) { return IndexOf(item); }
         void IList<ILayoutCellView>.Insert(int index, ILayoutCellView item) { Insert(index, item); }

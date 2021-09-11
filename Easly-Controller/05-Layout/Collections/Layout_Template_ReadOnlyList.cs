@@ -16,7 +16,7 @@
         public new ILayoutTemplate this[int index] { get { return (ILayoutTemplate)base[index]; } }
 
         #region ILayoutTemplate
-        IEnumerator<ILayoutTemplate> IEnumerable<ILayoutTemplate>.GetEnumerator() { return ((IList<ILayoutTemplate>)this).GetEnumerator(); }
+        IEnumerator<ILayoutTemplate> IEnumerable<ILayoutTemplate>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutTemplate)iterator.Current; } }
         ILayoutTemplate IReadOnlyList<ILayoutTemplate>.this[int index] { get { return (ILayoutTemplate)this[index]; } }
         #endregion
     }

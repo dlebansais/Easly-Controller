@@ -55,7 +55,7 @@
             : base(stateView)
         {
             Node Node = stateView.State.Node;
-            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(Node, propertyName, out Type childInterfaceType, out Type childNodeType));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(Node, propertyName, /*out Type childInterfaceType,*/ out Type childNodeType));
 
             PropertyName = propertyName;
             BlockIndex = blockIndex;

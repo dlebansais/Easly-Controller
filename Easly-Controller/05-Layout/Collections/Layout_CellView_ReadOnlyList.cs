@@ -17,7 +17,7 @@
         public new ILayoutCellView this[int index] { get { return (ILayoutCellView)base[index]; } }
 
         #region ILayoutCellView
-        IEnumerator<ILayoutCellView> IEnumerable<ILayoutCellView>.GetEnumerator() { return ((IList<ILayoutCellView>)this).GetEnumerator(); }
+        IEnumerator<ILayoutCellView> IEnumerable<ILayoutCellView>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutCellView)iterator.Current; } }
         ILayoutCellView IReadOnlyList<ILayoutCellView>.this[int index] { get { return (ILayoutCellView)this[index]; } }
         #endregion
 

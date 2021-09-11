@@ -361,7 +361,7 @@
                     RootFrame.Items.Add(NewFrame);
                     IsHandled = true;
                 }
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildItemType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, /*out Type ChildInterfaceType,*/ out Type ChildItemType))
                 {
                     FrameHorizontalBlockListFrame NewFrame = (FrameHorizontalBlockListFrame)CreateHorizontalBlockListFrame();
                     NewFrame.PropertyName = PropertyName;
@@ -469,7 +469,7 @@
         {
             IList<string> Properties = NodeTreeHelper.EnumChildNodeProperties(nodeType);
             foreach (string PropertyName in Properties)
-                if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, out Type ChildInterfaceType, out Type ChildItemType))
+                if (NodeTreeHelperBlockList.IsBlockListProperty(nodeType, PropertyName, /*out Type ChildInterfaceType,*/ out Type ChildItemType))
                 {
                     Type BlockListType = NodeTreeHelperBlockList.BlockListBlockType(nodeType, PropertyName);
 

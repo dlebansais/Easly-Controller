@@ -41,7 +41,7 @@
                 {
                     IsValid &= InvariantFailed(IsNodeTreeListValid(node, PropertyName));
                 }
-                else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, out Type ChildInterfaceType, out ChildNodeType))
+                else if (NodeTreeHelperBlockList.IsBlockListProperty(node, PropertyName, /*out Type ChildInterfaceType,*/ out ChildNodeType))
                 {
                     IsValid &= InvariantFailed(IsNodeTreeBlockListValid(node, PropertyName));
                 }
@@ -148,7 +148,7 @@
         private protected virtual bool IsEmptyBlockListValid(Node node, string propertyName)
         {
             Type NodeType = node.GetType();
-            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, out Type ChildInterfaceType, out Type ChildNodeType));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, /*out Type ChildInterfaceType,*/ out Type ChildNodeType));
 
             bool IsValid = true;
 

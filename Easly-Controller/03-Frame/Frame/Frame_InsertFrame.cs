@@ -95,7 +95,8 @@
                     }
                     else
                     {
-                        bool IsValidProperty = NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, out Type ChildInterfaceType, out ChildNodeType) || NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildInterfaceType);
+                        Type ChildInterfaceType = null;
+                        bool IsValidProperty = NodeTreeHelperBlockList.IsBlockListProperty(BaseType, PropertyName, /*out ChildInterfaceType,*/ out ChildNodeType) || NodeTreeHelperList.IsNodeListProperty(BaseType, PropertyName, out ChildInterfaceType);
                         Debug.Assert(IsValidProperty);
 
                         BaseType = ChildInterfaceType;

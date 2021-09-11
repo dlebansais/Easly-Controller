@@ -15,7 +15,7 @@
         void ICollection<IFocusFrame>.CopyTo(IFocusFrame[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IFocusFrame>.Remove(IFocusFrame item) { return Remove(item); }
         bool ICollection<IFocusFrame>.IsReadOnly { get { return ((ICollection<IFrameFrame>)this).IsReadOnly; } }
-        IEnumerator<IFocusFrame> IEnumerable<IFocusFrame>.GetEnumerator() { return ((IList<IFocusFrame>)this).GetEnumerator(); }
+        IEnumerator<IFocusFrame> IEnumerable<IFocusFrame>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusFrame)iterator.Current; } }
         IFocusFrame IList<IFocusFrame>.this[int index] { get { return (IFocusFrame)this[index]; } set { this[index] = value; } }
         int IList<IFocusFrame>.IndexOf(IFocusFrame item) { return IndexOf(item); }
         void IList<IFocusFrame>.Insert(int index, IFocusFrame item) { Insert(index, item); }

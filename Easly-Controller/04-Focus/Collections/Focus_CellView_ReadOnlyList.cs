@@ -17,7 +17,7 @@
         public new IFocusCellView this[int index] { get { return (IFocusCellView)base[index]; } }
 
         #region IFocusCellView
-        IEnumerator<IFocusCellView> IEnumerable<IFocusCellView>.GetEnumerator() { return ((IList<IFocusCellView>)this).GetEnumerator(); }
+        IEnumerator<IFocusCellView> IEnumerable<IFocusCellView>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusCellView)iterator.Current; } }
         IFocusCellView IReadOnlyList<IFocusCellView>.this[int index] { get { return (IFocusCellView)this[index]; } }
         #endregion
 

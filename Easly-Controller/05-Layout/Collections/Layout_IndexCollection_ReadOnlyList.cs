@@ -16,7 +16,7 @@
         public new ILayoutIndexCollection this[int index] { get { return (ILayoutIndexCollection)base[index]; } }
 
         #region ILayoutIndexCollection
-        IEnumerator<ILayoutIndexCollection> IEnumerable<ILayoutIndexCollection>.GetEnumerator() { return ((IList<ILayoutIndexCollection>)this).GetEnumerator(); }
+        IEnumerator<ILayoutIndexCollection> IEnumerable<ILayoutIndexCollection>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutIndexCollection)iterator.Current; } }
         ILayoutIndexCollection IReadOnlyList<ILayoutIndexCollection>.this[int index] { get { return (ILayoutIndexCollection)this[index]; } }
         #endregion
     }

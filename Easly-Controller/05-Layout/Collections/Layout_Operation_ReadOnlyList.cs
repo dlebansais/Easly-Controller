@@ -16,7 +16,7 @@
         public new LayoutOperation this[int index] { get { return (LayoutOperation)base[index]; } }
 
         #region LayoutOperation
-        IEnumerator<LayoutOperation> IEnumerable<LayoutOperation>.GetEnumerator() { return ((IList<LayoutOperation>)this).GetEnumerator(); }
+        IEnumerator<LayoutOperation> IEnumerable<LayoutOperation>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (LayoutOperation)iterator.Current; } }
         LayoutOperation IReadOnlyList<LayoutOperation>.this[int index] { get { return (LayoutOperation)this[index]; } }
         #endregion
     }

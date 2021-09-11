@@ -67,7 +67,7 @@
             IsValid &= NodeTreeHelperChild.IsChildNodeProperty(nodeType, propertyName, out ChildInterfaceType) ||
                        NodeTreeHelperOptional.IsOptionalChildNodeProperty(nodeType, propertyName, out ChildInterfaceType) ||
                        NodeTreeHelperList.IsNodeListProperty(nodeType, propertyName, out ChildInterfaceType) ||
-                       NodeTreeHelperBlockList.IsBlockListProperty(nodeType, propertyName, out ChildInterfaceType, out ChildNodeType) ||
+                       NodeTreeHelperBlockList.IsBlockListProperty(nodeType, propertyName, /*out ChildInterfaceType,*/ out ChildNodeType) ||
                        (NodeTreeHelper.IsBlockType(nodeType) && propertyName == nameof(BaseNode.IBlock.NodeList));
 
             IsValid &= nodeTemplateTable.ContainsKey(SelectorType);

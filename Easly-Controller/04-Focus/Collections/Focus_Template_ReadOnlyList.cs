@@ -16,7 +16,7 @@
         public new IFocusTemplate this[int index] { get { return (IFocusTemplate)base[index]; } }
 
         #region IFocusTemplate
-        IEnumerator<IFocusTemplate> IEnumerable<IFocusTemplate>.GetEnumerator() { return ((IList<IFocusTemplate>)this).GetEnumerator(); }
+        IEnumerator<IFocusTemplate> IEnumerable<IFocusTemplate>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusTemplate)iterator.Current; } }
         IFocusTemplate IReadOnlyList<IFocusTemplate>.this[int index] { get { return (IFocusTemplate)this[index]; } }
         #endregion
     }
