@@ -118,27 +118,27 @@
 
             switch (nodeIndex)
             {
-                case WriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
+                case IWriteableInsertionPlaceholderNodeIndex AsPlaceholderNodeIndex:
                     node = AsPlaceholderNodeIndex.Node;
                     IsHandled = true;
                     break;
 
-                case WriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
+                case IWriteableInsertionOptionalNodeIndex AsOptionalNodeIndex:
                     node = AsOptionalNodeIndex.Node;
                     IsHandled = true;
                     break;
 
-                case WriteableInsertionOptionalClearIndex AsOptionalClearIndex:
+                case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
                     IsHandled = true;
                     break;
 
-                case WriteableInsertionListNodeIndex AsListNodeIndex:
+                case IWriteableInsertionListNodeIndex AsListNodeIndex:
                     index = AsListNodeIndex.Index;
                     node = AsListNodeIndex.Node;
                     IsHandled = true;
                     break;
 
-                case WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                case IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     blockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     index = AsExistingBlockNodeIndex.Index;
                     node = AsExistingBlockNodeIndex.Node;
@@ -151,7 +151,7 @@
                     IsHandled = true;
                     break;
 
-                case WriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
+                case IWriteableBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex:
                     blockIndex = AsExistingBlockNodeIndex.BlockIndex;
                     index = AsExistingBlockNodeIndex.Index;
                     node = AsExistingBlockNodeIndex.Node;

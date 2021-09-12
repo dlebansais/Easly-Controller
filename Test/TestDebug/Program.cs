@@ -235,7 +235,7 @@ namespace TestDebug
             Identifier SourceNode = NodeHelper.CreateEmptyIdentifier();
             Import FirstNode = NodeHelper.CreateSimpleImport("x", "x", ImportType.Latest);
 
-            WriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
+            IWriteableInsertionNewBlockNodeIndex InsertIndex0 = new WriteableInsertionNewBlockNodeIndex(rootNode, ListInner.PropertyName, FirstNode, 0, PatternNode, SourceNode);
             Controller.Insert(ListInner, InsertIndex0, out IWriteableBrowsingCollectionNodeIndex InsertedIndex0);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
@@ -243,7 +243,7 @@ namespace TestDebug
 
             Import SecondNode = NodeHelper.CreateSimpleImport("y", "y", ImportType.Latest);
 
-            WriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
+            IWriteableInsertionExistingBlockNodeIndex InsertIndex1 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, SecondNode, 0, 1);
             Controller.Insert(ListInner, InsertIndex1, out IWriteableBrowsingCollectionNodeIndex InsertedIndex1);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
@@ -261,7 +261,7 @@ namespace TestDebug
 
             Import ThirdNode = NodeHelper.CreateSimpleImport("z", "z", ImportType.Latest);
 
-            WriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
+            IWriteableInsertionExistingBlockNodeIndex InsertIndex3 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, ThirdNode, 0, 1);
             Controller.Replace(ListInner, InsertIndex3, out IWriteableBrowsingChildIndex InsertedIndex3);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
@@ -269,7 +269,7 @@ namespace TestDebug
 
             Import FourthNode = NodeHelper.CreateSimpleImport("a", "a", ImportType.Latest);
 
-            WriteableInsertionExistingBlockNodeIndex InsertIndex4 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
+            IWriteableInsertionExistingBlockNodeIndex InsertIndex4 = new WriteableInsertionExistingBlockNodeIndex(rootNode, ListInner.PropertyName, FourthNode, 0, 0);
             Controller.Replace(ListInner, InsertIndex4, out IWriteableBrowsingChildIndex InsertedIndex4);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
@@ -281,7 +281,7 @@ namespace TestDebug
             Name FifthNode = NodeHelper.CreateSimpleName("a");
 
             IWriteableSingleInner ChildInner = (IWriteableSingleInner)InnerTable[nameof(Class.EntityName)];
-            WriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
+            IWriteableInsertionPlaceholderNodeIndex InsertIndex5 = new WriteableInsertionPlaceholderNodeIndex(rootNode, ChildInner.PropertyName, FifthNode);
             Controller.Replace(ChildInner, InsertIndex5, out IWriteableBrowsingChildIndex InsertedIndex5);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));
@@ -293,7 +293,7 @@ namespace TestDebug
             Identifier SixthNode = NodeHelper.CreateSimpleIdentifier("b");
 
             IWriteableOptionalInner OptionalInner = (IWriteableOptionalInner)InnerTable[nameof(Class.FromIdentifier)];
-            WriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
+            IWriteableInsertionOptionalNodeIndex InsertIndex6 = new WriteableInsertionOptionalNodeIndex(rootNode, OptionalInner.PropertyName, SixthNode);
             Controller.Replace(OptionalInner, InsertIndex6, out IWriteableBrowsingChildIndex InsertedIndex6);
 
             ControllerCheck = WriteableController.Create(new WriteableRootNodeIndex(rootNode));

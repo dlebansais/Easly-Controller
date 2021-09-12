@@ -8,8 +8,8 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
-    <AssemblyVersion>1.0.1.4792</AssemblyVersion>
-    <FileVersion>1.0.0.213</FileVersion>
+    <AssemblyVersion>1.0.1.4810</AssemblyVersion>
+    <FileVersion>1.0.0.214</FileVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>

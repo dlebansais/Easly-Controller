@@ -114,7 +114,7 @@
         private protected override IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
-            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((WriteableRootNodeIndex)nodeIndex);
+            return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableRootNodeIndex)nodeIndex);
         }
 
         /// <summary>

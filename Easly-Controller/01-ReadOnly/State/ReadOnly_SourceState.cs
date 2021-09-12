@@ -16,7 +16,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new ReadOnlyBrowsingSourceIndex ParentIndex { get; }
+        new IReadOnlyBrowsingSourceIndex ParentIndex { get; }
 
         /// <summary>
         /// Returns a clone of the node of this state.
@@ -72,7 +72,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new ReadOnlyBrowsingSourceIndex ParentIndex { get { return (ReadOnlyBrowsingSourceIndex)base.ParentIndex; } }
+        public new IReadOnlyBrowsingSourceIndex ParentIndex { get { return (ReadOnlyBrowsingSourceIndex)base.ParentIndex; } }
         #endregion
 
         #region Client Interface

@@ -61,7 +61,7 @@
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             IWriteableBlockState OldBlockState = (IWriteableBlockState)Inner.BlockStateList[operation.BlockIndex];
             Debug.Assert(operation.Index < OldBlockState.StateList.Count);
@@ -140,7 +140,7 @@
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             int BlockIndex = operation.BlockIndex;
             IWriteableBlockState FirstBlockState = (IWriteableBlockState)Inner.BlockStateList[BlockIndex - 1];

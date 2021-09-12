@@ -34,12 +34,12 @@
             bool IsHandled = false;
             nodeIndex = null;
 
-            if (inner is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
+            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
             {
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
                 IsHandled = true;
             }
-            else if (inner is WriteableCollectionInner<WriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
+            else if (inner is WriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
             {
                 InsertNewNode(AsCollectionInner, AsCollectionIndex, out nodeIndex);
                 IsHandled = true;
@@ -48,7 +48,7 @@
             Debug.Assert(IsHandled);
         }
 
-        private protected virtual void InsertNewBlock(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> blockListInner, WriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        private protected virtual void InsertNewBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, IWriteableInsertionNewBlockNodeIndex newBlockIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, newBlockIndex.PatternNode, newBlockIndex.SourceNode);
 
@@ -73,7 +73,7 @@
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             Inner.InsertNewBlock(operation);
 
@@ -113,7 +113,7 @@
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
-        private protected virtual void InsertNewNode(WriteableCollectionInner<WriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
+        private protected virtual void InsertNewNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
             IndexToPositionAndNode(insertedIndex, out int BlockIndex, out int Index, out Node Node);
 
@@ -177,11 +177,11 @@
             int BlockIndex = insertedIndex - 1;
             int BlockNodeIndex = 0;
 
-            foreach (WriteableInsertionBlockNodeIndex NodeIndex in indexList)
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     BlockIndex++;
                     BlockNodeIndex = 0;
@@ -190,7 +190,7 @@
 
                     IsHandled = true;
                 }
-                else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     BlockNodeIndex++;
 
@@ -212,14 +212,14 @@
 
             WriteableOperationList OperationList = CreateOperationList();
 
-            foreach (WriteableInsertionBlockNodeIndex NodeIndex in indexList)
-                if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
                     IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
                     OperationList.Add(OperationInsertBlock);
                 }
-                else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
@@ -285,7 +285,7 @@
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     Debug.Assert(AsExistingBlockNodeIndex.BlockIndex == blockIndex);
                     Debug.Assert(AsExistingBlockNodeIndex.Index == BlockNodeIndex);
@@ -305,7 +305,7 @@
             WriteableOperationList OperationList = CreateOperationList();
 
             foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
-                if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
@@ -338,7 +338,7 @@
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is WriteableInsertionListNodeIndex AsListNodeIndex)
+                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     Debug.Assert(AsListNodeIndex.Index == BlockNodeIndex);
 
@@ -357,7 +357,7 @@
             WriteableOperationList OperationList = CreateOperationList();
 
             foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
-                if (NodeIndex is WriteableInsertionListNodeIndex AsListNodeIndex)
+                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);

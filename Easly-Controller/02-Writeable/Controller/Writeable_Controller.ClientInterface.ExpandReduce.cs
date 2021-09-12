@@ -58,9 +58,9 @@
             {
                 IWriteableInner Value = (IWriteableInner)InnerTable[Key];
 
-                if (Value is WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                if (Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ExpandOptional(AsOptionalInner, operationList);
-                else if (Value is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ExpandBlockList(AsBlockListInner, operationList);
             }
         }
@@ -81,7 +81,7 @@
         /// * If it has an item, assign it.
         /// * Otherwise, assign the item to a default node.
         /// </summary>
-        private protected virtual void ExpandOptional(WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> optionalInner, WriteableOperationList operationList)
+        private protected virtual void ExpandOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, WriteableOperationList operationList)
         {
             if (optionalInner.IsAssigned)
                 return;
@@ -119,7 +119,7 @@
         /// * Only expand block list of arguments
         /// * Only expand if the list is empty. In that case, add a single default argument.
         /// </summary>
-        private protected virtual void ExpandBlockList(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> blockListInner, WriteableOperationList operationList)
+        private protected virtual void ExpandBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, WriteableOperationList operationList)
         {
             if (!blockListInner.IsEmpty)
                 return;
@@ -196,9 +196,9 @@
             {
                 IWriteableInner Value = (IWriteableInner)InnerTable[Key];
 
-                if (Value is WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                if (Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                     ReduceOptional(AsOptionalInner, operationList, isNested);
-                else if (Value is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                     ReduceBlockList(AsBlockListInner, operationList, isNested);
             }
         }
@@ -206,7 +206,7 @@
         /// <summary>
         /// Reduces the optional node.
         /// </summary>
-        private protected virtual void ReduceOptional(WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> optionalInner, WriteableOperationList operationList, bool isNested)
+        private protected virtual void ReduceOptional(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> optionalInner, WriteableOperationList operationList, bool isNested)
         {
             if (optionalInner.IsAssigned && NodeHelper.IsOptionalAssignedToDefault(optionalInner.ChildState.Optional))
             {
@@ -225,7 +225,7 @@
         /// <summary>
         /// Reduces the block list.
         /// </summary>
-        private protected virtual void ReduceBlockList(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> blockListInner, WriteableOperationList operationList, bool isNested)
+        private protected virtual void ReduceBlockList(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, WriteableOperationList operationList, bool isNested)
         {
             if (!blockListInner.IsSingle)
                 return;
@@ -300,21 +300,21 @@
 
                 switch (Value)
                 {
-                    case IWriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
+                    case IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner:
                         ChildStateList.Add(AsPlaceholderInner.ChildState);
                         break;
 
-                    case IWriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner:
+                    case IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner:
                         if (AsOptionalInner.IsAssigned)
                             CanonicalizeChildren(AsOptionalInner.ChildState, operationList);
                         break;
 
-                    case IWriteableListInner<WriteableBrowsingListNodeIndex> AsListlInner:
+                    case IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListlInner:
                         foreach (IWriteablePlaceholderNodeState ChildState in AsListlInner.StateList)
                             ChildStateList.Add(ChildState);
                         break;
 
-                    case IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListlInner:
+                    case IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListlInner:
                         foreach (IWriteableBlockState BlockState in AsBlockListlInner.BlockStateList)
                             foreach (IWriteablePlaceholderNodeState ChildState in BlockState.StateList)
                                 ChildStateList.Add(ChildState);

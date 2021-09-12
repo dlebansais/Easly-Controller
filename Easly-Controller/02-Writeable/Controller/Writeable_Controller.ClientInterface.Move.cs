@@ -130,7 +130,7 @@
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[operation.BlockIndex];
             Debug.Assert(BlockState != null);
@@ -139,7 +139,7 @@
             IWriteableNodeState State = (IWriteableNodeState)BlockState.StateList[0];
             Debug.Assert(State != null);
 
-            WriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as WriteableBrowsingExistingBlockNodeIndex;
+            IWriteableBrowsingExistingBlockNodeIndex NodeIndex = State.ParentIndex as IWriteableBrowsingExistingBlockNodeIndex;
             Debug.Assert(NodeIndex != null);
 
             Inner.MoveBlock(operation);

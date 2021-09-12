@@ -51,7 +51,7 @@
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
 
             Inner.ChangeReplication(operation);
 

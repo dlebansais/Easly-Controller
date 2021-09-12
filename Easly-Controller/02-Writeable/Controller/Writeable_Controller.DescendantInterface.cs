@@ -31,22 +31,22 @@
                 IWriteableInner Value = (IWriteableInner)state.InnerTable[Key];
                 bool IsHandled = false;
 
-                if (Value is WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
+                if (Value is IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> AsPlaceholderInner)
                 {
                     PrunePlaceholderInner(AsPlaceholderInner);
                     IsHandled = true;
                 }
-                else if (Value is WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner)
+                else if (Value is IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner)
                 {
                     PruneOptionalInner(AsOptionalInner);
                     IsHandled = true;
                 }
-                else if (Value is WriteableListInner<WriteableBrowsingListNodeIndex> AsListInner)
+                else if (Value is IWriteableListInner<IWriteableBrowsingListNodeIndex> AsListInner)
                 {
                     PruneListInner(AsListInner);
                     IsHandled = true;
                 }
-                else if (Value is WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> AsBlockListInner)
+                else if (Value is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner)
                 {
                     PruneBlockListInner(AsBlockListInner);
                     IsHandled = true;
@@ -56,14 +56,14 @@
             }
         }
 
-        private protected virtual void PrunePlaceholderInner(WriteablePlaceholderInner<WriteableBrowsingPlaceholderNodeIndex> inner)
+        private protected virtual void PrunePlaceholderInner(IWriteablePlaceholderInner<IWriteableBrowsingPlaceholderNodeIndex> inner)
         {
             PruneState(inner.ChildState);
 
             Stats.PlaceholderNodeCount--;
         }
 
-        private protected virtual void PruneOptionalInner(WriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> inner)
+        private protected virtual void PruneOptionalInner(IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> inner)
         {
             PruneState(inner.ChildState);
 
@@ -72,7 +72,7 @@
                 Stats.AssignedOptionalNodeCount--;
         }
 
-        private protected virtual void PruneListInner(WriteableListInner<WriteableBrowsingListNodeIndex> inner)
+        private protected virtual void PruneListInner(IWriteableListInner<IWriteableBrowsingListNodeIndex> inner)
         {
             foreach (IWriteableNodeState State in inner.StateList)
             {
@@ -84,7 +84,7 @@
             Stats.ListCount--;
         }
 
-        private protected virtual void PruneBlockListInner(WriteableBlockListInner<WriteableBrowsingBlockNodeIndex> inner)
+        private protected virtual void PruneBlockListInner(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> inner)
         {
             for (int BlockIndex = inner.BlockStateList.Count; BlockIndex > 0; BlockIndex--)
             {
@@ -108,7 +108,7 @@
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
-            IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<WriteableBrowsingBlockNodeIndex>;
+            IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> Inner = GetInner(ParentNode, PropertyName) as IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>;
             IWriteableBlockState RemovedBlockState = (IWriteableBlockState)Inner.BlockStateList[operation.BlockIndex];
 
             for (int Index = 0; Index < RemovedBlockState.StateList.Count; Index++)

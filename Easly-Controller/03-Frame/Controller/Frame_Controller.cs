@@ -115,7 +115,7 @@
         private protected override IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameOptionalInner<FrameBrowsingOptionalNodeIndex>((IFrameNodeState)owner, nodeIndexCollection.PropertyName);
+            return new FrameOptionalInner<IFrameBrowsingOptionalNodeIndex>((IFrameNodeState)owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@
         private protected override IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameListInner<FrameBrowsingListNodeIndex>((IFrameNodeState)owner, nodeIndexCollection.PropertyName);
+            return new FrameListInner<IFrameBrowsingListNodeIndex>((IFrameNodeState)owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@
         private protected override IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameController));
-            return new FrameBlockListInner<FrameBrowsingBlockNodeIndex>((IFrameNodeState)owner, nodeIndexCollection.PropertyName);
+            return new FrameBlockListInner<IFrameBrowsingBlockNodeIndex>((IFrameNodeState)owner, nodeIndexCollection.PropertyName);
         }
 
         /// <summary>

@@ -504,9 +504,6 @@
                 Debug.Assert(InnerTable.ContainsKey(PropertyName));
                 IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = (IReadOnlyInner<IReadOnlyBrowsingChildIndex>)InnerTable[PropertyName];
 
-                if (NodeIndexList.Count == 4)
-                    System.Diagnostics.Debug.Assert(false);
-
                 for (int i = 0; i < NodeIndexList.Count; i++)
                 {
                     IReadOnlyBrowsingChildIndex ChildIndex = NodeIndexList[i];
@@ -570,7 +567,7 @@
             ReadOnlyIndexCollectionReadOnlyList IndexCollectionList = browseContext.IndexCollectionList;
 
             // Build states for children in the order they have been reported when browsing the parent state
-            foreach (ReadOnlyIndexCollection<IReadOnlyBrowsingChildIndex> NodeIndexCollection in IndexCollectionList)
+            foreach (IReadOnlyIndexCollection<IReadOnlyBrowsingChildIndex> NodeIndexCollection in IndexCollectionList)
             {
                 IReadOnlyList<IReadOnlyBrowsingChildIndex> NodeIndexList = NodeIndexCollection.NodeIndexList;
                 string PropertyName = NodeIndexCollection.PropertyName;

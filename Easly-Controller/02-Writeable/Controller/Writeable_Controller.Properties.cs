@@ -12,7 +12,7 @@
         /// <summary>
         /// Index of the root node.
         /// </summary>
-        public new WriteableRootNodeIndex RootIndex { get { return (WriteableRootNodeIndex)base.RootIndex; } }
+        public new IWriteableRootNodeIndex RootIndex { get { return (IWriteableRootNodeIndex)base.RootIndex; } }
 
         /// <summary>
         /// State of the root node.

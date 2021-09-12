@@ -17,7 +17,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        new WriteableBrowsingPatternIndex ParentIndex { get; }
+        new IWriteableBrowsingPatternIndex ParentIndex { get; }
     }
 
     /// <summary>
@@ -57,7 +57,7 @@
         /// <summary>
         /// The index that was used to create the state.
         /// </summary>
-        public new WriteableBrowsingPatternIndex ParentIndex { get { return (WriteableBrowsingPatternIndex)base.ParentIndex; } }
+        public new IWriteableBrowsingPatternIndex ParentIndex { get { return (IWriteableBrowsingPatternIndex)base.ParentIndex; } }
         IWriteableIndex IWriteableNodeState.ParentIndex { get { return ParentIndex; } }
 
         /// <summary>

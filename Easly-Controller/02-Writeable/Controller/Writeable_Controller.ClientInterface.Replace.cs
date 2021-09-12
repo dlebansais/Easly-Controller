@@ -81,7 +81,7 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            IWriteableOptionalInner<WriteableBrowsingOptionalNodeIndex> AsOptionalInner = inner as IWriteableOptionalInner<WriteableBrowsingOptionalNodeIndex>;
+            IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> AsOptionalInner = inner as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
             if (AsOptionalInner != null)
             {
                 IWriteableNodeState OldState = AsOptionalInner.ChildState;
@@ -134,11 +134,11 @@
             int BlockIndex = firstBlockIndex - 1;
             int BlockNodeIndex = 0;
 
-            foreach (WriteableInsertionBlockNodeIndex NodeIndex in indexList)
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     BlockIndex++;
                     BlockNodeIndex = 0;
@@ -147,7 +147,7 @@
 
                     IsHandled = true;
                 }
-                else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     BlockNodeIndex++;
 
@@ -174,14 +174,14 @@
             WriteableOperationList OperationList = CreateOperationList();
 
             // Insert first to prevent empty block lists.
-            foreach (WriteableInsertionBlockNodeIndex NodeIndex in indexList)
-                if (NodeIndex is WriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
                     IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
                     IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
                     OperationList.Add(OperationInsertBlock);
                 }
-                else if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
@@ -263,11 +263,11 @@
 
             int BlockNodeIndex = firstNodeIndex;
 
-            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     Debug.Assert(AsExistingBlockNodeIndex.BlockIndex == blockIndex);
                     Debug.Assert(AsExistingBlockNodeIndex.Index == BlockNodeIndex);
@@ -292,8 +292,8 @@
             WriteableOperationList OperationList = CreateOperationList();
 
             // Insert first to prevent empty block lists.
-            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
-                if (NodeIndex is WriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
@@ -336,11 +336,11 @@
 
             int BlockNodeIndex = firstNodeIndex;
 
-            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
             {
                 bool IsHandled = false;
 
-                if (NodeIndex is WriteableInsertionListNodeIndex AsListNodeIndex)
+                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     Debug.Assert(AsListNodeIndex.Index == BlockNodeIndex);
 
@@ -361,8 +361,8 @@
             WriteableOperationList OperationList = CreateOperationList();
 
             // Insert first to prevent empty block lists.
-            foreach (WriteableInsertionCollectionNodeIndex NodeIndex in indexList)
-                if (NodeIndex is WriteableInsertionListNodeIndex AsListNodeIndex)
+            foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
+                if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);

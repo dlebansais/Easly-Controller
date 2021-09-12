@@ -56,7 +56,7 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        ReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
+        IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
 
         /// <summary>
         /// Gets indexes for all nodes in the inner.
@@ -116,7 +116,7 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        ReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
+        IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index);
 
         /// <summary>
         /// Gets indexes for all nodes in the inner.
@@ -310,7 +310,7 @@
         /// <param name="blockIndex">Position of the block in the block list.</param>
         /// <param name="index">Position of the node in the block.</param>
         /// <returns>The index of the node at position <paramref name="blockIndex"/> and <paramref name="index"/>.</returns>
-        public virtual ReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index)
+        public virtual IReadOnlyBrowsingExistingBlockNodeIndex IndexAt(int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 
@@ -318,7 +318,7 @@
 
             Debug.Assert(index >= 0 && index < BlockState.StateList.Count);
 
-            return (ReadOnlyBrowsingExistingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
+            return (IReadOnlyBrowsingExistingBlockNodeIndex)BlockState.StateList[index].ParentIndex;
         }
 
         /// <summary>
@@ -331,7 +331,7 @@
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
                 foreach (IReadOnlyPlaceholderNodeState NodeState in BlockState.StateList)
                 {
-                    ReadOnlyBrowsingBlockNodeIndex ParentIndex = NodeState.ParentIndex as ReadOnlyBrowsingBlockNodeIndex;
+                    IReadOnlyBrowsingBlockNodeIndex ParentIndex = NodeState.ParentIndex as IReadOnlyBrowsingBlockNodeIndex;
                     Debug.Assert(ParentIndex != null);
 
                     Result.Add(ParentIndex);

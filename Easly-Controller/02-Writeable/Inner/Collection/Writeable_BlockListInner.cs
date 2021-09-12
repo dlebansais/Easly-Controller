@@ -298,7 +298,7 @@
             IWriteablePlaceholderNodeState OldChildState = (IWriteablePlaceholderNodeState)BlockState.StateList[index];
             Node RemovedNode = OldChildState.Node;
 
-            BlockState.Remove((WriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, index);
+            BlockState.Remove((IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex, index);
 
             NodeTreeHelperBlockList.RemoveFromBlock(ParentNode, PropertyName, blockIndex, index, out bool IsBlockRemoved);
 
@@ -368,7 +368,7 @@
 
             IWriteableNodeState OldChildState = (IWriteableNodeState)BlockState.StateList[Index];
             Node OldNode = OldChildState.Node;
-            WriteableBrowsingBlockNodeIndex OldBrowsingIndex = (WriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
+            IWriteableBrowsingBlockNodeIndex OldBrowsingIndex = (IWriteableBrowsingBlockNodeIndex)OldChildState.ParentIndex;
             BlockState.Remove(OldBrowsingIndex, Index);
 
             NodeTreeHelperBlockList.ReplaceInBlock(ChildBlock, Index, operation.NewNode);
@@ -711,7 +711,7 @@
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
-            return new WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>(this, (WriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
+            return new WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>(this, (IWriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
         /// <summary>
