@@ -438,20 +438,20 @@
 
             switch (nodeIndexCollection)
             {
-                case ReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> AsPlaceholderNodeIndexCollection:
+                case IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> AsPlaceholderNodeIndexCollection:
                     Result = (IReadOnlyPlaceholderInner)CreatePlaceholderInner(parentState, AsPlaceholderNodeIndexCollection);
                     break;
 
-                case ReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalNodeIndexCollection:
+                case IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> AsOptionalNodeIndexCollection:
                     Result = (IReadOnlyOptionalInner)CreateOptionalInner(parentState, AsOptionalNodeIndexCollection);
                     break;
 
-                case ReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> AsListNodeIndexCollection:
+                case IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> AsListNodeIndexCollection:
                     Stats.ListCount++;
                     Result = (IReadOnlyListInner)CreateListInner(parentState, AsListNodeIndexCollection);
                     break;
 
-                case ReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
+                case IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> AsBlockNodeIndexCollection:
                     Stats.BlockListCount++;
                     IReadOnlyBlockListInner Inner = (IReadOnlyBlockListInner)CreateBlockListInner(parentState, AsBlockNodeIndexCollection);
                     NotifyBlockListInnerCreated(Inner as IReadOnlyBlockListInner);
@@ -495,7 +495,7 @@
 
             ReadOnlyNodeStateDictionary ChildStateTable = CreateChildStateTable();
 
-            foreach (ReadOnlyIndexCollection<IReadOnlyBrowsingChildIndex> NodeIndexCollection in IndexCollectionList)
+            foreach (IReadOnlyIndexCollection<IReadOnlyBrowsingChildIndex> NodeIndexCollection in IndexCollectionList)
             {
                 // List of indexes for this property (one for placeholder and optional node, several for lists and block lists)
                 IReadOnlyList<IReadOnlyBrowsingChildIndex> NodeIndexList = NodeIndexCollection.NodeIndexList;
@@ -504,12 +504,15 @@
                 Debug.Assert(InnerTable.ContainsKey(PropertyName));
                 IReadOnlyInner<IReadOnlyBrowsingChildIndex> Inner = (IReadOnlyInner<IReadOnlyBrowsingChildIndex>)InnerTable[PropertyName];
 
+                if (NodeIndexList.Count == 4)
+                    System.Diagnostics.Debug.Assert(false);
+
                 for (int i = 0; i < NodeIndexList.Count; i++)
                 {
                     IReadOnlyBrowsingChildIndex ChildIndex = NodeIndexList[i];
 
                     // If the inner is that of a block list, and the index is for the first node in the block, add block-specific states
-                    if (Inner is IReadOnlyBlockListInner<ReadOnlyBrowsingBlockNodeIndex> AsBlockListInner && ChildIndex is ReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex)
+                    if (Inner is IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> AsBlockListInner && ChildIndex is IReadOnlyBrowsingNewBlockNodeIndex AsNewBlockIndex)
                     {
                         IReadOnlyBlockState BlockState = AsBlockListInner.InitNewBlock(AsNewBlockIndex);
                         ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).InitBlockState();

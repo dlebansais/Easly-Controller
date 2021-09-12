@@ -128,7 +128,7 @@
         /// </summary>
         /// <param name="newBlockIndex">Index of the new block state to create.</param>
         /// <returns>The created block state.</returns>
-        IReadOnlyBlockState InitNewBlock(ReadOnlyBrowsingNewBlockNodeIndex newBlockIndex);
+        IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex);
 
         /// <summary>
         /// Requests that the notification that a block has been removed be sent.
@@ -159,7 +159,7 @@
         /// </summary>
         /// <param name="newBlockIndex">Index of the new block state to create.</param>
         /// <returns>The created block state.</returns>
-        public virtual IReadOnlyBlockState InitNewBlock(ReadOnlyBrowsingNewBlockNodeIndex newBlockIndex)
+        public virtual IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex)
         {
             Debug.Assert(newBlockIndex != null);
             Debug.Assert(newBlockIndex.PropertyName == PropertyName);
@@ -179,8 +179,8 @@
         /// <inheritdoc/>
         public override IReadOnlyNodeState InitChildState(IReadOnlyBrowsingChildIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex is ReadOnlyBrowsingExistingBlockNodeIndex);
-            return InitChildState((ReadOnlyBrowsingExistingBlockNodeIndex)nodeIndex);
+            Debug.Assert(nodeIndex is IReadOnlyBrowsingExistingBlockNodeIndex);
+            return InitChildState((IReadOnlyBrowsingExistingBlockNodeIndex)nodeIndex);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@
         /// </summary>
         /// <param name="existingNodeIndex">Index of the node.</param>
         /// <returns>The created node state.</returns>
-        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(ReadOnlyBrowsingExistingBlockNodeIndex existingNodeIndex)
+        private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingExistingBlockNodeIndex existingNodeIndex)
         {
             Debug.Assert(existingNodeIndex != null);
             Debug.Assert(existingNodeIndex.PropertyName == PropertyName);

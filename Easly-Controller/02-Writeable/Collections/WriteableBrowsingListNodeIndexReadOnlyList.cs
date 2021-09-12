@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new IWriteableBrowsingListNodeIndex this[int index] { get { return (IWriteableBrowsingListNodeIndex)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<IWriteableBrowsingListNodeIndex> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBrowsingListNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBrowsingListNodeIndex)iterator.Current; } }
 
         #region IWriteableBrowsingListNodeIndex
-        IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBrowsingListNodeIndex)iterator.Current; } }
+        IEnumerator<IWriteableBrowsingListNodeIndex> IEnumerable<IWriteableBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         IWriteableBrowsingListNodeIndex IReadOnlyList<IWriteableBrowsingListNodeIndex>.this[int index] { get { return (IWriteableBrowsingListNodeIndex)this[index]; } }
         #endregion
     }

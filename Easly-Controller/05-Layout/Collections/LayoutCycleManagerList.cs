@@ -15,7 +15,7 @@
         void ICollection<LayoutCycleManager>.CopyTo(LayoutCycleManager[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<LayoutCycleManager>.Remove(LayoutCycleManager item) { return Remove(item); }
         bool ICollection<LayoutCycleManager>.IsReadOnly { get { return ((ICollection<FocusCycleManager>)this).IsReadOnly; } }
-        IEnumerator<LayoutCycleManager> IEnumerable<LayoutCycleManager>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (LayoutCycleManager)iterator.Current; } }
+        IEnumerator<LayoutCycleManager> IEnumerable<LayoutCycleManager>.GetEnumerator() { var iterator = ((List<FocusCycleManager>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (LayoutCycleManager)iterator.Current; } }
         LayoutCycleManager IList<LayoutCycleManager>.this[int index] { get { return (LayoutCycleManager)this[index]; } set { this[index] = value; } }
         int IList<LayoutCycleManager>.IndexOf(LayoutCycleManager item) { return IndexOf(item); }
         void IList<LayoutCycleManager>.Insert(int index, LayoutCycleManager item) { Insert(index, item); }

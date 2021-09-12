@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new IWriteableIndexCollection this[int index] { get { return (IWriteableIndexCollection)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<IWriteableIndexCollection> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyIndexCollection>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableIndexCollection)iterator.Current; } }
 
         #region IWriteableIndexCollection
-        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableIndexCollection)iterator.Current; } }
+        IEnumerator<IWriteableIndexCollection> IEnumerable<IWriteableIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         IWriteableIndexCollection IReadOnlyList<IWriteableIndexCollection>.this[int index] { get { return (IWriteableIndexCollection)this[index]; } }
         #endregion
     }

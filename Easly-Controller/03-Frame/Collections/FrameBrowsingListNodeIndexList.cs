@@ -16,7 +16,7 @@
         void ICollection<IFrameBrowsingListNodeIndex>.CopyTo(IFrameBrowsingListNodeIndex[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IFrameBrowsingListNodeIndex>.Remove(IFrameBrowsingListNodeIndex item) { return Remove(item); }
         bool ICollection<IFrameBrowsingListNodeIndex>.IsReadOnly { get { return ((ICollection<IWriteableBrowsingListNodeIndex>)this).IsReadOnly; } }
-        IEnumerator<IFrameBrowsingListNodeIndex> IEnumerable<IFrameBrowsingListNodeIndex>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameBrowsingListNodeIndex)iterator.Current; } }
+        IEnumerator<IFrameBrowsingListNodeIndex> IEnumerable<IFrameBrowsingListNodeIndex>.GetEnumerator() { var iterator = ((List<IReadOnlyBrowsingListNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameBrowsingListNodeIndex)iterator.Current; } }
         IFrameBrowsingListNodeIndex IList<IFrameBrowsingListNodeIndex>.this[int index] { get { return (IFrameBrowsingListNodeIndex)this[index]; } set { this[index] = value; } }
         int IList<IFrameBrowsingListNodeIndex>.IndexOf(IFrameBrowsingListNodeIndex item) { return IndexOf(item); }
         void IList<IFrameBrowsingListNodeIndex>.Insert(int index, IFrameBrowsingListNodeIndex item) { Insert(index, item); }

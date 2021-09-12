@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Focus;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class LayoutBlockStateReadOnlyList : FocusBlockStateReadOnlyList, IReadOnlyCollection<ILayoutBlockState>, IReadOnlyList<ILayoutBlockState>
@@ -14,9 +15,11 @@
 
         /// <inheritdoc/>
         public new ILayoutBlockState this[int index] { get { return (ILayoutBlockState)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutBlockState> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBlockState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutBlockState)iterator.Current; } }
 
         #region ILayoutBlockState
-        IEnumerator<ILayoutBlockState> IEnumerable<ILayoutBlockState>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutBlockState)iterator.Current; } }
+        IEnumerator<ILayoutBlockState> IEnumerable<ILayoutBlockState>.GetEnumerator() { return GetEnumerator(); }
         ILayoutBlockState IReadOnlyList<ILayoutBlockState>.this[int index] { get { return (ILayoutBlockState)this[index]; } }
         #endregion
     }

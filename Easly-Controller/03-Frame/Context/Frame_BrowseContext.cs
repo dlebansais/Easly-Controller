@@ -104,7 +104,7 @@
                     InternalListEnumerator.MoveNext();
                     Debug.Assert(InternalListEnumerator.Current == InternalItem);
 
-                    IEnumerator<IWriteableIndexCollection> PublicListEnumerator = ((IList<IWriteableIndexCollection>)PublicList).GetEnumerator();
+                    IEnumerator<IWriteableIndexCollection> PublicListEnumerator = PublicList.GetEnumerator();
                     PublicListEnumerator.MoveNext();
                     Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }

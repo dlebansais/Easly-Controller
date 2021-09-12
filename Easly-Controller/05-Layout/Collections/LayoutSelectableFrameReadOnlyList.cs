@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new ILayoutSelectableFrame this[int index] { get { return (ILayoutSelectableFrame)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutSelectableFrame> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFocusSelectableFrame>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutSelectableFrame)iterator.Current; } }
 
         #region ILayoutSelectableFrame
-        IEnumerator<ILayoutSelectableFrame> IEnumerable<ILayoutSelectableFrame>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutSelectableFrame)iterator.Current; } }
+        IEnumerator<ILayoutSelectableFrame> IEnumerable<ILayoutSelectableFrame>.GetEnumerator() { return GetEnumerator(); }
         ILayoutSelectableFrame IReadOnlyList<ILayoutSelectableFrame>.this[int index] { get { return (ILayoutSelectableFrame)this[index]; } }
         #endregion
     }

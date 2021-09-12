@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Focus;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class LayoutBrowsingListNodeIndexReadOnlyList : FocusBrowsingListNodeIndexReadOnlyList, IReadOnlyCollection<ILayoutBrowsingListNodeIndex>, IReadOnlyList<ILayoutBrowsingListNodeIndex>
@@ -14,9 +15,11 @@
 
         /// <inheritdoc/>
         public new ILayoutBrowsingListNodeIndex this[int index] { get { return (ILayoutBrowsingListNodeIndex)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutBrowsingListNodeIndex> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBrowsingListNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutBrowsingListNodeIndex)iterator.Current; } }
 
         #region ILayoutBrowsingListNodeIndex
-        IEnumerator<ILayoutBrowsingListNodeIndex> IEnumerable<ILayoutBrowsingListNodeIndex>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutBrowsingListNodeIndex)iterator.Current; } }
+        IEnumerator<ILayoutBrowsingListNodeIndex> IEnumerable<ILayoutBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         ILayoutBrowsingListNodeIndex IReadOnlyList<ILayoutBrowsingListNodeIndex>.this[int index] { get { return (ILayoutBrowsingListNodeIndex)this[index]; } }
         #endregion
     }

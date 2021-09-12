@@ -8383,6 +8383,7 @@ namespace Coverage
         [Category("Coverage")]
         public static void FocusAssign()
         {
+            //System.Diagnostics.Debug.Assert(false);
             ControllerTools.ResetExpectedName();
 
             Main RootNode;

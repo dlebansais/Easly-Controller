@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new IFocusKeywordFrame this[int index] { get { return (IFocusKeywordFrame)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<IFocusKeywordFrame> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFrameKeywordFrame>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusKeywordFrame)iterator.Current; } }
 
         #region IFocusKeywordFrame
-        IEnumerator<IFocusKeywordFrame> IEnumerable<IFocusKeywordFrame>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusKeywordFrame)iterator.Current; } }
+        IEnumerator<IFocusKeywordFrame> IEnumerable<IFocusKeywordFrame>.GetEnumerator() { return GetEnumerator(); }
         IFocusKeywordFrame IReadOnlyList<IFocusKeywordFrame>.this[int index] { get { return (IFocusKeywordFrame)this[index]; } }
         #endregion
     }

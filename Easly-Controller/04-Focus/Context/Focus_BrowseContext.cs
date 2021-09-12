@@ -113,7 +113,7 @@
                     InternalListEnumerator.MoveNext();
                     Debug.Assert(InternalListEnumerator.Current == InternalItem);
 
-                    IEnumerator<IFrameIndexCollection> PublicListEnumerator = ((ICollection<IFrameIndexCollection>)PublicList).GetEnumerator();
+                    IEnumerator<IFrameIndexCollection> PublicListEnumerator = PublicList.GetEnumerator();
                     PublicListEnumerator.MoveNext();
                     Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }

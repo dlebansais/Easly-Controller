@@ -15,7 +15,7 @@
         void ICollection<IWriteableBlockState>.CopyTo(IWriteableBlockState[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IWriteableBlockState>.Remove(IWriteableBlockState item) { return Remove(item); }
         bool ICollection<IWriteableBlockState>.IsReadOnly { get { return ((ICollection<IReadOnlyBlockState>)this).IsReadOnly; } }
-        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBlockState)iterator.Current; } }
+        IEnumerator<IWriteableBlockState> IEnumerable<IWriteableBlockState>.GetEnumerator() { var iterator = ((List<IReadOnlyBlockState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBlockState)iterator.Current; } }
         IWriteableBlockState IList<IWriteableBlockState>.this[int index] { get { return (IWriteableBlockState)this[index]; } set { this[index] = value; } }
         int IList<IWriteableBlockState>.IndexOf(IWriteableBlockState item) { return IndexOf(item); }
         void IList<IWriteableBlockState>.Insert(int index, IWriteableBlockState item) { Insert(index, item); }

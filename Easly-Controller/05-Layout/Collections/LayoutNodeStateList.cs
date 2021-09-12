@@ -16,7 +16,7 @@
         void ICollection<ILayoutNodeState>.CopyTo(ILayoutNodeState[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<ILayoutNodeState>.Remove(ILayoutNodeState item) { return Remove(item); }
         bool ICollection<ILayoutNodeState>.IsReadOnly { get { return ((ICollection<IFocusNodeState>)this).IsReadOnly; } }
-        IEnumerator<ILayoutNodeState> IEnumerable<ILayoutNodeState>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeState)iterator.Current; } }
+        IEnumerator<ILayoutNodeState> IEnumerable<ILayoutNodeState>.GetEnumerator() { var iterator = ((List<IReadOnlyNodeState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeState)iterator.Current; } }
         ILayoutNodeState IList<ILayoutNodeState>.this[int index] { get { return (ILayoutNodeState)this[index]; } set { this[index] = value; } }
         int IList<ILayoutNodeState>.IndexOf(ILayoutNodeState item) { return IndexOf(item); }
         void IList<ILayoutNodeState>.Insert(int index, ILayoutNodeState item) { Insert(index, item); }

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using EaslyController.ReadOnly;
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
@@ -14,9 +15,11 @@
 
         /// <inheritdoc/>
         public new IFrameBrowsingListNodeIndex this[int index] { get { return (IFrameBrowsingListNodeIndex)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<IFrameBrowsingListNodeIndex> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBrowsingListNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameBrowsingListNodeIndex)iterator.Current; } }
 
         #region IFrameBrowsingListNodeIndex
-        IEnumerator<IFrameBrowsingListNodeIndex> IEnumerable<IFrameBrowsingListNodeIndex>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameBrowsingListNodeIndex)iterator.Current; } }
+        IEnumerator<IFrameBrowsingListNodeIndex> IEnumerable<IFrameBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }
         IFrameBrowsingListNodeIndex IReadOnlyList<IFrameBrowsingListNodeIndex>.this[int index] { get { return (IFrameBrowsingListNodeIndex)this[index]; } }
         #endregion
     }

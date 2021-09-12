@@ -122,7 +122,7 @@
                     InternalListEnumerator.MoveNext();
                     Debug.Assert(InternalListEnumerator.Current == InternalItem);
 
-                    IEnumerator<IFocusIndexCollection> PublicListEnumerator = ((ICollection<ILayoutIndexCollection>)PublicList).GetEnumerator();
+                    IEnumerator<IFocusIndexCollection> PublicListEnumerator = PublicList.GetEnumerator();
                     PublicListEnumerator.MoveNext();
                     Debug.Assert(PublicListEnumerator.Current == InternalItem);
                 }

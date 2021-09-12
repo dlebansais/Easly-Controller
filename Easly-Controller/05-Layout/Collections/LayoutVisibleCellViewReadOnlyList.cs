@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Focus;
+    using EaslyController.Frame;
 
     /// <inheritdoc/>
     public class LayoutVisibleCellViewReadOnlyList : FocusVisibleCellViewReadOnlyList, IReadOnlyCollection<ILayoutVisibleCellView>, IReadOnlyList<ILayoutVisibleCellView>
@@ -14,9 +15,11 @@
 
         /// <inheritdoc/>
         public new ILayoutVisibleCellView this[int index] { get { return (ILayoutVisibleCellView)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutVisibleCellView> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFrameVisibleCellView>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutVisibleCellView)iterator.Current; } }
 
         #region ILayoutVisibleCellView
-        IEnumerator<ILayoutVisibleCellView> IEnumerable<ILayoutVisibleCellView>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutVisibleCellView)iterator.Current; } }
+        IEnumerator<ILayoutVisibleCellView> IEnumerable<ILayoutVisibleCellView>.GetEnumerator() { return GetEnumerator(); }
         ILayoutVisibleCellView IReadOnlyList<ILayoutVisibleCellView>.this[int index] { get { return (ILayoutVisibleCellView)this[index]; } }
         #endregion
     }

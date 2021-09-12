@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
+    using EaslyController.Writeable;
 
     /// <inheritdoc/>
     public class FocusOperationGroupReadOnlyList : FrameOperationGroupReadOnlyList, IReadOnlyCollection<FocusOperationGroup>, IReadOnlyList<FocusOperationGroup>
@@ -14,9 +15,11 @@
 
         /// <inheritdoc/>
         public new FocusOperationGroup this[int index] { get { return (FocusOperationGroup)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<FocusOperationGroup> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<WriteableOperationGroup>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperationGroup)iterator.Current; } }
 
         #region FocusOperationGroup
-        IEnumerator<FocusOperationGroup> IEnumerable<FocusOperationGroup>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperationGroup)iterator.Current; } }
+        IEnumerator<FocusOperationGroup> IEnumerable<FocusOperationGroup>.GetEnumerator() { return GetEnumerator(); }
         FocusOperationGroup IReadOnlyList<FocusOperationGroup>.this[int index] { get { return (FocusOperationGroup)this[index]; } }
         #endregion
     }

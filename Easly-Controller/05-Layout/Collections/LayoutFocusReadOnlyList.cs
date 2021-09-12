@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new ILayoutFocus this[int index] { get { return (ILayoutFocus)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutFocus> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFocusFocus>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFocus)iterator.Current; } }
 
         #region ILayoutFocus
-        IEnumerator<ILayoutFocus> IEnumerable<ILayoutFocus>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFocus)iterator.Current; } }
+        IEnumerator<ILayoutFocus> IEnumerable<ILayoutFocus>.GetEnumerator() { return GetEnumerator(); }
         ILayoutFocus IReadOnlyList<ILayoutFocus>.this[int index] { get { return (ILayoutFocus)this[index]; } }
         #endregion
     }

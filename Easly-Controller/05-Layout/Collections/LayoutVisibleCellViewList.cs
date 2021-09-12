@@ -16,7 +16,7 @@
         void ICollection<ILayoutVisibleCellView>.CopyTo(ILayoutVisibleCellView[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<ILayoutVisibleCellView>.Remove(ILayoutVisibleCellView item) { return Remove(item); }
         bool ICollection<ILayoutVisibleCellView>.IsReadOnly { get { return ((ICollection<IFocusVisibleCellView>)this).IsReadOnly; } }
-        IEnumerator<ILayoutVisibleCellView> IEnumerable<ILayoutVisibleCellView>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutVisibleCellView)iterator.Current; } }
+        IEnumerator<ILayoutVisibleCellView> IEnumerable<ILayoutVisibleCellView>.GetEnumerator() { var iterator = ((List<IFrameVisibleCellView>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutVisibleCellView)iterator.Current; } }
         ILayoutVisibleCellView IList<ILayoutVisibleCellView>.this[int index] { get { return (ILayoutVisibleCellView)this[index]; } set { this[index] = value; } }
         int IList<ILayoutVisibleCellView>.IndexOf(ILayoutVisibleCellView item) { return IndexOf(item); }
         void IList<ILayoutVisibleCellView>.Insert(int index, ILayoutVisibleCellView item) { Insert(index, item); }

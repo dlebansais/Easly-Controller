@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new ILayoutNodeFrameVisibility this[int index] { get { return (ILayoutNodeFrameVisibility)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutNodeFrameVisibility> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFocusNodeFrameVisibility>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeFrameVisibility)iterator.Current; } }
 
         #region ILayoutNodeFrameVisibility
-        IEnumerator<ILayoutNodeFrameVisibility> IEnumerable<ILayoutNodeFrameVisibility>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeFrameVisibility)iterator.Current; } }
+        IEnumerator<ILayoutNodeFrameVisibility> IEnumerable<ILayoutNodeFrameVisibility>.GetEnumerator() { return GetEnumerator(); }
         ILayoutNodeFrameVisibility IReadOnlyList<ILayoutNodeFrameVisibility>.this[int index] { get { return (ILayoutNodeFrameVisibility)this[index]; } }
         #endregion
     }

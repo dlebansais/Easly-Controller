@@ -15,7 +15,7 @@
         void ICollection<IFocusTemplate>.CopyTo(IFocusTemplate[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<IFocusTemplate>.Remove(IFocusTemplate item) { return Remove(item); }
         bool ICollection<IFocusTemplate>.IsReadOnly { get { return ((ICollection<IFrameTemplate>)this).IsReadOnly; } }
-        IEnumerator<IFocusTemplate> IEnumerable<IFocusTemplate>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusTemplate)iterator.Current; } }
+        IEnumerator<IFocusTemplate> IEnumerable<IFocusTemplate>.GetEnumerator() { var iterator = ((List<IFrameTemplate>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusTemplate)iterator.Current; } }
         IFocusTemplate IList<IFocusTemplate>.this[int index] { get { return (IFocusTemplate)this[index]; } set { this[index] = value; } }
         int IList<IFocusTemplate>.IndexOf(IFocusTemplate item) { return IndexOf(item); }
         void IList<IFocusTemplate>.Insert(int index, IFocusTemplate item) { Insert(index, item); }

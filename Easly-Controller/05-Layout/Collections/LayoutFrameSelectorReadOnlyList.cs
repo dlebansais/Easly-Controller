@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new ILayoutFrameSelector this[int index] { get { return (ILayoutFrameSelector)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<ILayoutFrameSelector> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFocusFrameSelector>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFrameSelector)iterator.Current; } }
 
         #region ILayoutFrameSelector
-        IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFrameSelector)iterator.Current; } }
+        IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { return GetEnumerator(); }
         ILayoutFrameSelector IReadOnlyList<ILayoutFrameSelector>.this[int index] { get { return (ILayoutFrameSelector)this[index]; } }
         #endregion
 

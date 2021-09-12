@@ -16,7 +16,7 @@
         void ICollection<FocusOperationGroup>.CopyTo(FocusOperationGroup[] array, int arrayIndex) { ((System.Collections.ICollection)this).CopyTo(array, arrayIndex); }
         bool ICollection<FocusOperationGroup>.Remove(FocusOperationGroup item) { return Remove(item); }
         bool ICollection<FocusOperationGroup>.IsReadOnly { get { return ((ICollection<FrameOperationGroup>)this).IsReadOnly; } }
-        IEnumerator<FocusOperationGroup> IEnumerable<FocusOperationGroup>.GetEnumerator() { Enumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperationGroup)iterator.Current; } }
+        IEnumerator<FocusOperationGroup> IEnumerable<FocusOperationGroup>.GetEnumerator() { var iterator = ((List<WriteableOperationGroup>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperationGroup)iterator.Current; } }
         FocusOperationGroup IList<FocusOperationGroup>.this[int index] { get { return (FocusOperationGroup)this[index]; } set { this[index] = value; } }
         int IList<FocusOperationGroup>.IndexOf(FocusOperationGroup item) { return IndexOf(item); }
         void IList<FocusOperationGroup>.Insert(int index, FocusOperationGroup item) { Insert(index, item); }

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
+    using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
     public class FocusIndexCollectionReadOnlyList : FrameIndexCollectionReadOnlyList, IReadOnlyCollection<IFocusIndexCollection>, IReadOnlyList<IFocusIndexCollection>
@@ -14,9 +15,11 @@
 
         /// <inheritdoc/>
         public new IFocusIndexCollection this[int index] { get { return (IFocusIndexCollection)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<IFocusIndexCollection> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyIndexCollection>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusIndexCollection)iterator.Current; } }
 
         #region IFocusIndexCollection
-        IEnumerator<IFocusIndexCollection> IEnumerable<IFocusIndexCollection>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusIndexCollection)iterator.Current; } }
+        IEnumerator<IFocusIndexCollection> IEnumerable<IFocusIndexCollection>.GetEnumerator() { return GetEnumerator(); }
         IFocusIndexCollection IReadOnlyList<IFocusIndexCollection>.this[int index] { get { return (IFocusIndexCollection)this[index]; } }
         #endregion
     }

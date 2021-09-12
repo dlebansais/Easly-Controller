@@ -14,9 +14,11 @@
 
         /// <inheritdoc/>
         public new IWriteablePlaceholderNodeState this[int index] { get { return (IWriteablePlaceholderNodeState)base[index]; } }
+        /// <inheritdoc/>
+        public new IEnumerator<IWriteablePlaceholderNodeState> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyPlaceholderNodeState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteablePlaceholderNodeState)iterator.Current; } }
 
         #region IWriteablePlaceholderNodeState
-        IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { System.Collections.IEnumerator iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteablePlaceholderNodeState)iterator.Current; } }
+        IEnumerator<IWriteablePlaceholderNodeState> IEnumerable<IWriteablePlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
         IWriteablePlaceholderNodeState IReadOnlyList<IWriteablePlaceholderNodeState>.this[int index] { get { return (IWriteablePlaceholderNodeState)this[index]; } }
         #endregion
 
