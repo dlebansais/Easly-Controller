@@ -116,13 +116,13 @@
         /// <inheritdoc/>
         public override void Attach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
-            ((ReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
+            ((IReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Attach(view, callbackSet);
         }
 
         /// <inheritdoc/>
         public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
-            ((ReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
+            ((IReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)ChildState).Detach(view, callbackSet);
         }
         #endregion
 

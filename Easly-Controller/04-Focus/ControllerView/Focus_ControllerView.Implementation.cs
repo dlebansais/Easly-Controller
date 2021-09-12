@@ -341,7 +341,7 @@
             IFocusCellViewTreeContext Context = (IFocusCellViewTreeContext)CreateCellViewTreeContext(stateView);
             ForcedCommentStateView = null;
 
-            IList<FocusFrameSelectorList> SelectorStack = ((FocusNodeStateView)stateView).GetSelectorStack();
+            IList<FocusFrameSelectorList> SelectorStack = ((IFocusNodeStateView)stateView).GetSelectorStack();
             foreach (FocusFrameSelectorList Selectors in SelectorStack)
                 Context.AddSelectors(Selectors);
 

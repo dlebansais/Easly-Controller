@@ -39,7 +39,7 @@
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
                 IsHandled = true;
             }
-            else if (inner is WriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
+            else if (inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
             {
                 InsertNewNode(AsCollectionInner, AsCollectionIndex, out nodeIndex);
                 IsHandled = true;

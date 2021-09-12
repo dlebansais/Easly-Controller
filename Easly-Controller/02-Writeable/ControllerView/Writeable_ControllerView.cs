@@ -75,7 +75,7 @@
         /// <summary>
         /// State view of the root state.
         /// </summary>
-        public new WriteableNodeStateView RootStateView { get { return (WriteableNodeStateView)base.RootStateView; } }
+        public new IWriteableNodeStateView RootStateView { get { return (IWriteableNodeStateView)base.RootStateView; } }
         #endregion
 
         #region Implementation

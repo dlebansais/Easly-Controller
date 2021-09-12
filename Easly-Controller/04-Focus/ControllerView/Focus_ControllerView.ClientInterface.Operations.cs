@@ -52,8 +52,9 @@
             Debug.Assert(!InsertType.IsInterface);
             Debug.Assert(!InsertType.IsAbstract);
 
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(InsertType);
-            Node NewItem = NodeHelper.CreateDefaultFromInterface(InterfaceType);
+            // Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(InsertType);
+            //Node NewItem = NodeHelper.CreateDefaultFromInterface(InterfaceType);
+            Node NewItem = NodeHelper.CreateDefaultFromInterface(InsertType);
 
             IFocusCollectionInner CollectionInner = null;
             frame.CollectionNameToInner(ref state, ref CollectionInner);

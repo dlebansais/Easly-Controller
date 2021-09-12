@@ -106,8 +106,11 @@
         {
             IFocusNodeState Owner = inner.Owner;
             Type OwnerType = Owner.Node.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
-            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            //IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(OwnerType);
+
             IFocusFrame Frame = Template.PropertyToFrame(inner.PropertyName, selectorStack);
 
             if (Frame is IFocusBlockListFrame AsBlockListFrame)
@@ -134,8 +137,11 @@
         public virtual IFocusFrame PropertyToFrame(IFocusNodeState state, string propertyName, IList<FocusFrameSelectorList> selectorStack)
         {
             Type OwnerType = state.Node.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
-            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            //IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(OwnerType);
+
             IFocusFrame Frame = Template.PropertyToFrame(propertyName, selectorStack);
 
             return Frame;
@@ -150,8 +156,11 @@
         public virtual IFocusCommentFrame GetCommentFrame(IFocusNodeState state, IList<FocusFrameSelectorList> selectorStack)
         {
             Type OwnerType = state.Node.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
-            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            //IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(InterfaceType);
+            IFocusNodeTemplate Template = (IFocusNodeTemplate)NodeTypeToTemplate(OwnerType);
+
             IFocusCommentFrame Frame = Template.GetCommentFrame(selectorStack);
 
             return Frame;

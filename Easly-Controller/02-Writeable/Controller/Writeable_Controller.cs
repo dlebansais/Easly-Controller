@@ -132,7 +132,9 @@
 
             bool IsValid = true;
 
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            Type InterfaceType = NodeType;
+
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {
@@ -152,7 +154,9 @@
 
             bool IsValid = true;
 
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            Type InterfaceType = NodeType;
+
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {

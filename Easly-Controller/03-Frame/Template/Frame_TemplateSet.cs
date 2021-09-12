@@ -237,8 +237,11 @@
 
             IFrameNodeState Owner = inner.Owner;
             Type OwnerType = Owner.Node.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
-            IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            //IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+            IFrameNodeTemplate Template = NodeTypeToTemplate(OwnerType);
+
             IFrameFrame Frame = Template.PropertyToFrame(inner.PropertyName);
 
             if (Frame is IFrameBlockListFrame AsBlockListFrame)
@@ -266,8 +269,11 @@
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
 
             Type OwnerType = state.Node.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
-            IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            //IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+            IFrameNodeTemplate Template = NodeTypeToTemplate(OwnerType);
+
             IFrameFrame Frame = Template.PropertyToFrame(propertyName);
 
             return Frame;
@@ -283,8 +289,11 @@
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
 
             Type OwnerType = state.Node.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
-            IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
+            //IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
+            IFrameNodeTemplate Template = NodeTypeToTemplate(OwnerType);
+
             IFrameCommentFrame Frame = Template.GetCommentFrame();
 
             return Frame;

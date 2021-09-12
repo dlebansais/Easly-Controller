@@ -86,13 +86,25 @@
                 System.Type GenericDefinitionType;
 
                 Arg1Type = XamlTypeResolver.Resolve(Arg1);
-                GenericDefinitionType = XamlTypeResolver.Resolve($"{TypeName}`1");
+
+                if (TypeName == "easly:Block")
+                    GenericDefinitionType = typeof(Block<>);
+                else
+                {
+                    System.Diagnostics.Debug.Assert(false);
+
+                    GenericDefinitionType = XamlTypeResolver.Resolve(TypeName);
+                    Assembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
+                    GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 1));
+                }
 
                 System.Type[] GenericArguments = new System.Type[] { Arg1Type };
                 Type = GenericDefinitionType.MakeGenericType(GenericArguments);
             }
-            else if (Arg1 != null && Arg1 != null)
+            else if (Arg1 != null && Arg2 != null)
             {
+                System.Diagnostics.Debug.Assert(false);
+
                 System.Type Arg1Type;
                 System.Type Arg2Type;
                 System.Type GenericDefinitionType;

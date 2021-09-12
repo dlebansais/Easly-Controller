@@ -52,12 +52,14 @@
                     Type NodeType = ChildNode.GetType();
                     Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
 
-                    InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+                    //InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+                    InterfaceType = NodeType;
                 }
                 else
                 {
                     InterfaceType = NodeHelper.GetDefaultItemType(State.ParentInner.InterfaceType);
-                    Debug.Assert(InterfaceType.IsInterface);
+                    //Debug.Assert(InterfaceType.IsInterface);
+                    Debug.Assert(!InterfaceType.IsInterface);
                 }
 
                 IFrameTemplate Result = ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);

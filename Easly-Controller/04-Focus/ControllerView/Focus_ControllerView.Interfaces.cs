@@ -29,10 +29,12 @@
             Debug.Assert(ChildNode != null);
 
             Type NodeType = ChildNode.GetType();
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-            Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
 
-            IFocusNodeTemplate ParentTemplate = TemplateSet.NodeTemplateTable[InterfaceType] as IFocusNodeTemplate;
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+            //Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
+            Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(NodeType));
+
+            IFocusNodeTemplate ParentTemplate = TemplateSet.NodeTemplateTable[NodeType] as IFocusNodeTemplate;
             Debug.Assert(ParentTemplate != null);
 
             return ParentTemplate.IsComplex;

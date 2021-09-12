@@ -45,8 +45,9 @@
                 Type NodeType = State.Node.GetType();
                 Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
 
-                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
-                return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
+                //return ControllerView.TemplateSet.NodeTypeToTemplate(InterfaceType);
+                return ControllerView.TemplateSet.NodeTypeToTemplate(NodeType);
             }
         }
 

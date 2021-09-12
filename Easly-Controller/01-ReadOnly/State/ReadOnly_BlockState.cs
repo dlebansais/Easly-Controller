@@ -134,7 +134,7 @@
             ReadOnlyInnerReadOnlyDictionary<string> PatternEmptyInnerTable = CreateInnerTable().ToReadOnly();
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(Pattern.Text), ValuePropertyType.String);
-            ((ReadOnlyPatternState<IInner>)PatternState).Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
+            ((IReadOnlyPatternState<IInner>)PatternState).Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
             Debug.Assert(PatternState.ToString() != null); // For code coverage.
 
             SourceIndex = CreateExistingSourceIndex();
@@ -142,7 +142,7 @@
             ReadOnlyInnerReadOnlyDictionary<string> SourceEmptyInnerTable = CreateInnerTable().ToReadOnly();
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(Identifier.Text), ValuePropertyType.String);
-            ((ReadOnlySourceState<IInner>)SourceState).Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
+            ((IReadOnlySourceState<IInner>)SourceState).Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
             Debug.Assert(SourceState.ToString() != null); // For code coverage.
         }
 
@@ -282,11 +282,11 @@
         {
             callbackSet.OnBlockStateAttached(this);
 
-            ((ReadOnlyPatternState<IInner>)PatternState).Attach(view, callbackSet);
-            ((ReadOnlySourceState<IInner>)SourceState).Attach(view, callbackSet);
+            ((IReadOnlyPatternState<IInner>)PatternState).Attach(view, callbackSet);
+            ((IReadOnlySourceState<IInner>)SourceState).Attach(view, callbackSet);
 
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ((ReadOnlyNodeState<IInner>)ChildState).Attach(view, callbackSet);
+                ((IReadOnlyNodeState<IInner>)ChildState).Attach(view, callbackSet);
         }
 
         /// <summary>
@@ -297,10 +297,10 @@
         public virtual void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyNodeState ChildState in StateList)
-                ((ReadOnlyNodeState<IInner>)ChildState).Detach(view, callbackSet);
+                ((IReadOnlyNodeState<IInner>)ChildState).Detach(view, callbackSet);
 
-            ((ReadOnlySourceState<IInner>)SourceState).Detach(view, callbackSet);
-            ((ReadOnlyPatternState<IInner>)PatternState).Detach(view, callbackSet);
+            ((IReadOnlySourceState<IInner>)SourceState).Detach(view, callbackSet);
+            ((IReadOnlyPatternState<IInner>)PatternState).Detach(view, callbackSet);
 
             callbackSet.OnBlockStateDetached(this);
         }

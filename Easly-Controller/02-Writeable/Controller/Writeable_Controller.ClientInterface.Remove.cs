@@ -35,7 +35,9 @@
 
             bool Result = true;
 
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+            Type InterfaceType = inner.Owner.Node.GetType();
+
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {
@@ -213,7 +215,9 @@
 
             bool Result = true;
 
-            Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+            //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+            Type InterfaceType = inner.Owner.Node.GetType();
+
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
             {
@@ -314,7 +318,9 @@
 
                 Result = true;
 
-                Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+                //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
+                Type InterfaceType = inner.Owner.Node.GetType();
+
                 IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
                 if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
                 {

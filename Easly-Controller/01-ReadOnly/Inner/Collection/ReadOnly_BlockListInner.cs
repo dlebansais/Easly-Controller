@@ -351,7 +351,7 @@
             for (int BlockIndex = 0; BlockIndex < BlockStateList.Count; BlockIndex++)
             {
                 IReadOnlyBlockState BlockState = BlockStateList[BlockIndex];
-                ((ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).CloneBlock(parentNode, BlockIndex);
+                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).CloneBlock(parentNode, BlockIndex);
             }
 
             // Copy comments.
@@ -366,14 +366,14 @@
             callbackSet.OnBlockListInnerAttached(this);
 
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                ((ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Attach(view, callbackSet);
+                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Attach(view, callbackSet);
         }
 
         /// <inheritdoc/>
         public override void Detach(ReadOnlyControllerView view, ReadOnlyAttachCallbackSet callbackSet)
         {
             foreach (IReadOnlyBlockState BlockState in BlockStateList)
-                ((ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Detach(view, callbackSet);
+                ((IReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)BlockState).Detach(view, callbackSet);
 
             callbackSet.OnBlockListInnerDetached(this);
         }
