@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     /// <inheritdoc/>
-    public class FocusCycleManagerList : List<FocusCycleManager>
+    public class FocusCycleManagerList : List<IFocusCycleManager>
     {
         /// <inheritdoc/>
         public virtual FocusCycleManagerReadOnlyList ToReadOnly()

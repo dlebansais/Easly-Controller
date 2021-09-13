@@ -149,7 +149,7 @@
         {
             base.OnBlockStateInserted(operation);
 
-            IFrameBlockState BlockState = ((FrameInsertBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((IFrameInsertBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
@@ -159,12 +159,12 @@
 
             Debug.Assert(BlockState.StateList.Count == 1);
 
-            IFramePlaceholderNodeState ChildState = ((FrameInsertBlockOperation)operation).ChildState;
+            IFramePlaceholderNodeState ChildState = ((IFrameInsertBlockOperation)operation).ChildState;
             Debug.Assert(ChildState == BlockState.StateList[0]);
-            Debug.Assert(ChildState.ParentIndex == ((FrameInsertBlockOperation)operation).BrowsingIndex);
+            Debug.Assert(ChildState.ParentIndex == ((IFrameInsertBlockOperation)operation).BrowsingIndex);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
 
-            FrameInsertBlockOperation InsertBlockOperation = (FrameInsertBlockOperation)operation;
+            IFrameInsertBlockOperation InsertBlockOperation = (IFrameInsertBlockOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)InsertBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
@@ -180,7 +180,7 @@
             if (EmbeddingCellView != null)
             {
                 // Build all cell views for the inserted block.
-                FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[((FrameInsertBlockOperation)operation).BlockState];
+                FrameBlockStateView BlockStateView = (FrameBlockStateView)BlockStateViewTable[((IFrameInsertBlockOperation)operation).BlockState];
                 IFrameBlockCellView RootCellView = BuildBlockCellView(OwnerStateView, EmbeddingCellView, BlockStateView);
 
                 // Insert the root cell view in the collection embedding other blocks.
@@ -195,11 +195,11 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
+        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
 
-            IFrameBlockState BlockState = ((FrameRemoveBlockOperation)operation).BlockState;
+            IFrameBlockState BlockState = ((IFrameRemoveBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -207,12 +207,12 @@
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
 
-            IFrameNodeState RemovedState = ((FrameRemoveBlockOperation)operation).RemovedState;
+            IFrameNodeState RemovedState = ((IFrameRemoveBlockOperation)operation).RemovedState;
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
             Debug.Assert(BlockState.StateList.Count == 0);
 
-            FrameRemoveBlockOperation RemoveBlockOperation = (FrameRemoveBlockOperation)operation;
+            IFrameRemoveBlockOperation RemoveBlockOperation = (IFrameRemoveBlockOperation)operation;
             IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> ParentInner = (IFrameBlockListInner<IFrameBrowsingBlockNodeIndex>)RemoveBlockOperation.BlockState.ParentInner;
             IFrameNodeState OwnerState = ParentInner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
@@ -459,22 +459,22 @@
         {
             base.OnStateReplaced(operation);
 
-            IFrameNodeState NewChildState = ((FrameReplaceOperation)operation).NewChildState;
+            IFrameNodeState NewChildState = ((IFrameReplaceOperation)operation).NewChildState;
             Debug.Assert(NewChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(NewChildState));
 
-            IFrameBrowsingChildIndex OldBrowsingIndex = ((FrameReplaceOperation)operation).OldBrowsingIndex;
+            IFrameBrowsingChildIndex OldBrowsingIndex = ((IFrameReplaceOperation)operation).OldBrowsingIndex;
             Debug.Assert(OldBrowsingIndex != null);
             Debug.Assert(NewChildState.ParentIndex != OldBrowsingIndex);
 
-            IFrameBrowsingChildIndex NewBrowsingIndex = ((FrameReplaceOperation)operation).NewBrowsingIndex;
+            IFrameBrowsingChildIndex NewBrowsingIndex = ((IFrameReplaceOperation)operation).NewBrowsingIndex;
             Debug.Assert(NewBrowsingIndex != null);
             Debug.Assert(NewChildState.ParentIndex == NewBrowsingIndex);
 
             IFrameInner Inner = NewChildState.ParentInner;
             Debug.Assert(Inner != null);
             Debug.Assert(NewBrowsingIndex != null);
-            IFrameNodeState ReplacedState = ((FrameReplaceOperation)operation).NewChildState;
+            IFrameNodeState ReplacedState = ((IFrameReplaceOperation)operation).NewChildState;
             Debug.Assert(ReplacedState != null);
 
             IFrameNodeStateView ReplacedStateView = (IFrameNodeStateView)StateViewTable[ReplacedState];

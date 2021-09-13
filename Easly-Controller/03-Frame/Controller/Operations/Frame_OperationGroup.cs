@@ -26,7 +26,7 @@
         /// <summary>
         /// The main operation for this group.
         /// </summary>
-        public new FrameOperation MainOperation { get { return (FrameOperation)base.MainOperation; } }
+        public new IFrameOperation MainOperation { get { return (IFrameOperation)base.MainOperation; } }
 
         /// <summary>
         /// Optional refresh operation to execute at the end of undo and redo.

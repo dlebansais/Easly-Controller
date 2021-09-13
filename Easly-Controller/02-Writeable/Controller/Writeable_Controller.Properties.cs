@@ -62,15 +62,15 @@
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        public event Action<WriteableRemoveBlockOperation> BlockStateRemoved
+        public event Action<IWriteableRemoveBlockOperation> BlockStateRemoved
         {
             add { AddBlockStateRemovedDelegate(value); }
             remove { RemoveBlockStateRemovedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<WriteableRemoveBlockOperation> BlockStateRemovedHandler;
-        private protected virtual void AddBlockStateRemovedDelegate(Action<WriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler += handler; }
-        private protected virtual void RemoveBlockStateRemovedDelegate(Action<WriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler -= handler; }
+        private Action<IWriteableRemoveBlockOperation> BlockStateRemovedHandler;
+        private protected virtual void AddBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler += handler; }
+        private protected virtual void RemoveBlockStateRemovedDelegate(Action<IWriteableRemoveBlockOperation> handler) { BlockStateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>

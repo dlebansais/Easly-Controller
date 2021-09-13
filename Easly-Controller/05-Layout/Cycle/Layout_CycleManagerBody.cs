@@ -5,7 +5,7 @@
     /// <summary>
     /// Cycle manager for Body nodes.
     /// </summary>
-    public class LayoutCycleManagerBody : FocusCycleManagerBody
+    public class LayoutCycleManagerBody : FocusCycleManagerBody, ILayoutCycleManager
     {
     }
 }

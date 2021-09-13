@@ -150,7 +150,7 @@
         private protected virtual void UndoExpandBlockList(IWriteableOperation operation)
         {
             WriteableExpandArgumentOperation ExpandArgumentOperation = (WriteableExpandArgumentOperation)operation;
-            WriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
+            IWriteableRemoveBlockOperation RemoveBlockOperation = ExpandArgumentOperation.ToRemoveBlockOperation();
 
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
@@ -245,7 +245,7 @@
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
-            WriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, 0, HandlerRedo, HandlerUndo, isNested);
+            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, 0, HandlerRedo, HandlerUndo, isNested);
 
             Operation.Redo();
 

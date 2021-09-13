@@ -108,7 +108,7 @@
         private protected virtual void UndoInsertNewBlock(IWriteableOperation operation)
         {
             IWriteableInsertBlockOperation InsertBlockOperation = (IWriteableInsertBlockOperation)operation;
-            WriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
+            IWriteableRemoveBlockOperation RemoveBlockOperation = InsertBlockOperation.ToRemoveBlockOperation();
 
             ExecuteRemoveBlock(RemoveBlockOperation);
         }

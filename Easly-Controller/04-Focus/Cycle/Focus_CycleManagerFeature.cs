@@ -79,6 +79,7 @@
                         Export = AsCreation.Export;
                         EntityName = AsCreation.EntityName;
                         CommandOverloadBlocks = AsCreation.OverloadBlocks;
+                        Debug.Assert(CommandOverloadBlocks != null);
                         break;
 
                     case FunctionFeature AsFunction:
@@ -88,6 +89,7 @@
                         EntityName = AsFunction.EntityName;
                         Once = AsFunction.Once;
                         QueryOverloadBlocks = AsFunction.OverloadBlocks;
+                        Debug.Assert(QueryOverloadBlocks != null);
                         break;
 
                     case ProcedureFeature AsProcedure:
@@ -96,6 +98,7 @@
                         Export = AsProcedure.Export;
                         EntityName = AsProcedure.EntityName;
                         CommandOverloadBlocks = AsProcedure.OverloadBlocks;
+                        Debug.Assert(CommandOverloadBlocks != null);
                         break;
 
                     case PropertyFeature AsProperty:
@@ -120,6 +123,7 @@
                         ModifiedQueryBlocks = AsIndexer.ModifiedQueryBlocks;
                         GetterBody = AsIndexer.GetterBody;
                         SetterBody = AsIndexer.SetterBody;
+                        Debug.Assert(IndexParameterBlocks != null);
                         break;
                 }
 
@@ -132,6 +136,9 @@
             if (FeatureTypeList.Count > 0)
             {
                 Type NodeType = FeatureTypeList[0];
+
+                /*if (NodeType == typeof(CreationFeature))
+                    Debug.Assert(CommandOverloadBlocks != null);*/
 
                 Node NewFeature = NodeHelper.CreateInitializedFeature(NodeType, Documentation, ExportIdentifier, Export, EntityName, EntityType, EnsureBlocks, ConstantValue, CommandOverloadBlocks, Once, QueryOverloadBlocks, PropertyKind, ModifiedQueryBlocks, GetterBody, SetterBody, IndexParameterBlocks, ParameterEnd);
 

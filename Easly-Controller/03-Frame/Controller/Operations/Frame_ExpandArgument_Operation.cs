@@ -5,7 +5,7 @@
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
-    internal class FrameExpandArgumentOperation : WriteableExpandArgumentOperation, IFrameOperation
+    internal class FrameExpandArgumentOperation : WriteableExpandArgumentOperation, IFrameInsertBlockOperation
     {
         #region Init
         /// <summary>
@@ -45,7 +45,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected override WriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameExpandArgumentOperation));
             return new FrameRemoveBlockOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);

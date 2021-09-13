@@ -35,7 +35,7 @@
         /// <param name="t">The interface type.</param>
         public static object GetReferenceByInterface(Type t)
         {
-            t = BaseNodeHelper.NodeTreeHelper.InterfaceTypeToNodeType(t);
+            // t = BaseNodeHelper.NodeTreeHelper.InterfaceTypeToNodeType(t);
 
             foreach (KeyValuePair<Type, object> Entry in ReferenceTable)
             {

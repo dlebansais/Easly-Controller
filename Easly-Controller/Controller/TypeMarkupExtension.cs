@@ -91,8 +91,6 @@
                     GenericDefinitionType = typeof(Block<>);
                 else
                 {
-                    System.Diagnostics.Debug.Assert(false);
-
                     GenericDefinitionType = XamlTypeResolver.Resolve(TypeName);
                     Assembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
                     GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 1));
@@ -103,8 +101,6 @@
             }
             else if (Arg1 != null && Arg2 != null)
             {
-                System.Diagnostics.Debug.Assert(false);
-
                 System.Type Arg1Type;
                 System.Type Arg2Type;
                 System.Type GenericDefinitionType;

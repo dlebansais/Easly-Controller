@@ -28,7 +28,7 @@
         /// <summary>
         /// The main operation for this group.
         /// </summary>
-        public new FocusOperation MainOperation { get { return (FocusOperation)base.MainOperation; } }
+        public new IFocusOperation MainOperation { get { return (IFocusOperation)base.MainOperation; } }
 
         /// <summary>
         /// Optional refresh operation to execute at the end of undo and redo.

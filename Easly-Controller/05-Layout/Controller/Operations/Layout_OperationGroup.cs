@@ -28,7 +28,7 @@
         /// <summary>
         /// The main operation for this group.
         /// </summary>
-        public new LayoutOperation MainOperation { get { return (LayoutOperation)base.MainOperation; } }
+        public new ILayoutOperation MainOperation { get { return (ILayoutOperation)base.MainOperation; } }
 
         /// <summary>
         /// Optional refresh operation to execute at the end of undo and redo.

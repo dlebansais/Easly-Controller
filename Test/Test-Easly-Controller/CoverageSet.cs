@@ -1849,7 +1849,7 @@ namespace Coverage
             RootNode = CreateRoot(ValueGuid0, Imperfections.None);
             RootIndex = new WriteableRootNodeIndex(RootNode);
 
-            WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
+            WriteableController ControllerBase = (WriteableController)EaslyController.Writeable.WriteableController.Create(RootIndex);
             WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
             using (WriteableControllerView ControllerView0 = WriteableControllerView.Create(Controller))
@@ -9301,9 +9301,12 @@ namespace Coverage
                 ControllerView0.SetUserVisible(true);
                 ControllerView0.SetUserVisible(false);
 
+                //System.Diagnostics.Debug.Assert(false);
+
                 for (int i = 0; i < FeatureCycleCount; i++)
                 {
                     IsItemCyclableThrough = ControllerView0.IsItemCyclableThrough(out State, out CyclePosition);
+                    System.Diagnostics.Debug.Assert(IsItemCyclableThrough);
                     Assert.That(IsItemCyclableThrough);
 
                     CycleIndexList = State.CycleIndexList;
@@ -16966,27 +16969,27 @@ namespace Coverage
 
             LayoutCycleManagerList CycleManagerList = Controller.CycleManagerList;
             Assert.That(CycleManagerList.Count > 0);
-            LayoutCycleManager FirstCycleManager = (LayoutCycleManager)CycleManagerList[0];
+            ILayoutCycleManager FirstCycleManager = (ILayoutCycleManager)CycleManagerList[0];
 
             FocusCycleManagerList FocusCycleManagerList = CycleManagerList;
             Assert.That(FocusCycleManagerList.Contains(FirstCycleManager));
             Assert.That(FocusCycleManagerList[0] == FirstCycleManager);
             Assert.That(FocusCycleManagerList.IndexOf(FirstCycleManager) == 0);
-            IList<FocusCycleManager> FocusCycleManagerListAsList = FocusCycleManagerList;
+            IList<IFocusCycleManager> FocusCycleManagerListAsList = FocusCycleManagerList;
             Assert.That(FocusCycleManagerListAsList.Contains(FirstCycleManager));
             Assert.That(FocusCycleManagerListAsList[0] == FirstCycleManager);
             Assert.That(FocusCycleManagerListAsList.IndexOf(FirstCycleManager) == 0);
-            ICollection<FocusCycleManager> FocusCycleManagerListAsCollection = FocusCycleManagerList;
+            ICollection<IFocusCycleManager> FocusCycleManagerListAsCollection = FocusCycleManagerList;
             Assert.That(!FocusCycleManagerListAsCollection.IsReadOnly);
             Assert.That(FocusCycleManagerListAsCollection.Contains(FirstCycleManager));
             FocusCycleManagerListAsCollection.Remove(FirstCycleManager);
             FocusCycleManagerListAsCollection.Add(FirstCycleManager);
             FocusCycleManagerListAsList.Remove(FirstCycleManager);
             FocusCycleManagerListAsList.Insert(0, FirstCycleManager);
-            FocusCycleManagerListAsCollection.CopyTo(new LayoutCycleManager[FocusCycleManagerListAsCollection.Count], 0);
-            IEnumerable<FocusCycleManager> FocusCycleManagerListAsEnumerable = FocusCycleManagerList;
+            FocusCycleManagerListAsCollection.CopyTo(new ILayoutCycleManager[FocusCycleManagerListAsCollection.Count], 0);
+            IEnumerable<IFocusCycleManager> FocusCycleManagerListAsEnumerable = FocusCycleManagerList;
             FocusCycleManagerListAsEnumerable.GetEnumerator();
-            IReadOnlyList<FocusCycleManager> FocusCycleManagerListAsReadOnlyList = FocusCycleManagerList;
+            IReadOnlyList<IFocusCycleManager> FocusCycleManagerListAsReadOnlyList = FocusCycleManagerList;
             Assert.That(FocusCycleManagerListAsReadOnlyList[0] == FirstCycleManager);
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)NodeTemplateDictionary)

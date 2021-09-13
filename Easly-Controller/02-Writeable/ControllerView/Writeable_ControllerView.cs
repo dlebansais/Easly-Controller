@@ -107,7 +107,7 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected virtual void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
+        private protected virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             Debug.Assert(operation != null);
 

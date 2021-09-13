@@ -15,7 +15,7 @@
         /// Creates and initializes a new instance of a <see cref="WriteableController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>
-        public static WriteableController Create(WriteableRootNodeIndex nodeIndex)
+        public static WriteableController Create(IWriteableRootNodeIndex nodeIndex)
         {
             WriteableController Controller = new WriteableController();
             Controller.SetRoot(nodeIndex);
@@ -147,7 +147,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected virtual WriteableRemoveBlockOperation CreateRemoveBlockOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableRemoveBlockOperation CreateRemoveBlockOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableController));
             return new WriteableRemoveBlockOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);

@@ -74,14 +74,21 @@
         /// <param name="state">State corresponding to the node to check.</param>
         /// <param name="cycleManager">The cycle manager for this node type upon return. Null if none.</param>
         /// <returns>True if a cycle manager exists for the node.</returns>
-        public virtual bool IsMemberOfCycle(IFocusNodeState state, out FocusCycleManager cycleManager)
+        public virtual bool IsMemberOfCycle(IFocusNodeState state, out IFocusCycleManager cycleManager)
         {
             cycleManager = null;
 
+            /*
             List<Type> Interfaces = new List<Type>(state.Node.GetType().GetInterfaces());
 
             foreach (FocusCycleManager Item in CycleManagerList)
                 if (Interfaces.Contains(Item.InterfaceType))
+                    cycleManager = Item;
+            */
+
+            Type NodeType = state.Node.GetType();
+            foreach (IFocusCycleManager Item in CycleManagerList)
+                if (Item.InterfaceType.IsAssignableFrom(NodeType))
                     cycleManager = Item;
 
             return cycleManager != null;
@@ -106,7 +113,7 @@
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplaceWithCycle(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplaceWithCycle(operation);
-            FocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, cycleIndexList, cyclePosition, HandlerRedo, HandlerUndo, isNested: false);
+            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, cycleIndexList, cyclePosition, HandlerRedo, HandlerUndo, isNested: false);
 
             ExecuteReplaceWithCycle(Operation);
 
@@ -118,7 +125,7 @@
 
         private protected virtual void ExecuteReplaceWithCycle(IWriteableOperation operation)
         {
-            FocusReplaceWithCycleOperation ReplaceWithCycleOperation = (FocusReplaceWithCycleOperation)operation;
+            IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
 
             Node ParentNode = ReplaceWithCycleOperation.ParentNode;
             string PropertyName = ReplaceWithCycleOperation.PropertyName;
@@ -136,8 +143,8 @@
 
         private protected virtual void UndoReplaceWithCycle(IWriteableOperation operation)
         {
-            FocusReplaceWithCycleOperation ReplaceWithCycleOperation = (FocusReplaceWithCycleOperation)operation;
-            ReplaceWithCycleOperation = ReplaceWithCycleOperation.ToInverseReplace() as FocusReplaceWithCycleOperation;
+            IFocusReplaceWithCycleOperation ReplaceWithCycleOperation = (IFocusReplaceWithCycleOperation)operation;
+            ReplaceWithCycleOperation = ReplaceWithCycleOperation.ToInverseReplace() as IFocusReplaceWithCycleOperation;
 
             Node ParentNode = ReplaceWithCycleOperation.ParentNode;
             string PropertyName = ReplaceWithCycleOperation.PropertyName;
@@ -331,7 +338,7 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected override WriteableRemoveBlockOperation CreateRemoveBlockOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(Node parentNode, string propertyName, int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusRemoveBlockOperation(parentNode, propertyName, blockIndex, handlerRedo, handlerUndo, isNested);
@@ -509,7 +516,7 @@
         /// <summary>
         /// Creates a IxxxReplaceWithCycleOperation object.
         /// </summary>
-        private protected virtual FocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusController));
             return new FocusReplaceWithCycleOperation(parentNode, propertyName, blockIndex, index, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);

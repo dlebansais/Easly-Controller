@@ -92,7 +92,7 @@
         {
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
-            WriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, blockIndex, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, blockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -101,11 +101,11 @@
 
         private protected virtual void RedoRemoveBlock(IWriteableOperation operation)
         {
-            WriteableRemoveBlockOperation RemoveBlockOperation = (WriteableRemoveBlockOperation)operation;
+            IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
             ExecuteRemoveBlock(RemoveBlockOperation);
         }
 
-        private protected virtual void ExecuteRemoveBlock(WriteableRemoveBlockOperation operation)
+        private protected virtual void ExecuteRemoveBlock(IWriteableRemoveBlockOperation operation)
         {
             Node ParentNode = operation.ParentNode;
             string PropertyName = operation.PropertyName;
@@ -143,7 +143,7 @@
 
         private protected virtual void UndoRemoveBlock(IWriteableOperation operation)
         {
-            WriteableRemoveBlockOperation RemoveBlockOperation = (WriteableRemoveBlockOperation)operation;
+            IWriteableRemoveBlockOperation RemoveBlockOperation = (IWriteableRemoveBlockOperation)operation;
             IWriteableInsertBlockOperation InsertBlockOperation = RemoveBlockOperation.ToInsertBlockOperation();
 
             ExecuteInsertNewBlock(InsertBlockOperation);
@@ -262,7 +262,7 @@
                     OperationList.Add(OperationNode);
                 }
 
-                WriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, HandlerRedoBlock, HandlerUndoBlock, isNested: true);
+                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, HandlerRedoBlock, HandlerUndoBlock, isNested: true);
                 OperationList.Add(OperationBlock);
             }
 
@@ -408,7 +408,7 @@
 
             for (int i = firstNodeIndex; i < lastNodeIndex; i++)
             {
-                WriteableRemoveOperation Operation;
+                IWriteableRemoveOperation Operation;
 
                 if (DeletedCount < BlockState.StateList.Count || i + 1 < lastNodeIndex)
                     Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, firstNodeIndex, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);

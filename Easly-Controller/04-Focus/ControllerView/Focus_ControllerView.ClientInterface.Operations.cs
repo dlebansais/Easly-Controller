@@ -471,7 +471,7 @@
             while (CurrentState != null)
             {
                 if (CurrentState is IFocusCyclableNodeState AsCyclableNodeState)
-                    if (Controller.IsMemberOfCycle(AsCyclableNodeState, out FocusCycleManager CycleManager))
+                    if (Controller.IsMemberOfCycle(AsCyclableNodeState, out IFocusCycleManager CycleManager))
                     {
                         CycleManager.AddNodeToCycle(AsCyclableNodeState);
 

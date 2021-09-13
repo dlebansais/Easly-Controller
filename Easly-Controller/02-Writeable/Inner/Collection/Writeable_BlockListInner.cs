@@ -31,7 +31,7 @@
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed.</param>
-        void RemoveWithBlock(WriteableRemoveBlockOperation blockOperation);
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -97,7 +97,7 @@
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed.</param>
-        void RemoveWithBlock(WriteableRemoveBlockOperation blockOperation);
+        void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation);
 
         /// <summary>
         /// Changes the replication state of a block.
@@ -278,12 +278,12 @@
         /// Removes a node from a block list. This method is allowed to remove the last node of a block.
         /// </summary>
         /// <param name="blockOperation">Details of the operation performed.</param>
-        public virtual void RemoveWithBlock(WriteableRemoveBlockOperation blockOperation)
+        public virtual void RemoveWithBlock(IWriteableRemoveBlockOperation blockOperation)
         {
             Remove(blockOperation, null, blockOperation.BlockIndex, 0);
         }
 
-        private protected virtual void Remove(WriteableRemoveBlockOperation blockOperation, WriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
+        private protected virtual void Remove(IWriteableRemoveBlockOperation blockOperation, WriteableRemoveNodeOperation nodeOperation, int blockIndex, int index)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex < BlockStateList.Count);
 

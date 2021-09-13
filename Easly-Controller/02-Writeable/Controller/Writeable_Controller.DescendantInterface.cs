@@ -147,7 +147,7 @@
             BlockStateInsertedHandler?.Invoke(operation);
         }
 
-        private protected virtual void NotifyBlockStateRemoved(WriteableRemoveBlockOperation operation)
+        private protected virtual void NotifyBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             BlockStateRemovedHandler?.Invoke(operation);
         }

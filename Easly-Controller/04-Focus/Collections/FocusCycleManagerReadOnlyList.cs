@@ -3,7 +3,7 @@
     using System.Collections.ObjectModel;
 
     /// <inheritdoc/>
-    public class FocusCycleManagerReadOnlyList : ReadOnlyCollection<FocusCycleManager>
+    public class FocusCycleManagerReadOnlyList : ReadOnlyCollection<IFocusCycleManager>
     {
         /// <inheritdoc/>
         public FocusCycleManagerReadOnlyList(FocusCycleManagerList list)

@@ -101,23 +101,17 @@
 
             Debug.Assert(InterfaceType != null);
 
-            if (InterfaceType.IsInterface)
+            if (ItemType != null)
+                InsertType = ItemType;
+            else if (InterfaceType.IsInterface)
             {
                 Type EstimatedItemType = NodeTreeHelper.InterfaceTypeToNodeType(InterfaceType);
                 Debug.Assert(EstimatedItemType != null);
 
-                if (ItemType == null)
-                    InsertType = EstimatedItemType;
-                else
-                    InsertType = ItemType;
+                InsertType = EstimatedItemType;
             }
             else
-            {
-                if (ItemType == null)
-                    InsertType = nodeType;
-                else
-                    InsertType = ItemType;
-            }
+                InsertType = InterfaceType;
         }
 
         /// <summary>

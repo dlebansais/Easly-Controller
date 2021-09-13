@@ -41,11 +41,11 @@
         /// Handler called every time a block state is removed from the controller.
         /// </summary>
         /// <param name="operation">Details of the operation performed.</param>
-        private protected override void OnBlockStateRemoved(WriteableRemoveBlockOperation operation)
+        private protected override void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
             base.OnBlockStateRemoved(operation);
 
-            ILayoutBlockState BlockState = ((LayoutRemoveBlockOperation)operation).BlockState;
+            ILayoutBlockState BlockState = ((ILayoutRemoveBlockOperation)operation).BlockState;
 
             Debug.Assert(BlockState != null);
             Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
@@ -53,7 +53,7 @@
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.PatternState));
             Debug.Assert(!StateViewTable.ContainsKey(BlockState.SourceState));
 
-            ILayoutNodeState RemovedState = ((LayoutRemoveBlockOperation)operation).RemovedState;
+            ILayoutNodeState RemovedState = ((ILayoutRemoveBlockOperation)operation).RemovedState;
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
 
             Debug.Assert(BlockState.StateList.Count == 0);
