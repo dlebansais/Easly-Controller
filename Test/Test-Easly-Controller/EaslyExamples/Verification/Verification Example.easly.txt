@@ -1,0 +1,400 @@
+Mode=Default
+{BaseNode.Class, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{9e7a8fd0-7664-46a7-a0ad-b00d7c8363da};"easly.Classes";{BaseNode.BlockList`1[[BaseNode.ClassReplicate, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000;0x00000000;{BaseNode.BlockList`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000001;{BaseNode.BlockList`1[[BaseNode.Discrete, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Name, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Export, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Feature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{Easly.OptionalReference`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Generic, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Import, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Inheritance, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;False;{BaseNode.BlockList`1[[BaseNode.Typedef, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.ClassReplicate, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Discrete, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{b7261b43-1a42-4819-ad16-53df65375bec}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"Verification Example"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Export, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Feature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+True {BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Generic, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Import, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Inheritance, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Typedef, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{a6b066b3-e255-4120-b68c-768f24297194}0x00000000"";{0345a23e-2922-46a9-bbbf-5771d1c567a6}0x00000000"";{78314c00-02d9-4d4f-844b-3d4923e6181b}0x00000000"";{7fbfdd1f-4c7f-44ee-a120-67a26b6b3cd0}"";{0e54b2aa-de4d-4d7b-bfa5-3f8278f23c14}0x00000000"";{b358a3a0-73e5-497e-b7a6-49c6b83a4cbc}{BaseNode.Block`1[[BaseNode.Feature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"SSC Verification""";{f98325bf-a6de-4d46-a492-cccc802fb8ce}0x00000000"";{0478cbbf-2393-4d4f-954d-6f7b0c7155c9}{BaseNode.Block`1[[BaseNode.Import, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{fd537a42-087c-4fbc-9167-e68ea0cde20e}0x00000000"";{66a0f28a-0e91-45db-9917-c6dbc19835d9}0x00000000"";{8a6c8d46-2125-4aea-a1dc-2c805bf528f0}0x00000000{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Feature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *3
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{852ab1aa-22b2-4342-ac02-2d3a8e3062ad}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Import, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{941d432a-fc95-4f92-8f25-13d364b1a792}{BaseNode.AttributeFeature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.CreationFeature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ProcedureFeature, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{3fa5ba7b-0e58-47f1-a78d-b102624b1371}{BaseNode.Import, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Name, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.SimpleType, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Name, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Name, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{51fada64-ade1-41ea-9119-8a9590a2d45a}"";{c80bd123-f778-4d3c-973b-acaac421651a}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{Easly.OptionalReference`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Rename, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000"";{ac4cd120-b801-4f19-8959-6f68240adb50}"";{94c8538d-c6e3-4190-b2cb-30d6d84752f9}"";{6d7df76d-e285-439f-8a7f-9c884d3e3808}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x"{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"All""";{df115a02-dcaf-4526-9949-86d4eb30548d}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"make"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"All"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{88641b4f-3b53-4580-ba28-7ed5110ee3d6}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"Assign"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"All"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{f5a847b5-d617-424c-ae6e-5de42473b32d}False{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"Language"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Rename, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{cab14024-46c9-47ba-9893-fdda5be17f3a}0x00000000"";{4bb651b8-faab-4e01-8ab2-e34bdbc4b153}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"Number""";{d351e7a2-f89d-4079-af5f-2b11c0419c10}"";{af3945ae-c453-43e8-bdf8-4bac5c3758e6}"";{00295ad6-a4fa-40fb-a2b5-4a5aeb7d3f59}"";{d95ef2dc-208b-45e7-b3e8-aa92beabf4e1}"";{fee96d48-1328-4f89-9682-1cf7aced791c}{BaseNode.Block`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{811e1271-560e-49e5-a555-f87062517f5e}"";{9debc083-2bc5-4da6-8a31-81e9d3ed18f6}"";{b57d28d8-2927-4219-959b-d2ed7e532cd9}{BaseNode.Block`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{5c44c132-31c4-4b2a-866b-8a57b82b2c1b}"";{7a990f1c-1b36-47b9-8b7b-2ccafb72c852}0x00000000"";{8b644132-34af-4490-bd50-7e6cf2d68288}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{8e875b24-9423-407b-bf4b-026ed2df70e5}{BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{92dc4db6-bb78-4b53-a5f9-05e3e15a13fb}{BaseNode.CommandOverload, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.EffectiveBody, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000"";{6b5d348b-ed23-4b1b-a55d-fc5a4fc88ef8}"";{800f3750-a804-4b2a-abbf-eb9a8273871e}{BaseNode.EffectiveBody, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000"";{52dc186c-2421-4815-87d7-9439c67b2ead}"";{d7ae2d62-ba4f-49b4-9c44-73022ce023e7}{BaseNode.BlockList`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.ExceptionHandler, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{c296ec93-a490-4b25-aafa-5f4e3973c106}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+{BaseNode.BlockList`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.ExceptionHandler, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{d8a37bc8-2315-42ff-a503-160f7881d510}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{e7cd3fa6-2bc5-4ec4-b6f7-bb1ed10cf807}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.ExceptionHandler, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{f3557240-c2d8-404e-828e-9f0d7e1c6dcd}{BaseNode.Block`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{82fcff16-9945-49cf-b405-ab19b1db85a3}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.ExceptionHandler, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Assertion, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{9fd94e12-e310-49fa-a9fa-49ab2a7517a6}{BaseNode.Block`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{3b81844b-a15d-456d-890b-b9a41d8c3a57}{BaseNode.Block`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{27c47a88-e1ef-4829-b75a-55441909a4b8}0x00000000"";{09bee1dc-c995-4e84-b945-b10fe9bb4eb1}0x00000000"";{f95168df-b917-4fc5-a6c3-84bb7fc6eb9d}0x00000000"";{0d00b505-3838-4cb6-8ffa-ad0bf08d1b4b}0x00000000"";{a4fa5916-814a-484f-9a0e-9b37133f417b}0x00000000{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{5bec36d3-398b-4962-9436-334608224232}{BaseNode.Block`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{0f82b2e8-7d8b-4b7d-ac05-aa57ffe1464a}0x00000000"";{8a99b79e-4fa6-4956-9df1-5fc0ef0bfc68}0x00000000"";{307c0f5d-a83a-4bd8-8195-d1270f55c4da}0x00000000"";{0aad1d2e-8944-446a-8d7e-18f4deea7c47}0x00000000"";{e5485e69-0c12-4d8f-9f84-0cf786e5936b}0x00000000{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{66db9d9c-138d-42f0-9243-15bbf6cb5e6c}{BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{6e1c4cdc-1daf-43c8-b0c3-2ff232ef7329}{BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{4f56471d-425f-47a9-92c7-b751028e0f11}{BaseNode.IfThenElseInstruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{Easly.OptionalReference`1[[BaseNode.Expression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Name, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.SimpleType, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{38a76871-c871-486b-950c-ca89fccfa3e1}"";{f39adec2-c9c2-4779-9b2e-426349fddc2b}"";{3c5d2c44-1730-43b4-8421-aa8225e3061a}{BaseNode.AssignmentInstruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{Easly.OptionalReference`1[[BaseNode.Expression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Name, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.SimpleType, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{58d611be-c1fe-49ea-9c36-5f7d6ac9a2a9}"";{a59a0a1a-ddb1-42d7-8baf-e4993d849b41}{BaseNode.BlockList`1[[BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{Easly.OptionalReference`1[[BaseNode.Scope, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{8e080029-3ced-403f-8894-e702b6682ffb}"";{37012609-5e78-4bd5-9a31-eca04117abe9}False"";{c0f09d03-6e1c-44d6-a206-29196363b50f}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x†"{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000{BaseNode.BlockList`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QueryExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{7cf5ca0e-5010-4c48-8bce-47f473f1a7f3}"";{3ce001ec-5b4f-4c9a-af6f-7d804aa2cc42}False"";{d4b3c544-c910-4952-92d8-9c2a7a695e4e}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"New Value"{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{5f969707-9dae-4451-98e5-61bd771bc532}False"";{1f284b16-3c8e-4269-b125-3309822bdc71}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"Number""";{5e038c0c-ec6d-48d7-b3a2-780bbaa388ff}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{c06fe8f0-ebf8-4323-8032-21b1c6caf4ea}{BaseNode.BlockList`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{1debd344-e22e-4f36-a50f-ff1334223be8}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"Number""";{3c10f387-1824-49d5-bb2a-b514e0d15486}"";{2521167d-da8d-41a6-a81c-6a10755ab3de}{BaseNode.Block`1[[BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{7069b621-d8b6-46f2-826e-90b04331da39}"";{72f065ad-ec93-4927-b151-14db504f2cd6}{BaseNode.Block`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{646eec63-bbd9-4eb3-b734-443133dd966f}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{1bf86778-f922-428d-86a3-eedaf11b8d14}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *3
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{53003b6f-fa8c-4e1d-bc36-349d0f6a1fa2}0x00000000"";{c79be6b8-37ee-41d9-b952-e0dd5f9a9ace}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{4464d1ae-bec1-4eb5-9a0a-c3d834236240}{BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Conditional, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{cb36c39b-2a32-4f3d-979c-a2993bb67905}{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"New Value"{BaseNode.BinaryOperatorExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Scope, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.EqualityExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Scope, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.BinaryOperatorExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Scope, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{2e5a8c42-1924-4f1e-88ff-dd8c3e10255a}"";{62701889-4193-482d-8e5b-b85c2c17a216}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{de067525-5da0-4b75-b7ad-f50435d2c812}"";{5a47ede8-8d24-4b79-8031-83cf5b097f80}"";{fd1d8d0f-4ae8-43cd-af67-1c1bbdedc3ea}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QueryExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ManifestNumberExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{a3ca0ba0-232a-443d-a40f-5d4e573dfec5}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000000;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;0x00000000;{BaseNode.QueryExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ManifestNumberExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{d4bea6bd-141b-4963-bc50-66b314060010}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QueryExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ManifestNumberExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{137e1a0f-f445-4dcd-9e45-3bde4a8735c6}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.BlockList`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{759e1d4f-4e9f-449b-83cd-1bd415536697}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{cea5db08-1dfa-4f68-a791-2fa3914a36d0}{BaseNode.BlockList`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;">"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"0""";{06fbcd2a-34d0-4da0-b735-ba37ee06344a}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{72c57440-e3df-4e8b-b23d-1d6005cfc48e}{BaseNode.BlockList`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"0""";{d70fc867-0be3-47a1-9f21-b9adf6b7e791}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{6737e22f-1517-450f-b2ea-990247429ad7}{BaseNode.BlockList`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"<"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"0""";{321cb12b-e652-43cd-86fa-88a9459c01d5}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.EntityDeclaration, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{0b14ba69-b8a8-42bd-af25-f40caea82f9e}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{21bab5be-9c3e-4919-98b7-bd2fefb4a41b}"";{73efb75a-0b33-47c8-9679-a561959338ca}"";{03c38b3f-f4bd-4ea0-ab6f-ba98e398fe21}0x00000000"";{92150200-494c-4bad-b666-02cc7f620834}{BaseNode.Block`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{c6eb7454-e257-4179-ab12-c99da486aa05}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{95c213d3-d518-4aa2-852a-1f485dd5993e}"";{5c0d0f74-ac50-4cc1-982e-2eed43a5345c}0x00000000"";{c2ec89ae-2286-4f11-8c88-a1453a37fb63}{BaseNode.Block`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.Argument, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *0
+"";{ecc2c65b-bf1b-4bc6-9dde-aa3103f1914d}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{6ce70805-872c-4d4a-8609-2169288fba1c}"";{956d51d5-7314-4842-8fcc-2922135a0158}"";{546d772d-bb6a-40a2-a1d3-ba90044a4472}0x00000000"";{595d8cd9-6f9c-4b33-bb94-deabfb45a4dd}{BaseNode.Block`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{49ea8b51-486f-4395-9b37-1d29b51db942}"";{337247c9-3877-4d07-9054-148c2d51b6b6}0x00000000"";{a886c754-3119-4188-84dd-3f4baa381f3d}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{8e7098fe-095c-40e3-a559-e088ca934a84}0x00000000"";{82aecb3d-4e3e-4d92-ac1e-3e43ce85d4ef}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{7a99acb4-1dea-4050-b73a-fa4d7d6c1ad4}0x00000000"";{701de59d-ea63-437e-ae20-d501cc6e3d12}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Instruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x†""";{ad7229a9-f5fa-4eee-88aa-0c3ea1f00e32}{BaseNode.AssignmentInstruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x†""";{4c60758a-c737-41fe-bd2a-dc65f9555fca}{BaseNode.AssignmentInstruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x†""";{3e9d9763-392a-4904-8e3c-bdd92f760801}{BaseNode.AssignmentInstruction, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{01f445ca-701e-4db9-8338-eba3374337bf}{BaseNode.BlockList`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ManifestNumberExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{eea35074-afe2-4ec5-9f97-7edd63091e4c}"";{1c4c139d-c719-4325-a979-5116b4c78f89}"";{a196a1a5-600d-4308-9f25-548f5187cb77}{BaseNode.BlockList`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ManifestNumberExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{2bc4d68a-9273-4e63-af3a-7b8f4f624dbc}"";{36c31bc9-061e-4fcb-98f5-c8423df34e97}"";{5a0ff778-39f8-4ed4-aef0-620b77afabf2}{BaseNode.BlockList`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.UnaryOperatorExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{d4dd9e67-3083-4560-b21a-4e6fec1e9129}"";{03d7a7d1-00eb-463e-bba7-75b8f8375221}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{d95bd463-c9b1-460a-98b9-91e9f79f7aaf}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"1"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{28d2411b-eddc-4081-94b1-c43f905ac751}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"0"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.IBlock`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{22095ad8-97cf-4ee0-89b2-de789211367c}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.ManifestNumberExpression, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{e68d71b3-c0ce-49a3-8fa6-d480418da67f}{BaseNode.Block`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{f8ac1df8-b8d0-4ad0-88ef-7b77542de0d2}"";{84884e21-c91d-46d3-9869-69c2619e692f}{BaseNode.Block`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{059a27e2-86f5-48c1-b7de-6dfa93e8a2f2}"";{f456e8f1-5b75-4738-a6e8-db2d34addd7d}{BaseNode.Block`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{88faf775-b055-40df-a14d-79472b1f7e95}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"-"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"1"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+;0x00000000;{BaseNode.Pattern, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+"";{5f504def-da37-4246-98b8-aac69366f779}"";{10ac9f33-d320-43c6-8850-aa5ef64963c7}"";{aa75561e-e984-4233-8021-10a867f1ce60}{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{f655364f-056d-4bbd-9461-ed8fb2592df1}{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"""";{e3294829-fd5d-4607-861c-c4f594963c19}{BaseNode.QualifiedName, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;""{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{5560c7ba-39c2-425d-aed4-96a83b876304}"";{00e76de5-f915-4781-bf6b-5c0d4468cf2a}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{0df70652-0ae9-4e53-a2db-4a3085fc63b4}"";{4b21e2ef-9ebb-436e-8d43-d99fd80ece76}{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;{System.Collections.Generic.List`1[[BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e} *1
+"";{627f52d6-94e1-472b-9202-5a791a3de76d}"";{8c751886-f5a9-42a5-b4d0-9e2855ec7e97}"";{f97e231c-5dc9-4afe-a47b-981f2dc43151}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{2542a78e-ccf9-41d8-8690-7ed87afe5cf1}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004"";{47680fed-f1dc-49e7-a57b-e338ed7053b2}{BaseNode.Identifier, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+0x00000004{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x"{BaseNode.Document, Easly-Language, Version=1.0.5.4, Culture=neutral, PublicKeyToken=null}
+;"x""";{4e07564f-37a2-4f57-899e-f6dd7776a342}"";{6367c6b4-4499-46b9-b805-eed98ef5d79e}"";{f0be9eaf-694d-4a7e-af5f-e723f50142c2}

@@ -176,7 +176,7 @@
         {
             Debug.Assert(blockTemplateTable != null);
 
-            List<Type> BlockKeys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
+            IList<Type> BlockKeys = NodeHelper.GetNodeKeys();
 
             FrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
             foreach (Type Key in BlockKeys)
@@ -441,10 +441,10 @@
 
         private protected virtual FrameTemplateReadOnlyDictionary BuildDefaultBlockListTemplate()
         {
-            List<Type> Keys = new List<Type>(NodeHelper.CreateNodeDictionary<object>().Keys);
+            IList<Type> NodeKeys = NodeHelper.GetNodeKeys();
 
             FrameTemplateDictionary DefaultDictionary = CreateEmptyTemplateDictionary();
-            foreach (Type Key in Keys)
+            foreach (Type Key in NodeKeys)
                 AddBlockNodeTypes(DefaultDictionary, Key);
 
             FramePlaceholderFrame PatternFrame = (FramePlaceholderFrame)CreatePlaceholderFrame();
@@ -504,7 +504,13 @@
         private protected virtual FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
-            return new FrameTemplateDictionary(NodeHelper.CreateNodeDictionary<IFrameTemplate>());
+
+            IList<Type> NodeKeys = NodeHelper.GetNodeKeys();
+            IDictionary<Type, IFrameTemplate> Dictionary = new Dictionary<Type, IFrameTemplate>();
+            foreach (Type Key in NodeKeys)
+                Dictionary.Add(Key, default(IFrameTemplate));
+
+            return new FrameTemplateDictionary(Dictionary);
         }
 
         /// <summary>

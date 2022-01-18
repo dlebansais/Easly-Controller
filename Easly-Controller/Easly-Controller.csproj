@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net48;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net48;net6.0-windows7.0</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <LangVersion>9.0</LangVersion>
@@ -14,7 +14,7 @@
     <Product />
     <Description>Manage Easly source code</Description>
     <Copyright>Copyright © 2019 David Le Bansais</Copyright>
-    <AssemblyVersion>1.0.1.4785</AssemblyVersion>
+    <AssemblyVersion>1.0.1.4833</AssemblyVersion>
     <FileVersion>1.0.1.4270</FileVersion>
     <RepositoryUrl>https://github.com/dlebansais/Easly-Controller</RepositoryUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -32,12 +32,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="PolySerializer-Debug" Version="1.2.8" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-    <PackageReference Include="PolySerializer" Version="1.2.8" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
+    <PackageReference Include="PolySerializer-Debug" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <PackageReference Include="PolySerializer" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net48'">

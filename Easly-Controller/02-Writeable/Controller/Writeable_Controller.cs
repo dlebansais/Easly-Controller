@@ -64,7 +64,7 @@
         {
             bool IsValid = true;
 
-            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out Node ChildNode);
+            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out _, out Node ChildNode);
             if (IsAssigned)
             {
                 IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));
@@ -98,7 +98,7 @@
 
         private protected virtual bool IsNodeTreeBlockListValid(Node node, string propertyName)
         {
-            NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IReadOnlyList<NodeTreeBlock> ChildBlockList);
+            NodeTreeHelperBlockList.GetChildBlockList(node, propertyName, out IList<NodeTreeBlock> ChildBlockList);
             Debug.Assert(ChildBlockList != null);
 
             bool IsValid = true;

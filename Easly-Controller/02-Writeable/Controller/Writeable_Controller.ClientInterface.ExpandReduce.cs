@@ -99,7 +99,7 @@
             }
             else
             {
-                Node NewNode = NodeHelper.CreateDefaultFromInterface(optionalInner.InterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromType(optionalInner.InterfaceType);
                 Debug.Assert(NewNode != null);
 
                 IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
@@ -127,7 +127,7 @@
             if (!NodeHelper.IsCollectionWithExpand(blockListInner.Owner.Node, blockListInner.PropertyName))
                 return;
 
-            Node NewItem = NodeHelper.CreateDefaultFromInterface(blockListInner.InterfaceType);
+            Node NewItem = NodeHelper.CreateDefaultFromType(blockListInner.InterfaceType);
             Pattern NewPattern = NodeHelper.CreateEmptyPattern();
             Identifier NewSource = NodeHelper.CreateEmptyIdentifier();
             IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(blockListInner.Owner.Node, blockListInner.PropertyName, ReplicationStatus.Normal, NewPattern, NewSource);

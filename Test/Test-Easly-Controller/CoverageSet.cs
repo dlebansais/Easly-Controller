@@ -61,11 +61,8 @@ namespace Coverage
 
         private static Leaf CreateLeaf(Guid guid0)
         {
-            Leaf NewLeaf = new Leaf();
-
             BaseNode.Document NewLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("", guid0);
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(NewLeaf, NewLeafDocument);
-            BaseNodeHelper.NodeTreeHelper.SetString(NewLeaf, nameof(Leaf.Text), "leaf");
+            Leaf NewLeaf = new Leaf(NewLeafDocument, "leaf");
 
             return NewLeaf;
         }
@@ -74,13 +71,12 @@ namespace Coverage
         {
             Leaf Placeholder = CreateLeaf(Guid.NewGuid());
 
-            Tree TreeInstance = new Tree();
-
             BaseNode.Document TreeDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("tree doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(TreeInstance, TreeDocument);
+            Tree TreeInstance = new Tree(TreeDocument);
+
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(TreeInstance, nameof(Tree.Placeholder), Placeholder);
             BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(TreeInstance, nameof(Main.ValueBoolean), true);
-            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(TreeInstance, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Value);
+            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(TreeInstance, nameof(Main.ValueEnum), BaseNode.CopySemantic.Value);
             BaseNodeHelper.NodeTreeHelper.SetGuidProperty(TreeInstance, nameof(Main.ValueGuid), Guid.NewGuid());
 
             return TreeInstance;
@@ -95,22 +91,19 @@ namespace Coverage
 
             Leaf PlaceholderLeaf = CreateLeaf(imperfection == Imperfections.BadGuid ? MainGuid : LeafGuid0);
 
-            Leaf UnassignedOptionalLeaf = new Leaf();
-
             BaseNode.Document UnassignedOptionalLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("leaf doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(UnassignedOptionalLeaf, UnassignedOptionalLeafDocument);
-            BaseNodeHelper.NodeTreeHelper.SetString(UnassignedOptionalLeaf, nameof(Leaf.Text), "optional unassigned");
+            Leaf UnassignedOptionalLeaf = new Leaf(UnassignedOptionalLeafDocument, "optional unassigned");
 
-            Easly.OptionalReference<Leaf> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(UnassignedOptionalLeaf);
-            Easly.OptionalReference<Leaf> EmptyOptional = BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>();
+            Easly.IOptionalReference<Leaf> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(UnassignedOptionalLeaf);
+            Easly.IOptionalReference<Leaf> EmptyOptional = BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>();
 
             Leaf AssignedOptionalLeaf = CreateLeaf(Guid.NewGuid());
 
-            Easly.OptionalReference<Leaf> AssignedOptionalForLeaf = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(AssignedOptionalLeaf);
+            Easly.IOptionalReference<Leaf> AssignedOptionalForLeaf = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(AssignedOptionalLeaf);
             AssignedOptionalForLeaf.Assign();
 
             Tree AssignedOptionalTree = CreateTree();
-            Easly.OptionalReference<Tree> AssignedOptionalForTree = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Tree>(AssignedOptionalTree);
+            Easly.IOptionalReference<Tree> AssignedOptionalForTree = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Tree>(AssignedOptionalTree);
             AssignedOptionalForTree.Assign();
 
             Leaf FirstChild = CreateLeaf(Guid.NewGuid());
@@ -118,10 +111,10 @@ namespace Coverage
             Leaf ThirdChild = CreateLeaf(Guid.NewGuid());
             Leaf FourthChild = CreateLeaf(Guid.NewGuid());
 
-            BaseNode.Block<Leaf> SecondBlock = BaseNodeHelper.BlockListHelper.CreateBlock<Leaf>(new List<Leaf>() { SecondChild, ThirdChild });
-            BaseNode.Block<Leaf> ThirdBlock = BaseNodeHelper.BlockListHelper.CreateBlock<Leaf>(new List<Leaf>() { FourthChild });
+            BaseNode.IBlock<Leaf> SecondBlock = BaseNodeHelper.BlockListHelper.CreateBlock<Leaf>(new List<Leaf>() { SecondChild, ThirdChild });
+            BaseNode.IBlock<Leaf> ThirdBlock = BaseNodeHelper.BlockListHelper.CreateBlock<Leaf>(new List<Leaf>() { FourthChild });
 
-            BaseNode.BlockList<Leaf> LeafBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Leaf>(FirstChild);
+            BaseNode.IBlockList<Leaf> LeafBlocks = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Leaf>(FirstChild);
             LeafBlocks.NodeBlockList.Add(SecondBlock);
             LeafBlocks.NodeBlockList.Add(ThirdBlock);
             BaseNodeHelper.NodeTreeHelper.SetCommentText(SecondBlock.Documentation, "test");
@@ -133,10 +126,9 @@ namespace Coverage
             LeafPath.Add(FirstPath);
             LeafPath.Add(SecondPath);
 
-            Main Root = new Main();
-
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("main doc", MainGuid);
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(Root, RootDocument);
+            Main Root = new Main(RootDocument);
+
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderTree), PlaceholderTree);
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderLeaf), PlaceholderLeaf);
             BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(Root, nameof(Main.UnassignedOptionalLeaf), (Easly.IOptionalReference)UnassignedOptional);
@@ -146,7 +138,7 @@ namespace Coverage
             BaseNodeHelper.NodeTreeHelperBlockList.SetBlockList(Root, nameof(Main.LeafBlocks), (BaseNode.IBlockList)LeafBlocks);
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(Root, nameof(Main.LeafPath), (IList)LeafPath);
             BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(Root, nameof(Main.ValueBoolean), true);
-            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(Root, nameof(Main.ValueEnum), (int)BaseNode.CopySemantic.Value);
+            BaseNodeHelper.NodeTreeHelper.SetEnumProperty(Root, nameof(Main.ValueEnum), BaseNode.CopySemantic.Value);
             BaseNodeHelper.NodeTreeHelper.SetStringProperty(Root, nameof(Main.ValueString), "s");
             BaseNodeHelper.NodeTreeHelper.SetGuidProperty(Root, nameof(Main.ValueGuid), valueGuid);
 
@@ -179,7 +171,7 @@ namespace Coverage
             }
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.BadGuid);
-            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, assertValid: false));
+            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, throwOnInvalid: false));
 
             try
             {
@@ -310,7 +302,7 @@ namespace Coverage
                 Assert.That(!MainLeafBlocksInner.IsEmpty);
                 Assert.That(!MainLeafBlocksInner.IsSingle);
                 Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-                Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
+                Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
                 Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
                 Assert.That(MainLeafBlocksInner.Count == 4);
                 Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -560,7 +552,7 @@ namespace Coverage
             }
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.BadGuid);
-            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, assertValid: false));
+            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, throwOnInvalid: false));
 
             try
             {
@@ -672,7 +664,7 @@ namespace Coverage
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
             Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -2669,14 +2661,13 @@ namespace Coverage
 
             Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
             Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            Root RootNode = new Root();
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
-            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
+            Root RootNode = new Root(RootDocument);
+            BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
 
             Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
+            Easly.IOptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
             IList<Leaf> LeafPathH = new List<Leaf>();
             IList<Leaf> LeafPathV = new List<Leaf>();
@@ -3161,7 +3152,7 @@ namespace Coverage
             }
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.BadGuid);
-            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, assertValid: false));
+            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, throwOnInvalid: false));
 
             try
             {
@@ -3273,7 +3264,7 @@ namespace Coverage
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
             Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -5301,14 +5292,13 @@ namespace Coverage
 
             Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
             Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            Root RootNode = new Root();
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
-            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
+            Root RootNode = new Root(RootDocument);
+            BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
 
             Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
+            Easly.IOptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
             IList<Leaf> LeafPathH = new List<Leaf>();
             IList<Leaf> LeafPathV = new List<Leaf>();
@@ -6243,7 +6233,7 @@ namespace Coverage
             }
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.BadGuid);
-            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, assertValid: false));
+            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, throwOnInvalid: false));
 
             try
             {
@@ -6355,7 +6345,7 @@ namespace Coverage
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
             Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -7570,7 +7560,7 @@ namespace Coverage
                 BaseNode.CommandInstruction PropertyThirdInstruction = BaseNodeHelper.NodeHelper.CreateSimpleCommandInstruction("test?") as BaseNode.CommandInstruction;
                 List<BaseNode.Instruction> NodeList = new List<BaseNode.Instruction>();
                 NodeList.Add(PropertyThirdInstruction);
-                BaseNode.Block<BaseNode.Instruction> NewBlock = BaseNodeHelper.BlockListHelper.CreateBlock<BaseNode.Instruction>(NodeList);
+                BaseNode.IBlock<BaseNode.Instruction> NewBlock = BaseNodeHelper.BlockListHelper.CreateBlock<BaseNode.Instruction>(NodeList);
                 PropertyBody.BodyInstructionBlocks.NodeBlockList.Add(NewBlock);
 
                 RootIndex = new FocusRootNodeIndex(RootNode);
@@ -9560,15 +9550,14 @@ namespace Coverage
 
             Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
             Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            Root RootNode = new Root();
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
-            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
+            Root RootNode = new Root(RootDocument);
+            BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
             BaseNodeHelper.NodeTreeHelperBlockList.SetReplication((BaseNode.IBlock)MainBlocksV.NodeBlockList[0], BaseNode.ReplicationStatus.Replicated);
 
             Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
+            Easly.IOptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
             IList<Leaf> LeafPathH = new List<Leaf>();
             Leaf FirstLeafH = CreateLeaf(Guid.NewGuid());
@@ -11124,7 +11113,7 @@ namespace Coverage
             }
 
             RootNode = CreateRoot(ValueGuid0, Imperfections.BadGuid);
-            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, assertValid: false));
+            Assert.That(!BaseNodeHelper.NodeTreeDiagnostic.IsValid(RootNode, throwOnInvalid: false));
 
             try
             {
@@ -11236,7 +11225,7 @@ namespace Coverage
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
             Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.Block<Leaf>));
+            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
             Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
@@ -14546,15 +14535,14 @@ namespace Coverage
 
             Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
             Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            Root RootNode = new Root();
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
-            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
-            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
+            Root RootNode = new Root(RootDocument);
+            BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
+            BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);
             BaseNodeHelper.NodeTreeHelperBlockList.SetReplication((BaseNode.IBlock)MainBlocksV.NodeBlockList[0], BaseNode.ReplicationStatus.Replicated);
 
             Main UnassignedOptionalMain = CreateRoot(ValueGuid2, Imperfections.None);
-            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
+            Easly.IOptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
             IList<Leaf> LeafPathH = new List<Leaf>();
             Leaf FirstLeafH = CreateLeaf(Guid.NewGuid());
@@ -14731,24 +14719,23 @@ namespace Coverage
             ControllerTools.ResetExpectedName();
             bool IsMoved;
 
-            Root RootNode = new Root();
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
+            Root RootNode = new Root(RootDocument);
 
-            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
-            BaseNode.Block<Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid0, Imperfections.None) });
-            BaseNode.Block<Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
+            BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.IBlock<Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid0, Imperfections.None) });
+            BaseNode.IBlock<Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
             MainBlocksH.NodeBlockList.Add(BlockH1);
             MainBlocksH.NodeBlockList.Add(BlockH2);
 
-            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
-            BaseNode.Block<Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid3, Imperfections.None) });
-            BaseNode.Block<Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
+            BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.IBlock<Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid3, Imperfections.None) });
+            BaseNode.IBlock<Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
             MainBlocksV.NodeBlockList.Add(BlockV1);
             MainBlocksV.NodeBlockList.Add(BlockV2);
 
             Main UnassignedOptionalMain = CreateRoot(ValueGuid6, Imperfections.None);
-            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
+            Easly.IOptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
             IList<Leaf> LeafPathH = new List<Leaf>();
             LeafPathH.Add(CreateLeaf(Guid.NewGuid()));
@@ -14882,24 +14869,23 @@ namespace Coverage
             ControllerTools.ResetExpectedName();
             bool IsMoved;
 
-            Root RootNode = new Root();
             BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
-            BaseNodeHelper.NodeTreeHelper.SetDocumentation(RootNode, RootDocument);
+            Root RootNode = new Root(RootDocument);
 
-            BaseNode.BlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
-            BaseNode.Block<Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid0, Imperfections.None) });
-            BaseNode.Block<Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
+            BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.IBlock<Main> BlockH1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid0, Imperfections.None) });
+            BaseNode.IBlock<Main> BlockH2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid1, Imperfections.None), CreateRoot(ValueGuid2, Imperfections.None) });
             MainBlocksH.NodeBlockList.Add(BlockH1);
             MainBlocksH.NodeBlockList.Add(BlockH2);
 
-            BaseNode.BlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
-            BaseNode.Block<Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid3, Imperfections.None) });
-            BaseNode.Block<Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
+            BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateEmptyBlockList<Main>();
+            BaseNode.IBlock<Main> BlockV1 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid3, Imperfections.None) });
+            BaseNode.IBlock<Main> BlockV2 = BaseNodeHelper.BlockListHelper.CreateBlock<Main>(new List<Main>() { CreateRoot(ValueGuid4, Imperfections.None), CreateRoot(ValueGuid5, Imperfections.None) });
             MainBlocksV.NodeBlockList.Add(BlockV1);
             MainBlocksV.NodeBlockList.Add(BlockV2);
 
             Main UnassignedOptionalMain = CreateRoot(ValueGuid6, Imperfections.None);
-            Easly.OptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
+            Easly.IOptionalReference<Main> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Main>(UnassignedOptionalMain);
 
             IList<Leaf> LeafPathH = new List<Leaf>();
             LeafPathH.Add(CreateLeaf(Guid.NewGuid()));

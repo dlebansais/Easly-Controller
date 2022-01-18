@@ -159,7 +159,7 @@
 
                 if (BlockList.Count > 0)
                 {
-                    NodeTreeHelperBlockList.GetBlockType(BlockList[0], /*out Type ChildInterfaceType,*/ out Type ChildItemType);
+                    NodeTreeHelperBlockList.GetBlockItemType(BlockList[0], out Type ChildItemType);
 
                     // IsAssignable = ParentInner.InterfaceType.IsAssignableFrom(ChildInterfaceType);
                     IsAssignable = ParentInner.InterfaceType.IsAssignableFrom(ChildItemType);

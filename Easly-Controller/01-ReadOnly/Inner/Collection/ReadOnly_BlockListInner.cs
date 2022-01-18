@@ -221,7 +221,7 @@
         public bool IsSingle { get { return BlockStateList.Count == 1 && BlockStateList[0].StateList.Count == 1; } }
 
         /// <inheritdoc/>
-        public override Type InterfaceType { get { return NodeTreeHelperBlockList.BlockListInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperBlockList.BlockListItemType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// Block type for all blocks in the inner.

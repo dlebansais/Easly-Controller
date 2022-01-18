@@ -44,7 +44,9 @@
             : base(parentNode, propertyName, node)
         {
             Debug.Assert(blockIndex >= 0);
-            Debug.Assert(NodeTreeHelperBlockList.GetLastBlockIndex(parentNode, propertyName, out int LastBlockIndex) && blockIndex <= LastBlockIndex);
+
+            NodeTreeHelperBlockList.GetLastBlockIndex(parentNode, propertyName, out int LastBlockIndex);
+            Debug.Assert(blockIndex <= LastBlockIndex);
             Debug.Assert(patternNode != null);
             Debug.Assert(sourceNode != null);
 

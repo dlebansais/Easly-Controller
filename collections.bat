@@ -187,8 +187,8 @@ cd C:\Projects\Easly-Controller\Easly-Controller\05-Layout\Collections
 %GEN% ReadOnlyList EaslyController.Layout ILayoutTemplate EaslyController.Focus.IFocusTemplate EaslyController.Frame.IFrameTemplate
 %GEN% List EaslyController.Layout ILayoutVisibleCellView EaslyController.Focus.IFocusVisibleCellView EaslyController.Frame.IFrameVisibleCellView
 %GEN% ReadOnlyList EaslyController.Layout ILayoutVisibleCellView EaslyController.Focus.IFocusVisibleCellView EaslyController.Frame.IFrameVisibleCellView
-%GEN% List EaslyController.Layout ILayoutCycleManager EaslyController.Focus.FocusCycleManager
-%GEN% ReadOnlyList EaslyController.Layout ILayoutCycleManager EaslyController.Focus.FocusCycleManager
+%GEN% List EaslyController.Layout ILayoutCycleManager EaslyController.Focus.IFocusCycleManager
+%GEN% ReadOnlyList EaslyController.Layout ILayoutCycleManager EaslyController.Focus.IFocusCycleManager
 %GEN% List EaslyController.Layout ILayoutFocus EaslyController.Focus.IFocusFocus
 %GEN% ReadOnlyList EaslyController.Layout ILayoutFocus EaslyController.Focus.IFocusFocus
 %GEN% List EaslyController.Layout IEqualComparable ILayoutFrameSelector EaslyController.Focus.IFocusFrameSelector

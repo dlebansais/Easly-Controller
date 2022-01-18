@@ -57,7 +57,8 @@
         /// </summary>
         public virtual void MoveUp()
         {
-            Debug.Assert(NodeTreeHelperBlockList.GetLastBlockChildIndex(ParentNode, PropertyName, BlockIndex, out int LastIndex) && Index + 1 < LastIndex);
+            NodeTreeHelperBlockList.GetLastBlockChildIndex(ParentNode, PropertyName, BlockIndex, out int LastIndex);
+            Debug.Assert(Index + 1 < LastIndex);
 
             Index++;
         }
@@ -77,7 +78,8 @@
         /// </summary>
         public virtual void MoveBlockUp()
         {
-            Debug.Assert(NodeTreeHelperBlockList.GetLastBlockIndex(ParentNode, PropertyName, out int LastBlockIndex) && BlockIndex + 1 < LastBlockIndex);
+            NodeTreeHelperBlockList.GetLastBlockIndex(ParentNode, PropertyName, out int LastBlockIndex);
+            Debug.Assert(BlockIndex + 1 < LastBlockIndex);
 
             BlockIndex++;
         }

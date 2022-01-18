@@ -41,7 +41,7 @@
             bool IsValid = true;
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
-            IsValid &= !string.IsNullOrEmpty(PropertyName) && NodeTreeHelper.GetPropertyOf(nodeType, PropertyName) != null;
+            IsValid &= !string.IsNullOrEmpty(PropertyName) && NodeTreeHelper.IsProperty(nodeType, PropertyName);
 
             Debug.Assert(IsValid);
             return IsValid;

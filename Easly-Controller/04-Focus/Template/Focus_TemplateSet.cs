@@ -190,7 +190,13 @@
         private protected override FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(FocusTemplateSet));
-            return new FocusTemplateDictionary(NodeHelper.CreateNodeDictionary<IFocusTemplate>());
+
+            IList<Type> NodeKeys = NodeHelper.GetNodeKeys();
+            IDictionary<Type, IFocusTemplate> Dictionary = new Dictionary<Type, IFocusTemplate>();
+            foreach (Type Key in NodeKeys)
+                Dictionary.Add(Key, default(IFocusTemplate));
+
+            return new FocusTemplateDictionary(Dictionary);
         }
 
         /// <summary>

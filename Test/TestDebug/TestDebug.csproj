@@ -8,7 +8,7 @@
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
-    <AssemblyVersion>1.0.1.4810</AssemblyVersion>
+    <AssemblyVersion>1.0.1.4833</AssemblyVersion>
     <FileVersion>1.0.0.214</FileVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -38,6 +38,9 @@
     </Reference>
     <Reference Include="Easly-Language-Helper">
       <HintPath>..\..\..\Easly-Language\Easly-Language-Helper\bin\x64\Debug\$(TargetFramework)\Easly-Language-Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="PolySerializer">
+      <HintPath>..\..\..\PolySerializer\PolySerializer\bin\x64\Debug\$(TargetFramework)\PolySerializer.dll</HintPath>
     </Reference>
   </ItemGroup>
 

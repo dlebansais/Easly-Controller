@@ -32,16 +32,16 @@
             ExportStatus Export = ExportStatus.Exported;
             Name EntityName = null;
             ObjectType EntityType = null;
-            BlockList<Assertion> EnsureBlocks = null;
+            IBlockList<Assertion> EnsureBlocks = null;
             Expression ConstantValue = null;
-            BlockList<CommandOverload> CommandOverloadBlocks = null;
+            IBlockList<CommandOverload> CommandOverloadBlocks = null;
             OnceChoice Once = OnceChoice.Normal;
-            BlockList<QueryOverload> QueryOverloadBlocks = null;
+            IBlockList<QueryOverload> QueryOverloadBlocks = null;
             UtilityType PropertyKind = UtilityType.ReadWrite;
-            BlockList<Identifier> ModifiedQueryBlocks = null;
-            OptionalReference<Body> GetterBody = null;
-            OptionalReference<Body> SetterBody = null;
-            BlockList<EntityDeclaration> IndexParameterBlocks = null;
+            IBlockList<Identifier> ModifiedQueryBlocks = null;
+            IOptionalReference<Body> GetterBody = null;
+            IOptionalReference<Body> SetterBody = null;
+            IBlockList<EntityDeclaration> IndexParameterBlocks = null;
             ParameterEndStatus ParameterEnd = ParameterEndStatus.Closed;
 
             List<Type> FeatureTypeList = new List<Type>() { typeof(AttributeFeature), typeof(ConstantFeature), typeof(CreationFeature), typeof(FunctionFeature), typeof(ProcedureFeature), typeof(PropertyFeature), typeof(IndexerFeature) };

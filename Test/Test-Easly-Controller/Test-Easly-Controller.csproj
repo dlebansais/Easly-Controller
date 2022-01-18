@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
-    <Nullable>disable</Nullable>
+	<TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+	<Nullable>disable</Nullable>
     <Platforms>x64</Platforms>
     <RootNamespace>TestEaslyController</RootNamespace>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -11,20 +11,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.13.2">
-        <NoWarn>NU1701</NoWarn>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="WindowsBase" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="PolySerializer-Debug" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+	<PackageReference Include="PolySerializer" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
   </ItemGroup>
 
   <ItemGroup>

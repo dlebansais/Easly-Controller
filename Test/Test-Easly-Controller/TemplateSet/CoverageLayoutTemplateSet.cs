@@ -3406,7 +3406,7 @@ namespace TestDebug
     xmlns:easly=""clr-namespace:BaseNode;assembly=Easly-Language""
     xmlns:cov=""clr-namespace:Coverage;assembly=Test-Easly-Controller""
     xmlns:const=""clr-namespace:EaslyController.Constants;assembly=Easly-Controller"">
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,cov:Leaf}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Leaf}"">
         <LayoutHorizontalPanelFrame HasBlockGeometry=""True"">
             <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
@@ -3431,7 +3431,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,cov:Tree}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Tree}"">
         <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutCommentFrame/>
             <LayoutHorizontalPanelFrame>
@@ -3460,7 +3460,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,cov:Main}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,cov:Main}"">
         <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutCommentFrame/>
             <LayoutVerticalPanelFrame>
@@ -3485,7 +3485,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Argument}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Argument}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3509,7 +3509,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Assertion}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Assertion}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3533,7 +3533,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:AssignmentArgument}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:AssignmentArgument}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3557,7 +3557,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Attachment}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Attachment}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3581,7 +3581,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Class}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Class}"">
         <LayoutVerticalPanelFrame HasBlockGeometry=""True"">
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3605,7 +3605,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:ClassReplicate}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ClassReplicate}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3629,7 +3629,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:CommandOverload}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:CommandOverload}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3653,7 +3653,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:CommandOverloadType}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:CommandOverloadType}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3677,7 +3677,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Conditional}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Conditional}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3701,7 +3701,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Constraint}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Constraint}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3725,7 +3725,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Continuation}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Continuation}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3749,7 +3749,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Discrete}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Discrete}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3773,7 +3773,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:EntityDeclaration}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:EntityDeclaration}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3797,7 +3797,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:ExceptionHandler}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ExceptionHandler}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3821,7 +3821,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Export}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Export}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3845,7 +3845,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:ExportChange}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ExportChange}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3869,7 +3869,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Feature}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Feature}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3893,7 +3893,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Generic}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Generic}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3917,7 +3917,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Identifier}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Identifier}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3945,7 +3945,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Import}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Import}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3969,7 +3969,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Inheritance}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Inheritance}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -3993,7 +3993,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Instruction}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Instruction}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4017,7 +4017,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Library}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Library}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4041,7 +4041,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Name}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Name}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4065,7 +4065,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:ObjectType}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:ObjectType}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4089,7 +4089,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Pattern}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Pattern}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4113,7 +4113,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:QualifiedName}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:QualifiedName}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4137,7 +4137,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:QueryOverload}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:QueryOverload}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4161,7 +4161,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:QueryOverloadType}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:QueryOverloadType}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4185,7 +4185,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Range}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Range}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4209,7 +4209,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Rename}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Rename}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4233,7 +4233,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:TypeArgument}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:TypeArgument}"">
         <LayoutHorizontalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4257,7 +4257,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutHorizontalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:Typedef}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:Typedef}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>
@@ -4281,7 +4281,7 @@ namespace TestDebug
             </LayoutKeywordFrame>
         </LayoutVerticalPanelFrame>
     </LayoutBlockTemplate>
-    <LayoutBlockTemplate NodeType=""{xaml:Type easly:Block,easly:With}"">
+    <LayoutBlockTemplate NodeType=""{xaml:Type easly:IBlock,easly:With}"">
         <LayoutVerticalPanelFrame>
             <LayoutHorizontalPanelFrame>
                 <LayoutHorizontalPanelFrame.BlockVisibility>

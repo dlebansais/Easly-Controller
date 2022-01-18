@@ -17,6 +17,7 @@ using EaslyController.Focus;
 using TestDebug;
 using EaslyController.Layout;
 using EaslyEdit;
+using System.Text;
 
 namespace Test
 {
@@ -53,24 +54,67 @@ namespace Test
 
             FileNameTable = new List<string>();
             FirstRootNode = null;
+
+//#if ADDEASLYFILES
             AddEaslyFiles(RootPath);
+//#endif
         }
 
         static void AddEaslyFiles(string path)
         {
-            foreach (string FileName in Directory.GetFiles(path, "*.easly"))
+            foreach (string FileName in Directory.GetFiles(path, "*.easly.txt"))
             {
                 FileNameTable.Add(FileName.Replace("\\", "/"));
 
-                if (FirstRootNode == null)
+                using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
                 {
-                    using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
-                    {
-                        Serializer Serializer = new Serializer();
-                        Node RootNode = (Node)Serializer.Deserialize(fs);
+                    using StreamReader Reader = new StreamReader(fs, Encoding.UTF8);
+                    string Content = Reader.ReadToEnd();
+                    int l1 = Content.Length;
 
-                        FirstRootNode = RootNode;
+                    Content = Content.Replace("System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+
+                    int l2 = Content.Length;
+
+                    using MemoryStream ms = new MemoryStream();
+                    using StreamWriter Writer = new StreamWriter(ms, Encoding.UTF8);
+                    Writer.Write(Content);
+                    Writer.Flush();
+                    ms.Seek(0, SeekOrigin.Begin);
+
+                    Serializer Serializer = new Serializer();
+                    Node RootNode;
+
+                    RootNode = (Node)Serializer.Deserialize(ms);
+
+                    using MemoryStream ms2 = new MemoryStream();
+                    Serializer Serializer2 = new Serializer();
+                    Serializer2.Format = SerializationFormat.TextOnly;
+                    Serializer2.Serialize(ms2, RootNode);
+                    ms2.Seek(0, SeekOrigin.Begin);
+
+                    using StreamReader Reader2 = new StreamReader(ms2);
+                    string Content2 = Reader2.ReadToEnd();
+
+                    int i = 0;
+                    while (Content.Length > i && Content2.Length > i && Content[i] == Content2[i])
+                        i++;
+
+                    string ContentBase = Content.Substring(0, i);
+                    Content = Content.Substring(i);
+                    Content2 = Content2.Substring(i);
+
+                    System.Diagnostics.Debug.Assert(Content.Length == 0 && Content2.Length == 0);
+
+                    if (Content.Length > 0 || Content2.Length > 0)
+                    {
+                        int Percent = (int)(100 * (double)ContentBase.Length / (double)(Content.Length + ContentBase.Length));
+                        System.Diagnostics.Debug.WriteLine($"{FileName}: {Percent}%");
+
                     }
+
+                    if (FirstRootNode == null)
+                        FirstRootNode = RootNode;
                 }
             }
 
@@ -102,12 +146,12 @@ namespace Test
 
         static List<string> FileNameTable;
         static Node FirstRootNode;
-        #endregion
+#endregion
 
         static bool TestOff = false;
         const int TestRepeatCount = 5;
 
-        #region Sanity Check
+#region Sanity Check
         [Test]
         public static void TestInit()
         {
@@ -130,10 +174,10 @@ namespace Test
                 Assert.That(Controller.IndexToState(RootIndex) == Controller.RootState, "Sanity Check #5");
             }
         }
-        #endregion
+#endregion
 
-        #region ReadOnly
-        #if READONLY
+#region ReadOnly
+#if READONLY
         [Test]
         [TestCaseSource(nameof(FileIndexRange))]
         public static void ReadOnly(int index)
@@ -164,7 +208,7 @@ namespace Test
                 throw new ArgumentOutOfRangeException($"{n} / {FileNameTable.Count}");
             TestReadOnly(index, Name, RootNode);
         }
-        #endif
+#endif
 
         public static void TestReadOnly(int index, string name, Node rootNode)
         {
@@ -254,7 +298,7 @@ namespace Test
                 {
                     stats.OptionalNodeCount++;
 
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
                     if (IsAssigned)
                     {
                         stats.AssignedOptionalNodeCount++;
@@ -338,10 +382,10 @@ namespace Test
                 }
             }
         }
-        #endregion
+#endregion
 
-        #region Views
-        #if VIEWS
+#region Views
+#if VIEWS
         [Test]
         [TestCaseSource(nameof(FileIndexRange))]
         public static void StateViews(int index)
@@ -372,7 +416,7 @@ namespace Test
                 throw new ArgumentOutOfRangeException($"{n} / {FileNameTable.Count}");
             TestStateView(index, RootNode);
         }
-        #endif
+#endif
 
         public static void TestStateView(int index, Node rootNode)
         {
@@ -397,10 +441,10 @@ namespace Test
             ReadOnlyControllerView ControllerView2 = ReadOnlyControllerView.Create(Controller);
             Assert.That(ControllerView2.IsEqual(CompareEqual.New(), ControllerView), $"Views #4");
         }
-        #endregion
+#endregion
 
-        #region Writeable
-        #if WRITEABLE
+#region Writeable
+#if WRITEABLE
         [Test]
         [TestCaseSource(nameof(FileIndexRange))]
         public static void Writeable(int index)
@@ -431,7 +475,7 @@ namespace Test
                 throw new ArgumentOutOfRangeException($"{n} / {FileNameTable.Count}");
             TestWriteable(index, Name, RootNode);
         }
-        #endif
+#endif
         public static void TestWriteable(int index, string name, Node rootNode)
         {
             ControllerTools.ResetExpectedName();
@@ -1171,7 +1215,7 @@ namespace Test
                 IWriteableOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 IWriteableInsertionOptionalNodeIndex NodeIndex = new WriteableInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -1729,7 +1773,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IWriteablePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -1799,7 +1843,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IWriteablePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -1916,7 +1960,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IWriteableOptionalInner Inner = (IWriteableOptionalInner)State.PropertyToInner(PropertyName);
@@ -2023,7 +2067,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IWriteableOptionalInner Inner = (IWriteableOptionalInner)State.PropertyToInner(PropertyName);
@@ -2073,9 +2117,9 @@ namespace Test
 
             return true;
         }
-        #endregion
+#endregion
 
-        #region Frame
+#region Frame
 #if FRAME
         [Test]
         [TestCaseSource(nameof(FileIndexRange))]
@@ -2634,7 +2678,7 @@ namespace Test
                 IFrameOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 IFrameInsertionOptionalNodeIndex NodeIndex = new FrameInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -3619,7 +3663,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFramePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -3689,7 +3733,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFramePlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -3773,7 +3817,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IFrameOptionalInner Inner = (IFrameOptionalInner)State.PropertyToInner(PropertyName);
@@ -3835,9 +3879,9 @@ namespace Test
             cellViewList.Add(cellview);
             return false;
         }
-        #endregion
+#endregion
 
-        #region Focus
+#region Focus
 #if FOCUS
         [Test]
         [TestCaseSource(nameof(FileIndexRange))]
@@ -4396,7 +4440,7 @@ namespace Test
                 IFocusOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 IFocusInsertionOptionalNodeIndex NodeIndex = new FocusInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -5394,7 +5438,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFocusPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -5466,7 +5510,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as IFocusPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -5930,7 +5974,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IFocusOptionalInner Inner = (IFocusOptionalInner)State.PropertyToInner(PropertyName);
@@ -5995,9 +6039,9 @@ namespace Test
             int Direction = MinFocusMove + RandNext(MaxFocusMove - MinFocusMove + 1);
             controllerView.MoveFocus(Direction, true, out bool IsMoved);
         }
-        #endregion
+#endregion
 
-        #region Layout
+#region Layout
 #if LAYOUT
         [Test]
         [TestCaseSource(nameof(FileIndexRange))]
@@ -6557,7 +6601,7 @@ namespace Test
                 ILayoutOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
                 Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
-                Node NewNode = NodeHelper.CreateDefaultFromInterface(NodeInterfaceType);
+                Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
                 ILayoutInsertionOptionalNodeIndex NodeIndex = new LayoutInsertionOptionalNodeIndex(AsOptionalInner.Owner.Node, AsOptionalInner.PropertyName, NewNode);
@@ -7555,7 +7599,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as ILayoutPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -7627,7 +7671,7 @@ namespace Test
                 State = Controller.IndexToState(NodeIndex) as ILayoutPlaceholderNodeState;
                 Assert.That(State != null);
 
-                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, BlockList<Argument>> ArgumentBlocksTable);
+                NodeTreeHelper.GetArgumentBlocks(State.Node, out IDictionary<string, IBlockList<Argument>> ArgumentBlocksTable);
                 if (ArgumentBlocksTable.Count == 0)
                     return true;
             }
@@ -8096,7 +8140,7 @@ namespace Test
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
                     if (IsAssigned)
                     {
                         ILayoutOptionalInner Inner = (ILayoutOptionalInner)State.PropertyToInner(PropertyName);
@@ -8161,6 +8205,6 @@ namespace Test
             int Direction = MinFocusMove + RandNext(MaxFocusMove - MinFocusMove + 1);
             controllerView.MoveFocus(Direction, true, out bool IsMoved);
         }
-        #endregion
+#endregion
     }
 }

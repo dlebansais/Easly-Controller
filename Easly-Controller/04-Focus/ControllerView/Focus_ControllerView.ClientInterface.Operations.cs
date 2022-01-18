@@ -54,7 +54,7 @@
 
             // Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(InsertType);
             //Node NewItem = NodeHelper.CreateDefaultFromInterface(InterfaceType);
-            Node NewItem = NodeHelper.CreateDefaultFromInterface(InsertType);
+            Node NewItem = NodeHelper.CreateDefaultFromType(InsertType);
 
             IFocusCollectionInner CollectionInner = null;
             frame.CollectionNameToInner(ref state, ref CollectionInner);
@@ -128,7 +128,7 @@
                 case IFocusListInner AsListInner:
                     if (IsDeepestList(state))
                     {
-                        NewItem = NodeHelper.CreateDefaultFromInterface(AsListInner.InterfaceType);
+                        NewItem = NodeHelper.CreateDefaultFromType(AsListInner.InterfaceType);
                         ItemPosition = (state.ParentIndex as IFocusBrowsingListNodeIndex).Index;
 
                         inner = AsListInner;
@@ -142,7 +142,7 @@
                     break;
 
                 case IFocusBlockListInner AsBlockListInner:
-                    NewItem = NodeHelper.CreateDefaultFromInterface(AsBlockListInner.InterfaceType);
+                    NewItem = NodeHelper.CreateDefaultFromType(AsBlockListInner.InterfaceType);
                     BlockPosition = (state.ParentIndex as IFocusBrowsingExistingBlockNodeIndex).BlockIndex;
                     ItemPosition = (state.ParentIndex as IFocusBrowsingExistingBlockNodeIndex).Index;
 

@@ -37,7 +37,9 @@
             : base(parentNode, propertyName, node)
         {
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelperList.GetLastListIndex(parentNode, propertyName, out int LastIndex) && index <= LastIndex);
+
+            NodeTreeHelperList.GetLastListIndex(parentNode, propertyName, out int LastIndex);
+            Debug.Assert(index <= LastIndex);
 
             Index = index;
         }
@@ -65,7 +67,8 @@
         /// </summary>
         public virtual void MoveUp()
         {
-            Debug.Assert(NodeTreeHelperList.GetLastListIndex(ParentNode, PropertyName, out int LastIndex) && Index < LastIndex);
+            NodeTreeHelperList.GetLastListIndex(ParentNode, PropertyName, out int LastIndex);
+            Debug.Assert(Index < LastIndex);
 
             Index++;
         }

@@ -1,8 +1,15 @@
+using BaseNode;
+
 namespace Coverage
 {
     [System.Serializable]
-    public class Tree : BaseNode.Node
+    public class Tree : Node
     {
+        public Tree(Document documentation)
+            : base(documentation)
+        {
+        }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public virtual Leaf Placeholder { get; set; }
         public virtual bool ValueBoolean { get; set; }

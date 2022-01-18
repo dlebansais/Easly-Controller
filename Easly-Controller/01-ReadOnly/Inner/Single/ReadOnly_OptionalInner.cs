@@ -82,7 +82,7 @@
 
         #region Properties
         /// <inheritdoc/>
-        public override Type InterfaceType { get { return NodeTreeHelperOptional.OptionalChildInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperOptional.OptionalItemType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// True if the optional node is provided.

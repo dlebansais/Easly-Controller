@@ -202,7 +202,7 @@
                 Node ChildNode;
                 Type /*ChildInterfaceType,*/ ChildNodeType;
                 IReadOnlyList<Node> ChildNodeList;
-                IReadOnlyList<NodeTreeBlock> ChildBlockList;
+                IList<NodeTreeBlock> ChildBlockList;
                 bool IsHandled = false;
 
                 if (NodeTreeHelperChild.IsChildNodeProperty(node, PropertyName, out ChildNodeType))
@@ -296,7 +296,7 @@
             return CreateListIndexCollection(browseNodeContext, propertyName, NodeIndexList);
         }
 
-        private protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, IReadOnlyList<NodeTreeBlock> childBlockList)
+        private protected virtual IReadOnlyIndexCollection BrowseNodeBlockList(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, IList<NodeTreeBlock> childBlockList)
         {
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 

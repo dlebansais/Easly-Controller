@@ -113,7 +113,7 @@
         public override bool IsNeverEmpty { get { return NodeHelper.IsCollectionNeverEmpty(Owner.Node, PropertyName); } }
 
         /// <inheritdoc/>
-        public override Type InterfaceType { get { return NodeTreeHelperList.ListInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperList.ListItemType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// States of nodes in the list.

@@ -72,7 +72,7 @@
 
         #region Properties
         /// <inheritdoc/>
-        public override Type InterfaceType { get { return NodeTreeHelperChild.ChildInterfaceType(Owner.Node, PropertyName); } }
+        public override Type InterfaceType { get { return NodeTreeHelperChild.ChildNodeType(Owner.Node, PropertyName); } }
 
         /// <summary>
         /// The state of the child node.

@@ -28,13 +28,13 @@
             IFocusIndex NodeIndex = state.ParentIndex;
 
             Document Documentation = null;
-            BlockList<Assertion> RequireBlocks = null;
-            BlockList<Assertion> EnsureBlocks = null;
-            BlockList<Identifier> ExceptionIdentifierBlocks = null;
-            BlockList<EntityDeclaration> EntityDeclarationBlocks = null;
-            BlockList<Instruction> BodyInstructionBlocks = null;
-            BlockList<ExceptionHandler> ExceptionHandlerBlocks = null;
-            OptionalReference<ObjectType> AncestorType = null;
+            IBlockList<Assertion> RequireBlocks = null;
+            IBlockList<Assertion> EnsureBlocks = null;
+            IBlockList<Identifier> ExceptionIdentifierBlocks = null;
+            IBlockList<EntityDeclaration> EntityDeclarationBlocks = null;
+            IBlockList<Instruction> BodyInstructionBlocks = null;
+            IBlockList<ExceptionHandler> ExceptionHandlerBlocks = null;
+            IOptionalReference<ObjectType> AncestorType = null;
 
             List<Type> BodyTypeList = new List<Type>() { typeof(EffectiveBody), typeof(DeferredBody), typeof(ExternBody), typeof(PrecursorBody) };
             foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)

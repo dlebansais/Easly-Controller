@@ -3,6 +3,8 @@
     using BaseNodeHelper;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Set of templates used to describe all possible nodes in the tree.
@@ -91,7 +93,13 @@
         private protected override FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
-            return new LayoutTemplateDictionary(NodeHelper.CreateNodeDictionary<ILayoutTemplate>());
+
+            IList<Type> NodeKeys = NodeHelper.GetNodeKeys();
+            IDictionary<Type, ILayoutTemplate> Dictionary = new Dictionary<Type, ILayoutTemplate>();
+            foreach (Type Key in NodeKeys)
+                Dictionary.Add(Key, default(ILayoutTemplate));
+
+            return new LayoutTemplateDictionary(Dictionary);
         }
 
         /// <summary>

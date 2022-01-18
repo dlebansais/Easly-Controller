@@ -105,7 +105,8 @@
                 InsertType = ItemType;
             else if (InterfaceType.IsInterface)
             {
-                Type EstimatedItemType = NodeTreeHelper.InterfaceTypeToNodeType(InterfaceType);
+                //Type EstimatedItemType = NodeTreeHelper.InterfaceTypeToNodeType(InterfaceType);
+                Type EstimatedItemType = InterfaceType;
                 Debug.Assert(EstimatedItemType != null);
 
                 InsertType = EstimatedItemType;
