@@ -47,11 +47,16 @@
             Assume.That(EaslyControllerAssembly != null);
 
             string StartDirectory = Environment.CurrentDirectory;
-            while (Path.GetFileName(StartDirectory) != "Test-Easly-Controller")
+            while (Path.GetFileName(StartDirectory) != "Test-Easly-Controller" && StartDirectory.Length > 0)
                 StartDirectory = Path.GetDirectoryName(StartDirectory);
+
+            if (StartDirectory.Length == 0)
+                StartDirectory = $"{Environment.CurrentDirectory}/Test/Test-Easly-Controller";
 
             string RootPath;
             RootPath = Path.Combine(StartDirectory, "EaslyExamples");
+
+            TestContext.Progress.WriteLine($"Working on examples from: {StartDirectory}");
 
             FileNameTable = new List<string>();
             FirstRootNode = null;
