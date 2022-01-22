@@ -193,7 +193,7 @@
                 IFrameTemplate Template = Entry.Value;
                 int CommentFrameCount = 0;
 
-                IsValid &= NodeTreeHelper.IsBlockType(NodeType);
+                IsValid &= NodeTreeHelper.IsBlockInterfaceType(NodeType);
                 IsValid &= Template.IsValid;
                 IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
             }

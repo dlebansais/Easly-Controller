@@ -140,6 +140,29 @@
                 /*if (NodeType == typeof(CreationFeature))
                     Debug.Assert(CommandOverloadBlocks != null);*/
 
+                Debug.Assert(ExportIdentifier != null);
+
+                if (EntityName == null)
+                    EntityName = NodeHelper.CreateEmptyName();
+                if (EntityType == null)
+                    EntityType = NodeHelper.CreateDefaultObjectType();
+                if (EnsureBlocks == null)
+                    EnsureBlocks = BlockListHelper.CreateEmptyBlockList<Assertion>();
+                if (ConstantValue == null)
+                    ConstantValue = NodeHelper.CreateDefaultExpression();
+                if (CommandOverloadBlocks == null)
+                    CommandOverloadBlocks = BlockListHelper.CreateSimpleBlockList(NodeHelper.CreateEmptyCommandOverload());
+                if (QueryOverloadBlocks == null)
+                    QueryOverloadBlocks = BlockListHelper.CreateSimpleBlockList(NodeHelper.CreateEmptyQueryOverload());
+                if (ModifiedQueryBlocks == null)
+                    ModifiedQueryBlocks = BlockListHelper.CreateEmptyBlockList<Identifier>();
+                if (GetterBody == null)
+                    GetterBody = OptionalReferenceHelper.CreateReference(NodeHelper.CreateDefaultBody());
+                if (SetterBody == null)
+                    SetterBody = OptionalReferenceHelper.CreateReference(NodeHelper.CreateDefaultBody());
+                if (IndexParameterBlocks == null)
+                    IndexParameterBlocks = BlockListHelper.CreateSimpleBlockList(NodeHelper.CreateEmptyEntityDeclaration());
+
                 Node NewFeature = NodeHelper.CreateInitializedFeature(NodeType, Documentation, ExportIdentifier, Export, EntityName, EntityType, EnsureBlocks, ConstantValue, CommandOverloadBlocks, Once, QueryOverloadBlocks, PropertyKind, ModifiedQueryBlocks, GetterBody, SetterBody, IndexParameterBlocks, ParameterEnd);
 
                 IFocusInsertionChildNodeIndex InsertionIndex = (IFocusInsertionChildNodeIndex)((IFocusBrowsingInsertableIndex)NodeIndex).ToInsertionIndex(ParentNode, NewFeature);

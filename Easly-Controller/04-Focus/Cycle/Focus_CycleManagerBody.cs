@@ -86,6 +86,21 @@
             {
                 Type NodeType = BodyTypeList[0];
 
+                if (RequireBlocks == null)
+                    RequireBlocks = BlockListHelper.CreateEmptyBlockList<Assertion>();
+                if (EnsureBlocks == null)
+                    EnsureBlocks = BlockListHelper.CreateEmptyBlockList<Assertion>();
+                if (ExceptionIdentifierBlocks == null)
+                    ExceptionIdentifierBlocks = BlockListHelper.CreateEmptyBlockList<Identifier>();
+                if (EntityDeclarationBlocks == null)
+                    EntityDeclarationBlocks = BlockListHelper.CreateEmptyBlockList<EntityDeclaration>();
+                if (BodyInstructionBlocks == null)
+                    BodyInstructionBlocks = BlockListHelper.CreateEmptyBlockList<Instruction>();
+                if (ExceptionHandlerBlocks == null)
+                    ExceptionHandlerBlocks = BlockListHelper.CreateEmptyBlockList<ExceptionHandler>();
+                if (AncestorType == null)
+                    AncestorType = OptionalReferenceHelper.CreateReference(NodeHelper.CreateDefaultObjectType());
+
                 Node NewBody = NodeHelper.CreateInitializedBody(NodeType, Documentation, RequireBlocks, EnsureBlocks, ExceptionIdentifierBlocks, EntityDeclarationBlocks, BodyInstructionBlocks, ExceptionHandlerBlocks, AncestorType);
 
                 IFocusBrowsingInsertableIndex InsertableNodeIndex = NodeIndex as IFocusBrowsingInsertableIndex;

@@ -14,7 +14,7 @@
     <Product />
     <Description>Manage Easly source code</Description>
     <Copyright>Copyright © 2019 David Le Bansais</Copyright>
-    <AssemblyVersion>1.0.1.4833</AssemblyVersion>
+    <AssemblyVersion>1.0.1.4840</AssemblyVersion>
     <FileVersion>1.0.1.4270</FileVersion>
     <RepositoryUrl>https://github.com/dlebansais/Easly-Controller</RepositoryUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
@@ -36,8 +36,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="PolySerializer-Debug" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-    <PackageReference Include="PolySerializer" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
+    <PackageReference Include="Contracts-Debug" Version="1.1.0" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <PackageReference Include="Contracts" Version="1.1.0" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net48'">
@@ -53,6 +53,9 @@
     </Reference>
     <Reference Include="Easly-Language-Helper">
       <HintPath>..\..\Easly-Language\Easly-Language-Helper\bin\x64\Debug\$(TargetFramework)\Easly-Language-Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="PolySerializer">
+      <HintPath>..\..\PolySerializer\PolySerializer\bin\x64\Debug\$(TargetFramework)\PolySerializer.dll</HintPath>
     </Reference>
   </ItemGroup>
 

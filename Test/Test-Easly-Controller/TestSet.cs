@@ -1,26 +1,26 @@
-﻿using BaseNode;
-using BaseNodeHelper;
-using EaslyController.ReadOnly;
-using NUnit.Framework;
-using System.Globalization;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using PolySerializer;
-using System.Collections.Generic;
-using System;
-using EaslyController;
-using EaslyController.Writeable;
-using EaslyController.Frame;
-using Easly;
-using EaslyController.Focus;
-using TestDebug;
-using EaslyController.Layout;
-using EaslyEdit;
-using System.Text;
-
-namespace Test
+﻿namespace Test
 {
+    using BaseNode;
+    using BaseNodeHelper;
+    using EaslyController.ReadOnly;
+    using NUnit.Framework;
+    using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Threading;
+    using PolySerializer;
+    using System.Collections.Generic;
+    using System;
+    using EaslyController;
+    using EaslyController.Writeable;
+    using EaslyController.Frame;
+    using Easly;
+    using EaslyController.Focus;
+    using TestDebug;
+    using EaslyController.Layout;
+    using EaslyEdit;
+    using System.Text;
+
     [TestFixture]
     public class TestSet
     {
@@ -46,11 +46,12 @@ namespace Test
             }
             Assume.That(EaslyControllerAssembly != null);
 
+            string StartDirectory = Environment.CurrentDirectory;
+            while (Path.GetFileName(StartDirectory) != "Test-Easly-Controller")
+                StartDirectory = Path.GetDirectoryName(StartDirectory);
+
             string RootPath;
-            if (File.Exists("./Easly-Controller/bin/x64/Travis/test.easly"))
-                RootPath = "./Easly-Controller/bin/x64/Travis/";
-            else
-                RootPath = "./";
+            RootPath = Path.Combine(StartDirectory, "EaslyExamples");
 
             FileNameTable = new List<string>();
             FirstRootNode = null;
@@ -62,56 +63,16 @@ namespace Test
 
         static void AddEaslyFiles(string path)
         {
-            foreach (string FileName in Directory.GetFiles(path, "*.easly.txt"))
+            foreach (string FileName in Directory.GetFiles(path, "*.easly"))
             {
                 FileNameTable.Add(FileName.Replace("\\", "/"));
 
                 using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
                 {
-                    using StreamReader Reader = new StreamReader(fs, Encoding.UTF8);
-                    string Content = Reader.ReadToEnd();
-                    int l1 = Content.Length;
-
-                    Content = Content.Replace("System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e", "mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-
-                    int l2 = Content.Length;
-
-                    using MemoryStream ms = new MemoryStream();
-                    using StreamWriter Writer = new StreamWriter(ms, Encoding.UTF8);
-                    Writer.Write(Content);
-                    Writer.Flush();
-                    ms.Seek(0, SeekOrigin.Begin);
-
                     Serializer Serializer = new Serializer();
                     Node RootNode;
 
-                    RootNode = (Node)Serializer.Deserialize(ms);
-
-                    using MemoryStream ms2 = new MemoryStream();
-                    Serializer Serializer2 = new Serializer();
-                    Serializer2.Format = SerializationFormat.TextOnly;
-                    Serializer2.Serialize(ms2, RootNode);
-                    ms2.Seek(0, SeekOrigin.Begin);
-
-                    using StreamReader Reader2 = new StreamReader(ms2);
-                    string Content2 = Reader2.ReadToEnd();
-
-                    int i = 0;
-                    while (Content.Length > i && Content2.Length > i && Content[i] == Content2[i])
-                        i++;
-
-                    string ContentBase = Content.Substring(0, i);
-                    Content = Content.Substring(i);
-                    Content2 = Content2.Substring(i);
-
-                    System.Diagnostics.Debug.Assert(Content.Length == 0 && Content2.Length == 0);
-
-                    if (Content.Length > 0 || Content2.Length > 0)
-                    {
-                        int Percent = (int)(100 * (double)ContentBase.Length / (double)(Content.Length + ContentBase.Length));
-                        System.Diagnostics.Debug.WriteLine($"{FileName}: {Percent}%");
-
-                    }
+                    RootNode = (Node)Serializer.Deserialize(fs);
 
                     if (FirstRootNode == null)
                         FirstRootNode = RootNode;
