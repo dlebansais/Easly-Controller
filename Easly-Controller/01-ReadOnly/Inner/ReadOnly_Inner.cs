@@ -25,7 +25,6 @@
         Type InterfaceType { get; }
     }
 
-
     /// <summary>
     /// Interface for all inners.
     /// </summary>

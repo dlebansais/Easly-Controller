@@ -9,7 +9,6 @@
     {
     }
 
-
     /// <summary>
     /// Base inner for a single node inner.
     /// </summary>

@@ -33,7 +33,6 @@
         ReadOnlyBrowsingListNodeIndexList AllIndexes();
     }
 
-
     /// <summary>
     /// Inner for a list of nodes.
     /// </summary>
