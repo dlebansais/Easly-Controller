@@ -28,8 +28,17 @@
                 if (!comparer.IsTrue(AsOtherReadOnlyDictionary.ContainsKey(Entry.Key)))
                     return comparer.Failed();
 
-                if (!comparer.VerifyEqual(Entry.Value, AsOtherReadOnlyDictionary[Entry.Key]))
+                IFrameAssignableCellView ThisValue = Entry.Value;
+                IFrameAssignableCellView OtherValue = AsOtherReadOnlyDictionary[Entry.Key];
+
+                if (!comparer.IsTrue((ThisValue == null && OtherValue == null) || (ThisValue != null && OtherValue != null)))
                     return comparer.Failed();
+
+                if (ThisValue != null)
+                {
+                    if (!comparer.VerifyEqual(Entry.Value, AsOtherReadOnlyDictionary[Entry.Key]))
+                        return comparer.Failed();
+                }
             }
 
             return true;

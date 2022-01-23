@@ -54,13 +54,20 @@
 
             foreach (TKey Key in Keys)
             {
-                ILayoutAssignableCellView Value = (ILayoutAssignableCellView)this[Key];
-
                 if (!comparer.IsTrue(AsOtherReadOnlyDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
-                if (!comparer.VerifyEqual(Value, AsOtherReadOnlyDictionary[Key]))
+                ILayoutAssignableCellView ThisValue = (ILayoutAssignableCellView)this[Key];
+                ILayoutAssignableCellView OtherValue = (ILayoutAssignableCellView)AsOtherReadOnlyDictionary[Key];
+
+                if (!comparer.IsTrue((ThisValue == null && OtherValue == null) || (ThisValue != null && OtherValue != null)))
                     return comparer.Failed();
+
+                if (ThisValue != null)
+                {
+                    if (!comparer.VerifyEqual(ThisValue, OtherValue))
+                        return comparer.Failed();
+                }
             }
 
             return true;

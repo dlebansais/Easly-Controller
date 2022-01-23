@@ -53,13 +53,20 @@
 
             foreach (TKey Key in Keys)
             {
-                IFocusAssignableCellView Value = (IFocusAssignableCellView)this[Key];
-
                 if (!comparer.IsTrue(AsOtherReadOnlyDictionary.ContainsKey(Key)))
                     return comparer.Failed();
 
-                if (!comparer.VerifyEqual(Value, AsOtherReadOnlyDictionary[Key]))
+                IFocusAssignableCellView ThisValue = (IFocusAssignableCellView)this[Key];
+                IFocusAssignableCellView OtherValue = (IFocusAssignableCellView)AsOtherReadOnlyDictionary[Key];
+
+                if (!comparer.IsTrue((ThisValue == null && OtherValue == null) || (ThisValue != null && OtherValue != null)))
                     return comparer.Failed();
+
+                if (ThisValue != null)
+                {
+                    if (!comparer.VerifyEqual(ThisValue, OtherValue))
+                        return comparer.Failed();
+                }
             }
 
             return true;
