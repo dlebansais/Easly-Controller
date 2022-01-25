@@ -45,8 +45,8 @@ namespace Coverage
         {
             Leaf Placeholder = CreateLeaf(Guid.NewGuid());
 
-            BaseNode.Document TreeDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("tree doc", Guid.NewGuid());
-            Tree TreeInstance = new Tree(TreeDocument);
+            //BaseNode.Document TreeDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("tree doc", Guid.NewGuid());
+            Tree TreeInstance = new Tree(/*TreeDocument*/);
 
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(TreeInstance, nameof(Tree.Placeholder), Placeholder);
             BaseNodeHelper.NodeTreeHelper.SetBooleanProperty(TreeInstance, nameof(Main.ValueBoolean), true);
@@ -69,7 +69,7 @@ namespace Coverage
             Leaf UnassignedOptionalLeaf = new Leaf(UnassignedOptionalLeafDocument, "optional unassigned");
 
             Easly.IOptionalReference<Leaf> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(UnassignedOptionalLeaf);
-            Easly.IOptionalReference<Leaf> EmptyOptional = BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>();
+            Easly.IOptionalReference<Leaf> EmptyOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference(new Leaf());
 
             Leaf AssignedOptionalLeaf = CreateLeaf(Guid.NewGuid());
 
@@ -100,8 +100,8 @@ namespace Coverage
             LeafPath.Add(FirstPath);
             LeafPath.Add(SecondPath);
 
-            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("main doc", MainGuid);
-            Main Root = new Main(RootDocument);
+            //BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("main doc", MainGuid);
+            Main Root = new Main(/*RootDocument*/);
 
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderTree), PlaceholderTree);
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderLeaf), PlaceholderLeaf);

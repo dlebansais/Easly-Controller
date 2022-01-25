@@ -10,10 +10,10 @@ namespace Coverage
         public Root(Document documentation)
             : base(documentation)
         {
-            UnassignedOptionalMain = new OptionalReference<Main>();
+            UnassignedOptionalMain = new OptionalReference<Main>(new Main());
             LeafPathH = new List<Leaf>();
             LeafPathV = new List<Leaf>();
-            UnassignedOptionalLeaf = new OptionalReference<Leaf>();
+            UnassignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
         }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

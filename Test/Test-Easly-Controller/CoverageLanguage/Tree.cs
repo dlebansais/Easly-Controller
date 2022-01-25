@@ -1,12 +1,13 @@
 using BaseNode;
+using BaseNodeHelper;
 
 namespace Coverage
 {
     [System.Serializable]
     public class Tree : Node
     {
-        public Tree(Document documentation)
-            : base(documentation)
+        public Tree()
+            : base(NodeHelper.CreateEmptyDocumentation())
         {
         }
 

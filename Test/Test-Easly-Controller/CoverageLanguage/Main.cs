@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BaseNode;
+using BaseNodeHelper;
 using Easly;
 
 namespace Coverage
@@ -7,13 +8,13 @@ namespace Coverage
     [System.Serializable]
     public class Main : Node
     {
-        public Main(Document documentation)
-            : base(documentation)
+        public Main()
+            : base(NodeHelper.CreateEmptyDocumentation())
         {
-            UnassignedOptionalLeaf = new OptionalReference<Leaf>();
-            EmptyOptionalLeaf = new OptionalReference<Leaf>();
-            AssignedOptionalTree = new OptionalReference<Tree>();
-            AssignedOptionalLeaf = new OptionalReference<Leaf>();
+            UnassignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
+            EmptyOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
+            AssignedOptionalTree = new OptionalReference<Tree>(new Tree());
+            AssignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
             //LeafBlocks = new BlockList<Leaf>();
             LeafPath = new List<Leaf>();
         }

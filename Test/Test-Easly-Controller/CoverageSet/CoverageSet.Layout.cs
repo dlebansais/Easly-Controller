@@ -3488,7 +3488,7 @@ namespace Coverage
             BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateReference(new Leaf()));
 
             //System.Diagnostics.Debug.Assert(false);
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
@@ -3681,7 +3681,7 @@ namespace Coverage
             BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateReference(new Leaf()));
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
 
@@ -3831,7 +3831,7 @@ namespace Coverage
             BaseNodeHelper.NodeTreeHelper.SetString(RootNode, nameof(Root.ValueString), "root string");
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathH), (IList)LeafPathH);
             BaseNodeHelper.NodeTreeHelperList.SetChildNodeList(RootNode, nameof(Root.LeafPathV), (IList)LeafPathV);
-            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateEmptyReference<Leaf>());
+            BaseNodeHelper.NodeTreeHelperOptional.SetOptionalReference(RootNode, nameof(Root.UnassignedOptionalLeaf), (Easly.IOptionalReference)BaseNodeHelper.OptionalReferenceHelper.CreateReference(new Leaf()));
 
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(RootNode);
 

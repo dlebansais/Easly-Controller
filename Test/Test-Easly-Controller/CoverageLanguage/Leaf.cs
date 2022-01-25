@@ -1,4 +1,5 @@
 using BaseNode;
+using BaseNodeHelper;
 
 namespace Coverage
 {
@@ -6,7 +7,7 @@ namespace Coverage
     public class Leaf : Node
     {
         public Leaf()
-            : base(default!)
+            : base(NodeHelper.CreateEmptyDocumentation())
         {
             Text = string.Empty;
         }
