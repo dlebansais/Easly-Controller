@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class WriteableBlockStateViewDictionary : ReadOnlyBlockStateViewDictionary, ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IDictionary<IWriteableBlockState, WriteableBlockStateView>, IReadOnlyCollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>, IReadOnlyDictionary<IWriteableBlockState, WriteableBlockStateView>, IEqualComparable
@@ -49,9 +50,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableBlockStateViewDictionary AsOtherDictionary))
+            if (!comparer.IsSameType(Other, out WriteableBlockStateViewDictionary AsOtherDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherDictionary.Count))

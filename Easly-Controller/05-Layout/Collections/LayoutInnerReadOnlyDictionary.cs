@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class LayoutInnerReadOnlyDictionary<TKey> : FocusInnerReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, ILayoutInner>>, IEnumerable<KeyValuePair<TKey, ILayoutInner>>, IDictionary<TKey, ILayoutInner>, IReadOnlyCollection<KeyValuePair<TKey, ILayoutInner>>, IReadOnlyDictionary<TKey, ILayoutInner>, IEqualComparable
@@ -44,9 +45,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutInnerReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
+            if (!comparer.IsSameType(Other, out LayoutInnerReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))

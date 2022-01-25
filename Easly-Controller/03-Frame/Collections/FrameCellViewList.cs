@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FrameCellViewList : List<IFrameCellView>, IEqualComparable
@@ -15,9 +16,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FrameCellViewList AsOtherList))
+            if (!comparer.IsSameType(Other, out FrameCellViewList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

@@ -1,9 +1,11 @@
 ﻿namespace EaslyController.ReadOnly
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Contracts;
 
     /// <inheritdoc/>
-    public class ReadOnlyBlockStateViewReadOnlyDictionary : System.Collections.ObjectModel.ReadOnlyDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView>, IEqualComparable
+    public class ReadOnlyBlockStateViewReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyBlockState, ReadOnlyBlockStateView>, IEqualComparable
     {
         /// <inheritdoc/>
         public ReadOnlyBlockStateViewReadOnlyDictionary(ReadOnlyBlockStateViewDictionary dictionary)
@@ -15,9 +17,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBlockStateViewReadOnlyDictionary AsOtherReadOnlyDictionary))
+            if (!comparer.IsSameType(Other, out ReadOnlyBlockStateViewReadOnlyDictionary AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FrameAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFrameAssignableCellView>, IEqualComparable
@@ -22,9 +23,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FrameAssignableCellViewDictionary<TKey> AsOtherDictionary))
+            if (!comparer.IsSameType(Other, out FrameAssignableCellViewDictionary<TKey> AsOtherDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherDictionary.Count))

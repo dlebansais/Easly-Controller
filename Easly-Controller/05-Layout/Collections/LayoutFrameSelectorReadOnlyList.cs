@@ -1,7 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Focus;
+    using Contracts;
 
     /// <inheritdoc/>
     public class LayoutFrameSelectorReadOnlyList : FocusFrameSelectorReadOnlyList, IReadOnlyCollection<ILayoutFrameSelector>, IReadOnlyList<ILayoutFrameSelector>, IEqualComparable
@@ -15,7 +17,7 @@
         /// <inheritdoc/>
         public new ILayoutFrameSelector this[int index] { get { return (ILayoutFrameSelector)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<ILayoutFrameSelector> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFocusFrameSelector>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFrameSelector)iterator.Current; } }
+        public new IEnumerator<ILayoutFrameSelector> GetEnumerator() { var iterator = ((ReadOnlyCollection<IFocusFrameSelector>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutFrameSelector)iterator.Current; } }
 
         #region ILayoutFrameSelector
         IEnumerator<ILayoutFrameSelector> IEnumerable<ILayoutFrameSelector>.GetEnumerator() { return GetEnumerator(); }
@@ -26,9 +28,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutFrameSelectorReadOnlyList AsOtherReadOnlyList))
+            if (!comparer.IsSameType(Other, out LayoutFrameSelectorReadOnlyList AsOtherReadOnlyList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyList.Count))

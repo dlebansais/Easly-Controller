@@ -1,8 +1,10 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FramePlaceholderNodeStateReadOnlyList : WriteablePlaceholderNodeStateReadOnlyList, IReadOnlyCollection<IFramePlaceholderNodeState>, IReadOnlyList<IFramePlaceholderNodeState>, IEqualComparable
@@ -16,7 +18,7 @@
         /// <inheritdoc/>
         public new IFramePlaceholderNodeState this[int index] { get { return (IFramePlaceholderNodeState)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<IFramePlaceholderNodeState> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyPlaceholderNodeState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFramePlaceholderNodeState)iterator.Current; } }
+        public new IEnumerator<IFramePlaceholderNodeState> GetEnumerator() { var iterator = ((ReadOnlyCollection<IReadOnlyPlaceholderNodeState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFramePlaceholderNodeState)iterator.Current; } }
 
         #region IFramePlaceholderNodeState
         IEnumerator<IFramePlaceholderNodeState> IEnumerable<IFramePlaceholderNodeState>.GetEnumerator() { return GetEnumerator(); }
@@ -27,9 +29,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FramePlaceholderNodeStateReadOnlyList AsOtherReadOnlyList))
+            if (!comparer.IsSameType(Other, out FramePlaceholderNodeStateReadOnlyList AsOtherReadOnlyList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyList.Count))

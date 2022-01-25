@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FocusNodeStateViewReadOnlyDictionary : FrameNodeStateViewReadOnlyDictionary, ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IEnumerable<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IDictionary<IFocusNodeState, IFocusNodeStateView>, IReadOnlyCollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>, IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>, IEqualComparable
@@ -44,9 +45,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusNodeStateViewReadOnlyDictionary AsOtherReadOnlyDictionary))
+            if (!comparer.IsSameType(Other, out FocusNodeStateViewReadOnlyDictionary AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))

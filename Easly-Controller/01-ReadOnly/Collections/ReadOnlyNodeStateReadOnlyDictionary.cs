@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     /// <inheritdoc/>
-    public class ReadOnlyNodeStateReadOnlyDictionary : System.Collections.ObjectModel.ReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>
+    public class ReadOnlyNodeStateReadOnlyDictionary : ReadOnlyDictionary<IReadOnlyIndex, IReadOnlyNodeState>
     {
         /// <inheritdoc/>
         public ReadOnlyNodeStateReadOnlyDictionary(ReadOnlyNodeStateDictionary dictionary)

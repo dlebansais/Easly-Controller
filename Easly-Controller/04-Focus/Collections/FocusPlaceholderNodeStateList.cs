@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FocusPlaceholderNodeStateList : FramePlaceholderNodeStateList, ICollection<IFocusPlaceholderNodeState>, IEnumerable<IFocusPlaceholderNodeState>, IList<IFocusPlaceholderNodeState>, IReadOnlyCollection<IFocusPlaceholderNodeState>, IReadOnlyList<IFocusPlaceholderNodeState>, IEqualComparable
@@ -33,9 +34,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusPlaceholderNodeStateList AsOtherList))
+            if (!comparer.IsSameType(Other, out FocusPlaceholderNodeStateList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FocusAssignableCellViewDictionary<TKey> : FrameAssignableCellViewDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>, IDictionary<TKey, IFocusAssignableCellView>, IReadOnlyCollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
@@ -49,9 +50,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusAssignableCellViewDictionary<TKey> AsOtherDictionary))
+            if (!comparer.IsSameType(Other, out FocusAssignableCellViewDictionary<TKey> AsOtherDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherDictionary.Count))

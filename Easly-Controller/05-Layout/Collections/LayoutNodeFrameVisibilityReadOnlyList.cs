@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Focus;
 
     /// <inheritdoc/>
@@ -15,7 +16,7 @@
         /// <inheritdoc/>
         public new ILayoutNodeFrameVisibility this[int index] { get { return (ILayoutNodeFrameVisibility)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<ILayoutNodeFrameVisibility> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFocusNodeFrameVisibility>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeFrameVisibility)iterator.Current; } }
+        public new IEnumerator<ILayoutNodeFrameVisibility> GetEnumerator() { var iterator = ((ReadOnlyCollection<IFocusNodeFrameVisibility>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutNodeFrameVisibility)iterator.Current; } }
 
         #region ILayoutNodeFrameVisibility
         IEnumerator<ILayoutNodeFrameVisibility> IEnumerable<ILayoutNodeFrameVisibility>.GetEnumerator() { return GetEnumerator(); }

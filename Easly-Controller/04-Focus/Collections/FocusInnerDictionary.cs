@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FocusInnerDictionary<TKey> : FrameInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusInner>>, IEnumerable<KeyValuePair<TKey, IFocusInner>>, IDictionary<TKey, IFocusInner>, IReadOnlyCollection<KeyValuePair<TKey, IFocusInner>>, IReadOnlyDictionary<TKey, IFocusInner>, IEqualComparable
@@ -50,9 +51,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusInnerDictionary<TKey> AsOtherDictionary))
+            if (!comparer.IsSameType(Other, out FocusInnerDictionary<TKey> AsOtherDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherDictionary.Count))

@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Writeable;
 
     /// <inheritdoc/>
@@ -15,7 +16,7 @@
         /// <inheritdoc/>
         public new IFrameOperation this[int index] { get { return (IFrameOperation)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<IFrameOperation> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IWriteableOperation>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameOperation)iterator.Current; } }
+        public new IEnumerator<IFrameOperation> GetEnumerator() { var iterator = ((ReadOnlyCollection<IWriteableOperation>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFrameOperation)iterator.Current; } }
 
         #region IFrameOperation
         IEnumerator<IFrameOperation> IEnumerable<IFrameOperation>.GetEnumerator() { return GetEnumerator(); }

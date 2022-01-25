@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     /// <inheritdoc/>
-    public class FrameTemplateReadOnlyDictionary : System.Collections.ObjectModel.ReadOnlyDictionary<System.Type, IFrameTemplate>
+    public class FrameTemplateReadOnlyDictionary : ReadOnlyDictionary<System.Type, IFrameTemplate>
     {
         /// <inheritdoc/>
         public FrameTemplateReadOnlyDictionary(FrameTemplateDictionary dictionary)

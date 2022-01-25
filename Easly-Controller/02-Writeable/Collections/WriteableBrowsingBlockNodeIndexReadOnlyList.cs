@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Writeable
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.ReadOnly;
 
     /// <inheritdoc/>
@@ -15,7 +16,7 @@
         /// <inheritdoc/>
         public new IWriteableBrowsingBlockNodeIndex this[int index] { get { return (IWriteableBrowsingBlockNodeIndex)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<IWriteableBrowsingBlockNodeIndex> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBrowsingBlockNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBrowsingBlockNodeIndex)iterator.Current; } }
+        public new IEnumerator<IWriteableBrowsingBlockNodeIndex> GetEnumerator() { var iterator = ((ReadOnlyCollection<IReadOnlyBrowsingBlockNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IWriteableBrowsingBlockNodeIndex)iterator.Current; } }
 
         #region IWriteableBrowsingBlockNodeIndex
         IEnumerator<IWriteableBrowsingBlockNodeIndex> IEnumerable<IWriteableBrowsingBlockNodeIndex>.GetEnumerator() { return GetEnumerator(); }

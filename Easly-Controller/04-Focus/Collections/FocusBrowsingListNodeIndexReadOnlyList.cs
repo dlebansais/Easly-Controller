@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
 
@@ -16,7 +17,7 @@
         /// <inheritdoc/>
         public new IFocusBrowsingListNodeIndex this[int index] { get { return (IFocusBrowsingListNodeIndex)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<IFocusBrowsingListNodeIndex> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBrowsingListNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusBrowsingListNodeIndex)iterator.Current; } }
+        public new IEnumerator<IFocusBrowsingListNodeIndex> GetEnumerator() { var iterator = ((ReadOnlyCollection<IReadOnlyBrowsingListNodeIndex>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusBrowsingListNodeIndex)iterator.Current; } }
 
         #region IFocusBrowsingListNodeIndex
         IEnumerator<IFocusBrowsingListNodeIndex> IEnumerable<IFocusBrowsingListNodeIndex>.GetEnumerator() { return GetEnumerator(); }

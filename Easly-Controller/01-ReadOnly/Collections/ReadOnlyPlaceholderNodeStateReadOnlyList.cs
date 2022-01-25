@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.ReadOnly
 {
     using System.Collections.ObjectModel;
+    using Contracts;
 
     /// <inheritdoc/>
     public class ReadOnlyPlaceholderNodeStateReadOnlyList : ReadOnlyCollection<IReadOnlyPlaceholderNodeState>, IEqualComparable
@@ -15,9 +16,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyPlaceholderNodeStateReadOnlyList AsOtherReadOnlyList))
+            if (!comparer.IsSameType(Other, out ReadOnlyPlaceholderNodeStateReadOnlyList AsOtherReadOnlyList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyList.Count))

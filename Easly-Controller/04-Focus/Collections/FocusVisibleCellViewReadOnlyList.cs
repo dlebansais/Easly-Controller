@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Frame;
 
     /// <inheritdoc/>
@@ -15,7 +16,7 @@
         /// <inheritdoc/>
         public new IFocusVisibleCellView this[int index] { get { return (IFocusVisibleCellView)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<IFocusVisibleCellView> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFrameVisibleCellView>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusVisibleCellView)iterator.Current; } }
+        public new IEnumerator<IFocusVisibleCellView> GetEnumerator() { var iterator = ((ReadOnlyCollection<IFrameVisibleCellView>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (IFocusVisibleCellView)iterator.Current; } }
 
         #region IFocusVisibleCellView
         IEnumerator<IFocusVisibleCellView> IEnumerable<IFocusVisibleCellView>.GetEnumerator() { return GetEnumerator(); }

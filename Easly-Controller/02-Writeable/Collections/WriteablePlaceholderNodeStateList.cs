@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class WriteablePlaceholderNodeStateList : ReadOnlyPlaceholderNodeStateList, ICollection<IWriteablePlaceholderNodeState>, IEnumerable<IWriteablePlaceholderNodeState>, IList<IWriteablePlaceholderNodeState>, IReadOnlyCollection<IWriteablePlaceholderNodeState>, IReadOnlyList<IWriteablePlaceholderNodeState>, IEqualComparable
@@ -32,9 +33,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteablePlaceholderNodeStateList AsOtherList))
+            if (!comparer.IsSameType(Other, out WriteablePlaceholderNodeStateList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

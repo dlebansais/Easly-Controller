@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FrameInnerDictionary<TKey> : WriteableInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IFrameInner>>, IEnumerable<KeyValuePair<TKey, IFrameInner>>, IDictionary<TKey, IFrameInner>, IReadOnlyCollection<KeyValuePair<TKey, IFrameInner>>, IReadOnlyDictionary<TKey, IFrameInner>, IEqualComparable
@@ -50,9 +51,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FrameInnerDictionary<TKey> AsOtherDictionary))
+            if (!comparer.IsSameType(Other, out FrameInnerDictionary<TKey> AsOtherDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherDictionary.Count))

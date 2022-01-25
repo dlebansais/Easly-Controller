@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Frame;
     using EaslyController.Writeable;
 
@@ -16,7 +17,7 @@
         /// <inheritdoc/>
         public new FocusOperationGroup this[int index] { get { return (FocusOperationGroup)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<FocusOperationGroup> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<WriteableOperationGroup>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperationGroup)iterator.Current; } }
+        public new IEnumerator<FocusOperationGroup> GetEnumerator() { var iterator = ((ReadOnlyCollection<WriteableOperationGroup>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (FocusOperationGroup)iterator.Current; } }
 
         #region FocusOperationGroup
         IEnumerator<FocusOperationGroup> IEnumerable<FocusOperationGroup>.GetEnumerator() { return GetEnumerator(); }

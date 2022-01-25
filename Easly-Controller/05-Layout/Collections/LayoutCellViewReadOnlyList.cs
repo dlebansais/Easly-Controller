@@ -1,8 +1,10 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using Contracts;
 
     /// <inheritdoc/>
     public class LayoutCellViewReadOnlyList : FocusCellViewReadOnlyList, IReadOnlyCollection<ILayoutCellView>, IReadOnlyList<ILayoutCellView>, IEqualComparable
@@ -16,7 +18,7 @@
         /// <inheritdoc/>
         public new ILayoutCellView this[int index] { get { return (ILayoutCellView)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<ILayoutCellView> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IFrameCellView>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutCellView)iterator.Current; } }
+        public new IEnumerator<ILayoutCellView> GetEnumerator() { var iterator = ((ReadOnlyCollection<IFrameCellView>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutCellView)iterator.Current; } }
 
         #region ILayoutCellView
         IEnumerator<ILayoutCellView> IEnumerable<ILayoutCellView>.GetEnumerator() { return GetEnumerator(); }
@@ -27,9 +29,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutCellViewReadOnlyList AsOtherReadOnlyList))
+            if (!comparer.IsSameType(Other, out LayoutCellViewReadOnlyList AsOtherReadOnlyList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyList.Count))

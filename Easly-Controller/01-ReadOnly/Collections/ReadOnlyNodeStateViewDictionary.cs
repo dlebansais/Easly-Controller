@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.ReadOnly
 {
     using System.Collections.Generic;
+    using Contracts;
 
     /// <inheritdoc/>
     public class ReadOnlyNodeStateViewDictionary : Dictionary<IReadOnlyNodeState, IReadOnlyNodeStateView>, IEqualComparable
@@ -22,9 +23,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyNodeStateViewDictionary AsOtherDictionary))
+            if (!comparer.IsSameType(Other, out ReadOnlyNodeStateViewDictionary AsOtherDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherDictionary.Count))

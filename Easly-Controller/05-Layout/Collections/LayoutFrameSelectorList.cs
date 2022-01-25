@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Focus;
+    using Contracts;
 
     /// <inheritdoc/>
     public class LayoutFrameSelectorList : FocusFrameSelectorList, ICollection<ILayoutFrameSelector>, IEnumerable<ILayoutFrameSelector>, IList<ILayoutFrameSelector>, IReadOnlyCollection<ILayoutFrameSelector>, IReadOnlyList<ILayoutFrameSelector>, IEqualComparable
@@ -32,9 +33,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutFrameSelectorList AsOtherList))
+            if (!comparer.IsSameType(Other, out LayoutFrameSelectorList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

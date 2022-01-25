@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FocusCellViewList : FrameCellViewList, ICollection<IFocusCellView>, IEnumerable<IFocusCellView>, IList<IFocusCellView>, IReadOnlyCollection<IFocusCellView>, IReadOnlyList<IFocusCellView>, IEqualComparable
@@ -32,9 +33,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusCellViewList AsOtherList))
+            if (!comparer.IsSameType(Other, out FocusCellViewList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FramePlaceholderNodeStateList : WriteablePlaceholderNodeStateList, ICollection<IFramePlaceholderNodeState>, IEnumerable<IFramePlaceholderNodeState>, IList<IFramePlaceholderNodeState>, IReadOnlyCollection<IFramePlaceholderNodeState>, IReadOnlyList<IFramePlaceholderNodeState>, IEqualComparable
@@ -33,9 +34,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FramePlaceholderNodeStateList AsOtherList))
+            if (!comparer.IsSameType(Other, out FramePlaceholderNodeStateList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using EaslyController.Frame;
+    using Contracts;
 
     /// <inheritdoc/>
     public class FocusAssignableCellViewReadOnlyDictionary<TKey> : FrameAssignableCellViewReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>, IDictionary<TKey, IFocusAssignableCellView>, IReadOnlyCollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
@@ -43,9 +44,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusAssignableCellViewReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
+            if (!comparer.IsSameType(Other, out FocusAssignableCellViewReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))
@@ -59,10 +60,10 @@
                 IFocusAssignableCellView ThisValue = (IFocusAssignableCellView)this[Key];
                 IFocusAssignableCellView OtherValue = (IFocusAssignableCellView)AsOtherReadOnlyDictionary[Key];
 
-                if (!comparer.IsTrue((ThisValue == null && OtherValue == null) || (ThisValue != null && OtherValue != null)))
+                if (!comparer.IsTrue((ThisValue is null && OtherValue is null) || (ThisValue is not null && OtherValue is not null)))
                     return comparer.Failed();
 
-                if (ThisValue != null)
+                if (ThisValue is not null)
                 {
                     if (!comparer.VerifyEqual(ThisValue, OtherValue))
                         return comparer.Failed();

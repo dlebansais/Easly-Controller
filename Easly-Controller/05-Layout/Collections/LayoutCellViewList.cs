@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using Contracts;
 
     /// <inheritdoc/>
     public class LayoutCellViewList : FocusCellViewList, ICollection<ILayoutCellView>, IEnumerable<ILayoutCellView>, IList<ILayoutCellView>, IReadOnlyCollection<ILayoutCellView>, IReadOnlyList<ILayoutCellView>, IEqualComparable
@@ -33,9 +34,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutCellViewList AsOtherList))
+            if (!comparer.IsSameType(Other, out LayoutCellViewList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

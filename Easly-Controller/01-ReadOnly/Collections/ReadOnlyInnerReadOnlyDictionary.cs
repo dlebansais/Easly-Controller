@@ -1,9 +1,11 @@
 ﻿namespace EaslyController.ReadOnly
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Contracts;
 
     /// <inheritdoc/>
-    public class ReadOnlyInnerReadOnlyDictionary<TKey> : System.Collections.ObjectModel.ReadOnlyDictionary<TKey, IReadOnlyInner>, IEqualComparable
+    public class ReadOnlyInnerReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IReadOnlyInner>, IEqualComparable
     {
         /// <inheritdoc/>
         public ReadOnlyInnerReadOnlyDictionary(ReadOnlyInnerDictionary<TKey> dictionary)
@@ -15,9 +17,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyInnerReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
+            if (!comparer.IsSameType(Other, out ReadOnlyInnerReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))

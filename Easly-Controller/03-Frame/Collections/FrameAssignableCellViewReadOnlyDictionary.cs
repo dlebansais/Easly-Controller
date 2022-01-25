@@ -1,9 +1,11 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Contracts;
 
     /// <inheritdoc/>
-    public class FrameAssignableCellViewReadOnlyDictionary<TKey> : System.Collections.ObjectModel.ReadOnlyDictionary<TKey, IFrameAssignableCellView>, IEqualComparable
+    public class FrameAssignableCellViewReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameAssignableCellView>, IEqualComparable
     {
         /// <inheritdoc/>
         public FrameAssignableCellViewReadOnlyDictionary(FrameAssignableCellViewDictionary<TKey> dictionary)
@@ -15,9 +17,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FrameAssignableCellViewReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
+            if (!comparer.IsSameType(Other, out FrameAssignableCellViewReadOnlyDictionary<TKey> AsOtherReadOnlyDictionary))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherReadOnlyDictionary.Count))
@@ -31,10 +33,10 @@
                 IFrameAssignableCellView ThisValue = Entry.Value;
                 IFrameAssignableCellView OtherValue = AsOtherReadOnlyDictionary[Entry.Key];
 
-                if (!comparer.IsTrue((ThisValue == null && OtherValue == null) || (ThisValue != null && OtherValue != null)))
+                if (!comparer.IsTrue((ThisValue is null && OtherValue is null) || (ThisValue is not null && OtherValue is not null)))
                     return comparer.Failed();
 
-                if (ThisValue != null)
+                if (ThisValue is not null)
                 {
                     if (!comparer.VerifyEqual(Entry.Value, AsOtherReadOnlyDictionary[Entry.Key]))
                         return comparer.Failed();

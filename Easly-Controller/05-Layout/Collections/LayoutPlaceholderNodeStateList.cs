@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
+    using Contracts;
 
     /// <inheritdoc/>
     public class LayoutPlaceholderNodeStateList : FocusPlaceholderNodeStateList, ICollection<ILayoutPlaceholderNodeState>, IEnumerable<ILayoutPlaceholderNodeState>, IList<ILayoutPlaceholderNodeState>, IReadOnlyCollection<ILayoutPlaceholderNodeState>, IReadOnlyList<ILayoutPlaceholderNodeState>, IEqualComparable
@@ -33,9 +34,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            System.Diagnostics.Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutPlaceholderNodeStateList AsOtherList))
+            if (!comparer.IsSameType(Other, out LayoutPlaceholderNodeStateList AsOtherList))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(Count, AsOtherList.Count))

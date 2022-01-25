@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
 
@@ -16,7 +17,7 @@
         /// <inheritdoc/>
         public new ILayoutBlockState this[int index] { get { return (ILayoutBlockState)base[index]; } }
         /// <inheritdoc/>
-        public new IEnumerator<ILayoutBlockState> GetEnumerator() { var iterator = ((System.Collections.ObjectModel.ReadOnlyCollection<IReadOnlyBlockState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutBlockState)iterator.Current; } }
+        public new IEnumerator<ILayoutBlockState> GetEnumerator() { var iterator = ((ReadOnlyCollection<IReadOnlyBlockState>)this).GetEnumerator(); while (iterator.MoveNext()) { yield return (ILayoutBlockState)iterator.Current; } }
 
         #region ILayoutBlockState
         IEnumerator<ILayoutBlockState> IEnumerable<ILayoutBlockState>.GetEnumerator() { return GetEnumerator(); }
