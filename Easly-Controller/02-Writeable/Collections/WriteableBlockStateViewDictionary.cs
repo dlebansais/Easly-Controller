@@ -23,6 +23,7 @@
         void ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>.CopyTo(KeyValuePair<IWriteableBlockState, WriteableBlockStateView>[] array, int arrayIndex) { int i = arrayIndex; foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in this) array[i++] = new KeyValuePair<IWriteableBlockState, WriteableBlockStateView>((IWriteableBlockState)Entry.Key, (WriteableBlockStateView)Entry.Value); }
         bool ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>.Remove(KeyValuePair<IWriteableBlockState, WriteableBlockStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>>)this).IsReadOnly; } }
+        
         IEnumerator<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>> IEnumerable<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>.GetEnumerator() { IEnumerator<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<IWriteableBlockState, WriteableBlockStateView>((IWriteableBlockState)iterator.Current.Key, (WriteableBlockStateView)iterator.Current.Value); } }
 
         WriteableBlockStateView IDictionary<IWriteableBlockState, WriteableBlockStateView>.this[IWriteableBlockState key] { get { return (WriteableBlockStateView)this[key]; } set { this[key] = value; } }
