@@ -48,7 +48,7 @@
     {
         #region Init
         /// <summary>
-        /// Gets the empty <see cref="WriteableNodeState{IInner}"/> object.
+        /// Gets the empty <see cref="IWriteableNodeState"/> object.
         /// </summary>
         public static new IWriteableNodeState Empty { get; } = new WriteableEmptyNodeState<IInner>();
 

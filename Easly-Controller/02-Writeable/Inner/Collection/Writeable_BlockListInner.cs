@@ -144,7 +144,9 @@
         where IIndex : IWriteableBrowsingBlockNodeIndex
     {
         #region Init
-        /// Gets the empty <see cref="ReadOnlyBlockListInner{IIndex}"/> object.
+        /// <summary>
+        /// Gets the empty <see cref="WriteableBlockListInner{IIndex}"/> object.
+        /// </summary>
         public static new WriteableBlockListInner<IIndex> Empty { get; } = new WriteableBlockListInner<IIndex>();
 
         /// <summary>

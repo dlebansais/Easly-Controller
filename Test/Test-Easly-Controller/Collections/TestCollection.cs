@@ -1,5 +1,6 @@
 ﻿namespace Coverage;
 
+using EaslyController;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using NUnit.Framework;
@@ -15,6 +16,8 @@ public class TestCollection
     [Category("CollectionCoverage")]
     public static void TestCollectionReadOnly()
     {
+        ControllerTools.ResetExpectedName();
+
         TestList<ReadOnlyBlockStateList, ReadOnlyBlockStateReadOnlyList, IReadOnlyBlockState> TestListBlockState = new((ReadOnlyBlockStateList list) => list.ToReadOnly());
         TestListBlockState.TestToReadOnly();
 
@@ -32,6 +35,8 @@ public class TestCollection
     [Category("CollectionCoverage")]
     public static void TestCollectionWriteable()
     {
+        ControllerTools.ResetExpectedName();
+
         TestList<WriteableBlockStateList, WriteableBlockStateReadOnlyList, IWriteableBlockState> TestListBlockState = new((WriteableBlockStateList list) => (WriteableBlockStateReadOnlyList)list.ToReadOnly());
         TestListBlockState.TestToReadOnly();
 
