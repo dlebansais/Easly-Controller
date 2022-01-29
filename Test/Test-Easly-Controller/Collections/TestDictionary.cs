@@ -94,6 +94,9 @@ public class TestDictionary<T, TO, TKey, TValue>
         bool ContainsItem = AsDictionary.Contains(Entry);
         Assert.IsTrue(ContainsItem);
 
+        ContainsItem = AsDictionary.ContainsKey(NeutralKey);
+        Assert.IsTrue(ContainsItem);
+
         bool IsValueFound = AsDictionary.TryGetValue(NeutralKey, out _);
         Assert.IsTrue(IsValueFound);
 
@@ -130,6 +133,8 @@ public class TestDictionary<T, TO, TKey, TValue>
 
         IReadOnlyDictionary<TKey, TValue> AsReadOnlyDictionary = NewInstance;
         bool HasContent;
+
+        Assert.AreEqual(Entry.Value, AsReadOnlyDictionary[Entry.Key]);
 
         IEnumerable<TKey> EnumerableKeys = AsReadOnlyDictionary.Keys;
 
