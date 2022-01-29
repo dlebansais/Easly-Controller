@@ -14,9 +14,6 @@
         /// <inheritdoc/>
         public FocusAssignableCellViewDictionary(int capacity) : base(capacity) { }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(TKey key, out IFocusAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (IFocusAssignableCellView)Value; return Result; }
-
         #region TKey, IFocusAssignableCellView
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Add(KeyValuePair<TKey, IFocusAssignableCellView> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Contains(KeyValuePair<TKey, IFocusAssignableCellView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

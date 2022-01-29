@@ -13,9 +13,6 @@
         /// <inheritdoc/>
         public FocusTemplateDictionary(int capacity) : base(capacity) { }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(System.Type key, out IFocusTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (IFocusTemplate)Value; return Result; }
-
         #region System.Type, IFocusTemplate
         void ICollection<KeyValuePair<System.Type, IFocusTemplate>>.Add(KeyValuePair<System.Type, IFocusTemplate> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<System.Type, IFocusTemplate>>.Contains(KeyValuePair<System.Type, IFocusTemplate> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

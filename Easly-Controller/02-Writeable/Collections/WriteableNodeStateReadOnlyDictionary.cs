@@ -12,16 +12,13 @@
         {
         }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(IWriteableIndex key, out IWriteableNodeState value) { bool Result = TryGetValue(key, out IReadOnlyNodeState Value); value = (IWriteableNodeState)Value; return Result; }
-
         #region IWriteableIndex, IWriteableNodeState
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Add(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Clear() { throw new System.InvalidOperationException(); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Contains(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
         void ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.CopyTo(KeyValuePair<IWriteableIndex, IWriteableNodeState>[] array, int arrayIndex) { int i = arrayIndex; foreach (KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState> Entry in this) array[i++] = new KeyValuePair<IWriteableIndex, IWriteableNodeState>((IWriteableIndex)Entry.Key, (IWriteableNodeState)Entry.Value); }
         bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.Remove(KeyValuePair<IWriteableIndex, IWriteableNodeState> item) { throw new System.InvalidOperationException(); }
-        bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.IsReadOnly { get { return false; } }
+        bool ICollection<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.IsReadOnly { get { return true; } }
         IEnumerator<KeyValuePair<IWriteableIndex, IWriteableNodeState>> IEnumerable<KeyValuePair<IWriteableIndex, IWriteableNodeState>>.GetEnumerator() { IEnumerator<KeyValuePair<IReadOnlyIndex, IReadOnlyNodeState>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<IWriteableIndex, IWriteableNodeState>((IWriteableIndex)iterator.Current.Key, (IWriteableNodeState)iterator.Current.Value); } }
 
         IWriteableNodeState IDictionary<IWriteableIndex, IWriteableNodeState>.this[IWriteableIndex key] { get { return (IWriteableNodeState)this[key]; } set { throw new System.InvalidOperationException(); } }

@@ -14,9 +14,6 @@
         /// <inheritdoc/>
         public WriteableNodeStateViewDictionary(int capacity) : base(capacity) { }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(IWriteableNodeState key, out IWriteableNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IWriteableNodeStateView)Value; return Result; }
-
         #region IWriteableNodeState, IWriteableNodeStateView
         void ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Add(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IWriteableNodeState, IWriteableNodeStateView>>.Contains(KeyValuePair<IWriteableNodeState, IWriteableNodeStateView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }

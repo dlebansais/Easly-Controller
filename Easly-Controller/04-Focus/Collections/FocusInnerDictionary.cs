@@ -15,9 +15,6 @@
         /// <inheritdoc/>
         public FocusInnerDictionary(int capacity) : base(capacity) { }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IFrameInner Value); value = (IFocusInner)Value; return Result; }
-
         #region TKey, IFocusInner
         void ICollection<KeyValuePair<TKey, IFocusInner>>.Add(KeyValuePair<TKey, IFocusInner> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<TKey, IFocusInner>>.Contains(KeyValuePair<TKey, IFocusInner> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
@@ -32,13 +29,13 @@
         void IDictionary<TKey, IFocusInner>.Add(TKey key, IFocusInner value) { Add(key, value); }
         bool IDictionary<TKey, IFocusInner>.ContainsKey(TKey key) { return ContainsKey(key); }
         bool IDictionary<TKey, IFocusInner>.Remove(TKey key) { return Remove(key); }
-        bool IDictionary<TKey, IFocusInner>.TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IFrameInner Value); value = (IFocusInner)Value; return Result; }
+        bool IDictionary<TKey, IFocusInner>.TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFocusInner)Value; return Result; }
 
         IFocusInner IReadOnlyDictionary<TKey, IFocusInner>.this[TKey key] { get { return (IFocusInner)this[key]; } }
         IEnumerable<TKey> IReadOnlyDictionary<TKey, IFocusInner>.Keys { get { List<TKey> Result = new(); foreach (KeyValuePair<TKey, IFocusInner> Entry in (ICollection<KeyValuePair<TKey, IFocusInner>>)this) Result.Add(Entry.Key); return Result; } }
         IEnumerable<IFocusInner> IReadOnlyDictionary<TKey, IFocusInner>.Values { get { List<IFocusInner> Result = new(); foreach (KeyValuePair<TKey, IFocusInner> Entry in (ICollection<KeyValuePair<TKey, IFocusInner>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<TKey, IFocusInner>.ContainsKey(TKey key) { return ContainsKey(key); }
-        bool IReadOnlyDictionary<TKey, IFocusInner>.TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IFrameInner Value); value = (IFocusInner)Value; return Result; }
+        bool IReadOnlyDictionary<TKey, IFocusInner>.TryGetValue(TKey key, out IFocusInner value) { bool Result = TryGetValue(key, out IReadOnlyInner Value); value = (IFocusInner)Value; return Result; }
         #endregion
 
         /// <inheritdoc/>

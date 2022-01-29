@@ -39,23 +39,23 @@ public class TestList<T, TO, TItem>
         TItem Item = AsList[0];
         AsList[0] = Item;
 
-        Assert.That(AsList.Count == 1);
+        Assert.AreEqual(1, AsList.Count);
 
         int ItemIndex = AsList.IndexOf(Item);
         Assert.AreEqual(0, ItemIndex);
 
         NewInstance.Clear();
-        Assert.That(AsList.Count == 0);
+        Assert.AreEqual(0, AsList.Count);
 
         AsList.Insert(0, Item);
-        Assert.That(AsList.Count == 1);
+        Assert.AreEqual(1, AsList.Count);
 
         NewInstance.Clear();
-        Assert.That(AsList.Count == 0);
+        Assert.AreEqual(0, AsList.Count);
 
         ICollection<TItem> AsCollection = NewInstance;
         AsCollection.Add(Item);
-        Assert.That(AsList.Count == 1);
+        Assert.AreEqual(1, AsList.Count);
 
         bool ContainsItem = AsCollection.Contains(Item);
         Assert.IsTrue(ContainsItem);
@@ -64,15 +64,15 @@ public class TestList<T, TO, TItem>
         AsCollection.CopyTo(ArrayInstance, 0);
         Assert.AreEqual(ArrayInstance[0], Item);
 
-        Assert.That(AsList.Count == 1);
+        Assert.AreEqual(1, AsList.Count);
         AsCollection.Remove(Item);
-        Assert.That(AsList.Count == 0);
+        Assert.AreEqual(0, AsList.Count);
 
         bool IsReadOnly = AsCollection.IsReadOnly;
         Assert.IsFalse(IsReadOnly);
 
         NewInstance.Add(Item);
-        Assert.That(AsList.Count == 1);
+        Assert.AreEqual(1, AsList.Count);
 
         IEnumerable<TItem> AsEnumerable = NewInstance;
 

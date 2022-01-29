@@ -12,16 +12,13 @@
         {
         }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(System.Type key, out IFocusTemplate value) { bool Result = TryGetValue(key, out IFrameTemplate Value); value = (IFocusTemplate)Value; return Result; }
-
         #region System.Type, IFocusTemplate
         void ICollection<KeyValuePair<System.Type, IFocusTemplate>>.Add(KeyValuePair<System.Type, IFocusTemplate> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<System.Type, IFocusTemplate>>.Clear() { throw new System.InvalidOperationException(); }
         bool ICollection<KeyValuePair<System.Type, IFocusTemplate>>.Contains(KeyValuePair<System.Type, IFocusTemplate> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
         void ICollection<KeyValuePair<System.Type, IFocusTemplate>>.CopyTo(KeyValuePair<System.Type, IFocusTemplate>[] array, int arrayIndex) { int i = arrayIndex; foreach (KeyValuePair<System.Type, IFrameTemplate> Entry in this) array[i++] = new KeyValuePair<System.Type, IFocusTemplate>((System.Type)Entry.Key, (IFocusTemplate)Entry.Value); }
         bool ICollection<KeyValuePair<System.Type, IFocusTemplate>>.Remove(KeyValuePair<System.Type, IFocusTemplate> item) { throw new System.InvalidOperationException(); }
-        bool ICollection<KeyValuePair<System.Type, IFocusTemplate>>.IsReadOnly { get { return false; } }
+        bool ICollection<KeyValuePair<System.Type, IFocusTemplate>>.IsReadOnly { get { return true; } }
         IEnumerator<KeyValuePair<System.Type, IFocusTemplate>> IEnumerable<KeyValuePair<System.Type, IFocusTemplate>>.GetEnumerator() { IEnumerator<KeyValuePair<System.Type, IFrameTemplate>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<System.Type, IFocusTemplate>((System.Type)iterator.Current.Key, (IFocusTemplate)iterator.Current.Value); } }
 
         IFocusTemplate IDictionary<System.Type, IFocusTemplate>.this[System.Type key] { get { return (IFocusTemplate)this[key]; } set { throw new System.InvalidOperationException(); } }

@@ -15,9 +15,6 @@
         /// <inheritdoc/>
         public FocusNodeStateViewDictionary(int capacity) : base(capacity) { }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(IFocusNodeState key, out IFocusNodeStateView value) { bool Result = TryGetValue(key, out IFrameNodeStateView Value); value = (IFocusNodeStateView)Value; return Result; }
-
         #region IFocusNodeState, IFocusNodeStateView
         void ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>.Add(KeyValuePair<IFocusNodeState, IFocusNodeStateView> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>.Contains(KeyValuePair<IFocusNodeState, IFocusNodeStateView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
@@ -32,13 +29,13 @@
         void IDictionary<IFocusNodeState, IFocusNodeStateView>.Add(IFocusNodeState key, IFocusNodeStateView value) { Add(key, value); }
         bool IDictionary<IFocusNodeState, IFocusNodeStateView>.ContainsKey(IFocusNodeState key) { return ContainsKey(key); }
         bool IDictionary<IFocusNodeState, IFocusNodeStateView>.Remove(IFocusNodeState key) { return Remove(key); }
-        bool IDictionary<IFocusNodeState, IFocusNodeStateView>.TryGetValue(IFocusNodeState key, out IFocusNodeStateView value) { bool Result = TryGetValue(key, out IFrameNodeStateView Value); value = (IFocusNodeStateView)Value; return Result; }
+        bool IDictionary<IFocusNodeState, IFocusNodeStateView>.TryGetValue(IFocusNodeState key, out IFocusNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IFocusNodeStateView)Value; return Result; }
 
         IFocusNodeStateView IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>.this[IFocusNodeState key] { get { return (IFocusNodeStateView)this[key]; } }
         IEnumerable<IFocusNodeState> IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>.Keys { get { List<IFocusNodeState> Result = new(); foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in (ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>)this) Result.Add(Entry.Key); return Result; } }
         IEnumerable<IFocusNodeStateView> IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>.Values { get { List<IFocusNodeStateView> Result = new(); foreach (KeyValuePair<IFocusNodeState, IFocusNodeStateView> Entry in (ICollection<KeyValuePair<IFocusNodeState, IFocusNodeStateView>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>.ContainsKey(IFocusNodeState key) { return ContainsKey(key); }
-        bool IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>.TryGetValue(IFocusNodeState key, out IFocusNodeStateView value) { bool Result = TryGetValue(key, out IFrameNodeStateView Value); value = (IFocusNodeStateView)Value; return Result; }
+        bool IReadOnlyDictionary<IFocusNodeState, IFocusNodeStateView>.TryGetValue(IFocusNodeState key, out IFocusNodeStateView value) { bool Result = TryGetValue(key, out IReadOnlyNodeStateView Value); value = (IFocusNodeStateView)Value; return Result; }
         #endregion
 
         /// <inheritdoc/>

@@ -13,16 +13,13 @@
         {
         }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(TKey key, out IFocusAssignableCellView value) { bool Result = TryGetValue(key, out IFrameAssignableCellView Value); value = (IFocusAssignableCellView)Value; return Result; }
-
         #region TKey, IFocusAssignableCellView
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Add(KeyValuePair<TKey, IFocusAssignableCellView> item) { throw new System.InvalidOperationException(); }
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Clear() { throw new System.InvalidOperationException(); }
         bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Contains(KeyValuePair<TKey, IFocusAssignableCellView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
         void ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.CopyTo(KeyValuePair<TKey, IFocusAssignableCellView>[] array, int arrayIndex) { int i = arrayIndex; foreach (KeyValuePair<TKey, IFrameAssignableCellView> Entry in this) array[i++] = new KeyValuePair<TKey, IFocusAssignableCellView>(Entry.Key, (IFocusAssignableCellView)Entry.Value); }
         bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.Remove(KeyValuePair<TKey, IFocusAssignableCellView> item) { throw new System.InvalidOperationException(); }
-        bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.IsReadOnly { get { return false; } }
+        bool ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>.IsReadOnly { get { return true; } }
         IEnumerator<KeyValuePair<TKey, IFocusAssignableCellView>> IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>.GetEnumerator() { IEnumerator<KeyValuePair<TKey, IFrameAssignableCellView>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<TKey, IFocusAssignableCellView>((TKey)iterator.Current.Key, (IFocusAssignableCellView)iterator.Current.Value); } }
 
         IFocusAssignableCellView IDictionary<TKey, IFocusAssignableCellView>.this[TKey key] { get { return (IFocusAssignableCellView)this[key]; } set { throw new System.InvalidOperationException(); } }

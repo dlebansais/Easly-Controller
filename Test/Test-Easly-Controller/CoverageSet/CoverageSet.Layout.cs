@@ -3987,7 +3987,7 @@ namespace Coverage
                 foreach (KeyValuePair<IWriteableBlockState, WriteableBlockStateView> Entry in (ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>)WriteableBlockStateViewTable)
                 {
                     WriteableBlockStateView StateView = (WriteableBlockStateView)WriteableBlockStateViewTable[Entry.Key];
-                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out WriteableBlockStateView Value);
+                    WriteableBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
                     ((ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>)WriteableBlockStateViewTable).Contains(Entry);
                     WriteableBlockStateViewTable.Remove(Entry.Key);
                     WriteableBlockStateViewTable.Add(Entry.Key, Entry.Value);
@@ -4022,7 +4022,7 @@ namespace Coverage
                 foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in (ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>)FrameBlockStateViewTable)
                 {
                     FrameBlockStateView StateView = (FrameBlockStateView)FrameBlockStateViewTable[Entry.Key];
-                    FrameBlockStateViewTable.TryGetValue(Entry.Key, out FrameBlockStateView Value);
+                    FrameBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
                     ((ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>)FrameBlockStateViewTable).Contains(Entry);
                     FrameBlockStateViewTable.Remove(Entry.Key);
                     FrameBlockStateViewTable.Add(Entry.Key, Entry.Value);
@@ -4057,7 +4057,7 @@ namespace Coverage
                 foreach (KeyValuePair<IFocusBlockState, FocusBlockStateView> Entry in (ICollection<KeyValuePair<IFocusBlockState, FocusBlockStateView>>)FocusBlockStateViewTable)
                 {
                     FocusBlockStateView StateView = (FocusBlockStateView)FocusBlockStateViewTable[Entry.Key];
-                    FocusBlockStateViewTable.TryGetValue(Entry.Key, out FocusBlockStateView Value);
+                    FocusBlockStateViewTable.TryGetValue(Entry.Key, out ReadOnlyBlockStateView Value);
                     ((ICollection<KeyValuePair<IFocusBlockState, FocusBlockStateView>>)FocusBlockStateViewTable).Contains(Entry);
                     FocusBlockStateViewTable.Remove(Entry.Key);
                     FocusBlockStateViewTable.Add(Entry.Key, Entry.Value);
@@ -4574,7 +4574,7 @@ namespace Coverage
                 Assert.That(WriteableStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 WriteableStateTable.GetEnumerator();
                 IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState> WriteableStateTableAsDictionary = ReadOnlyStateTable as IReadOnlyDictionary<IWriteableIndex, IWriteableNodeState>;
-                Assert.That(WriteableStateTable.TryGetValue(RootIndex, out IWriteableNodeState WriteableRootStateValue) == WriteableStateTableAsDictionary.TryGetValue(RootIndex, out IWriteableNodeState WriteableRootStateValueFromDictionary) && WriteableRootStateValue == WriteableRootStateValueFromDictionary);
+                Assert.That(WriteableStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState WriteableRootStateValue) == WriteableStateTableAsDictionary.TryGetValue(RootIndex, out IWriteableNodeState WriteableRootStateValueFromDictionary) && WriteableRootStateValue == WriteableRootStateValueFromDictionary);
                 Assert.That(WriteableStateTableAsDictionary.ContainsKey(RootIndex));
                 Assert.That(WriteableStateTableAsDictionary[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 Assert.That(WriteableStateTableAsDictionary.Keys != null);
@@ -4587,7 +4587,7 @@ namespace Coverage
                 Assert.That(FrameStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 FrameStateTable.GetEnumerator();
                 IReadOnlyDictionary<IFrameIndex, IFrameNodeState> FrameStateTableAsDictionary = ReadOnlyStateTable as IReadOnlyDictionary<IFrameIndex, IFrameNodeState>;
-                Assert.That(FrameStateTable.TryGetValue(RootIndex, out IFrameNodeState FrameRootStateValue) == FrameStateTableAsDictionary.TryGetValue(RootIndex, out IFrameNodeState FrameRootStateValueFromDictionary) && FrameRootStateValue == FrameRootStateValueFromDictionary);
+                Assert.That(FrameStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState FrameRootStateValue) == FrameStateTableAsDictionary.TryGetValue(RootIndex, out IFrameNodeState FrameRootStateValueFromDictionary) && FrameRootStateValue == FrameRootStateValueFromDictionary);
                 Assert.That(FrameStateTableAsDictionary.ContainsKey(RootIndex));
                 Assert.That(FrameStateTableAsDictionary[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 Assert.That(FrameStateTableAsDictionary.Keys != null);
@@ -4600,7 +4600,7 @@ namespace Coverage
                 Assert.That(FocusStateTable[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 FocusStateTable.GetEnumerator();
                 IReadOnlyDictionary<IFocusIndex, IFocusNodeState> FocusStateTableAsDictionary = ReadOnlyStateTable as IReadOnlyDictionary<IFocusIndex, IFocusNodeState>;
-                Assert.That(FocusStateTable.TryGetValue(RootIndex, out IFocusNodeState FocusRootStateValue) == FocusStateTableAsDictionary.TryGetValue(RootIndex, out IFocusNodeState FocusRootStateValueFromDictionary) && FocusRootStateValue == FocusRootStateValueFromDictionary);
+                Assert.That(FocusStateTable.TryGetValue(RootIndex, out IReadOnlyNodeState FocusRootStateValue) == FocusStateTableAsDictionary.TryGetValue(RootIndex, out IFocusNodeState FocusRootStateValueFromDictionary) && FocusRootStateValue == FocusRootStateValueFromDictionary);
                 Assert.That(FocusStateTableAsDictionary.ContainsKey(RootIndex));
                 Assert.That(FocusStateTableAsDictionary[RootIndex] == ReadOnlyStateTable[RootIndex]);
                 Assert.That(FocusStateTableAsDictionary.Keys != null);
@@ -4630,7 +4630,7 @@ namespace Coverage
                 {
                     Assert.That(ReadOnlyInnerTableModifyAsDictionary.ContainsKey(Entry.Key));
                     Assert.That(ReadOnlyInnerTableModifyAsDictionary[Entry.Key] == Entry.Value);
-                    Assert.That(LayoutInnerTableModify.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == LayoutInnerTableModify.TryGetValue(Entry.Key, out ILayoutInner LayoutInnerValue));
+                    Assert.That(LayoutInnerTableModify.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == LayoutInnerTableModify.TryGetValue(Entry.Key, out IReadOnlyInner LayoutInnerValue));
 
                     Assert.That(((ICollection<KeyValuePair<string, IReadOnlyInner>>)LayoutInnerTableModify).Contains(Entry));
                     ((ICollection<KeyValuePair<string, IReadOnlyInner>>)LayoutInnerTableModify).Remove(Entry);
@@ -4733,7 +4733,7 @@ namespace Coverage
                 Assert.That(ReadOnlyInnerTableAsDictionary.Values != null);
                 foreach (KeyValuePair<string, ILayoutInner> Entry in (ICollection<KeyValuePair<string, ILayoutInner>>)LayoutInnerTable)
                 {
-                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out ILayoutInner LayoutInnerValue));
+                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner ReadOnlyInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner LayoutInnerValue));
                     break;
                 }
 
@@ -4746,7 +4746,7 @@ namespace Coverage
                 foreach (KeyValuePair<string, ILayoutInner> Entry in (ICollection<KeyValuePair<string, ILayoutInner>>)LayoutInnerTable)
                 {
                     Assert.That(WriteableInnerTableAsDictionary[Entry.Key] == Entry.Value);
-                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IWriteableInner WriteableInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out ILayoutInner LayoutInnerValue));
+                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner WriteableInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner LayoutInnerValue));
                     break;
                 }
 
@@ -4759,7 +4759,7 @@ namespace Coverage
                 foreach (KeyValuePair<string, ILayoutInner> Entry in (ICollection<KeyValuePair<string, ILayoutInner>>)LayoutInnerTable)
                 {
                     Assert.That(FrameInnerTableAsDictionary[Entry.Key] == Entry.Value);
-                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IFrameInner FrameInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out ILayoutInner LayoutInnerValue));
+                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner FrameInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner LayoutInnerValue));
                     break;
                 }
 
@@ -4772,7 +4772,7 @@ namespace Coverage
                 foreach (KeyValuePair<string, ILayoutInner> Entry in (ICollection<KeyValuePair<string, ILayoutInner>>)LayoutInnerTable)
                 {
                     Assert.That(FocusInnerTableAsDictionary[Entry.Key] == Entry.Value);
-                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IFocusInner FocusInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out ILayoutInner LayoutInnerValue));
+                    Assert.That(LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner FocusInnerValue) == LayoutInnerTable.TryGetValue(Entry.Key, out IReadOnlyInner LayoutInnerValue));
                     break;
                 }
 
@@ -5449,7 +5449,7 @@ namespace Coverage
                     {
                         Assert.That(FrameActualCellViewTable[Entry.Key] == Entry.Value);
                         Assert.That(FrameActualCellViewTableAsDictionary[Entry.Key] == Entry.Value);
-                        Assert.That(FrameActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView FrameCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out ILayoutAssignableCellView LayoutCellView));
+                        Assert.That(FrameActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView FrameCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView LayoutCellView));
                         Assert.That(FrameActualCellViewTableAsCollection.Contains(Entry));
                         FrameActualCellViewTableAsDictionary.Remove(Entry.Key);
                         FrameActualCellViewTableAsDictionary.Add(Entry.Key, Entry.Value);
@@ -5471,7 +5471,7 @@ namespace Coverage
                     {
                         Assert.That(FocusActualCellViewTable[Entry.Key] == Entry.Value);
                         Assert.That(FocusActualCellViewTableAsDictionary[Entry.Key] == Entry.Value);
-                        Assert.That(FocusActualCellViewTable.TryGetValue(Entry.Key, out IFocusAssignableCellView FocusCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out ILayoutAssignableCellView LayoutCellView));
+                        Assert.That(FocusActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView FocusCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView LayoutCellView));
                         Assert.That(FocusActualCellViewTableAsCollection.Contains(Entry));
                         FocusActualCellViewTableAsDictionary.Remove(Entry.Key);
                         FocusActualCellViewTableAsDictionary.Add(Entry.Key, Entry.Value);
@@ -5494,7 +5494,7 @@ namespace Coverage
                     {
                         Assert.That(FrameActualCellViewTableReadOnly[Entry.Key] == ActualCellViewTableReadOnly[Entry.Key]);
                         Assert.That(FrameActualCellViewTableReadOnlyAsDictionary[Entry.Key] == ActualCellViewTableReadOnly[Entry.Key]);
-                        Assert.That(FrameActualCellViewTableReadOnlyAsDictionary.TryGetValue(Entry.Key, out IFrameAssignableCellView FrameCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out ILayoutAssignableCellView LayoutCellView));
+                        Assert.That(FrameActualCellViewTableReadOnlyAsDictionary.TryGetValue(Entry.Key, out IFrameAssignableCellView FrameCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView LayoutCellView));
                         FrameActualCellViewTableReadOnly.GetEnumerator();
                         break;
                     }
@@ -5507,7 +5507,7 @@ namespace Coverage
                     {
                         Assert.That(FocusActualCellViewTableReadOnly[Entry.Key] == ActualCellViewTableReadOnly[Entry.Key]);
                         Assert.That(FocusActualCellViewTableReadOnlyAsDictionary[Entry.Key] == ActualCellViewTableReadOnly[Entry.Key]);
-                        Assert.That(FocusActualCellViewTableReadOnlyAsDictionary.TryGetValue(Entry.Key, out IFocusAssignableCellView FocusCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out ILayoutAssignableCellView LayoutCellView));
+                        Assert.That(FocusActualCellViewTableReadOnlyAsDictionary.TryGetValue(Entry.Key, out IFocusAssignableCellView FocusCellView) == ActualCellViewTable.TryGetValue(Entry.Key, out IFrameAssignableCellView LayoutCellView));
                         FocusActualCellViewTableReadOnly.GetEnumerator();
                         break;
                     }
@@ -5775,7 +5775,7 @@ namespace Coverage
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(Leaf)));
             FrameNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
             FrameNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out ILayoutTemplate AsFrameLayoutTemplate));
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameLayoutTemplate));
             ICollection<KeyValuePair<Type, IFrameTemplate>> FrameNodeTemplateDictionaryAsCollection = FrameNodeTemplateDictionary;
             Assert.That(!FrameNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in FrameNodeTemplateDictionary)
@@ -5796,7 +5796,7 @@ namespace Coverage
             Assert.That(FocusNodeTemplateDictionaryAsDictionary[typeof(Leaf)] != null);
             FocusNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
             FocusNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFocusTemplate AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out ILayoutTemplate AsFocusLayoutTemplate));
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFocusTemplate AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFocusLayoutTemplate));
             ICollection<KeyValuePair<Type, IFocusTemplate>> FocusNodeTemplateDictionaryAsCollection = FocusNodeTemplateDictionary;
             Assert.That(!FocusNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFocusTemplate> Entry in (ICollection<KeyValuePair<Type, IFocusTemplate>>)FocusNodeTemplateDictionary)

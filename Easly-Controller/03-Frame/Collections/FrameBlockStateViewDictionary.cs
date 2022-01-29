@@ -15,9 +15,6 @@
         /// <inheritdoc/>
         public FrameBlockStateViewDictionary(int capacity) : base(capacity) { }
 
-        /// <inheritdoc/>
-        public bool TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out WriteableBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
-
         #region IFrameBlockState, FrameBlockStateView
         void ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Add(KeyValuePair<IFrameBlockState, FrameBlockStateView> item) { Add(item.Key, item.Value); }
         bool ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Contains(KeyValuePair<IFrameBlockState, FrameBlockStateView> item) { return ContainsKey(item.Key) && this[item.Key] == item.Value; }
@@ -32,13 +29,13 @@
         void IDictionary<IFrameBlockState, FrameBlockStateView>.Add(IFrameBlockState key, FrameBlockStateView value) { Add(key, value); }
         bool IDictionary<IFrameBlockState, FrameBlockStateView>.ContainsKey(IFrameBlockState key) { return ContainsKey(key); }
         bool IDictionary<IFrameBlockState, FrameBlockStateView>.Remove(IFrameBlockState key) { return Remove(key); }
-        bool IDictionary<IFrameBlockState, FrameBlockStateView>.TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out WriteableBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
+        bool IDictionary<IFrameBlockState, FrameBlockStateView>.TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
 
         FrameBlockStateView IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>.this[IFrameBlockState key] { get { return (FrameBlockStateView)this[key]; } }
         IEnumerable<IFrameBlockState> IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>.Keys { get { List<IFrameBlockState> Result = new(); foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in (ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>)this) Result.Add(Entry.Key); return Result; } }
         IEnumerable<FrameBlockStateView> IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>.Values { get { List<FrameBlockStateView> Result = new(); foreach (KeyValuePair<IFrameBlockState, FrameBlockStateView> Entry in (ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>)this) Result.Add(Entry.Value); return Result; } }
         bool IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>.ContainsKey(IFrameBlockState key) { return ContainsKey(key); }
-        bool IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>.TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out WriteableBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
+        bool IReadOnlyDictionary<IFrameBlockState, FrameBlockStateView>.TryGetValue(IFrameBlockState key, out FrameBlockStateView value) { bool Result = TryGetValue(key, out ReadOnlyBlockStateView Value); value = (FrameBlockStateView)Value; return Result; }
         #endregion
 
         /// <inheritdoc/>

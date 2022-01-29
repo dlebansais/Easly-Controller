@@ -7,6 +7,7 @@ namespace Coverage;
 
 public class TestDictionary<T, TO, TKey, TValue>
     where T: IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>, new()
+    where TO: ICollection<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>, IReadOnlyDictionary<TKey, TValue>
 {
     public TestDictionary(Func<T, TO> toReadOnlyHandler, TKey neutralKey, TValue neutralValue)
     {
@@ -25,6 +26,7 @@ public class TestDictionary<T, TO, TKey, TValue>
         TestIsEqual();
         TestInterfaces();
         TestReadOnlyInterfaces();
+        TestExceptions();
     }
 
     private void TestToReadOnly()
@@ -101,7 +103,7 @@ public class TestDictionary<T, TO, TKey, TValue>
         ICollection<KeyValuePair<TKey, TValue>> AsCollection = NewInstance;
 
         AsCollection.Add(Entry);
-        Assert.That(AsDictionary.Count == 1);
+        Assert.AreEqual(1, AsDictionary.Count);
 
         ContainsItem = AsCollection.Contains(Entry);
         Assert.IsTrue(ContainsItem);
@@ -110,9 +112,9 @@ public class TestDictionary<T, TO, TKey, TValue>
         AsCollection.CopyTo(ArrayInstance, 0);
         Assert.AreEqual(ArrayInstance[0], Entry);
 
-        Assert.That(AsDictionary.Count == 1);
+        Assert.AreEqual(1, AsDictionary.Count);
         AsCollection.Remove(Entry);
-        Assert.That(AsDictionary.Count == 0);
+        Assert.AreEqual(0, AsDictionary.Count);
 
         bool IsReadOnly = AsCollection.IsReadOnly;
         Assert.IsFalse(IsReadOnly);
@@ -159,6 +161,94 @@ public class TestDictionary<T, TO, TKey, TValue>
     private void TestReadOnlyInterfaces()
     {
         T NewInstance = new();
+        NewInstance.Add(NeutralKey, NeutralValue);
+
+        IDictionary<TKey, TValue> AsDictionary = NewInstance;
+        IEnumerator<KeyValuePair<TKey, TValue>> Enumerator = NewInstance.GetEnumerator();
+        Enumerator.MoveNext();
+        KeyValuePair<TKey, TValue> Entry = Enumerator.Current;
+
         TO ReadOnlyInstance = ToReadOnlyHandler(NewInstance);
+
+        ICollection<KeyValuePair<TKey, TValue>> AsCollection = ReadOnlyInstance;
+
+        bool ContainsItem = AsCollection.Contains(Entry);
+        Assert.IsTrue(ContainsItem);
+
+        KeyValuePair<TKey, TValue>[] ArrayInstance = new KeyValuePair<TKey, TValue>[1];
+        AsCollection.CopyTo(ArrayInstance, 0);
+        Assert.AreEqual(ArrayInstance[0], Entry);
+
+        bool IsReadOnly = AsCollection.IsReadOnly;
+        Assert.IsTrue(IsReadOnly);
+
+        IEnumerable<KeyValuePair<TKey, TValue>> AsEnumerable = ReadOnlyInstance;
+
+        foreach (KeyValuePair<TKey, TValue> CollectionEntry in AsEnumerable)
+        {
+            Assert.AreEqual(CollectionEntry, Entry);
+        }
+
+        AsDictionary = ReadOnlyInstance;
+        Assert.AreEqual(NeutralValue, AsDictionary[NeutralKey]);
+
+        ICollection<TKey> Keys = AsDictionary.Keys;
+        Assert.AreEqual(1, Keys.Count);
+
+        ICollection<TValue> Values = AsDictionary.Values;
+        Assert.AreEqual(1, Values.Count);
+
+        ContainsItem = AsDictionary.ContainsKey(NeutralKey);
+        Assert.IsTrue(ContainsItem);
+
+        bool IsValueFound = AsDictionary.TryGetValue(NeutralKey, out _);
+        Assert.IsTrue(IsValueFound);
+
+        IReadOnlyDictionary<TKey, TValue> AsReadOnlyDictionary = ReadOnlyInstance;
+        bool HasContent;
+
+        IEnumerable<TKey> EnumerableKeys = AsReadOnlyDictionary.Keys;
+
+        HasContent = false;
+        foreach (TKey Key in EnumerableKeys)
+        {
+            Assert.AreEqual(NeutralKey, Key);
+            HasContent = true;
+        }
+        Assert.IsTrue(HasContent);
+
+        IEnumerable<TValue> EnumerableValues = AsReadOnlyDictionary.Values;
+
+        HasContent = false;
+        foreach (TValue Value in EnumerableValues)
+        {
+            Assert.AreEqual(NeutralValue, Value);
+            HasContent = true;
+        }
+        Assert.IsTrue(HasContent);
+
+        ContainsItem = AsReadOnlyDictionary.ContainsKey(NeutralKey);
+        Assert.IsTrue(ContainsItem);
+
+        IsValueFound = AsReadOnlyDictionary.TryGetValue(NeutralKey, out _);
+        Assert.IsTrue(IsValueFound);
+    }
+
+    private void TestExceptions()
+    {
+        T NewInstance = new();
+        TO ReadOnlyInstance = ToReadOnlyHandler(NewInstance);
+        KeyValuePair<TKey, TValue> Entry = new(NeutralKey, NeutralValue);
+        ICollection<KeyValuePair<TKey, TValue>> AsCollection = ReadOnlyInstance;
+
+        Assert.Throws<NotSupportedException>(() => { AsCollection.Add(Entry); }, "Collection is read-only.");
+        Assert.Throws<NotSupportedException>(() => { AsCollection.Clear(); }, "Collection is read-only.");
+        Assert.Throws<NotSupportedException>(() => { AsCollection.Remove(Entry); }, "Collection is read-only.");
+
+        IDictionary<TKey, TValue> AsDictionary = ReadOnlyInstance;
+
+        Assert.Throws<NotSupportedException>(() => { AsDictionary[NeutralKey] = NeutralValue; }, "Collection is read-only.");
+        Assert.Throws<NotSupportedException>(() => { AsDictionary.Add(Entry); }, "Collection is read-only.");
+        Assert.Throws<NotSupportedException>(() => { AsDictionary.Remove(Entry); }, "Collection is read-only.");
     }
 }
