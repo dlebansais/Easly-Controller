@@ -212,6 +212,8 @@ public class TestDictionary<T, TO, TKey, TValue>
         IReadOnlyDictionary<TKey, TValue> AsReadOnlyDictionary = ReadOnlyInstance;
         bool HasContent;
 
+        Assert.AreEqual(NeutralValue, AsReadOnlyDictionary[NeutralKey]);
+
         IEnumerable<TKey> EnumerableKeys = AsReadOnlyDictionary.Keys;
 
         HasContent = false;
