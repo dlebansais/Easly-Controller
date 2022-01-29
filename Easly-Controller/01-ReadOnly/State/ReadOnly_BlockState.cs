@@ -104,6 +104,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyBlockState{IInner}"/> object.
+        /// </summary>
+        public static ReadOnlyBlockState<IInner> Empty { get; } = new ReadOnlyBlockState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockState{IInner}"/> class.
+        /// </summary>
+        private ReadOnlyBlockState()
+            : this(ReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex>.Empty, ReadOnlyBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>

@@ -10,6 +10,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableControllerView"/> object.
+        /// </summary>
+        public static new WriteableControllerView Empty { get; } = new WriteableControllerView();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="WriteableControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
@@ -18,6 +23,14 @@
             WriteableControllerView View = new WriteableControllerView(controller);
             View.Init();
             return View;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableControllerView"/> class.
+        /// </summary>
+        protected WriteableControllerView()
+            : this(WriteableController.Empty)
+        {
         }
 
         /// <summary>

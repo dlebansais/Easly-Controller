@@ -32,6 +32,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyController"/> object.
+        /// </summary>
+        public static ReadOnlyController Empty { get; } = new ReadOnlyController();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="ReadOnlyController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>

@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableBrowsingNewBlockNodeIndex"/> object.
+        /// </summary>
+        public static new WriteableBrowsingNewBlockNodeIndex Empty { get; } = new WriteableBrowsingNewBlockNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableBrowsingNewBlockNodeIndex"/> class.
+        /// </summary>
+        protected WriteableBrowsingNewBlockNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBrowsingNewBlockNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>

@@ -21,6 +21,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBrowsingBlockNodeIndex"/> class.
         /// </summary>
+        protected ReadOnlyBrowsingBlockNodeIndex()
+        {
+            BlockIndex = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBrowsingBlockNodeIndex"/> class.
+        /// </summary>
         /// <param name="node">The indexed node.</param>
         /// <param name="propertyName">The property for the index.</param>
         /// <param name="blockIndex">The position of the block in the block list.</param>

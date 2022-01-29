@@ -144,6 +144,26 @@
         where IIndex : IWriteableBrowsingBlockNodeIndex
     {
         #region Init
+        /// Gets the empty <see cref="ReadOnlyBlockListInner{IIndex}"/> object.
+        public static new WriteableBlockListInner<IIndex> Empty { get; } = new WriteableBlockListInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex}"/> class.
+        /// </summary>
+        protected WriteableBlockListInner()
+            : this(WriteableNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected WriteableBlockListInner(IWriteableNodeState owner)
+            : base(owner)
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex}"/> class.
         /// </summary>

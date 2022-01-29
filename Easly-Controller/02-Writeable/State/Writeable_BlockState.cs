@@ -81,6 +81,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableBlockState{IInner}"/> object.
+        /// </summary>
+        public static new WriteableBlockState<IInner> Empty { get; } = new WriteableBlockState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableBlockState{IInner}"/> class.
+        /// </summary>
+        private WriteableBlockState()
+            : this(WriteableBlockListInner<IWriteableBrowsingBlockNodeIndex>.Empty, WriteableBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>

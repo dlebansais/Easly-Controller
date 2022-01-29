@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableRootNodeIndex"/> object.
+        /// </summary>
+        public static new WriteableRootNodeIndex Empty { get; } = new WriteableRootNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableRootNodeIndex"/> class.
+        /// </summary>
+        protected WriteableRootNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>

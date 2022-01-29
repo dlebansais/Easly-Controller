@@ -143,6 +143,32 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyBlockListInner{IIndex}"/> object.
+        /// </summary>
+        public static new ReadOnlyBlockListInner<IIndex> Empty { get; } = new ReadOnlyBlockListInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockListInner{IIndex}"/> class.
+        /// </summary>
+        protected ReadOnlyBlockListInner()
+            : base()
+        {
+            _BlockStateList = CreateBlockStateList();
+            BlockStateList = _BlockStateList.ToReadOnly();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockListInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        public ReadOnlyBlockListInner(IReadOnlyNodeState owner)
+            : base(owner)
+        {
+            _BlockStateList = CreateBlockStateList();
+            BlockStateList = _BlockStateList.ToReadOnly();
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

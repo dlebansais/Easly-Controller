@@ -23,6 +23,7 @@ if not exist ".\packages\%CODECOV%\tools\codecov.exe" goto error_console2
 
 mkdir Test\temp
 ".\packages\%OPENCOVER%\tools\OpenCover.Console.exe" -register:user -target:"runtests.bat" -filter:"+[%PROJECTNAME%*]* -[%TESTPROJECTNAME%*]*" -output:%RESULTOUTPUT%
+goto end
 if exist %RESULTOUTPUT% .\packages\%CODECOV%\tools\win7-x86\codecov -f %RESULTOUTPUT% -t %PROJECT_TOKEN%
 del .\Test\temp\*.xml
 rmdir Test\temp

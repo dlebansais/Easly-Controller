@@ -26,6 +26,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyBrowsingNewBlockNodeIndex"/> object.
+        /// </summary>
+        public static new ReadOnlyBrowsingNewBlockNodeIndex Empty { get; } = new ReadOnlyBrowsingNewBlockNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBrowsingNewBlockNodeIndex"/> class.
+        /// </summary>
+        protected ReadOnlyBrowsingNewBlockNodeIndex()
+        {
+            ParentNode = Node.Empty;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBrowsingNewBlockNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>

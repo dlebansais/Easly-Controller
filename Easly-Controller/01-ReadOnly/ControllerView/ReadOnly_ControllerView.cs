@@ -10,6 +10,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyControllerView"/> object.
+        /// </summary>
+        public static ReadOnlyControllerView Empty { get; } = new ReadOnlyControllerView();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="ReadOnlyControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
@@ -18,6 +23,14 @@
             ReadOnlyControllerView View = new ReadOnlyControllerView(controller);
             View.Init();
             return View;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyControllerView"/> class.
+        /// </summary>
+        protected ReadOnlyControllerView()
+            : this(ReadOnlyController.Empty)
+        {
         }
 
         /// <summary>

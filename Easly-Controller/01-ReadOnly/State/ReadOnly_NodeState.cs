@@ -118,6 +118,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyNodeState{IInner}"/> object.
+        /// </summary>
+        public static ReadOnlyNodeState<IInner> Empty { get; } = new ReadOnlyEmptyNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyNodeState{IInner}"/> class.
+        /// </summary>
+        protected ReadOnlyNodeState()
+            : this(ReadOnlyRootNodeIndex.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

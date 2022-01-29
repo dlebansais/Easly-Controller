@@ -15,6 +15,20 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyBrowsingCollectionNodeIndex"/> object.
+        /// </summary>
+        public static ReadOnlyBrowsingCollectionNodeIndex Empty { get; } = new ReadOnlyBrowsingDummyCollectionNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBrowsingCollectionNodeIndex"/> class.
+        /// </summary>
+        protected ReadOnlyBrowsingCollectionNodeIndex()
+        {
+            Node = Node.Empty;
+            PropertyName = string.Empty;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBrowsingCollectionNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed node.</param>

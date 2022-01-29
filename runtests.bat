@@ -1,9 +1,9 @@
 @echo off
 
-echo ^<ESC^>[95m [95mBuilding...[0m
+echo ************************************************************** Building...
 dotnet build -v quiet -c Debug
 rem dotnet build -v quiet -c Release
 
-echo Starting Tests...
-dotnet test --no-build -l "console;verbosity=detailed" -c Debug
+echo ************************************************************** Starting Tests...
+dotnet test --no-build -l "console;verbosity=detailed" -c Debug --filter TestCategory=CollectionCoverage
 rem dotnet test --no-build -c Release

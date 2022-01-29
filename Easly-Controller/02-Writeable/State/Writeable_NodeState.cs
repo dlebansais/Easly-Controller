@@ -48,6 +48,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableNodeState{IInner}"/> object.
+        /// </summary>
+        public static new IWriteableNodeState Empty { get; } = new WriteableEmptyNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableNodeState{IInner}"/> class.
+        /// </summary>
+        protected WriteableNodeState()
+            : this(WriteableRootNodeIndex.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

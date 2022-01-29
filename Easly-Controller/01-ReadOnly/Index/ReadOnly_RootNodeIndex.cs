@@ -17,6 +17,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyRootNodeIndex"/> object.
+        /// </summary>
+        public static ReadOnlyRootNodeIndex Empty { get; } = new ReadOnlyRootNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyRootNodeIndex"/> class.
+        /// </summary>
+        protected ReadOnlyRootNodeIndex()
+        {
+            Node = Node.Empty;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>

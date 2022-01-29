@@ -12,6 +12,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableController"/> object.
+        /// </summary>
+        public static new WriteableController Empty { get; } = new WriteableController();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="WriteableController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>

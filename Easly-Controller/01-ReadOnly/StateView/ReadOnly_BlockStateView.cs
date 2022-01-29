@@ -9,6 +9,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyBlockStateView"/> object.
+        /// </summary>
+        public static ReadOnlyBlockStateView Empty { get; } = new ReadOnlyBlockStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockStateView"/> class.
+        /// </summary>
+        protected ReadOnlyBlockStateView()
+            : this(ReadOnlyControllerView.Empty, ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBlockStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

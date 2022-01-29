@@ -24,6 +24,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySingleInner{IIndex}"/> class.
         /// </summary>
+        protected ReadOnlySingleInner()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySingleInner{IIndex}"/> class.
+        /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
         public ReadOnlySingleInner(IReadOnlyNodeState owner, string propertyName)

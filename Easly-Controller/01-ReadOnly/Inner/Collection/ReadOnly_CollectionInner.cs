@@ -44,6 +44,23 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyCollectionInner{IIndex}"/> class.
         /// </summary>
+        protected ReadOnlyCollectionInner()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyCollectionInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected ReadOnlyCollectionInner(IReadOnlyNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyCollectionInner{IIndex}"/> class.
+        /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
         public ReadOnlyCollectionInner(IReadOnlyNodeState owner, string propertyName)

@@ -5,10 +5,10 @@
     <TargetFramework>net48</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWPF>true</UseWPF>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
-    <AssemblyVersion>1.0.1.4833</AssemblyVersion>
+    <AssemblyVersion>1.0.1.4845</AssemblyVersion>
     <FileVersion>1.0.0.214</FileVersion>
     <NeutralLanguage>en-US</NeutralLanguage>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

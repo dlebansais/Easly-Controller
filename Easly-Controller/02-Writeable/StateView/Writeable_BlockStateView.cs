@@ -10,6 +10,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableBlockStateView"/> object.
+        /// </summary>
+        public static new WriteableBlockStateView Empty { get; } = new WriteableBlockStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBlockStateView"/> class.
+        /// </summary>
+        protected WriteableBlockStateView()
+            : this(WriteableControllerView.Empty, WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBlockStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

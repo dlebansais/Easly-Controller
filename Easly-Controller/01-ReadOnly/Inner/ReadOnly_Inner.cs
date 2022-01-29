@@ -81,6 +81,29 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyInner{IIndex}"/> object.
+        /// </summary>
+        public static ReadOnlyInner<IIndex> Empty { get; } = new ReadOnlyEmptyInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyInner{IIndex}"/> class.
+        /// </summary>
+        protected ReadOnlyInner()
+            : this(ReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected ReadOnlyInner(IReadOnlyNodeState owner)
+        {
+            Owner = owner;
+            PropertyName = string.Empty;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
