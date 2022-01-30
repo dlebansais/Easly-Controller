@@ -54,6 +54,20 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyIndexCollection{IIndex}"/> object.
+        /// </summary>
+        public static ReadOnlyIndexCollection<IIndex> Empty { get; } = new ReadOnlyIndexCollection<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyIndexCollection{IIndex}"/> class.
+        /// </summary>
+        protected ReadOnlyIndexCollection()
+        {
+            PropertyName = string.Empty;
+            NodeIndexList = new List<IIndex>().AsReadOnly();
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyIndexCollection{IIndex}"/> class.
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in the collection.</param>

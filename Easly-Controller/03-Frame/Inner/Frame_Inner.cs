@@ -27,6 +27,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameInner{IIndex}"/> object.
+        /// </summary>
+        public static new IFrameInner Empty { get; } = new FrameEmptyInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameInner{IIndex}"/> class.
+        /// </summary>
+        protected FrameInner()
+            : this(FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected FrameInner(IFrameNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

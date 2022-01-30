@@ -128,6 +128,8 @@
         protected ReadOnlyNodeState()
             : this(ReadOnlyRootNodeIndex.Empty)
         {
+            InnerTable = new ReadOnlyInnerReadOnlyDictionary<string>(new ReadOnlyInnerDictionary<string>());
+            ValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
         }
 
         /// <summary>

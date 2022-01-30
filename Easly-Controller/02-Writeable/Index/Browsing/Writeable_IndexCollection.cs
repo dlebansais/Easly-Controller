@@ -28,6 +28,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableIndexCollection{IIndex}"/> object.
+        /// </summary>
+        public static new WriteableIndexCollection<IIndex> Empty { get; } = new WriteableIndexCollection<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableIndexCollection{IIndex}"/> class.
+        /// </summary>
+        protected WriteableIndexCollection()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableIndexCollection{IIndex}"/> class.
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in the collection.</param>

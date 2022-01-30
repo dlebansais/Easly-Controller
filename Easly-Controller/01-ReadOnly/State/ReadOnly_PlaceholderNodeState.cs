@@ -29,6 +29,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyPlaceholderNodeState{IInner}"/> object.
+        /// </summary>
+        public static new ReadOnlyPlaceholderNodeState<IInner> Empty { get; } = new ReadOnlyPlaceholderNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyPlaceholderNodeState{IInner}"/> class.
+        /// </summary>
+        protected ReadOnlyPlaceholderNodeState()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyPlaceholderNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

@@ -28,6 +28,13 @@
     [ContentProperty("Text")]
     public class FrameKeywordFrame : FrameStaticFrame, IFrameKeywordFrame
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FrameKeywordFrame"/> object.
+        /// </summary>
+        public static FrameKeywordFrame Empty { get; } = new FrameKeywordFrame();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Free text.

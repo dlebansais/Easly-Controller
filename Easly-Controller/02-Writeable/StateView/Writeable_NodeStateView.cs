@@ -26,6 +26,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableNodeStateView"/> object.
+        /// </summary>
+        public static new IWriteableNodeStateView Empty { get; } = new WriteableEmptyNodeStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableNodeStateView"/> class.
+        /// </summary>
+        protected WriteableNodeStateView()
+            : base(WriteableControllerView.Empty, WriteableNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableNodeStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

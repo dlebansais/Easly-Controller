@@ -41,6 +41,29 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableOperation"/> object.
+        /// </summary>
+        public static WriteableOperation Empty { get; } = new WriteableOperation();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableOperation"/> class.
+        /// </summary>
+        protected WriteableOperation()
+            : this((IWriteableOperation operation) => { }, (IWriteableOperation operation) => { })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableOperation"/> class.
+        /// </summary>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
+        protected WriteableOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo)
+            : this(handlerRedo, handlerUndo, false)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableOperation"/> class.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>

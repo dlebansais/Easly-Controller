@@ -31,6 +31,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameVisibleCellView"/> object.
+        /// </summary>
+        public static FrameVisibleCellView Empty { get; } = new FrameVisibleCellView(FrameNodeStateView.Empty, FrameCellViewCollection.Empty, FrameFrame.FrameRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameVisibleCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

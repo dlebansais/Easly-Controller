@@ -38,6 +38,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteablePlaceholderNodeState{IInner}"/> object.
+        /// </summary>
+        public static new WriteablePlaceholderNodeState<IInner> Empty { get; } = new WriteablePlaceholderNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteablePlaceholderNodeState{IInner}"/> class.
+        /// </summary>
+        protected WriteablePlaceholderNodeState()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteablePlaceholderNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

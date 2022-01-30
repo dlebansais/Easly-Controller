@@ -25,6 +25,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyBrowsingListNodeIndex"/> object.
+        /// </summary>
+        public static new ReadOnlyBrowsingListNodeIndex Empty { get; } = new ReadOnlyBrowsingListNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyBrowsingListNodeIndex"/> class.
+        /// </summary>
+        protected ReadOnlyBrowsingListNodeIndex()
+        {
+            ParentNode = Node.Empty;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyBrowsingListNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the list.</param>

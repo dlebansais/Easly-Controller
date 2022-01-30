@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameBrowsingListNodeIndex"/> object.
+        /// </summary>
+        public static new FrameBrowsingListNodeIndex Empty { get; } = new FrameBrowsingListNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameBrowsingListNodeIndex"/> class.
+        /// </summary>
+        protected FrameBrowsingListNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameBrowsingListNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the list.</param>

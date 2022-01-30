@@ -10,6 +10,30 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableOperationGroup"/> object.
+        /// </summary>
+        public static WriteableOperationGroup Empty { get; } = new WriteableOperationGroup();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableOperationGroup"/> class.
+        /// </summary>
+        protected WriteableOperationGroup()
+            : this(new WriteableOperationList(), WriteableGenericRefreshOperation.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableOperationGroup"/> class.
+        /// </summary>
+        /// <param name="operationList">List of operations belonging to this group.</param>
+        /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>
+        protected WriteableOperationGroup(WriteableOperationList operationList, WriteableGenericRefreshOperation refresh)
+        {
+            OperationList = new WriteableOperationReadOnlyList(operationList);
+            Refresh = refresh;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableOperationGroup"/> class.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>

@@ -47,6 +47,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableInner{IIndex}"/> object.
+        /// </summary>
+        public static new IWriteableInner Empty { get; } = new WriteableEmptyInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableInner{IIndex}"/> class.
+        /// </summary>
+        protected WriteableInner()
+            : this(WriteableNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected WriteableInner(IWriteableNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

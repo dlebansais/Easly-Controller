@@ -39,6 +39,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FramePlaceholderNodeState{IInner}"/> object.
+        /// </summary>
+        public static new FramePlaceholderNodeState<IInner> Empty { get; } = new FramePlaceholderNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FramePlaceholderNodeState{IInner}"/> class.
+        /// </summary>
+        protected FramePlaceholderNodeState()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FramePlaceholderNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

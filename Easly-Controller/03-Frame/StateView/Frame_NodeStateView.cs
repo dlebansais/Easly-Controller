@@ -88,6 +88,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameNodeStateView"/> object.
+        /// </summary>
+        public static new IFrameNodeStateView Empty { get; } = new FrameEmptyNodeStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameNodeStateView"/> class.
+        /// </summary>
+        protected FrameNodeStateView()
+            : base(FrameControllerView.Empty, FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameNodeStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

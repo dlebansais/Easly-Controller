@@ -25,6 +25,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ReadOnlyNodeStateView"/> object.
+        /// </summary>
+        public static ReadOnlyNodeStateView Empty { get; } = new ReadOnlyEmptyNodeStateView();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyNodeStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

@@ -28,6 +28,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="WriteableBrowsingListNodeIndex"/> object.
+        /// </summary>
+        public static new WriteableBrowsingListNodeIndex Empty { get; } = new WriteableBrowsingListNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableBrowsingListNodeIndex"/> class.
+        /// </summary>
+        protected WriteableBrowsingListNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WriteableBrowsingListNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the list.</param>

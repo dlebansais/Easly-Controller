@@ -61,6 +61,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameCellViewCollection"/> object.
+        /// </summary>
+        public static FrameCellViewCollection Empty { get; } = new FrameEmptyCellViewCollection(FrameNodeStateView.Empty, null, new FrameCellViewList(), FrameFrame.FrameRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

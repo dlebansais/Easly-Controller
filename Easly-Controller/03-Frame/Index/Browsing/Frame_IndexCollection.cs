@@ -28,6 +28,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameIndexCollection{IIndex}"/> object.
+        /// </summary>
+        public static new FrameIndexCollection<IIndex> Empty { get; } = new FrameIndexCollection<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameIndexCollection{IIndex}"/> class.
+        /// </summary>
+        protected FrameIndexCollection()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameIndexCollection{IIndex}"/> class.
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in the collection.</param>
