@@ -98,6 +98,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutNodeStateView"/> object.
+        /// </summary>
+        public static new ILayoutNodeStateView Empty { get; } = new LayoutEmptyNodeStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutNodeStateView"/> class.
+        /// </summary>
+        protected LayoutNodeStateView()
+            : base(LayoutControllerView.Empty, LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutNodeStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

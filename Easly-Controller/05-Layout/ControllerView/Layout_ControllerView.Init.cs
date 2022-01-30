@@ -9,6 +9,11 @@
     public partial class LayoutControllerView : FocusControllerView, ILayoutInternalControllerView
     {
         /// <summary>
+        /// Gets the empty <see cref="LayoutControllerView"/> object.
+        /// </summary>
+        public static new LayoutControllerView Empty { get; } = new LayoutControllerView();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="LayoutControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
@@ -19,6 +24,14 @@
             LayoutControllerView View = new LayoutControllerView(controller, templateSet, context);
             View.Init();
             return View;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutControllerView"/> class.
+        /// </summary>
+        protected LayoutControllerView()
+            : this(LayoutController.Empty, LayoutTemplateSet.Default, null)
+        {
         }
 
         /// <summary>

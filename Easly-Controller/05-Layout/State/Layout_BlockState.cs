@@ -58,6 +58,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutBlockState{IInner}"/> object.
+        /// </summary>
+        public static new LayoutBlockState<IInner> Empty { get; } = new LayoutBlockState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutBlockState{IInner}"/> class.
+        /// </summary>
+        private LayoutBlockState()
+            : this(LayoutBlockListInner<ILayoutBrowsingBlockNodeIndex>.Empty, LayoutBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>

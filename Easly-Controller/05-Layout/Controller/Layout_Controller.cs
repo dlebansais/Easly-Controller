@@ -20,6 +20,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutController"/> object.
+        /// </summary>
+        public static new LayoutController Empty { get; } = new LayoutController();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="LayoutController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>

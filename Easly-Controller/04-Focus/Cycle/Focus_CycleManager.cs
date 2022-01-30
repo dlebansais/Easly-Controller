@@ -31,7 +31,7 @@
         /// <summary>
         /// Gets the empty <see cref="FocusCycleManager"/> object.
         /// </summary>
-        public static FocusCycleManager Empty { get; } = new FocusCycleManagerNone();
+        public static IFocusCycleManager Empty { get; } = new FocusCycleManagerNone();
         #endregion
 
         #region Properties

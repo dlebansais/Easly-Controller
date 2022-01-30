@@ -22,6 +22,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutVisibleCellView"/> object.
+        /// </summary>
+        public static new LayoutVisibleCellView Empty { get; } = new LayoutVisibleCellView(LayoutNodeStateView.Empty, LayoutCellViewCollection.Empty, LayoutFrame.LayoutRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutVisibleCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

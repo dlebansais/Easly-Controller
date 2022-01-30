@@ -49,6 +49,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="ILayoutNodeState"/> object.
+        /// </summary>
+        public static new ILayoutNodeState Empty { get; } = new LayoutEmptyNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutNodeState{IInner}"/> class.
+        /// </summary>
+        protected LayoutNodeState()
+            : this(LayoutRootNodeIndex.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

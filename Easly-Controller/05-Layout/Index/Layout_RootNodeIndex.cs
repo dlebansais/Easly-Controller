@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutRootNodeIndex"/> object.
+        /// </summary>
+        public static new LayoutRootNodeIndex Empty { get; } = new LayoutRootNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutRootNodeIndex"/> class.
+        /// </summary>
+        protected LayoutRootNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>

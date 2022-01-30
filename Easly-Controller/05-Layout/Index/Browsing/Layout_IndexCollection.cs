@@ -28,6 +28,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutIndexCollection{IIndex}"/> object.
+        /// </summary>
+        public static new LayoutIndexCollection<IIndex> Empty { get; } = new LayoutIndexCollection<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutIndexCollection{IIndex}"/> class.
+        /// </summary>
+        protected LayoutIndexCollection()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutIndexCollection{IIndex}"/> class.
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in the collection.</param>

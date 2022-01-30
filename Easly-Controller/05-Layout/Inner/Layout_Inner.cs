@@ -35,6 +35,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutInner{IIndex}"/> object.
+        /// </summary>
+        public static new ILayoutInner Empty { get; } = new LayoutEmptyInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutInner{IIndex}"/> class.
+        /// </summary>
+        protected LayoutInner()
+            : this(LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected LayoutInner(ILayoutNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

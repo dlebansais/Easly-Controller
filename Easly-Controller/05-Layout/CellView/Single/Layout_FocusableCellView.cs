@@ -18,6 +18,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutFocusableCellView"/> object.
+        /// </summary>
+        public static new LayoutFocusableCellView Empty { get; } = new LayoutFocusableCellView(LayoutNodeStateView.Empty, LayoutCellViewCollection.Empty, LayoutFrame.LayoutRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

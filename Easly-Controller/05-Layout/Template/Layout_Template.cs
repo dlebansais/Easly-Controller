@@ -19,6 +19,13 @@
     /// </summary>
     public abstract class LayoutTemplate : FocusTemplate, ILayoutTemplate
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="LayoutTemplate"/> object.
+        /// </summary>
+        public static new ILayoutTemplate Empty { get; } = new LayoutNodeTemplate();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Root frame.

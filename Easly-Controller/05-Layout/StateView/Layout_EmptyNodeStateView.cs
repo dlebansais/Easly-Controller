@@ -1,39 +1,43 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using EaslyController.Constants;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
     /// <summary>
-    /// View of a block state.
+    /// View of a child node.
     /// </summary>
-    public class LayoutBlockStateView : FocusBlockStateView
+    public interface ILayoutEmptyNodeStateView : IFocusEmptyNodeStateView, ILayoutNodeStateView, ILayoutReplaceableStateView
+    {
+        /// <summary>
+        /// The child node.
+        /// </summary>
+        new ILayoutEmptyNodeState State { get; }
+    }
+
+    /// <summary>
+    /// View of a child node.
+    /// </summary>
+    internal class LayoutEmptyNodeStateView : FocusEmptyNodeStateView, ILayoutEmptyNodeStateView
     {
         #region Init
         /// <summary>
-        /// Gets the empty <see cref="LayoutBlockStateView"/> object.
+        /// Initializes a new instance of the <see cref="LayoutEmptyNodeStateView"/> class.
         /// </summary>
-        public static new LayoutBlockStateView Empty { get; } = new LayoutBlockStateView(LayoutControllerView.Empty, LayoutBlockState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty, LayoutTemplate.Empty);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutBlockStateView"/> class.
-        /// </summary>
-        /// <param name="controllerView">The controller view to which this object belongs.</param>
-        /// <param name="blockState">The block state.</param>
-        /// <param name="template">The frame template.</param>
-        protected LayoutBlockStateView(LayoutControllerView controllerView, ILayoutBlockState blockState, ILayoutTemplate template)
-            : base(controllerView, blockState, template)
+        public LayoutEmptyNodeStateView()
+            : this(LayoutControllerView.Empty, LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LayoutBlockStateView"/> class.
+        /// Initializes a new instance of the <see cref="LayoutEmptyNodeStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
-        /// <param name="blockState">The block state.</param>
-        public LayoutBlockStateView(LayoutControllerView controllerView, ILayoutBlockState blockState)
-            : base(controllerView, blockState)
+        /// <param name="state">The child node state.</param>
+        protected LayoutEmptyNodeStateView(LayoutControllerView controllerView, ILayoutNodeState state)
+            : base(controllerView, state)
         {
             CellOrigin = RegionHelper.InvalidOrigin;
             CellSize = RegionHelper.InvalidSize;
@@ -48,12 +52,13 @@
         public new LayoutControllerView ControllerView { get { return (LayoutControllerView)base.ControllerView; } }
 
         /// <summary>
-        /// The block state.
+        /// The child node.
         /// </summary>
-        public new ILayoutBlockState BlockState { get { return (ILayoutBlockState)base.BlockState; } }
+        public new ILayoutEmptyNodeState State { get { return (ILayoutEmptyNodeState)base.State; } }
+        ILayoutNodeState ILayoutNodeStateView.State { get { return State; } }
 
         /// <summary>
-        /// The template used to display the block state.
+        /// The template used to display the state.
         /// </summary>
         public new ILayoutTemplate Template { get { return (ILayoutTemplate)base.Template; } }
 
@@ -63,29 +68,39 @@
         public new ILayoutCellView RootCellView { get { return (ILayoutCellView)base.RootCellView; } }
 
         /// <summary>
-        /// List of cell views for each child node.
+        /// Table of cell views that are mutable lists of cells.
         /// </summary>
-        public new ILayoutCellViewCollection EmbeddingCellView { get { return (ILayoutCellViewCollection)base.EmbeddingCellView; } }
+        public new LayoutAssignableCellViewReadOnlyDictionary<string> CellViewTable { get { return (LayoutAssignableCellViewReadOnlyDictionary<string>)base.CellViewTable; } }
 
         /// <summary>
-        /// Location of the block state view.
+        /// The cell view that is embedding this state view. Can be null.
+        /// </summary>
+        public new ILayoutContainerCellView ParentContainer { get { return (ILayoutContainerCellView)base.ParentContainer; } }
+
+        /// <summary>
+        /// Location of the state view.
         /// </summary>
         public Point CellOrigin { get; private set; }
 
         /// <summary>
-        /// Floating size of cells in this block state view.
+        /// Floating size of cells in this state view.
         /// </summary>
         public Size CellSize { get; private set; }
 
         /// <summary>
-        /// Actual size of cells in this block state view.
+        /// Actual size of cells in this state view.
         /// </summary>
         public Size ActualCellSize { get; private set; }
+
+        /// <summary>
+        /// Rectangular region for cells in this state view.
+        /// </summary>
+        public Rect CellRect { get { return new Rect(CellOrigin, ActualCellSize); } }
         #endregion
 
         #region Client Interface
         /// <summary>
-        /// Measure all cells in this block state view.
+        /// Measure all cells in this state view.
         /// </summary>
         /// <param name="collectionWithSeparator">A collection that can draw separators around the cell.</param>
         /// <param name="referenceContainer">The cell view in <paramref name="collectionWithSeparator"/> that contains this cell.</param>
@@ -102,7 +117,7 @@
         }
 
         /// <summary>
-        /// Arranges cells in this block state view.
+        /// Arranges cells in this state view.
         /// </summary>
         /// <param name="origin">The cell location.</param>
         public virtual void ArrangeCells(Point origin)
@@ -116,7 +131,7 @@
         }
 
         /// <summary>
-        /// Updates the actual size of cells in this block state view.
+        /// Updates the actual size of cells in this state view.
         /// </summary>
         public virtual void UpdateActualCellsSize()
         {
@@ -128,18 +143,31 @@
         }
 
         /// <summary>
-        /// Draws cells in this block state view.
+        /// Draws cells in the state view.
         /// </summary>
         public virtual void DrawCells()
         {
             Debug.Assert(RegionHelper.IsValid(ActualCellSize));
             Debug.Assert(RootCellView != null);
 
+            DrawSelection();
             RootCellView.Draw();
         }
 
+        /// <summary></summary>
+        protected virtual void DrawSelection()
+        {
+            if (ControllerView.Selection is ILayoutNodeSelection AsNodeSelection && AsNodeSelection.StateView == this)
+            {
+                ILayoutDrawContext DrawContext = ControllerView.DrawContext;
+                Debug.Assert(DrawContext != null);
+
+                DrawContext.DrawSelectionRectangle(CellRect, SelectionStyles.Node);
+            }
+        }
+
         /// <summary>
-        /// Prints cells in this block state view.
+        /// Prints cells in the state view.
         /// </summary>
         /// <param name="origin">The origin from where to start printing.</param>
         public virtual void PrintCells(Point origin)
@@ -153,7 +181,7 @@
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="LayoutBlockStateView"/> objects.
+        /// Compares two <see cref="LayoutEmptyNodeStateView"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -161,10 +189,10 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out LayoutBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(other, out LayoutEmptyNodeStateView AsEmptyNodeStateView))
                 return comparer.Failed();
 
-            if (!base.IsEqual(comparer, AsBlockStateView))
+            if (!base.IsEqual(comparer, AsEmptyNodeStateView))
                 return comparer.Failed();
 
             return true;
@@ -177,7 +205,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockStateView));
+            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptyNodeStateView));
             return new LayoutAssignableCellViewDictionary<string>();
         }
         #endregion

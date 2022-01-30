@@ -14,5 +14,11 @@
     /// </summary>
     public class LayoutFrameSelector : FocusFrameSelector, ILayoutFrameSelector
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="LayoutFrameSelector"/> object.
+        /// </summary>
+        public static new LayoutFrameSelector Empty { get; } = new LayoutFrameSelector();
+        #endregion
     }
 }

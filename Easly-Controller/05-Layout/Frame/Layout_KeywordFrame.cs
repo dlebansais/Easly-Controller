@@ -26,6 +26,13 @@
     [ContentProperty("Text")]
     public class LayoutKeywordFrame : FocusKeywordFrame, ILayoutKeywordFrame
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="LayoutKeywordFrame"/> object.
+        /// </summary>
+        public static new LayoutKeywordFrame Empty { get; } = new LayoutKeywordFrame();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.

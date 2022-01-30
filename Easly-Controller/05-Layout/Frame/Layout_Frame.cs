@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
 
@@ -27,7 +28,7 @@
     public abstract class LayoutFrame : FocusFrame, ILayoutFrame
     {
         #region Init
-        private class LayoutRootFrame : ILayoutFrame
+        private class LayoutRootFrame : ILayoutFrame, ILayoutMeasurableFrame, ILayoutDrawableFrame
         {
             public LayoutRootFrame()
             {
@@ -54,6 +55,8 @@
             IFrameFrame IFrameFrame.ParentFrame { get { return ParentFrame; } }
             public bool IsValid(Type nodeType, FrameTemplateReadOnlyDictionary nodeTemplateTable, ref int commentFrameCount) { return false; }
             public void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame) { }
+            public void Measure(ILayoutMeasureContext measureContext, ILayoutCellView cellView, ILayoutCellViewCollection collectionWithSeparator, ILayoutCellView referenceContainer, Measure separatorLength, out Size size, out Padding padding) { size = new(); padding = new(); }
+            public void Draw(ILayoutDrawContext drawContext, ILayoutCellView cellView, Point origin, Size size, Padding padding) { }
         }
 
         /// <summary>

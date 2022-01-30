@@ -50,6 +50,9 @@
                 if (ExpectedName == null)
                     ExpectedName = ThisName;
 
+                if (ThisName != ExpectedName)
+                {
+                }
                 Debug.Assert(ThisName == ExpectedName);
             }
         }

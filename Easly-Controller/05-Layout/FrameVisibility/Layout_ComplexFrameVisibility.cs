@@ -14,5 +14,11 @@
     /// </summary>
     public class LayoutComplexFrameVisibility : FocusComplexFrameVisibility, ILayoutComplexFrameVisibility
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="LayoutComplexFrameVisibility"/> object.
+        /// </summary>
+        public static new LayoutComplexFrameVisibility Empty { get; } = new LayoutComplexFrameVisibility();
+        #endregion
     }
 }

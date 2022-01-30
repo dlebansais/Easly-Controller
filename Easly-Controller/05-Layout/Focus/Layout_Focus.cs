@@ -20,6 +20,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutFocus"/> object.
+        /// </summary>
+        public static new LayoutFocus Empty { get; } = new LayoutFocus(LayoutFocusableCellView.Empty);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutFocus"/> class.
         /// </summary>
         public LayoutFocus(ILayoutFocusableCellView cellView)

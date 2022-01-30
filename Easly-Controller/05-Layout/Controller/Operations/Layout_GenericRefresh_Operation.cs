@@ -11,6 +11,30 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutGenericRefreshOperation"/> object.
+        /// </summary>
+        public static new LayoutGenericRefreshOperation Empty { get; } = new LayoutGenericRefreshOperation();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutGenericRefreshOperation"/> class.
+        /// </summary>
+        protected LayoutGenericRefreshOperation()
+            : this(LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty, (IWriteableOperation operation) => { }, (IWriteableOperation operation) => { })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutGenericRefreshOperation"/> class.
+        /// </summary>
+        /// <param name="refreshState">State in the source where to start refresh.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
+        protected LayoutGenericRefreshOperation(ILayoutNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo)
+            : base(refreshState, handlerRedo, handlerUndo)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutGenericRefreshOperation"/> class.
         /// </summary>
         /// <param name="refreshState">State in the source where to start refresh.</param>

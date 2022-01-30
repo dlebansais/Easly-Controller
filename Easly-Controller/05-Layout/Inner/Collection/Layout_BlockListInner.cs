@@ -41,6 +41,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutBlockListInner{IIndex}"/> object.
+        /// </summary>
+        public static new LayoutBlockListInner<IIndex> Empty { get; } = new LayoutBlockListInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutBlockListInner{IIndex}"/> class.
+        /// </summary>
+        protected LayoutBlockListInner()
+            : this(LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutBlockListInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected LayoutBlockListInner(ILayoutNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

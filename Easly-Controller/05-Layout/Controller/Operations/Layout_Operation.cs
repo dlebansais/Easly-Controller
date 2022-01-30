@@ -18,6 +18,29 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutOperation"/> object.
+        /// </summary>
+        public static new LayoutOperation Empty { get; } = new LayoutOperation();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutOperation"/> class.
+        /// </summary>
+        protected LayoutOperation()
+            : this((IWriteableOperation operation) => { }, (IWriteableOperation operation) => { })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutOperation"/> class.
+        /// </summary>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
+        protected LayoutOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo)
+            : this(handlerRedo, handlerUndo, false)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutOperation"/> class.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>

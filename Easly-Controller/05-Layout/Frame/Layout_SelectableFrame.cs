@@ -21,6 +21,13 @@
     [ContentProperty("Content")]
     public class LayoutSelectableFrame : FocusSelectableFrame, ILayoutSelectableFrame
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="LayoutSelectableFrame"/> object.
+        /// </summary>
+        public static new LayoutSelectableFrame Empty { get; } = new LayoutSelectableFrame();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.

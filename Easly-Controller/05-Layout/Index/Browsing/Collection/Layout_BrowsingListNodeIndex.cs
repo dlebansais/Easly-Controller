@@ -19,6 +19,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutBrowsingListNodeIndex"/> object.
+        /// </summary>
+        public static new LayoutBrowsingListNodeIndex Empty { get; } = new LayoutBrowsingListNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutBrowsingListNodeIndex"/> class.
+        /// </summary>
+        protected LayoutBrowsingListNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutBrowsingListNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the list.</param>

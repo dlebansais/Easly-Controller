@@ -82,6 +82,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutCellViewCollection"/> object.
+        /// </summary>
+        public static new ILayoutCellViewCollection Empty { get; } = new LayoutEmptyCellViewCollection(LayoutNodeStateView.Empty, null, new LayoutCellViewList(), LayoutFrame.LayoutRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

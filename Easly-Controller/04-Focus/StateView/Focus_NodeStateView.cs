@@ -78,7 +78,7 @@
         public static new IFocusNodeStateView Empty { get; } = new FocusEmptyNodeStateView();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FrameNodeStateView"/> class.
+        /// Initializes a new instance of the <see cref="FocusNodeStateView"/> class.
         /// </summary>
         protected FocusNodeStateView()
             : base(FocusControllerView.Empty, FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty)

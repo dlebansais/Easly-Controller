@@ -29,18 +29,9 @@
     {
         #region Init
         /// <summary>
-        /// Initialization.
-        /// </summary>
-        static FocusFocus()
-        {
-            Rand = new Random();
-            Empty = new FocusFocus(FocusFocusableCellView.Empty);
-        }
-
-        /// <summary>
         /// Gets the empty <see cref="FocusFocus"/> object.
         /// </summary>
-        public static FocusFocus Empty { get; }
+        public static FocusFocus Empty { get; } = new FocusFocus(FocusFocusableCellView.Empty);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FocusFocus"/> class.
@@ -83,14 +74,7 @@
         /// <summary>
         /// A hash code for debug purpose.
         /// </summary>
-        public ulong Hash { get; } = GetInitHash();
-
-        private static ulong GetInitHash()
-        {
-            return (ulong)Rand.Next();
-        }
-
-        private static Random Rand { get; }
+        public ulong Hash { get; } = DebuggingTools.GetInitHash();
         #endregion
     }
 }

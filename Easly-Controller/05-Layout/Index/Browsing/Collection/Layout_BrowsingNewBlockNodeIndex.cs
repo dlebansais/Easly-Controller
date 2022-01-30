@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="LayoutBrowsingNewBlockNodeIndex"/> object.
+        /// </summary>
+        public static new LayoutBrowsingNewBlockNodeIndex Empty { get; } = new LayoutBrowsingNewBlockNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LayoutBrowsingNewBlockNodeIndex"/> class.
+        /// </summary>
+        protected LayoutBrowsingNewBlockNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="LayoutBrowsingNewBlockNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>
