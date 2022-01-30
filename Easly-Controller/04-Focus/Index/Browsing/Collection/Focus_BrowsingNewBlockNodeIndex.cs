@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusBrowsingNewBlockNodeIndex"/> object.
+        /// </summary>
+        public static new FocusBrowsingNewBlockNodeIndex Empty { get; } = new FocusBrowsingNewBlockNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusBrowsingNewBlockNodeIndex"/> class.
+        /// </summary>
+        protected FocusBrowsingNewBlockNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusBrowsingNewBlockNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>

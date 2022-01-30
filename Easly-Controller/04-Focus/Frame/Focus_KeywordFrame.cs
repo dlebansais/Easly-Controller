@@ -19,6 +19,13 @@
     [ContentProperty("Text")]
     public class FocusKeywordFrame : FrameKeywordFrame, IFocusKeywordFrame
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FocusKeywordFrame"/> object.
+        /// </summary>
+        public static new FocusKeywordFrame Empty { get; } = new FocusKeywordFrame();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.

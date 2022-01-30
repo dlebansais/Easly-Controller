@@ -11,6 +11,30 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusGenericRefreshOperation"/> object.
+        /// </summary>
+        public static new FocusGenericRefreshOperation Empty { get; } = new FocusGenericRefreshOperation();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusGenericRefreshOperation"/> class.
+        /// </summary>
+        protected FocusGenericRefreshOperation()
+            : this(FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty, (IWriteableOperation operation) => { }, (IWriteableOperation operation) => { })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusGenericRefreshOperation"/> class.
+        /// </summary>
+        /// <param name="refreshState">State in the source where to start refresh.</param>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
+        protected FocusGenericRefreshOperation(IFocusNodeState refreshState, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo)
+            : base(refreshState, handlerRedo, handlerUndo)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusGenericRefreshOperation"/> class.
         /// </summary>
         /// <param name="refreshState">State in the source where to start refresh.</param>

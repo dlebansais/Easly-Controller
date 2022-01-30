@@ -30,6 +30,13 @@
     [ContentProperty("Content")]
     public class FocusSelectableFrame : IFocusSelectableFrame
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FocusSelectableFrame"/> object.
+        /// </summary>
+        public static FocusSelectableFrame Empty { get; } = new FocusSelectableFrame();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Parent template.

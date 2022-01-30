@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusRootNodeIndex"/> object.
+        /// </summary>
+        public static new FocusRootNodeIndex Empty { get; } = new FocusRootNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusRootNodeIndex"/> class.
+        /// </summary>
+        protected FocusRootNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>

@@ -49,6 +49,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="IFocusNodeState"/> object.
+        /// </summary>
+        public static new IFocusNodeState Empty { get; } = new FocusEmptyNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusNodeState{IInner}"/> class.
+        /// </summary>
+        protected FocusNodeState()
+            : this(FocusRootNodeIndex.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

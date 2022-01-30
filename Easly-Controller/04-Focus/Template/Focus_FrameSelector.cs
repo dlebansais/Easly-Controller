@@ -35,6 +35,13 @@
     /// </summary>
     public class FocusFrameSelector : IFocusFrameSelector
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FocusFrameSelector"/> object.
+        /// </summary>
+        public static FocusFrameSelector Empty { get; } = new FocusFrameSelector();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Base type this selector can specify.

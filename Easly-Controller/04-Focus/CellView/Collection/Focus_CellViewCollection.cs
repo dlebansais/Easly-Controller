@@ -27,6 +27,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusCellViewCollection"/> object.
+        /// </summary>
+        public static new IFocusCellViewCollection Empty { get; } = new FocusEmptyCellViewCollection(FocusNodeStateView.Empty, null, new FocusCellViewList(), FocusFrame.FocusRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

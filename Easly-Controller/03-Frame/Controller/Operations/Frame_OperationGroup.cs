@@ -20,7 +20,7 @@
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableOperationGroup"/> class.
+        /// Initializes a new instance of the <see cref="FrameOperationGroup"/> class.
         /// </summary>
         /// <param name="operationList">List of operations belonging to this group.</param>
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>

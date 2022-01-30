@@ -16,6 +16,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameFocusableCellView"/> object.
+        /// </summary>
+        public static new FrameFocusableCellView Empty { get; } = new FrameFocusableCellView(FrameNodeStateView.Empty, FrameCellViewCollection.Empty, FrameFrame.FrameRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameFocusableCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

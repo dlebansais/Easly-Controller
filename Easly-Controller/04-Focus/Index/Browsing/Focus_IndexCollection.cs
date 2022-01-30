@@ -28,6 +28,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusIndexCollection{IIndex}"/> object.
+        /// </summary>
+        public static new FocusIndexCollection<IIndex> Empty { get; } = new FocusIndexCollection<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusIndexCollection{IIndex}"/> class.
+        /// </summary>
+        protected FocusIndexCollection()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusIndexCollection{IIndex}"/> class.
         /// </summary>
         /// <param name="propertyName">Property indexed for all nodes in the collection.</param>

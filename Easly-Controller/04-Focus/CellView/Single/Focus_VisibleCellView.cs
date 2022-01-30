@@ -22,6 +22,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusVisibleCellView"/> object.
+        /// </summary>
+        public static new FocusVisibleCellView Empty { get; } = new FocusVisibleCellView(FocusNodeStateView.Empty, FocusCellViewCollection.Empty, FocusFrame.FocusRoot);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusVisibleCellView"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>

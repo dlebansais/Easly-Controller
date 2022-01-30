@@ -8,6 +8,11 @@
     public partial class FocusControllerView : FrameControllerView, IFocusInternalControllerView
     {
         /// <summary>
+        /// Gets the empty <see cref="FocusControllerView"/> object.
+        /// </summary>
+        public static new FocusControllerView Empty { get; } = new FocusControllerView();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="FocusControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
@@ -17,6 +22,14 @@
             FocusControllerView View = new FocusControllerView(controller, templateSet);
             View.Init();
             return View;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusControllerView"/> class.
+        /// </summary>
+        protected FocusControllerView()
+            : this(FocusController.Empty, FocusTemplateSet.Default)
+        {
         }
 
         /// <summary>

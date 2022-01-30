@@ -58,6 +58,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusBlockState{IInner}"/> object.
+        /// </summary>
+        public static new FocusBlockState<IInner> Empty { get; } = new FocusBlockState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusBlockState{IInner}"/> class.
+        /// </summary>
+        private FocusBlockState()
+            : this(FocusBlockListInner<IFocusBrowsingBlockNodeIndex>.Empty, FocusBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>

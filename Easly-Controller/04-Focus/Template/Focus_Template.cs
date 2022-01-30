@@ -19,6 +19,13 @@
     /// </summary>
     public abstract class FocusTemplate : FrameTemplate, IFocusTemplate
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FocusTemplate"/> object.
+        /// </summary>
+        public static new IFocusTemplate Empty { get; } = new FocusNodeTemplate();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Root frame.

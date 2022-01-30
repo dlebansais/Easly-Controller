@@ -73,6 +73,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusNodeStateView"/> object.
+        /// </summary>
+        public static new IFocusNodeStateView Empty { get; } = new FocusEmptyNodeStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameNodeStateView"/> class.
+        /// </summary>
+        protected FocusNodeStateView()
+            : base(FocusControllerView.Empty, FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusNodeStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

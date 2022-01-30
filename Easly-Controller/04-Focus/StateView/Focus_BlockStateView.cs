@@ -11,6 +11,22 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusBlockStateView"/> object.
+        /// </summary>
+        public static new FocusBlockStateView Empty { get; } = new FocusBlockStateView(FocusControllerView.Empty, FocusBlockState<IFocusInner<IFocusBrowsingChildIndex>>.Empty, FocusTemplate.Empty);
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusBlockStateView"/> class.
+        /// </summary>
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
+        /// <param name="blockState">The block state.</param>
+        /// <param name="template">The frame template.</param>
+        protected FocusBlockStateView(FocusControllerView controllerView, IFocusBlockState blockState, IFocusTemplate template)
+            : base(controllerView, blockState, template)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusBlockStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>

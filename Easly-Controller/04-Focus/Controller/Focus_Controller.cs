@@ -19,6 +19,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusController"/> object.
+        /// </summary>
+        public static new FocusController Empty { get; } = new FocusController();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="FocusController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>

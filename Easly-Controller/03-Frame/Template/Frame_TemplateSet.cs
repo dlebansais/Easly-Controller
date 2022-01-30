@@ -145,6 +145,11 @@
                 IsValid &= IsValidNodeType(NodeType, Template.NodeType);
                 IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
                 IsValid &= CommentFrameCount == 1;
+
+                if (!IsValid)
+                {
+                }
+
                 Debug.Assert(IsValid);
             }
 

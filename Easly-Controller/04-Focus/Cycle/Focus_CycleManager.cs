@@ -27,6 +27,13 @@
     /// </summary>
     public abstract class FocusCycleManager : IFocusCycleManager
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FocusCycleManager"/> object.
+        /// </summary>
+        public static FocusCycleManager Empty { get; } = new FocusCycleManagerNone();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Type of the base interface for all nodes participating to the cycle.

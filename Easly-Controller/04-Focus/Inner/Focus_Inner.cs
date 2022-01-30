@@ -35,6 +35,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusInner{IIndex}"/> object.
+        /// </summary>
+        public static new IFocusInner Empty { get; } = new FocusEmptyInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusInner{IIndex}"/> class.
+        /// </summary>
+        protected FocusInner()
+            : this(FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected FocusInner(IFocusNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

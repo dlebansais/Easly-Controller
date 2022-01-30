@@ -45,7 +45,7 @@
         public static new FrameBlockListInner<IIndex> Empty { get; } = new FrameBlockListInner<IIndex>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex}"/> class.
+        /// Initializes a new instance of the <see cref="FrameBlockListInner{IIndex}"/> class.
         /// </summary>
         protected FrameBlockListInner()
             : this(FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty)

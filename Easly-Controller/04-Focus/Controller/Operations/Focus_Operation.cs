@@ -18,6 +18,29 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusOperation"/> object.
+        /// </summary>
+        public static new FocusOperation Empty { get; } = new FocusOperation();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusOperation"/> class.
+        /// </summary>
+        protected FocusOperation()
+            : this((IWriteableOperation operation) => { }, (IWriteableOperation operation) => { })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusOperation"/> class.
+        /// </summary>
+        /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
+        /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
+        protected FocusOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo)
+            : this(handlerRedo, handlerUndo, false)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusOperation"/> class.
         /// </summary>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>

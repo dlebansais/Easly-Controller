@@ -35,7 +35,7 @@
         /// <summary>
         /// Gets the empty <see cref="FrameTemplate"/> object.
         /// </summary>
-        public static FrameTemplate Empty { get; } = new FrameNodeTemplate();
+        public static IFrameTemplate Empty { get; } = new FrameNodeTemplate();
         #endregion
 
         #region Properties

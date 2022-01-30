@@ -11,15 +11,18 @@
         /// <summary>
         /// Gets the empty <see cref="FrameBlockStateView"/> object.
         /// </summary>
-        public static new FrameBlockStateView Empty { get; } = new FrameBlockStateView();
+        public static new FrameBlockStateView Empty { get; } = new FrameBlockStateView(FrameControllerView.Empty, FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>.Empty, FrameTemplate.Empty);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameBlockStateView"/> class.
         /// </summary>
-        protected FrameBlockStateView()
-            : base(FrameControllerView.Empty, FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>.Empty)
+        /// <param name="controllerView">The controller view to which this object belongs.</param>
+        /// <param name="blockState">The block state.</param>
+        /// <param name="template">The frame template.</param>
+        protected FrameBlockStateView(FrameControllerView controllerView, IFrameBlockState blockState, IFrameTemplate template)
+            : base(controllerView, blockState)
         {
-            Template = FrameTemplate.Empty;
+            Template = template;
         }
 
         /// <summary>

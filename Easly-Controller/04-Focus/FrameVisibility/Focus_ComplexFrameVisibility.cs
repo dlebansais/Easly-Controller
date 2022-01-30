@@ -20,6 +20,13 @@
     /// </summary>
     public class FocusComplexFrameVisibility : FocusFrameVisibility, IFocusComplexFrameVisibility
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FocusComplexFrameVisibility"/> object.
+        /// </summary>
+        public static FocusComplexFrameVisibility Empty { get; } = new FocusComplexFrameVisibility();
+        #endregion
+
         #region Properties
         /// <summary>
         /// True if the visibility depends on the show/hidden state of the view with the focus.

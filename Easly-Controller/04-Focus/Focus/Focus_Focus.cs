@@ -29,6 +29,20 @@
     {
         #region Init
         /// <summary>
+        /// Initialization.
+        /// </summary>
+        static FocusFocus()
+        {
+            Rand = new Random();
+            Empty = new FocusFocus(FocusFocusableCellView.Empty);
+        }
+
+        /// <summary>
+        /// Gets the empty <see cref="FocusFocus"/> object.
+        /// </summary>
+        public static FocusFocus Empty { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusFocus"/> class.
         /// </summary>
         public FocusFocus(IFocusFocusableCellView cellView)
@@ -76,7 +90,7 @@
             return (ulong)Rand.Next();
         }
 
-        private static Random Rand = new Random();
+        private static Random Rand { get; }
         #endregion
     }
 }

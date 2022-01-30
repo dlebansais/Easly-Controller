@@ -5,31 +5,27 @@
     using EaslyController.Frame;
 
     /// <summary>
-    /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
+    /// A collection of cell views organized in a column.
     /// </summary>
-    public interface IFocusFocusableCellView : IFrameFocusableCellView, IFocusVisibleCellView
+    public interface IFocusEmptyCellViewCollection : IFrameEmptyCellViewCollection, IFocusCellViewCollection
     {
     }
 
     /// <summary>
-    /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
+    /// A collection of cell views organized in a column.
     /// </summary>
-    internal class FocusFocusableCellView : FrameFocusableCellView, IFocusFocusableCellView
+    internal class FocusEmptyCellViewCollection : FrameEmptyCellViewCollection, IFocusEmptyCellViewCollection
     {
         #region Init
         /// <summary>
-        /// Gets the empty <see cref="FocusFocusableCellView"/> object.
-        /// </summary>
-        public static new FocusFocusableCellView Empty { get; } = new FocusFocusableCellView(FocusNodeStateView.Empty, FocusCellViewCollection.Empty, FocusFrame.FocusRoot);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FocusFocusableCellView"/> class.
+        /// Initializes a new instance of the <see cref="FocusEmptyCellViewCollection"/> class.
         /// </summary>
         /// <param name="stateView">The state view containing the tree with this cell.</param>
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
-        /// <param name="frame">The frame that created this cell view.</param>
-        public FocusFocusableCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, IFocusFrame frame)
-            : base(stateView, parentCellView, frame)
+        /// <param name="cellViewList">The list of child cell views.</param>
+        /// <param name="frame">The frame that was used to create this cell. Can be null.</param>
+        public FocusEmptyCellViewCollection(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView, FocusCellViewList cellViewList, IFocusFrame frame)
+            : base(stateView, parentCellView, cellViewList, frame)
         {
         }
         #endregion
@@ -46,7 +42,12 @@
         public new IFocusCellViewCollection ParentCellView { get { return (IFocusCellViewCollection)base.ParentCellView; } }
 
         /// <summary>
-        /// The frame that created this cell view.
+        /// The collection of child cells.
+        /// </summary>
+        public new FocusCellViewList CellViewList { get { return (FocusCellViewList)base.CellViewList; } }
+
+        /// <summary>
+        /// The frame that was used to create this cell. Can be null.
         /// </summary>
         public new IFocusFrame Frame { get { return (IFocusFrame)base.Frame; } }
         #endregion
@@ -61,26 +62,14 @@
         /// <param name="matchingFocus">The focus in <paramref name="focusChain"/> that match <paramref name="focusedNode"/> and <paramref name="focusedFrame"/> upon return.</param>
         public virtual void UpdateFocusChain(FocusFocusList focusChain, Node focusedNode, IFocusFrame focusedFrame, ref IFocusFocus matchingFocus)
         {
-            IFocusFocus NewFocus = CreateFocus();
-            focusChain.Add(NewFocus);
-
-            if (focusedFrame == Frame)
-            {
-                IFocusOptionalNodeState AsOptionalNodeState = StateView.State as IFocusOptionalNodeState;
-                Debug.Assert(AsOptionalNodeState == null || AsOptionalNodeState.ParentInner.IsAssigned);
-
-                if (focusedNode == StateView.State.Node)
-                {
-                    Debug.Assert(matchingFocus == null);
-                    matchingFocus = NewFocus;
-                }
-            }
+            foreach (IFocusCellView Item in CellViewList)
+                Item.UpdateFocusChain(focusChain, focusedNode, focusedFrame, ref matchingFocus);
         }
         #endregion
 
         #region Debugging
         /// <summary>
-        /// Compares two <see cref="FocusFocusableCellView"/> objects.
+        /// Compares two <see cref="FocusEmptyCellViewCollection"/> objects.
         /// </summary>
         /// <param name="comparer">The comparison support object.</param>
         /// <param name="other">The other object.</param>
@@ -88,24 +77,13 @@
         {
             Debug.Assert(other != null);
 
-            if (!comparer.IsSameType(other, out FocusFocusableCellView AsFocusableCellView))
+            if (!comparer.IsSameType(other, out FocusEmptyCellViewCollection AsEmptyCellViewCollection))
                 return comparer.Failed();
 
-            if (!base.IsEqual(comparer, AsFocusableCellView))
+            if (!base.IsEqual(comparer, AsEmptyCellViewCollection))
                 return comparer.Failed();
 
             return true;
-        }
-        #endregion
-
-        #region Create Methods
-        /// <summary>
-        /// Creates a IxxxFocus object.
-        /// </summary>
-        protected virtual IFocusFocus CreateFocus()
-        {
-            ControllerTools.AssertNoOverride(this, typeof(FocusFocusableCellView));
-            return new FocusFocus(this);
         }
         #endregion
     }

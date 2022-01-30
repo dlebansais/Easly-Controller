@@ -41,6 +41,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FocusBlockListInner{IIndex}"/> object.
+        /// </summary>
+        public static new FocusBlockListInner<IIndex> Empty { get; } = new FocusBlockListInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusBlockListInner{IIndex}"/> class.
+        /// </summary>
+        protected FocusBlockListInner()
+            : this(FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FocusBlockListInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected FocusBlockListInner(IFocusNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FocusBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
