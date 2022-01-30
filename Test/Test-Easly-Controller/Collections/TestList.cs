@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using EaslyController;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -20,6 +21,7 @@ public class TestList<T, TO, TItem>
     public void Test()
     {
         TestToReadOnly();
+        TestIsEqual();
         TestInterfaces();
         TestReadOnlyInterfaces();
     }
@@ -28,6 +30,39 @@ public class TestList<T, TO, TItem>
     {
         T NewInstance = new();
         _ = ToReadOnlyHandler(NewInstance);
+    }
+
+    private void TestIsEqual()
+    {
+        T NewInstance = new();
+        NewInstance.Add(NeutralItem);
+
+        TestIsEqual(NewInstance);
+        TestIsEqual(ToReadOnlyHandler(NewInstance));
+    }
+
+    private void TestIsEqual(object instance)
+    {
+        if (instance is IEqualComparable AsComparable)
+        {
+            CompareEqual Comparer = CompareEqual.New(true);
+            AsComparable.IsEqual(Comparer, AsComparable);
+
+            Comparer.SetFailIndex(0);
+            AsComparable.IsEqual(Comparer, AsComparable);
+
+            Comparer.SetFailIndex(1);
+            AsComparable.IsEqual(Comparer, AsComparable);
+
+            Comparer.SetFailIndex(2);
+            AsComparable.IsEqual(Comparer, AsComparable);
+
+            Comparer.SetFailIndex(3);
+            AsComparable.IsEqual(Comparer, AsComparable);
+
+            Comparer.SetFailIndex(4);
+            AsComparable.IsEqual(Comparer, AsComparable);
+        }
     }
 
     private void TestInterfaces()
