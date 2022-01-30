@@ -21,6 +21,7 @@
         void ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.CopyTo(KeyValuePair<IFrameBlockState, FrameBlockStateView>[] array, int arrayIndex) { int i = arrayIndex; foreach (KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView> Entry in this) array[i++] = new KeyValuePair<IFrameBlockState, FrameBlockStateView>((IFrameBlockState)Entry.Key, (FrameBlockStateView)Entry.Value); }
         bool ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.Remove(KeyValuePair<IFrameBlockState, FrameBlockStateView> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.IsReadOnly { get { return ((ICollection<KeyValuePair<IWriteableBlockState, WriteableBlockStateView>>)this).IsReadOnly; } }
+
         IEnumerator<KeyValuePair<IFrameBlockState, FrameBlockStateView>> IEnumerable<KeyValuePair<IFrameBlockState, FrameBlockStateView>>.GetEnumerator() { IEnumerator<KeyValuePair<IReadOnlyBlockState, ReadOnlyBlockStateView>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<IFrameBlockState, FrameBlockStateView>((IFrameBlockState)iterator.Current.Key, (FrameBlockStateView)iterator.Current.Value); } }
 
         FrameBlockStateView IDictionary<IFrameBlockState, FrameBlockStateView>.this[IFrameBlockState key] { get { return (FrameBlockStateView)this[key]; } set { this[key] = value; } }

@@ -31,6 +31,13 @@
     /// </summary>
     public abstract class FrameTemplate : IFrameTemplate
     {
+        #region Init
+        /// <summary>
+        /// Gets the empty <see cref="FrameTemplate"/> object.
+        /// </summary>
+        public static FrameTemplate Empty { get; } = new FrameNodeTemplate();
+        #endregion
+
         #region Properties
         /// <summary>
         /// Type of the node associated to this template (an interface type).

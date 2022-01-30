@@ -153,6 +153,7 @@
         protected ReadOnlyBlockListInner()
             : base()
         {
+            BlockType = typeof(object);
             _BlockStateList = CreateBlockStateList();
             BlockStateList = _BlockStateList.ToReadOnly();
         }
@@ -161,9 +162,10 @@
         /// Initializes a new instance of the <see cref="ReadOnlyBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>
-        public ReadOnlyBlockListInner(IReadOnlyNodeState owner)
+        protected ReadOnlyBlockListInner(IReadOnlyNodeState owner)
             : base(owner)
         {
+            BlockType = typeof(object);
             _BlockStateList = CreateBlockStateList();
             BlockStateList = _BlockStateList.ToReadOnly();
         }
@@ -176,6 +178,7 @@
         public ReadOnlyBlockListInner(IReadOnlyNodeState owner, string propertyName)
             : base(owner, propertyName)
         {
+            BlockType = NodeTreeHelperBlockList.BlockListBlockType(Owner.Node, PropertyName);
             _BlockStateList = CreateBlockStateList();
             BlockStateList = _BlockStateList.ToReadOnly();
         }
@@ -252,7 +255,7 @@
         /// <summary>
         /// Block type for all blocks in the inner.
         /// </summary>
-        public virtual Type BlockType { get { return NodeTreeHelperBlockList.BlockListBlockType(Owner.Node, PropertyName); } }
+        public virtual Type BlockType { get; }
 
         /// <summary>
         /// Class type for all nodes in the inner. Must inherit from <see cref="InterfaceType"/>.

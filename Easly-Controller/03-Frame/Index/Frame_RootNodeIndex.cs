@@ -18,6 +18,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameRootNodeIndex"/> object.
+        /// </summary>
+        public static new FrameRootNodeIndex Empty { get; } = new FrameRootNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameRootNodeIndex"/> class.
+        /// </summary>
+        protected FrameRootNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameRootNodeIndex"/> class.
         /// </summary>
         /// <param name="node">The indexed root node.</param>

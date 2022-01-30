@@ -15,6 +15,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameController"/> object.
+        /// </summary>
+        public static new FrameController Empty { get; } = new FrameController();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="FrameController"/> object.
         /// </summary>
         /// <param name="nodeIndex">Index of the root of the node tree.</param>

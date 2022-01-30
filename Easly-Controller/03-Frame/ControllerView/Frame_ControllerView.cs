@@ -11,6 +11,11 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameControllerView"/> object.
+        /// </summary>
+        public static new FrameControllerView Empty { get; } = new FrameControllerView();
+
+        /// <summary>
         /// Creates and initializes a new instance of a <see cref="FrameControllerView"/> object.
         /// </summary>
         /// <param name="controller">The controller on which the view is attached.</param>
@@ -20,6 +25,14 @@
             FrameControllerView View = new FrameControllerView(controller, templateSet);
             View.Init();
             return View;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameControllerView"/> class.
+        /// </summary>
+        protected FrameControllerView()
+            : this(FrameController.Empty, FrameTemplateSet.Default)
+        {
         }
 
         /// <summary>

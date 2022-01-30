@@ -40,6 +40,28 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameBlockListInner{IIndex}"/> object.
+        /// </summary>
+        public static new FrameBlockListInner<IIndex> Empty { get; } = new FrameBlockListInner<IIndex>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteableBlockListInner{IIndex}"/> class.
+        /// </summary>
+        protected FrameBlockListInner()
+            : this(FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameBlockListInner{IIndex}"/> class.
+        /// </summary>
+        /// <param name="owner">Parent containing the inner.</param>
+        protected FrameBlockListInner(IFrameNodeState owner)
+            : base(owner)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameBlockListInner{IIndex}"/> class.
         /// </summary>
         /// <param name="owner">Parent containing the inner.</param>

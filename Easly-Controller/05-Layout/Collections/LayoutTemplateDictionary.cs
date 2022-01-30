@@ -20,6 +20,7 @@
         void ICollection<KeyValuePair<System.Type, ILayoutTemplate>>.CopyTo(KeyValuePair<System.Type, ILayoutTemplate>[] array, int arrayIndex) { int i = arrayIndex; foreach (KeyValuePair<System.Type, IFrameTemplate> Entry in this) array[i++] = new KeyValuePair<System.Type, ILayoutTemplate>((System.Type)Entry.Key, (ILayoutTemplate)Entry.Value); }
         bool ICollection<KeyValuePair<System.Type, ILayoutTemplate>>.Remove(KeyValuePair<System.Type, ILayoutTemplate> item) { return Remove(item.Key); }
         bool ICollection<KeyValuePair<System.Type, ILayoutTemplate>>.IsReadOnly { get { return ((ICollection<KeyValuePair<System.Type, IFocusTemplate>>)this).IsReadOnly; } }
+
         IEnumerator<KeyValuePair<System.Type, ILayoutTemplate>> IEnumerable<KeyValuePair<System.Type, ILayoutTemplate>>.GetEnumerator() { IEnumerator<KeyValuePair<System.Type, IFrameTemplate>> iterator = GetEnumerator(); while (iterator.MoveNext()) { yield return new KeyValuePair<System.Type, ILayoutTemplate>((System.Type)iterator.Current.Key, (ILayoutTemplate)iterator.Current.Value); } }
 
         ILayoutTemplate IDictionary<System.Type, ILayoutTemplate>.this[System.Type key] { get { return (ILayoutTemplate)this[key]; } set { this[key] = value; } }

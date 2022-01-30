@@ -255,7 +255,7 @@ public class TestDictionary<T, TO, TKey, TValue>
         IDictionary<TKey, TValue> AsDictionary = ReadOnlyInstance;
 
         Assert.Throws<NotSupportedException>(() => { AsDictionary[NeutralKey] = NeutralValue; }, "Collection is read-only.");
-        Assert.Throws<NotSupportedException>(() => { AsDictionary.Add(Entry); }, "Collection is read-only.");
-        Assert.Throws<NotSupportedException>(() => { AsDictionary.Remove(Entry); }, "Collection is read-only.");
+        Assert.Throws<NotSupportedException>(() => { AsDictionary.Add(NeutralKey, NeutralValue); }, "Collection is read-only.");
+        Assert.Throws<NotSupportedException>(() => { AsDictionary.Remove(NeutralKey); }, "Collection is read-only.");
     }
 }

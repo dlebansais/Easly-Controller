@@ -20,6 +20,18 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameBrowsingNewBlockNodeIndex"/> object.
+        /// </summary>
+        public static new FrameBrowsingNewBlockNodeIndex Empty { get; } = new FrameBrowsingNewBlockNodeIndex();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameBrowsingNewBlockNodeIndex"/> class.
+        /// </summary>
+        protected FrameBrowsingNewBlockNodeIndex()
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameBrowsingNewBlockNodeIndex"/> class.
         /// </summary>
         /// <param name="parentNode">Node containing the block list.</param>

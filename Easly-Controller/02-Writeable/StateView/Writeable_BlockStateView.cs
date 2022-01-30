@@ -15,7 +15,7 @@
         public static new WriteableBlockStateView Empty { get; } = new WriteableBlockStateView();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyBlockStateView"/> class.
+        /// Initializes a new instance of the <see cref="WriteableBlockStateView"/> class.
         /// </summary>
         protected WriteableBlockStateView()
             : this(WriteableControllerView.Empty, WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>.Empty)

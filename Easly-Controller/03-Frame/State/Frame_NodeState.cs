@@ -49,6 +49,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="IFrameNodeState"/> object.
+        /// </summary>
+        public static new IFrameNodeState Empty { get; } = new FrameEmptyNodeState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameNodeState{IInner}"/> class.
+        /// </summary>
+        protected FrameNodeState()
+            : this(FrameRootNodeIndex.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameNodeState{IInner}"/> class.
         /// </summary>
         /// <param name="parentIndex">The index used to create the state.</param>

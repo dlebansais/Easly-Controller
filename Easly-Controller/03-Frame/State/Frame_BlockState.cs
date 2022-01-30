@@ -58,6 +58,19 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameBlockState{IInner}"/> object.
+        /// </summary>
+        public static new FrameBlockState<IInner> Empty { get; } = new FrameBlockState<IInner>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameBlockState{IInner}"/> class.
+        /// </summary>
+        private FrameBlockState()
+            : this(FrameBlockListInner<IFrameBrowsingBlockNodeIndex>.Empty, FrameBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+        {
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameBlockState{IInner}"/> class.
         /// </summary>
         /// <param name="parentInner">Inner containing the block state.</param>

@@ -9,6 +9,20 @@
     {
         #region Init
         /// <summary>
+        /// Gets the empty <see cref="FrameBlockStateView"/> object.
+        /// </summary>
+        public static new FrameBlockStateView Empty { get; } = new FrameBlockStateView();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FrameBlockStateView"/> class.
+        /// </summary>
+        protected FrameBlockStateView()
+            : base(FrameControllerView.Empty, FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>.Empty)
+        {
+            Template = FrameTemplate.Empty;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="FrameBlockStateView"/> class.
         /// </summary>
         /// <param name="controllerView">The controller view to which this object belongs.</param>
@@ -16,6 +30,8 @@
         public FrameBlockStateView(FrameControllerView controllerView, IFrameBlockState blockState)
             : base(controllerView, blockState)
         {
+            Type BlockType = BlockState.ParentInner.BlockType;
+            Template = ControllerView.TemplateSet.BlockTypeToTemplate(BlockType);
         }
         #endregion
 
@@ -33,14 +49,7 @@
         /// <summary>
         /// The template used to display the block state.
         /// </summary>
-        public IFrameTemplate Template
-        {
-            get
-            {
-                Type BlockType = BlockState.ParentInner.BlockType;
-                return ControllerView.TemplateSet.BlockTypeToTemplate(BlockType);
-            }
-        }
+        public IFrameTemplate Template { get; }
 
         /// <summary>
         /// Root cell for the view.
