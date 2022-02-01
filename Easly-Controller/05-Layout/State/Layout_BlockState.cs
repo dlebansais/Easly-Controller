@@ -66,7 +66,7 @@
         /// Initializes a new instance of the <see cref="LayoutBlockState{IInner}"/> class.
         /// </summary>
         private LayoutBlockState()
-            : this(LayoutBlockListInner<ILayoutBrowsingBlockNodeIndex>.Empty, LayoutBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+            : this(LayoutBlockListInner<ILayoutBrowsingBlockNodeIndex>.Empty, LayoutBrowsingNewBlockNodeIndex.Empty, (IBlock)Block<Node>.Default)
         {
         }
 

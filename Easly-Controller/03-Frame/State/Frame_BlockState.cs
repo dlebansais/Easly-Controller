@@ -66,7 +66,7 @@
         /// Initializes a new instance of the <see cref="FrameBlockState{IInner}"/> class.
         /// </summary>
         private FrameBlockState()
-            : this(FrameBlockListInner<IFrameBrowsingBlockNodeIndex>.Empty, FrameBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+            : this(FrameBlockListInner<IFrameBrowsingBlockNodeIndex>.Empty, FrameBrowsingNewBlockNodeIndex.Empty, (IBlock)Block<Node>.Default)
         {
         }
 

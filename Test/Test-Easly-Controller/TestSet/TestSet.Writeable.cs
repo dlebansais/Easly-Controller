@@ -892,28 +892,25 @@
                 IOptionalReference Optional = OptionalIndex.Optional;
                 Assert.That(Optional != null);
 
-                if (Optional.HasItem)
+                Controller.Assign(OptionalIndex, out bool IsChanged);
+                Assert.That(Optional.IsAssigned);
+                Assert.That(AsOptionalInner.IsAssigned);
+                Assert.That(Optional.Item == ChildState.Node);
+
+                WriteableControllerView NewView = WriteableControllerView.Create(Controller);
+                Assert.That(NewView.IsEqual(CompareEqual.New(), controllerView));
+
+                IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
+                WriteableController NewController = (WriteableController)WriteableController.Create(NewRootIndex);
+                Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
+
+                if (IsChanged)
                 {
-                    Controller.Assign(OptionalIndex, out bool IsChanged);
-                    Assert.That(Optional.IsAssigned);
-                    Assert.That(AsOptionalInner.IsAssigned);
-                    Assert.That(Optional.Item == ChildState.Node);
+                    Controller.Undo();
 
-                    WriteableControllerView NewView = WriteableControllerView.Create(Controller);
-                    Assert.That(NewView.IsEqual(CompareEqual.New(), controllerView));
-
-                    IWriteableRootNodeIndex NewRootIndex = new WriteableRootNodeIndex(Controller.RootIndex.Node);
-                    WriteableController NewController = (WriteableController)WriteableController.Create(NewRootIndex);
-                    Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
-
-                    if (IsChanged)
-                    {
-                        Controller.Undo();
-
-                        Assert.That(OldController.IsEqual(CompareEqual.New(), Controller), $"Inner: {inner.PropertyName}, Owner: {inner.Owner.Node}");
-                        WriteableControllerView OldView = WriteableControllerView.Create(Controller);
-                        Assert.That(OldView.IsEqual(CompareEqual.New(), controllerView));
-                    }
+                    Assert.That(OldController.IsEqual(CompareEqual.New(), Controller), $"Inner: {inner.PropertyName}, Owner: {inner.Owner.Node}");
+                    WriteableControllerView OldView = WriteableControllerView.Create(Controller);
+                    Assert.That(OldView.IsEqual(CompareEqual.New(), controllerView));
                 }
             }
 
@@ -1531,7 +1528,7 @@
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IWriteableOptionalInner Inner = (IWriteableOptionalInner)State.PropertyToInner(PropertyName);
@@ -1638,7 +1635,7 @@
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IWriteableOptionalInner Inner = (IWriteableOptionalInner)State.PropertyToInner(PropertyName);

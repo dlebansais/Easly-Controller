@@ -112,7 +112,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyBlockState{IInner}"/> class.
         /// </summary>
         private ReadOnlyBlockState()
-            : this(ReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex>.Empty, ReadOnlyBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+            : this(ReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex>.Empty, ReadOnlyBrowsingNewBlockNodeIndex.Empty, (IBlock)Block<Node>.Default)
         {
         }
 

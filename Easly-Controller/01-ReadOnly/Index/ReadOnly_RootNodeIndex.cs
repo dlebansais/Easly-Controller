@@ -26,7 +26,7 @@
         /// </summary>
         protected ReadOnlyRootNodeIndex()
         {
-            Node = Node.Empty;
+            Node = Node.Default;
         }
 
         /// <summary>

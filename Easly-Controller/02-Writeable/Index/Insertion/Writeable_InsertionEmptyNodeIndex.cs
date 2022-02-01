@@ -21,9 +21,9 @@
         /// </summary>
         public WriteableInsertionEmptyNodeIndex()
         {
-            ParentNode = Node.Empty;
+            ParentNode = Node.Default;
             PropertyName = string.Empty;
-            Node = Node.Empty;
+            Node = Node.Default;
         }
         #endregion
 

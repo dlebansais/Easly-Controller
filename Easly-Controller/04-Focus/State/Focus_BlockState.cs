@@ -66,7 +66,7 @@
         /// Initializes a new instance of the <see cref="FocusBlockState{IInner}"/> class.
         /// </summary>
         private FocusBlockState()
-            : this(FocusBlockListInner<IFocusBrowsingBlockNodeIndex>.Empty, FocusBrowsingNewBlockNodeIndex.Empty, Block<Node>.Empty)
+            : this(FocusBlockListInner<IFocusBrowsingBlockNodeIndex>.Empty, FocusBrowsingNewBlockNodeIndex.Empty, (IBlock)Block<Node>.Default)
         {
         }
 

@@ -24,7 +24,7 @@
         /// </summary>
         protected ReadOnlyBrowsingCollectionNodeIndex()
         {
-            Node = Node.Empty;
+            Node = Node.Default;
             PropertyName = string.Empty;
         }
 

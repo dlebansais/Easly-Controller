@@ -1192,28 +1192,25 @@
                 IOptionalReference Optional = OptionalIndex.Optional;
                 Assert.That(Optional != null);
 
-                if (Optional.HasItem)
+                Controller.Assign(OptionalIndex, out bool IsChanged);
+                Assert.That(Optional.IsAssigned);
+                Assert.That(AsOptionalInner.IsAssigned);
+                Assert.That(Optional.Item == ChildState.Node);
+
+                FrameControllerView NewView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                Assert.That(NewView.IsEqual(CompareEqual.New(), controllerView));
+
+                IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
+                FrameController NewController = FrameController.Create(NewRootIndex);
+                Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
+
+                if (IsChanged)
                 {
-                    Controller.Assign(OptionalIndex, out bool IsChanged);
-                    Assert.That(Optional.IsAssigned);
-                    Assert.That(AsOptionalInner.IsAssigned);
-                    Assert.That(Optional.Item == ChildState.Node);
+                    Controller.Undo();
 
-                    FrameControllerView NewView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
-                    Assert.That(NewView.IsEqual(CompareEqual.New(), controllerView));
-
-                    IFrameRootNodeIndex NewRootIndex = new FrameRootNodeIndex(Controller.RootIndex.Node);
-                    FrameController NewController = FrameController.Create(NewRootIndex);
-                    Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
-
-                    if (IsChanged)
-                    {
-                        Controller.Undo();
-
-                        Assert.That(OldController.IsEqual(CompareEqual.New(), Controller), $"Inner: {inner.PropertyName}, Owner: {inner.Owner.Node}");
-                        FrameControllerView OldView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
-                        Assert.That(OldView.IsEqual(CompareEqual.New(), controllerView));
-                    }
+                    Assert.That(OldController.IsEqual(CompareEqual.New(), Controller), $"Inner: {inner.PropertyName}, Owner: {inner.Owner.Node}");
+                    FrameControllerView OldView = FrameControllerView.Create(Controller, FrameTemplateSet.Default);
+                    Assert.That(OldView.IsEqual(CompareEqual.New(), controllerView));
                 }
             }
 
@@ -1712,7 +1709,7 @@
 
                 else if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(Node, PropertyName, out ChildNodeType))
                 {
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         IFrameOptionalInner Inner = (IFrameOptionalInner)State.PropertyToInner(PropertyName);

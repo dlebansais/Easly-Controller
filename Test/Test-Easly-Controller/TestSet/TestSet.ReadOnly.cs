@@ -136,7 +136,7 @@
                 {
                     stats.OptionalNodeCount++;
 
-                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out _, out Node ChildNode);
+                    NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
                     if (IsAssigned)
                     {
                         stats.AssignedOptionalNodeCount++;

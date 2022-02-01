@@ -9,7 +9,7 @@ namespace Coverage
     public class Main : Node
     {
         public Main()
-            : base(NodeHelper.CreateEmptyDocumentation())
+            : base(NodeHelper.CreateEmptyDocument())
         {
             UnassignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
             EmptyOptionalLeaf = new OptionalReference<Leaf>(new Leaf());

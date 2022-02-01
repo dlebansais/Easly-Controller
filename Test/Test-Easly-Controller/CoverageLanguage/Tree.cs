@@ -7,7 +7,7 @@ namespace Coverage
     public class Tree : Node
     {
         public Tree()
-            : base(NodeHelper.CreateEmptyDocumentation())
+            : base(NodeHelper.CreateEmptyDocument())
         {
         }
 

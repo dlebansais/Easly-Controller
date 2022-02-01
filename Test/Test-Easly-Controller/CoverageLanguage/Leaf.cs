@@ -7,7 +7,7 @@ namespace Coverage
     public class Leaf : Node
     {
         public Leaf()
-            : base(NodeHelper.CreateEmptyDocumentation())
+            : base(NodeHelper.CreateEmptyDocument())
         {
             Text = string.Empty;
         }

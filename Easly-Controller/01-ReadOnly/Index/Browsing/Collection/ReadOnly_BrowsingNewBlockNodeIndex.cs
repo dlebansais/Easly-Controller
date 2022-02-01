@@ -35,7 +35,7 @@
         /// </summary>
         protected ReadOnlyBrowsingNewBlockNodeIndex()
         {
-            ParentNode = Node.Empty;
+            ParentNode = Node.Default;
         }
 
         /// <summary>

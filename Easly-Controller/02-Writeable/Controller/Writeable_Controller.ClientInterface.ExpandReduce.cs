@@ -87,31 +87,14 @@
                 return;
 
             IWriteableBrowsingOptionalNodeIndex ParentIndex = optionalInner.ChildState.ParentIndex;
-            if (ParentIndex.Optional.HasItem)
-            {
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoAssign(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
-                WriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
-                Operation.Redo();
+            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoAssign(operation);
+            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoAssign(operation);
+            WriteableAssignmentOperation Operation = CreateAssignmentOperation(optionalInner.Owner.Node, optionalInner.PropertyName, HandlerRedo, HandlerUndo, isNested: false);
 
-                operationList.Add(Operation);
-            }
-            else
-            {
-                Node NewNode = NodeHelper.CreateDefaultFromType(optionalInner.InterfaceType);
-                Debug.Assert(NewNode != null);
+            Operation.Redo();
 
-                IWriteableInsertionOptionalNodeIndex NewOptionalNodeIndex = CreateNewOptionalNodeIndex(optionalInner.Owner.Node, optionalInner.PropertyName, NewNode);
-
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
-                IWriteableReplaceOperation Operation = CreateReplaceOperation(optionalInner.Owner.Node, optionalInner.PropertyName, -1, -1, NewNode, HandlerRedo, HandlerUndo, isNested: false);
-
-                Operation.Redo();
-
-                operationList.Add(Operation);
-            }
+            operationList.Add(Operation);
         }
 
         /// <summary>

@@ -64,7 +64,7 @@
         {
             bool IsValid = true;
 
-            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out _, out Node ChildNode);
+            NodeTreeHelperOptional.GetChildNode(node, propertyName, out bool IsAssigned, out Node ChildNode);
             if (IsAssigned)
             {
                 IsValid &= InvariantFailed(IsNodeTreeValid(ChildNode));

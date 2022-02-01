@@ -34,7 +34,7 @@
         /// </summary>
         protected ReadOnlyBrowsingListNodeIndex()
         {
-            ParentNode = Node.Empty;
+            ParentNode = Node.Default;
         }
 
         /// <summary>

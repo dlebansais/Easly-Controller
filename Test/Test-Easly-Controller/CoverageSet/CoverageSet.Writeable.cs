@@ -2152,7 +2152,7 @@ namespace Coverage
 
             Main MainItemH = CreateRoot(ValueGuid0, Imperfections.None);
             Main MainItemV = CreateRoot(ValueGuid1, Imperfections.None);
-            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("root doc", Guid.NewGuid());
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocument("root doc", Guid.NewGuid());
             Root RootNode = new Root(RootDocument);
             BaseNode.IBlockList<Main> MainBlocksH = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemH);
             BaseNode.IBlockList<Main> MainBlocksV = BaseNodeHelper.BlockListHelper.CreateSimpleBlockList<Main>(MainItemV);

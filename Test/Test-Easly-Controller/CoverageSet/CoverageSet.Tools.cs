@@ -35,7 +35,7 @@ namespace Coverage
 
         private static Leaf CreateLeaf(Guid guid0)
         {
-            BaseNode.Document NewLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("", guid0);
+            BaseNode.Document NewLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocument("", guid0);
             Leaf NewLeaf = new Leaf(NewLeafDocument, "leaf");
 
             return NewLeaf;
@@ -65,7 +65,7 @@ namespace Coverage
 
             Leaf PlaceholderLeaf = CreateLeaf(imperfection == Imperfections.BadGuid ? MainGuid : LeafGuid0);
 
-            BaseNode.Document UnassignedOptionalLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("leaf doc", Guid.NewGuid());
+            BaseNode.Document UnassignedOptionalLeafDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocument("leaf doc", Guid.NewGuid());
             Leaf UnassignedOptionalLeaf = new Leaf(UnassignedOptionalLeafDocument, "optional unassigned");
 
             Easly.IOptionalReference<Leaf> UnassignedOptional = BaseNodeHelper.OptionalReferenceHelper.CreateReference<Leaf>(UnassignedOptionalLeaf);

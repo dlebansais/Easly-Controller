@@ -13,7 +13,7 @@
         #region Init
         public CycleFeatureInfo()
         {
-            Documentation = NodeHelper.CreateEmptyDocumentation();
+            Documentation = NodeHelper.CreateEmptyDocument();
             ExportIdentifier = NodeHelper.CreateEmptyIdentifier();
             Export = ExportStatus.Exported;
             EntityName = NodeHelper.CreateEmptyName();

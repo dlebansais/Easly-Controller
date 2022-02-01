@@ -12,7 +12,7 @@
         #region Init
         public CycleBodyInfo()
         {
-            Documentation = NodeHelper.CreateEmptyDocumentation();
+            Documentation = NodeHelper.CreateEmptyDocument();
             RequireBlocks = BlockListHelper.CreateEmptyBlockList<Assertion>();
             EnsureBlocks = BlockListHelper.CreateEmptyBlockList<Assertion>();
             ExceptionIdentifierBlocks = BlockListHelper.CreateEmptyBlockList<Identifier>();
