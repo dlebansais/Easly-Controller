@@ -31,11 +31,11 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            IndexToPositionAndNode(replaceIndex, out int BlockIndex, out int Index, out Node NewNode);
+            IndexToPositionAndNode(replaceIndex, out int BlockIndex, out int Index, out bool ClearNode, out Node NewNode);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplace(operation);
-            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, NewNode, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableReplaceOperation Operation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, ClearNode, NewNode, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -183,7 +183,7 @@
                 }
                 else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
-                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out Node Node);
+                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out _, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
@@ -295,7 +295,7 @@
             foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
                 if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
-                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out Node Node);
+                    IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out _, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
@@ -364,7 +364,7 @@
             foreach (IWriteableInsertionCollectionNodeIndex NodeIndex in indexList)
                 if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
-                    IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out Node Node);
+                    IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
                     WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }

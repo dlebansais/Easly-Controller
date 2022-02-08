@@ -40,8 +40,7 @@
 
             using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
             {
-                Serializer Serializer = new Serializer();
-                RootNode = (Node)Serializer.Deserialize(fs);
+                RootNode = DeserializeAndFix(fs);
             }
 
             TestWriteable(index, FileName, RootNode);

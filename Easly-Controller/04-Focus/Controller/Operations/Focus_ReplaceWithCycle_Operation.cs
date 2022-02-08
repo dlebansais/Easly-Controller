@@ -45,7 +45,7 @@
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
         public FocusReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(parentNode, propertyName, blockIndex, index, cycleIndexList[cyclePosition].Node, handlerRedo, handlerUndo, isNested)
+            : base(parentNode, propertyName, blockIndex, index, clearNode: false, cycleIndexList[cyclePosition].Node, handlerRedo, handlerUndo, isNested)
         {
             CycleIndexList = cycleIndexList;
             NewCyclePosition = cyclePosition;

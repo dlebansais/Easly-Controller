@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BaseNode;
 using BaseNodeHelper;
@@ -10,6 +11,17 @@ namespace Coverage
     {
         public Main()
             : base(NodeHelper.CreateEmptyDocument())
+        {
+            UnassignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
+            EmptyOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
+            AssignedOptionalTree = new OptionalReference<Tree>(new Tree());
+            AssignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
+            //LeafBlocks = new BlockList<Leaf>();
+            LeafPath = new List<Leaf>();
+        }
+
+        public Main(Document document)
+            : base(document)
         {
             UnassignedOptionalLeaf = new OptionalReference<Leaf>(new Leaf());
             EmptyOptionalLeaf = new OptionalReference<Leaf>(new Leaf());

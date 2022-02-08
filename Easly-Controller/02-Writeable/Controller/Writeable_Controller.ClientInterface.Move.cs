@@ -44,7 +44,7 @@
             IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
             Debug.Assert(State != null);
 
-            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out Node Node);
+            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);

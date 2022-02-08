@@ -39,12 +39,13 @@
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is replaced.</param>
         /// <param name="blockIndex">Block position where the node is replaced, if applicable.</param>
         /// <param name="index">Position where the node is replaced, if applicable.</param>
+        /// <param name="clearNode">A value indicating whether the node is cleared and not replaced</param>
         /// <param name="newNode">The new node. Null to clear an optional node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
-            : base(parentNode, propertyName, blockIndex, index, newNode, handlerRedo, handlerUndo, isNested)
+        public LayoutReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, bool clearNode, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+            : base(parentNode, propertyName, blockIndex, index, clearNode, newNode, handlerRedo, handlerUndo, isNested)
         {
         }
         #endregion
@@ -70,10 +71,10 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, bool clearNode, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(LayoutReplaceOperation));
-            return new LayoutReplaceOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);
+            return new LayoutReplaceOperation(ParentNode, PropertyName, blockIndex, index, clearNode, node, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

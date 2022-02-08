@@ -30,6 +30,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="WindowsBase" />
+    <PackageReference Include="PolySerializer-Debug" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <PackageReference Include="PolySerializer" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,9 +40,6 @@
     </Reference>
     <Reference Include="Easly-Language-Helper">
       <HintPath>..\..\..\Easly-Language\Easly-Language-Helper\bin\x64\Debug\$(TargetFramework)\Easly-Language-Helper.dll</HintPath>
-    </Reference>
-    <Reference Include="PolySerializer">
-      <HintPath>..\..\..\PolySerializer\PolySerializer\bin\x64\Debug\$(TargetFramework)\PolySerializer.dll</HintPath>
     </Reference>
   </ItemGroup>
 

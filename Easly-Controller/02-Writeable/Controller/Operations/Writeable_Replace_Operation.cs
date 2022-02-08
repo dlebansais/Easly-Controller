@@ -30,6 +30,11 @@
         int Index { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the node is cleared and not replaced.
+        /// </summary>
+        bool ClearNode { get; }
+
+        /// <summary>
         /// The new node. Null to clear an optional node.
         /// </summary>
         Node NewNode { get; }
@@ -82,17 +87,19 @@
         /// <param name="propertyName">Property of <paramref name="parentNode"/> where the node is replaced.</param>
         /// <param name="blockIndex">Block position where the node is replaced, if applicable.</param>
         /// <param name="index">Position where the node is replaced, if applicable.</param>
+        /// <param name="clearNode">A value indicating whether the node is cleared and not replaced</param>
         /// <param name="newNode">The new node. Null to clear an optional node.</param>
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, bool clearNode, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
             PropertyName = propertyName;
             BlockIndex = blockIndex;
             Index = index;
+            ClearNode = clearNode;
             NewNode = newNode;
         }
         #endregion
@@ -117,6 +124,11 @@
         /// Position where the node is replaced, if applicable.
         /// </summary>
         public int Index { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the node is cleared and not replaced.
+        /// </summary>
+        public bool ClearNode { get; }
 
         /// <summary>
         /// The new node. Null to clear an optional node.
@@ -169,7 +181,7 @@
         /// </summary>
         public virtual IWriteableReplaceOperation ToInverseReplace()
         {
-            return CreateReplaceOperation(BlockIndex, Index, OldNode, HandlerUndo, HandlerRedo, IsNested);
+            return CreateReplaceOperation(BlockIndex, Index, clearNode: OldNode is null, OldNode, HandlerUndo, HandlerRedo, IsNested);
         }
         #endregion
 
@@ -177,10 +189,10 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected virtual IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, bool clearNode, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
             ControllerTools.AssertNoOverride(this, typeof(WriteableReplaceOperation));
-            return new WriteableReplaceOperation(ParentNode, PropertyName, blockIndex, index, node, handlerRedo, handlerUndo, isNested);
+            return new WriteableReplaceOperation(ParentNode, PropertyName, blockIndex, index, clearNode, node, handlerRedo, handlerUndo, isNested);
         }
         #endregion
     }

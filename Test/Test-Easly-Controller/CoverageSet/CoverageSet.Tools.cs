@@ -100,8 +100,8 @@ namespace Coverage
             LeafPath.Add(FirstPath);
             LeafPath.Add(SecondPath);
 
-            //BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocumentation("main doc", MainGuid);
-            Main Root = new Main(/*RootDocument*/);
+            BaseNode.Document RootDocument = BaseNodeHelper.NodeHelper.CreateSimpleDocument("main doc", MainGuid);
+            Main Root = new Main(RootDocument);
 
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderTree), PlaceholderTree);
             BaseNodeHelper.NodeTreeHelperChild.SetChildNode(Root, nameof(Main.PlaceholderLeaf), PlaceholderLeaf);

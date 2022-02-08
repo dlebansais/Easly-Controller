@@ -73,10 +73,7 @@
 
                 using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
                 {
-                    Serializer Serializer = new Serializer();
-                    Node RootNode;
-
-                    RootNode = (Node)Serializer.Deserialize(fs);
+                    Node RootNode = DeserializeAndFix(fs);
 
                     if (FirstRootNode == null)
                         FirstRootNode = RootNode;
@@ -85,6 +82,64 @@
 
             foreach (string Folder in Directory.GetDirectories(path))
                 AddEaslyFiles(Folder);
+        }
+
+        private static Node DeserializeAndFix(FileStream fs)
+        {
+            Serializer Serializer = new Serializer();
+            Node RootNode;
+
+            RootNode = (Node)Serializer.Deserialize(fs);
+
+            WalkCallbacks<string> Callbacks = new WalkCallbacks<string>();
+            Callbacks.IsRecursive = true;
+            Callbacks.HandlerRoot = OnUpdateRoot;
+            Callbacks.HandlerNode = OnUpdateNode;
+            NodeTreeWalk.Walk(RootNode, Callbacks, String.Empty);
+
+            return RootNode;
+        }
+
+        private static bool OnUpdateRoot(Node node, WalkCallbacks<string> callback, string data)
+        {
+            return OnUpdate(node, callback, data);
+        }
+
+        private static bool OnUpdateNode(Node node, Node parentNode, string propertyName, WalkCallbacks<string> callback, string data)
+        {
+            return OnUpdate(node, callback, data);
+        }
+
+        private static bool OnUpdate(Node node, WalkCallbacks<string> callback, string data)
+        {
+            IList<string> PropertyNames = NodeTreeHelper.EnumChildNodeProperties(node);
+
+            foreach (string PropertyName in PropertyNames)
+            {
+                if (NodeTreeHelperOptional.IsOptionalChildNodeProperty(node, PropertyName, out Type ChildNodeType))
+                {
+                    NodeTreeHelperOptional.GetChildNode(node, PropertyName, out bool IsAssigned, out Node ChildNode);
+                    if (!IsAssigned)
+                    {
+                        if (ChildNode is null)
+                        {
+                            Node NewChildNode = NodeHelper.CreateDefaultFromType(ChildNodeType);
+                            NodeTreeHelperOptional.SetOptionalChildNode(node, PropertyName, NewChildNode);
+                            NodeTreeHelperOptional.UnassignChildNode(node, PropertyName);
+                        }
+                    }
+                    else if (ChildNode is null)
+                    {
+                        Node NewChildNode = NodeHelper.CreateDefaultFromType(ChildNodeType);
+                        NodeTreeHelperOptional.SetOptionalChildNode(node, PropertyName, NewChildNode);
+                    }
+                    else if (NodeHelper.IsDefaultNode(ChildNode))
+                    {
+                    }
+                }
+            }
+
+            return true;
         }
 
         static IEnumerable<int> FileIndexRange()
@@ -113,6 +168,7 @@
         static Node FirstRootNode;
 
         static bool TestOff = false;
-        const int TestRepeatCount = 5;
+        //const int TestRepeatCount = 5;
+        const int TestRepeatCount = 1;
     }
 }

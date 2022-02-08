@@ -92,7 +92,7 @@
         public virtual void Replace(IWriteableReplaceOperation operation)
         {
             Debug.Assert(operation != null);
-            Debug.Assert(operation.NewNode != null);
+            Debug.Assert(operation.NewNode != null || operation.ClearNode);
 
             ReplaceOptional(operation);
         }
@@ -104,7 +104,10 @@
             IWriteableBrowsingOptionalNodeIndex OldBrowsingIndex = (IWriteableBrowsingOptionalNodeIndex)ChildState.ParentIndex;
             Node OldNode = ChildState.Node;
 
-            NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, operation.NewNode);
+            if (operation.ClearNode)
+                NodeTreeHelperOptional.UnassignChildNode(ParentNode, PropertyName);
+            else
+                NodeTreeHelperOptional.SetOptionalChildNode(ParentNode, PropertyName, operation.NewNode);
 
             IWriteableBrowsingOptionalNodeIndex NewBrowsingIndex = CreateBrowsingNodeIndex();
             IWriteableOptionalNodeState NewChildState = (IWriteableOptionalNodeState)CreateNodeState(NewBrowsingIndex);

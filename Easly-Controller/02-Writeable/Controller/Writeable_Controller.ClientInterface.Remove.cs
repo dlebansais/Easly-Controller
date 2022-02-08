@@ -66,7 +66,7 @@
             Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
             Debug.Assert(InnerTable[inner.PropertyName] == inner);
 
-            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out Node Node);
+            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
 
             bool IsHandled = false;
 

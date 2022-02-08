@@ -20,6 +20,7 @@
     using EaslyController.Layout;
     using EaslyEdit;
     using System.Text;
+    using System.Diagnostics;
 
     [TestFixture]
     public partial class TestSet
@@ -40,8 +41,7 @@
 
             using (FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read))
             {
-                Serializer Serializer = new Serializer();
-                RootNode = (Node)Serializer.Deserialize(fs);
+                RootNode = DeserializeAndFix(fs);
             }
 
             TestReadOnly(index, FileName, RootNode);
@@ -110,7 +110,7 @@
                 IReadOnlyOptionalNodeState AsOptionalState = (IReadOnlyOptionalNodeState)State;
                 IReadOnlyOptionalInner ParentInner = AsOptionalState.ParentInner;
 
-                Assert.That(ParentInner.IsAssigned, "ReadOnly #6");
+                //Assert.That(ParentInner.IsAssigned, "ReadOnly #6");
 
                 Node = AsOptionalState.Node;
             }
@@ -137,17 +137,19 @@
                     stats.OptionalNodeCount++;
 
                     NodeTreeHelperOptional.GetChildNode(Node, PropertyName, out bool IsAssigned, out Node ChildNode);
-                    if (IsAssigned)
+                    Debug.Assert(ChildNode is not null);
+                    //if (IsAssigned)
                     {
-                        stats.AssignedOptionalNodeCount++;
+                        if (IsAssigned)
+                            stats.AssignedOptionalNodeCount++;
 
                         IReadOnlyOptionalInner Inner = (IReadOnlyOptionalInner)State.PropertyToInner(PropertyName);
                         IReadOnlyNodeState ChildState = Inner.ChildState;
                         IReadOnlyIndex ChildIndex = ChildState.ParentIndex;
                         BrowseNode(controller, ChildIndex, stats);
                     }
-                    else
-                        stats.NodeCount++;
+                    /*else
+                        stats.NodeCount++;*/
                 }
 
                 else if (NodeTreeHelperList.IsNodeListProperty(Node, PropertyName, out ChildNodeType))

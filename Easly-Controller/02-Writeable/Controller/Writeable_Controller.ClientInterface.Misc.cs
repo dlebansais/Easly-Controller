@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
+    using BaseNodeHelper;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -78,7 +79,7 @@
 
             Action<IWriteableOperation> HandlerRedoReplace = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndoReplace = (IWriteableOperation operation) => UndoReplace(operation);
-            IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
+            IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, clearNode: false, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
 
             Action<IWriteableOperation> HandlerRedoInsert = (IWriteableOperation operation) => RedoInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndoInsert = (IWriteableOperation operation) => UndoInsertNewNode(operation);
@@ -109,10 +110,11 @@
             Debug.Assert(secondIndex != null);
         }
 
-        private protected virtual void IndexToPositionAndNode(IWriteableIndex nodeIndex, out int blockIndex, out int index, out Node node)
+        private protected virtual void IndexToPositionAndNode(IWriteableIndex nodeIndex, out int blockIndex, out int index, out bool clearNode, out Node node)
         {
             blockIndex = -1;
             index = -1;
+            clearNode = false;
             node = null;
             bool IsHandled = false;
 
@@ -129,6 +131,10 @@
                     break;
 
                 case IWriteableInsertionOptionalClearIndex AsOptionalClearIndex:
+                    //Type NodeType = NodeTreeHelperOptional.OptionalItemType(AsOptionalClearIndex.ParentNode, AsOptionalClearIndex.PropertyName);
+                    //Node Item = NodeHelper.CreateDefaultFromType(NodeType);
+                    //node = Item;
+                    clearNode = true;
                     IsHandled = true;
                     break;
 
