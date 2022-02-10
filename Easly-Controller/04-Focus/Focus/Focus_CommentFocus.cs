@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Focus on a comment cell view.
     /// </summary>
@@ -14,6 +16,7 @@
     /// <summary>
     /// Focus on a comment cell view.
     /// </summary>
+    [DebuggerDisplay("Comment: {CellView.StateView.State}")]
     public class FocusCommentFocus : FocusFocus, IFocusCommentFocus
     {
         #region Init
@@ -33,16 +36,6 @@
         public new IFocusCommentCellView CellView { get { return (IFocusCommentCellView)base.CellView; } }
         IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
         IFocusTextFocusableCellView IFocusTextFocus.CellView { get { return CellView; } }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string representation of this focus.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Comment: {CellView.StateView.State}";
-        }
         #endregion
     }
 }

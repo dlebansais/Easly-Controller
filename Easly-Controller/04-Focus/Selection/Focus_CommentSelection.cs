@@ -15,6 +15,7 @@
     /// <summary>
     /// A selection of part of a comment.
     /// </summary>
+    [DebuggerDisplay("Comment from {Start} to {End}")]
     public class FocusCommentSelection : FocusSelection, IFocusCommentSelection
     {
         #region Init
@@ -158,16 +159,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Comment from {Start} to {End}";
         }
         #endregion
     }

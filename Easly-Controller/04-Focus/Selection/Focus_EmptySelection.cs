@@ -17,6 +17,7 @@
     /// <summary>
     /// An empty selection.
     /// </summary>
+    [DebuggerDisplay("Empty")]
     public class FocusEmptySelection : FocusSelection, IFocusEmptySelection
     {
         #region Init
@@ -275,16 +276,6 @@
         public override void Delete(out bool isDeleted)
         {
             isDeleted = false;
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return "Empty";
         }
         #endregion
 

@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Focus on a discrete content focusable cell view.
     /// </summary>
@@ -14,6 +16,7 @@
     /// <summary>
     /// Focus on a discrete content focusable cell view.
     /// </summary>
+    [DebuggerDisplay("Discrete: {CellView.StateView.State}")]
     public class FocusDiscreteContentFocus : FocusFocus, IFocusDiscreteContentFocus
     {
         #region Init
@@ -32,16 +35,6 @@
         /// </summary>
         public new IFocusDiscreteContentFocusableCellView CellView { get { return (IFocusDiscreteContentFocusableCellView)base.CellView; } }
         IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string representation of this focus.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Discrete: {CellView.StateView.State}";
-        }
         #endregion
     }
 }

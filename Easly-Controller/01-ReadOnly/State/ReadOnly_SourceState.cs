@@ -40,6 +40,7 @@
     }
 
     /// <inheritdoc/>
+    [DebuggerDisplay("Source state")]
     internal class ReadOnlySourceState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlySourceState<IInner>, IReadOnlySourceState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -98,14 +99,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return "Source state";
         }
         #endregion
     }

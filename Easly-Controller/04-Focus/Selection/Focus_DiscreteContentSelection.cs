@@ -16,6 +16,7 @@
     /// <summary>
     /// A selection of discrete property (enum or boolean).
     /// </summary>
+    [DebuggerDisplay("Discrete '{PropertyName}'")]
     public class FocusDiscreteContentSelection : FocusSelection, IFocusDiscreteContentSelection
     {
         #region Init
@@ -90,16 +91,6 @@
         public override void Delete(out bool isDeleted)
         {
             isDeleted = false;
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Discrete '{PropertyName}'";
         }
         #endregion
     }

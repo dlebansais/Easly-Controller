@@ -24,6 +24,7 @@
     }
 
     /// <inheritdoc/>
+    [DebuggerDisplay("Child node of {ParentInner?.InterfaceType.Name}")]
     internal class ReadOnlyPlaceholderNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPlaceholderNodeState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -84,17 +85,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            if (ParentInner == null)
-                return "Root node";
-            else
-                return $"Child node of {ParentInner.InterfaceType.Name}";
         }
         #endregion
     }

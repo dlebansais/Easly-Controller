@@ -25,6 +25,7 @@
     /// Template describing all components of a node.
     /// </summary>
     [ContentProperty("Root")]
+    [DebuggerDisplay("Node Template {{{NodeType?.Name}}}")]
     public class FrameBlockTemplate : FrameTemplate, IFrameBlockTemplate
     {
         #region Client Interface
@@ -70,16 +71,6 @@
 
             frame = null;
             return false;
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return "Node Template {" + NodeType?.Name + "}";
         }
         #endregion
     }

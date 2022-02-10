@@ -7,6 +7,7 @@
     /// <summary>
     /// Context for browsing child nodes of a parent node.
     /// </summary>
+    [DebuggerDisplay("{State.GetType().Name}, {IndexCollectionList.Count} collections, {ValuePropertyTypeTable.Count} values")]
     internal class ReadOnlyBrowseContext
     {
         #region Init
@@ -135,14 +136,6 @@
             }
 
             return Result;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"{State.GetType().Name}, {IndexCollectionList.Count} collections, {ValuePropertyTypeTable.Count} values";
         }
         #endregion
 

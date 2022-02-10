@@ -21,6 +21,7 @@
     /// <summary>
     /// View of a node state.
     /// </summary>
+    [DebuggerDisplay("View of: {State}")]
     public abstract class ReadOnlyNodeStateView : IReadOnlyNodeStateView, IEqualComparable
     {
         #region Init
@@ -69,14 +70,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"View of: {State}";
         }
         #endregion
     }

@@ -39,6 +39,7 @@
     }
 
     /// <inheritdoc/>
+    [DebuggerDisplay("Optional node of {ParentInner.InterfaceType.Name}")]
     internal class ReadOnlyOptionalNodeState<IInner> : ReadOnlyNodeState<IInner>, IReadOnlyOptionalNodeState<IInner>, IReadOnlyOptionalNodeState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -195,14 +196,6 @@
             }
 
             return NewNode;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Optional node of {ParentInner.InterfaceType.Name}";
         }
         #endregion
 

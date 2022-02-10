@@ -16,6 +16,7 @@
     /// <summary>
     /// A selection of a node an all its content and children.
     /// </summary>
+    [DebuggerDisplay("{StateView.State}")]
     public class FocusNodeSelection : FocusSelection, IFocusNodeSelection
     {
         #region Init
@@ -101,16 +102,6 @@
 
                 isDeleted = true;
             }
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return StateView.State.ToString();
         }
         #endregion
     }

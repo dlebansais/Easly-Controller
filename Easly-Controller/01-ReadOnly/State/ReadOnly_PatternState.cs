@@ -40,6 +40,7 @@
     }
 
     /// <inheritdoc/>
+    [DebuggerDisplay("Pattern state")]
     internal class ReadOnlyPatternState<IInner> : ReadOnlyPlaceholderNodeState<IInner>, IReadOnlyPatternState<IInner>, IReadOnlyPatternState, IReadOnlyNodeState
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -98,14 +99,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return "Pattern state";
         }
         #endregion
     }

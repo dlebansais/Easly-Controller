@@ -1,8 +1,11 @@
 ﻿namespace EaslyController.Controller
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// A measure used for drawing and printing.
     /// </summary>
+    [DebuggerDisplay("{Draw}")]
     public struct Measure
     {
         #region Init
@@ -83,14 +86,6 @@
         public static Measure operator *(Measure measure1, Measure measure2)
         {
             return new Measure() { Draw = measure1.Draw * measure2.Draw, Print = measure1.Print * measure2.Print };
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary></summary>
-        public override string ToString()
-        {
-            return Draw.ToString();
         }
         #endregion
     }

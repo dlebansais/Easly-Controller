@@ -5,6 +5,7 @@
     /// <summary>
     /// View of a block state.
     /// </summary>
+    [DebuggerDisplay("View of: {BlockState}")]
     public class ReadOnlyBlockStateView : IEqualComparable
     {
         #region Init
@@ -61,14 +62,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"View of: {BlockState}";
         }
         #endregion
     }

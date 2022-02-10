@@ -139,7 +139,6 @@
             Debug.Assert(StateViewTable.ContainsKey(state));
 
             IReadOnlyNodeStateView StateView = StateViewTable[state];
-            Debug.Assert(StateView.ToString() != null); // For code coverage.
         }
 
         /// <summary>
@@ -184,7 +183,6 @@
             Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
 
             ReadOnlyBlockStateView BlockStateView = CreateBlockStateView(blockState);
-            Debug.Assert(BlockStateView.ToString() != null); // For code coverage.
             BlockStateViewTable.Add(blockState, BlockStateView);
         }
 

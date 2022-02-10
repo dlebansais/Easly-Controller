@@ -15,6 +15,7 @@
     /// <summary>
     /// A selection of part of a comment.
     /// </summary>
+    [DebuggerDisplay("Text '{PropertyName}', from {Start} to {End}")]
     public class FocusStringContentSelection : FocusSelection, IFocusStringContentSelection
     {
         #region Init
@@ -165,16 +166,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Text '{PropertyName}', from {Start} to {End}";
         }
         #endregion
     }

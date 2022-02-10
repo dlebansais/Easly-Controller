@@ -99,6 +99,7 @@
     }
 
     /// <inheritdoc/>
+    [DebuggerDisplay("Block, {StateList.Count} state(s) of {ParentInner.InterfaceType.Name}")]
     internal class ReadOnlyBlockState<IInner> : IReadOnlyBlockState<IInner>, IReadOnlyBlockState, IEqualComparable
         where IInner : IReadOnlyInner<IReadOnlyBrowsingChildIndex>
     {
@@ -144,7 +145,6 @@
             Dictionary<string, ValuePropertyType> PatternValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             PatternValuePropertyTypeTable.Add(nameof(Pattern.Text), ValuePropertyType.String);
             ((IReadOnlyPatternState<IInner>)PatternState).Init(PatternInner, PatternEmptyInnerTable, PatternValuePropertyTypeTable);
-            Debug.Assert(PatternState.ToString() != null); // For code coverage.
 
             SourceIndex = CreateExistingSourceIndex();
             SourceState = CreateSourceState(SourceIndex);
@@ -152,7 +152,6 @@
             Dictionary<string, ValuePropertyType> SourceValuePropertyTypeTable = new Dictionary<string, ValuePropertyType>();
             SourceValuePropertyTypeTable.Add(nameof(Identifier.Text), ValuePropertyType.String);
             ((IReadOnlySourceState<IInner>)SourceState).Init(SourceInner, SourceEmptyInnerTable, SourceValuePropertyTypeTable);
-            Debug.Assert(SourceState.ToString() != null); // For code coverage.
         }
 
         /// <summary>
@@ -370,14 +369,6 @@
                 return comparer.Failed();
 
             return true;
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"Block, {StateList.Count} state(s) of {ParentInner.InterfaceType.Name}";
         }
         #endregion
 

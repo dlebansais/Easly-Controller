@@ -35,6 +35,7 @@
     /// <summary>
     /// A selection of blocks in a block list.
     /// </summary>
+    [DebuggerDisplay("From block {StartIndex} to {EndIndex}")]
     public class FocusBlockListSelection : FocusSelection, IFocusBlockListSelection
     {
         #region Init
@@ -247,16 +248,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"From block {StartIndex} to {EndIndex}";
         }
         #endregion
 

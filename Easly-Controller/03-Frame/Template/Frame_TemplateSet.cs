@@ -435,8 +435,6 @@
             }
 
             RootFrame.UpdateParent(RootTemplate, GetRoot());
-
-            Debug.Assert(RootTemplate.ToString() != null); // For code coverage.
         }
 
         private protected virtual IFrameFrame GetRoot()
@@ -470,7 +468,6 @@
             RootTemplate.Root = RootFrame;
 
             RootFrame.UpdateParent(RootTemplate, GetRoot());
-            Debug.Assert(RootTemplate.ToString() != null); // For code coverage.
 
             List<Type> BlockKeys = new List<Type>(DefaultDictionary.Keys);
             foreach (Type Key in BlockKeys)

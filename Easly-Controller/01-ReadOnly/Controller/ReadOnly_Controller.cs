@@ -380,7 +380,6 @@
         private protected virtual void BrowseStateChildren(ReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
             Debug.Assert(browseContext.IndexCollectionList.Count == 0);
-            Debug.Assert(browseContext.ToString() != null); // For code coverage.
 
             IReadOnlyNodeState State = browseContext.State;
             ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).BrowseChildren(browseContext, parentInner);
@@ -461,7 +460,6 @@
             Debug.Assert(State.ValuePropertyTypeTable == null || State.ValuePropertyTypeTable.Count == 0);
 
             ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).Init(parentInner, innerTable, browseContext.ValuePropertyTypeTable);
-            Debug.Assert(State.ToString() != null); // For code coverage.
 
             NotifyNodeStateInitialized(State);
         }

@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
+    using System.Diagnostics;
+
     /// <summary>
     /// Focus on a cell view for a string property.
     /// </summary>
@@ -14,6 +16,7 @@
     /// <summary>
     /// Focus on a cell view for a string property.
     /// </summary>
+    [DebuggerDisplay("String: {CellView.StateView.State}")]
     public class FocusStringContentFocus : FocusFocus, IFocusStringContentFocus
     {
         #region Init
@@ -33,16 +36,6 @@
         public new IFocusStringContentFocusableCellView CellView { get { return (IFocusStringContentFocusableCellView)base.CellView; } }
         IFocusFocusableCellView IFocusFocus.CellView { get { return CellView; } }
         IFocusTextFocusableCellView IFocusTextFocus.CellView { get { return CellView; } }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string representation of this focus.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"String: {CellView.StateView.State}";
-        }
         #endregion
     }
 }

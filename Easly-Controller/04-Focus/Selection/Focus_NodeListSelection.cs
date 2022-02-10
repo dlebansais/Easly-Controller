@@ -35,6 +35,7 @@
     /// <summary>
     /// A selection of nodes in a list.
     /// </summary>
+    [DebuggerDisplay("From node {StartIndex} to {EndIndex}")]
     public class FocusNodeListSelection : FocusSelection, IFocusNodeListSelection
     {
         #region Init
@@ -223,16 +224,6 @@
                 StateView.ControllerView.ClearSelection();
                 isDeleted = true;
             }
-        }
-        #endregion
-
-        #region Debugging
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return $"From node {StartIndex} to {EndIndex}";
         }
         #endregion
 
