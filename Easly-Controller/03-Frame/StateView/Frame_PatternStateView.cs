@@ -103,7 +103,6 @@
 
         private protected virtual void SetRootCellView(IFrameCellView cellView)
         {
-            Debug.Assert(cellView != null);
             Debug.Assert(RootCellView == null);
 
             RootCellView = cellView;

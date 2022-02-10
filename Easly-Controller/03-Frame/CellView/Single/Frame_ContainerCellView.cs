@@ -36,10 +36,6 @@
         public FrameContainerCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
             : base(stateView, parentCellView)
         {
-            Debug.Assert(parentCellView != null);
-            Debug.Assert(childStateView != null);
-            Debug.Assert(frame != null);
-
             ChildStateView = childStateView;
             Frame = frame;
         }
@@ -129,8 +125,6 @@
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
         public override bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Debug.Assert(handler != null);
-
             return ChildStateView.EnumerateVisibleCellViews(handler, out cellView, reversed);
         }
         #endregion
@@ -143,8 +137,6 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out FrameContainerCellView AsContainerCellView))
                 return comparer.Failed();
 

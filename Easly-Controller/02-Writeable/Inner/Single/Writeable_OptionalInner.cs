@@ -91,7 +91,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(operation != null);
             Debug.Assert(operation.NewNode != null || operation.ClearNode);
 
             ReplaceOptional(operation);

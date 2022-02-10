@@ -634,7 +634,6 @@
 
         private protected virtual void CheckCaretInvariant(string text)
         {
-            Debug.Assert(text != null);
             Debug.Assert(CaretPosition >= 0);
             Debug.Assert(MaxCaretPosition == text.Length);
             Debug.Assert(CaretPosition <= MaxCaretPosition);

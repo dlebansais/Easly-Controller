@@ -84,7 +84,6 @@
         /// <param name="childStateView">The new state view.</param>
         public void SetChildStateView(IFrameNodeStateView childStateView)
         {
-            Debug.Assert(childStateView != null);
             Debug.Assert(childStateView != StateView);
             Debug.Assert(childStateView.State.ParentState == StateView.State);
 
@@ -97,7 +96,6 @@
         /// <param name="parentStateView">The new state view.</param>
         public void RestoreParentStateView(IFrameNodeStateView parentStateView)
         {
-            Debug.Assert(parentStateView != null);
             Debug.Assert(parentStateView != StateView);
             Debug.Assert(parentStateView.State == StateView.State.ParentState);
 
@@ -110,8 +108,6 @@
         /// <param name="blockStateView">The new block state view.</param>
         public void SetBlockStateView(FrameBlockStateView blockStateView)
         {
-            Debug.Assert(blockStateView != null);
-
             BlockStateView = blockStateView;
         }
         #endregion

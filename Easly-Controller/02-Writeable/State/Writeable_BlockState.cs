@@ -146,7 +146,6 @@
         /// <param name="childState">Node state.</param>
         public virtual void Insert(IWriteableBrowsingBlockNodeIndex nodeIndex, int index, IReadOnlyPlaceholderNodeState childState)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(index >= 0 && index <= StateList.Count);
 
             InsertState(index, childState);
@@ -159,7 +158,6 @@
         /// <param name="index">Position of the removed node in the block.</param>
         public virtual void Remove(IWriteableBrowsingBlockNodeIndex nodeIndex, int index)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(index >= 0 && index < StateList.Count);
 
             RemoveState(index);
@@ -173,7 +171,6 @@
         /// <param name="direction">The change in position, relative to the current position.</param>
         public virtual void Move(IWriteableBrowsingCollectionNodeIndex nodeIndex, int index, int direction)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(index >= 0 && index < StateList.Count);
             Debug.Assert(index + direction >= 0 && index + direction < StateList.Count);
 

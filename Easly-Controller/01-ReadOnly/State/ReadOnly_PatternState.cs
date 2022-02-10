@@ -52,8 +52,6 @@
         public ReadOnlyPatternState(IReadOnlyBlockState parentBlockState, IReadOnlyBrowsingPatternIndex index)
             : base(index)
         {
-            Debug.Assert(parentBlockState != null);
-
             ParentBlockState = parentBlockState;
         }
         #endregion
@@ -87,8 +85,6 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyPatternState<IInner> AsPatternState))
                 return comparer.Failed();
 

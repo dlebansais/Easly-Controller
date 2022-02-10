@@ -23,8 +23,6 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed node.</param>
         public ReadOnlyBrowsingPlaceholderNodeIndex(Node parentNode, Node node, string propertyName)
         {
-            Debug.Assert(parentNode != null);
-            Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(NodeTreeHelperChild.IsChildNode(parentNode, propertyName, node));
 
@@ -45,8 +43,6 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyBrowsingPlaceholderNodeIndex AsPlaceholderNodeIndex))
                 return comparer.Failed();
 

@@ -102,9 +102,6 @@
         /// <param name="parentInner">The inner containing this state as a child.</param>
         public override void BrowseChildren(ReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
-            Debug.Assert(browseContext != null);
-            Debug.Assert(parentInner != null);
-
             NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
 
             if (ChildNode != null)
@@ -120,8 +117,6 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeState<IInner> AsOptionalNodeState))
                 return comparer.Failed();
 

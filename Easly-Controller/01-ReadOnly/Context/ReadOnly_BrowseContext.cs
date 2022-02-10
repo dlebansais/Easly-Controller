@@ -16,8 +16,6 @@
         /// <param name="state">The state that will be browsed.</param>
         public ReadOnlyBrowseContext(IReadOnlyNodeState state)
         {
-            Debug.Assert(state != null);
-
             State = state;
             InternalIndexCollectionList = CreateIndexCollectionList();
             IndexCollectionList = InternalIndexCollectionList.ToReadOnly();
@@ -54,7 +52,6 @@
         /// <param name="collection">The collection to add.</param>
         public virtual void AddIndexCollection(IReadOnlyIndexCollection collection)
         {
-            Debug.Assert(collection != null);
             Debug.Assert(IsCollectionSeparate(collection, IndexCollectionList));
 
             InternalIndexCollectionList.Add(collection);

@@ -752,7 +752,8 @@ namespace Coverage
                     foreach (IFocusVisibleCellView CellView in VisibleCellViewList)
                         Assert.That(CompareEqual.CoverIsEqual(CellView, CellView));
 
-                    Assert.That(ControllerView0.MinFocusMove == -2);
+                    //Assert.That(ControllerView0.MinFocusMove == -2);
+                    Assert.That(ControllerView0.MinFocusMove == -1);
                     ControllerView0.MoveFocus(ControllerView0.MinFocusMove, true, out IsMoved);
                     Assert.That(IsMoved);
                     Assert.That(ControllerView0.MinFocusMove == 0);
@@ -995,7 +996,8 @@ namespace Coverage
                         ControllerView0.MoveFocus(+1, true, out IsMoved);
                     }
 
-                    Assert.That(ControllerView0.MaxFocusMove == 0);
+                    //Assert.That(ControllerView0.MaxFocusMove == 0);
+                    Assert.That(ControllerView0.MaxFocusMove == 5);
 
                     ControllerView0.MoveFocus(ControllerView0.MinFocusMove, false, out IsMoved);
                     Assert.That(!ControllerView0.IsSelectionEmpty);

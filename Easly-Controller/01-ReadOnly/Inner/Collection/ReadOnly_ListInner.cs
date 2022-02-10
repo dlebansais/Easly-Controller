@@ -94,7 +94,6 @@
         /// <returns>The created node state.</returns>
         private protected virtual IReadOnlyNodeState InitChildState(IReadOnlyBrowsingListNodeIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
 
             int Index = ((TIndex)nodeIndex).Index;
@@ -179,8 +178,6 @@
         /// <inheritdoc/>
         public override void CloneChildren(Node parentNode)
         {
-            Debug.Assert(parentNode != null);
-
             NodeTreeHelperList.ClearChildNodeList(parentNode, PropertyName);
 
             for (int i = 0; i < StateList.Count; i++)
@@ -214,7 +211,6 @@
         private protected virtual void InsertInStateList(int index, IReadOnlyPlaceholderNodeState nodeState)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
-            Debug.Assert(nodeState != null);
             Debug.Assert(nodeState.ParentIndex is IReadOnlyBrowsingListNodeIndex);
 
             _StateList.Insert(index, nodeState);
@@ -242,8 +238,6 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyListInner<TIndex> AsListInner))
                 return comparer.Failed();
 

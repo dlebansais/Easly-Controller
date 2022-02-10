@@ -190,9 +190,6 @@
         private static void WriteContent<T>(IDataObject dataObject, T content)
             where T : class
         {
-            Debug.Assert(dataObject != null);
-            Debug.Assert(content != null);
-
             Serializer s = new Serializer();
             using (MemoryStream ms = new MemoryStream())
             {

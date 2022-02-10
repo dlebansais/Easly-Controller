@@ -122,7 +122,7 @@
         /// <param name="cycleIndexList">The list to restore.</param>
         public virtual void RestoreCycleIndexList(FocusInsertionChildNodeIndexList cycleIndexList)
         {
-            Debug.Assert(cycleIndexList != null && cycleIndexList.Count >= 2);
+            Debug.Assert(cycleIndexList.Count >= 2);
             Debug.Assert(CycleIndexList == null);
 
             CycleIndexList = cycleIndexList;

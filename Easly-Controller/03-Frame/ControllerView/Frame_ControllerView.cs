@@ -43,8 +43,6 @@
         private protected FrameControllerView(FrameController controller, IFrameTemplateSet templateSet)
             : base(controller)
         {
-            Debug.Assert(templateSet != null);
-
             TemplateSet = templateSet;
         }
 
@@ -364,9 +362,6 @@
 
         private protected virtual void OnListStateInserted(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
@@ -433,8 +428,6 @@
 
         private protected virtual void OnBlockListStateRemoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, IFrameNodeState removedState)
         {
-            Debug.Assert(inner != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
@@ -448,8 +441,6 @@
 
         private protected virtual void OnListStateRemoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, IFrameNodeState removedState)
         {
-            Debug.Assert(inner != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
@@ -527,9 +518,6 @@
 
         private protected virtual void OnPlaceholderStateReplaced(IFramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex> inner, IFrameBrowsingPlaceholderNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
             Debug.Assert(OwnerStateView != null);
@@ -560,9 +548,6 @@
 
         private protected virtual void OnOptionalStateReplaced(IFrameOptionalInner<IFrameBrowsingOptionalNodeIndex> inner, IFrameBrowsingOptionalNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
             Debug.Assert(OwnerStateView != null);
@@ -593,9 +578,6 @@
 
         private protected virtual void OnBlockListStateReplaced(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
@@ -624,9 +606,6 @@
 
         private protected virtual void OnListStateReplaced(IFrameListInner<IFrameBrowsingListNodeIndex> inner, IFrameBrowsingListNodeIndex nodeIndex, IFrameNodeState replacedState)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
@@ -809,8 +788,6 @@
 
         private protected virtual void OnBlockListStateMoved(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, int blockIndex, int index, int direction)
         {
-            Debug.Assert(inner != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 
@@ -824,8 +801,6 @@
 
         private protected virtual void OnListStateMoved(IFrameListInner<IFrameBrowsingListNodeIndex> inner, int index, int direction)
         {
-            Debug.Assert(inner != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 

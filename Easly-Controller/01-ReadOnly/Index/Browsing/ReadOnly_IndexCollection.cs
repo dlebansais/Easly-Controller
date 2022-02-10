@@ -109,8 +109,7 @@
         /// <param name="nodeIndexList">Collection of node indexes.</param>
         public static bool IsSamePropertyName(string propertyName, IReadOnlyList<IIndex> nodeIndexList)
         {
-            Debug.Assert(propertyName != null); // The empty string is acceptable.
-            Debug.Assert(nodeIndexList != null);
+            // The empty string is acceptable.
 
             foreach (IIndex item in nodeIndexList)
                 if (item.PropertyName != propertyName)

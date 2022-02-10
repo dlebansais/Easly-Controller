@@ -817,7 +817,8 @@ namespace Coverage
                         CellView.Print(Point.Origin);
                     }
 
-                    Assert.That(ControllerView0.MinFocusMove == -2);
+                    //Assert.That(ControllerView0.MinFocusMove == -2);
+                    Assert.That(ControllerView0.MinFocusMove == -1);
                     ControllerView0.MoveFocus(ControllerView0.MinFocusMove, true, out IsMoved);
                     Assert.That(IsMoved);
                     Assert.That(ControllerView0.MinFocusMove == 0);
@@ -1137,7 +1138,8 @@ namespace Coverage
                         ControllerView0.Print(ControllerView0.RootStateView, Point.Origin);
                     }
 
-                    Assert.That(ControllerView0.MaxFocusMove == 0);
+                    //Assert.That(ControllerView0.MaxFocusMove == 0);
+                    Assert.That(ControllerView0.MaxFocusMove == 9);
 
                     ControllerView0.MeasureAndArrange();
                     ControllerView0.Draw(ControllerView0.RootStateView);

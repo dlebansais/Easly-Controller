@@ -153,8 +153,6 @@
         /// <param name="index">The index to check</param>
         public virtual bool Contains(IReadOnlyIndex index)
         {
-            Debug.Assert(index != null);
-
             return StateTable.ContainsKey(index);
         }
 
@@ -164,7 +162,6 @@
         /// <param name="index">The index.</param>
         public virtual IReadOnlyNodeState IndexToState(IReadOnlyIndex index)
         {
-            Debug.Assert(index != null);
             Debug.Assert(Contains(index));
 
             return StateTable[index];
@@ -188,7 +185,6 @@
         /// <param name="index">Index of the node.</param>
         public virtual bool IsAssigned(IReadOnlyBrowsingOptionalNodeIndex index)
         {
-            Debug.Assert(index != null);
             Debug.Assert(Contains(index));
 
             return index.Optional.IsAssigned;
@@ -203,11 +199,9 @@
         /// <param name="maxValue">Maximum valid value for this property upon return.</param>
         public virtual int GetDiscreteValue(IReadOnlyIndex index, string propertyName, out int minValue, out int maxValue)
         {
-            Debug.Assert(index != null);
             Debug.Assert(Contains(index));
 
             IReadOnlyNodeState State = StateTable[index];
-            Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Boolean || State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Enum);
 
@@ -221,11 +215,9 @@
         /// <param name="propertyName">Name of the property to read.</param>
         public virtual string GetStringValue(IReadOnlyIndex index, string propertyName)
         {
-            Debug.Assert(index != null);
             Debug.Assert(Contains(index));
 
             IReadOnlyNodeState State = StateTable[index];
-            Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.String);
 
@@ -241,11 +233,9 @@
         /// <param name="propertyName">Name of the property to read.</param>
         public virtual Guid GetGuidValue(IReadOnlyIndex index, string propertyName)
         {
-            Debug.Assert(index != null);
             Debug.Assert(Contains(index));
 
             IReadOnlyNodeState State = StateTable[index];
-            Debug.Assert(State != null);
             Debug.Assert(State.ValuePropertyTypeTable.ContainsKey(propertyName));
             Debug.Assert(State.ValuePropertyTypeTable[propertyName] == Constants.ValuePropertyType.Guid);
 
@@ -319,7 +309,6 @@
         #region Implementation
         private protected virtual void SetRoot(IReadOnlyRootNodeIndex rootIndex)
         {
-            Debug.Assert(rootIndex != null);
             Debug.Assert(!IsInitialized); // Must be called during initialization
 
             IReadOnlyPlaceholderNodeState State = CreateRootNodeState(rootIndex);
@@ -343,7 +332,6 @@
 
         private protected virtual void AddState(IReadOnlyIndex index, IReadOnlyNodeState state)
         {
-            Debug.Assert(state != null);
             Debug.Assert(!StateTable.ContainsKey(index));
 
             _StateTable.Add(index, state);
@@ -356,7 +344,6 @@
 
         private protected virtual void RemoveState(IReadOnlyIndex index)
         {
-            Debug.Assert(index != null);
             Debug.Assert(StateTable.ContainsKey(index));
 
             NotifyNodeStateRemoved(StateTable[index]);
@@ -370,8 +357,6 @@
         private protected virtual void BuildStateTable(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, ReadOnlyBrowseContext parentBrowseContext, IReadOnlyIndex nodeIndex, IReadOnlyNodeState state)
         {
             Debug.Assert((parentBrowseContext == null) || (parentBrowseContext != null && parentInner != null));
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(state != null);
             Debug.Assert(Contains(nodeIndex));
             Debug.Assert(IndexToState(nodeIndex) == state);
 
@@ -394,7 +379,6 @@
 
         private protected virtual void BrowseStateChildren(ReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner)
         {
-            Debug.Assert(browseContext != null);
             Debug.Assert(browseContext.IndexCollectionList.Count == 0);
             Debug.Assert(browseContext.ToString() != null); // For code coverage.
 
@@ -411,8 +395,6 @@
 
         private protected virtual ReadOnlyInnerReadOnlyDictionary<string> BuildInnerTable(ReadOnlyBrowseContext browseContext)
         {
-            Debug.Assert(browseContext != null);
-
             IReadOnlyNodeState State = browseContext.State;
             Debug.Assert(State.InnerTable == null);
 
@@ -436,9 +418,6 @@
 
         private protected virtual IReadOnlyInner BuildInner(IReadOnlyNodeState parentState, IReadOnlyIndexCollection nodeIndexCollection)
         {
-            Debug.Assert(parentState != null);
-            Debug.Assert(nodeIndexCollection != null);
-
             IReadOnlyInner Result = null;
 
             switch (nodeIndexCollection)
@@ -470,10 +449,7 @@
 
         private protected virtual void InitState(ReadOnlyBrowseContext browseContext, IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, IReadOnlyIndex nodeIndex, ReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
-            Debug.Assert(browseContext != null);
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(Contains(nodeIndex));
-            Debug.Assert(innerTable != null);
             Debug.Assert(parentInner != null || nodeIndex == RootIndex);
 
             IReadOnlyNodeState State = browseContext.State;
@@ -492,8 +468,6 @@
 
         private protected virtual ReadOnlyNodeStateDictionary BuildChildrenStateTable(ReadOnlyBrowseContext browseContext)
         {
-            Debug.Assert(browseContext != null);
-
             IReadOnlyNodeState State = browseContext.State;
             ReadOnlyInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
             ReadOnlyIndexCollectionReadOnlyList IndexCollectionList = browseContext.IndexCollectionList;
@@ -543,9 +517,6 @@
 
         private protected virtual IReadOnlyNodeState BuildChildState(IReadOnlyInner<IReadOnlyBrowsingChildIndex> inner, IReadOnlyBrowsingChildIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IReadOnlyNodeState ChildState = inner.InitChildState(nodeIndex);
             AddState(nodeIndex, ChildState);
 
@@ -564,9 +535,6 @@
 
         private protected virtual void BuildChildrenStates(ReadOnlyBrowseContext browseContext, ReadOnlyNodeStateDictionary childrenStateTable)
         {
-            Debug.Assert(browseContext != null);
-            Debug.Assert(childrenStateTable != null);
-
             IReadOnlyNodeState State = browseContext.State;
             ReadOnlyInnerReadOnlyDictionary<string> InnerTable = State.InnerTable;
             ReadOnlyIndexCollectionReadOnlyList IndexCollectionList = browseContext.IndexCollectionList;
@@ -643,8 +611,6 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyController AsController))
                 return comparer.Failed();
 

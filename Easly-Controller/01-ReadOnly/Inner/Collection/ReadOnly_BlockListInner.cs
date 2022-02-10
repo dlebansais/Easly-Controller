@@ -190,7 +190,6 @@
         /// <returns>The created block state.</returns>
         public virtual IReadOnlyBlockState InitNewBlock(IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex)
         {
-            Debug.Assert(newBlockIndex != null);
             Debug.Assert(newBlockIndex.PropertyName == PropertyName);
 
             int BlockIndex = newBlockIndex.BlockIndex;
@@ -219,7 +218,6 @@
         /// <returns>The created node state.</returns>
         private protected virtual IReadOnlyPlaceholderNodeState InitChildState(IReadOnlyBrowsingExistingBlockNodeIndex existingNodeIndex)
         {
-            Debug.Assert(existingNodeIndex != null);
             Debug.Assert(existingNodeIndex.PropertyName == PropertyName);
 
             int BlockIndex = existingNodeIndex.BlockIndex;
@@ -372,8 +370,6 @@
         /// <inheritdoc/>
         public override void CloneChildren(Node parentNode)
         {
-            Debug.Assert(parentNode != null);
-
             NodeTreeHelperBlockList.ClearChildBlockList(parentNode, PropertyName);
 
             // Clone and insert all blocks. This will clone all children recursively.
@@ -457,8 +453,6 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyBlockListInner<IIndex> AsBlockListInner))
                 return comparer.Failed();
 

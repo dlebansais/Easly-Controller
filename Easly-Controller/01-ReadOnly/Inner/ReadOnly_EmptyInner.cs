@@ -64,8 +64,6 @@
         /// <inheritdoc/>
         public override void CloneChildren(Node parentNode)
         {
-            Debug.Assert(parentNode != null);
-
             // Clone the child recursively.
             Node ChildNodeClone = ChildState.CloneNode();
             Debug.Assert(ChildNodeClone != null);
@@ -90,8 +88,6 @@
         #region Implementation
         private protected virtual void SetChildState(IReadOnlyEmptyNodeState childState)
         {
-            Debug.Assert(childState != null);
-
             ChildState = childState;
         }
         #endregion

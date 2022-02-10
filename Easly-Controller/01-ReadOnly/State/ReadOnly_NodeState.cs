@@ -138,8 +138,6 @@
         /// <param name="parentIndex">The index used to create the state.</param>
         public ReadOnlyNodeState(IReadOnlyIndex parentIndex)
         {
-            Debug.Assert(parentIndex != null);
-
             ParentIndex = parentIndex;
             ValuePropertyTypeTable = null;
             IsInitialized = false;
@@ -153,8 +151,6 @@
         /// <param name="valuePropertyTable">Table of children that are not nodes.</param>
         public virtual void Init(IReadOnlyInner<IReadOnlyBrowsingChildIndex> parentInner, ReadOnlyInnerReadOnlyDictionary<string> innerTable, IReadOnlyDictionary<string, ValuePropertyType> valuePropertyTable)
         {
-            Debug.Assert(innerTable != null);
-            Debug.Assert(valuePropertyTable != null);
             Debug.Assert(!IsInitialized);
             Debug.Assert(ParentInner == null);
             Debug.Assert(InnerTable == null);
@@ -177,7 +173,6 @@
 
         private protected virtual void InitParentState(IReadOnlyNodeState parentState)
         {
-            Debug.Assert(parentState != null);
             Debug.Assert(ParentState == null);
 
             ParentState = parentState;
@@ -192,7 +187,6 @@
 
         private protected virtual void InitInnerTable(ReadOnlyInnerReadOnlyDictionary<string> innerTable)
         {
-            Debug.Assert(innerTable != null);
             Debug.Assert(InnerTable == null);
 
             InnerTable = innerTable;
@@ -535,8 +529,6 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyNodeState<IInner> AsNodeState))
                 return comparer.Failed();
 

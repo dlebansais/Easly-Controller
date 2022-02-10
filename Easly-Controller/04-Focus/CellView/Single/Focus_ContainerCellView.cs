@@ -88,8 +88,6 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out FocusContainerCellView AsContainerCellView))
                 return comparer.Failed();
 

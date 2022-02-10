@@ -67,8 +67,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(operation != null);
-
             Node ParentNode = Owner.Node;
 
             IWriteableBrowsingPlaceholderNodeIndex OldBrowsingIndex = (IWriteableBrowsingPlaceholderNodeIndex)ChildState.ParentIndex;

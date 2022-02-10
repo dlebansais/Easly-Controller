@@ -129,8 +129,6 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out FrameCellView AsCellView))
                 return comparer.Failed();
 

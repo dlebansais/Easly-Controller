@@ -124,10 +124,6 @@
         /// <param name="childBlock">The block.</param>
         public ReadOnlyBlockState(IReadOnlyBlockListInner parentInner, IReadOnlyBrowsingNewBlockNodeIndex newBlockIndex, IBlock childBlock)
         {
-            Debug.Assert(parentInner != null);
-            Debug.Assert(newBlockIndex != null);
-            Debug.Assert(childBlock != null);
-
             ParentInner = parentInner;
             ChildBlock = childBlock;
 
@@ -165,8 +161,6 @@
         /// <param name="state">The state to initialize.</param>
         public virtual void InitNodeState(IReadOnlyPlaceholderNodeState state)
         {
-            Debug.Assert(state != null);
-
             InsertState(StateList.Count, state);
         }
         #endregion
@@ -247,8 +241,6 @@
         /// <param name="blockIndex">Position where to insert the block in <paramref name="parentNode"/>.</param>
         public virtual void CloneBlock(Node parentNode, int blockIndex)
         {
-            Debug.Assert(parentNode != null);
-
             Pattern PatternClone = ClonePattern();
             Debug.Assert(PatternClone != null);
 
@@ -326,7 +318,6 @@
         private protected virtual void InsertState(int index, IReadOnlyPlaceholderNodeState state)
         {
             Debug.Assert(index >= 0 && index <= _StateList.Count);
-            Debug.Assert(state != null);
             Debug.Assert(state.ParentIndex is IReadOnlyBrowsingExistingBlockNodeIndex);
 
             _StateList.Insert(index, state);
@@ -354,8 +345,6 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out ReadOnlyBlockState<IInner> AsBlockState))
                 return comparer.Failed();
 

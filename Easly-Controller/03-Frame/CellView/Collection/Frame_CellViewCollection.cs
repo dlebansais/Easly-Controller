@@ -131,7 +131,6 @@
         public virtual void Insert(int index, IFrameCellView cellView)
         {
             Debug.Assert(index >= 0 && index <= CellViewList.Count);
-            Debug.Assert(cellView != null);
 
             CellViewList.Insert(index, cellView);
 
@@ -173,7 +172,6 @@
         public virtual void Replace(int index, IFrameCellView cellView)
         {
             Debug.Assert(index >= 0 && index < CellViewList.Count);
-            Debug.Assert(cellView != null);
 
             CellViewList[index] = cellView;
 
@@ -217,8 +215,6 @@
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
         public override bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Debug.Assert(handler != null);
-
             for (int i = 0; i < CellViewList.Count; i++)
             {
                 IFrameCellView Item = CellViewList[reversed ? CellViewList.Count - 1 - i : i];
@@ -240,8 +236,6 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out FrameCellViewCollection AsCellViewCollection))
                 return comparer.Failed();
 

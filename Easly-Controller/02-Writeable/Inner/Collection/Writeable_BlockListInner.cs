@@ -201,8 +201,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Insert(WriteableInsertNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
@@ -243,8 +241,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void InsertNewBlock(IWriteableInsertBlockOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex <= BlockStateList.Count);
 
@@ -290,8 +286,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Remove(WriteableRemoveNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             // Only the safe case where the block isn't removed is allowed for this version of Remove().
             Remove(null, operation, operation.BlockIndex, operation.Index);
         }
@@ -375,8 +369,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 
@@ -425,7 +417,6 @@
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         public virtual bool IsSplittable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
 
             int SplitBlockIndex = nodeIndex.BlockIndex;
@@ -443,8 +434,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void SplitBlock(WriteableSplitBlockOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int SplitBlockIndex = operation.BlockIndex;
             Debug.Assert(SplitBlockIndex >= 0 && SplitBlockIndex < BlockStateList.Count);
 
@@ -506,7 +495,6 @@
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
         public virtual bool IsMergeable(IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.BlockIndex >= 0 && nodeIndex.BlockIndex < BlockStateList.Count);
             Debug.Assert(nodeIndex.Index >= 0);
 
@@ -519,8 +507,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void MergeBlocks(WriteableMergeBlocksOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int MergeBlockIndex = operation.BlockIndex;
             Debug.Assert(MergeBlockIndex > 0 && MergeBlockIndex < BlockStateList.Count);
 
@@ -605,8 +591,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Move(WriteableMoveNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int BlockIndex = operation.BlockIndex;
             Debug.Assert(BlockIndex >= 0 && BlockIndex < BlockStateList.Count);
 

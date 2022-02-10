@@ -10,12 +10,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DefineConstants>$(DefineConstants)TRACE;READONLY;WRITEABLE;FRAME;FOCUS;LAYOUT</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DefineConstants>$(DefineConstants)TRACE;READONLY;WRITEABLE;FRAME;FOCUS;LAYOUT</DefineConstants>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants)TRACE;READONLY</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

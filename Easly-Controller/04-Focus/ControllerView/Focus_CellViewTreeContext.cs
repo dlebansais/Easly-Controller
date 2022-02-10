@@ -247,8 +247,6 @@
         /// <param name="selectors">Selectors to add.</param>
         public virtual void AddSelectors(FocusFrameSelectorList selectors)
         {
-            Debug.Assert(selectors != null);
-
             foreach (IFocusFrameSelector Item in selectors)
             {
                 Debug.Assert(!SelectorTable.ContainsKey(Item.SelectorType));
@@ -262,8 +260,6 @@
         /// <param name="selectors">Selectors to add.</param>
         public virtual void RemoveSelectors(FocusFrameSelectorList selectors)
         {
-            Debug.Assert(selectors != null);
-
             foreach (IFocusFrameSelector Item in selectors)
             {
                 Debug.Assert(SelectorTable.ContainsKey(Item.SelectorType));
@@ -279,8 +275,6 @@
         /// <param name="oldSelectorName">Previous value for a substituted selector name upon return. Null if none.</param>
         public virtual void AddOrReplaceSelectors(FocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName)
         {
-            Debug.Assert(selectors != null);
-
             oldSelectorType = null;
             oldSelectorName = null;
 
@@ -308,8 +302,6 @@
         /// <param name="oldSelectorName">Previous value for a substituted selector name.</param>
         public virtual void RemoveOrRestoreSelectors(FocusFrameSelectorList selectors, Type oldSelectorType, string oldSelectorName)
         {
-            Debug.Assert(selectors != null);
-
             foreach (IFocusFrameSelector Item in selectors)
             {
                 Debug.Assert(SelectorTable.ContainsKey(Item.SelectorType));

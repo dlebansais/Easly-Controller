@@ -69,7 +69,6 @@
         /// <returns>The created node state.</returns>
         private protected virtual IReadOnlyOptionalNodeState InitChildState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            Debug.Assert(nodeIndex != null);
             Debug.Assert(nodeIndex.PropertyName == PropertyName);
             Debug.Assert(ChildState == null);
 
@@ -99,8 +98,6 @@
         /// <inheritdoc/>
         public override void CloneChildren(Node parentNode)
         {
-            Debug.Assert(parentNode != null);
-
             // Clone the child recursively.
             Node ChildNodeClone = ChildState.CloneNode();
 
@@ -129,8 +126,6 @@
         #region Implementation
         private protected virtual void SetChildState(IReadOnlyOptionalNodeState childState)
         {
-            Debug.Assert(childState != null);
-
             ChildState = childState;
         }
         #endregion

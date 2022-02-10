@@ -48,8 +48,6 @@
         public ReadOnlyBrowsingNewBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex)
             : base(node, propertyName, blockIndex)
         {
-            Debug.Assert(parentNode != null);
-            Debug.Assert(node != null);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(parentNode, propertyName, blockIndex, 0, node));

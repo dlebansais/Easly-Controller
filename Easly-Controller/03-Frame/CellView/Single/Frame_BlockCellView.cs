@@ -77,8 +77,6 @@
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
         public override bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Debug.Assert(handler != null);
-
             return BlockStateView.EnumerateVisibleCellViews(handler, out cellView, reversed);
         }
         #endregion
@@ -91,8 +89,6 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
-
             if (!comparer.IsSameType(other, out FrameBlockCellView AsBlockCellView))
                 return comparer.Failed();
 

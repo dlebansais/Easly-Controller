@@ -84,8 +84,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Insert(WriteableInsertNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int InsertionIndex = operation.Index;
             Debug.Assert(InsertionIndex >= 0 && InsertionIndex <= StateList.Count);
 
@@ -118,8 +116,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Remove(WriteableRemoveNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int RemoveIndex = operation.Index;
             Debug.Assert(RemoveIndex >= 0 && RemoveIndex < StateList.Count);
 
@@ -151,8 +147,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Replace(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int Index = operation.Index;
             Debug.Assert(Index >= 0 && Index < StateList.Count);
 
@@ -200,8 +194,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         public virtual void Move(WriteableMoveNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             int MoveIndex = operation.Index;
             int Direction = operation.Direction;
             Debug.Assert(MoveIndex >= 0 && MoveIndex < StateList.Count);
