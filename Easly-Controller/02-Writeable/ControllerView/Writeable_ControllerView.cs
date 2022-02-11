@@ -99,8 +99,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlockStateInserted(IWriteableInsertBlockOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableBlockState BlockState = operation.BlockState;
 
             Debug.Assert(BlockState != null);
@@ -123,8 +121,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlockStateRemoved(IWriteableRemoveBlockOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableBlockState BlockState = operation.BlockState;
 
             Debug.Assert(BlockState != null);
@@ -145,8 +141,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlockViewRemoved(WriteableRemoveBlockViewOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableBlockState BlockState = operation.BlockState;
 
             Debug.Assert(BlockState != null);
@@ -165,8 +159,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnStateInserted(WriteableInsertNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableNodeState ChildState = operation.ChildState;
             Debug.Assert(ChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(ChildState));
@@ -181,8 +173,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnStateRemoved(WriteableRemoveNodeOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteablePlaceholderNodeState RemovedState = operation.RemovedState;
             Debug.Assert(RemovedState != null);
             Debug.Assert(!StateViewTable.ContainsKey(RemovedState));
@@ -194,8 +184,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnStateReplaced(IWriteableReplaceOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableNodeState NewChildState = operation.NewChildState;
             Debug.Assert(NewChildState != null);
             Debug.Assert(StateViewTable.ContainsKey(NewChildState));
@@ -215,8 +203,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnStateAssigned(WriteableAssignmentOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableOptionalNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
@@ -228,8 +214,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnStateUnassigned(WriteableAssignmentOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableOptionalNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
@@ -241,8 +225,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnDiscreteValueChanged(WriteableChangeDiscreteValueOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
@@ -254,8 +236,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnTextChanged(WriteableChangeTextOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
@@ -267,8 +247,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnCommentChanged(WriteableChangeCommentOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableNodeState State = operation.State;
             Debug.Assert(State != null);
             Debug.Assert(StateViewTable.ContainsKey(State));
@@ -280,8 +258,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlockStateChanged(WriteableChangeBlockOperation operation)
         {
-            Debug.Assert(operation != null);
-
             IWriteableBlockState BlockState = operation.BlockState;
             Debug.Assert(BlockState != null);
             Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
@@ -293,7 +269,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnStateMoved(WriteableMoveNodeOperation operation)
         {
-            Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
             IWriteablePlaceholderNodeState State = operation.State;
@@ -307,7 +282,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlockStateMoved(WriteableMoveBlockOperation operation)
         {
-            Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
@@ -321,7 +295,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlockSplit(WriteableSplitBlockOperation operation)
         {
-            Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
@@ -335,7 +308,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnBlocksMerged(WriteableMergeBlocksOperation operation)
         {
-            Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
             IWriteableBlockState BlockState = operation.BlockState;
@@ -349,7 +321,6 @@
         /// <param name="operation">Details of the operation performed.</param>
         private protected virtual void OnGenericRefresh(WriteableGenericRefreshOperation operation)
         {
-            Debug.Assert(operation != null);
             Debug.Assert(!operation.IsNested);
 
             IWriteableNodeState RefreshState = operation.RefreshState;

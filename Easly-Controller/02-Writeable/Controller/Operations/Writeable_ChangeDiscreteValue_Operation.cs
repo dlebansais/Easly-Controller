@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for changing a discrete value.
@@ -63,9 +63,9 @@
         /// <param name="oldValue">The old value.</param>
         public virtual void Update(IWriteableNodeState state, int oldValue)
         {
-            Debug.Assert(state != null);
+            Contract.RequireNotNull(state, out IWriteableNodeState State);
 
-            State = state;
+            this.State = State;
             OldValue = oldValue;
         }
 

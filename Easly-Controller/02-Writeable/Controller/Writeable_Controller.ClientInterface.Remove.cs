@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -20,23 +21,23 @@
         /// <param name="nodeIndex">Index of the node that would be removed.</param>
         public bool IsRemoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
 
-            if (inner.Count > 1)
+            if (Inner.Count > 1)
                 return true;
 
-            Debug.Assert(inner.Count == 1);
-            Debug.Assert(inner.Owner != null);
+            Debug.Assert(Inner.Count == 1);
+            Debug.Assert(Inner.Owner != null);
 
-            Node Node = inner.Owner.Node;
-            string PropertyName = inner.PropertyName;
+            Node Node = Inner.Owner.Node;
+            string PropertyName = Inner.PropertyName;
             Debug.Assert(Node != null);
 
             bool Result = true;
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            Type InterfaceType = inner.Owner.Node.GetType();
+            Type InterfaceType = Inner.Owner.Node.GetType();
 
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
@@ -56,21 +57,21 @@
         /// <param name="nodeIndex">Index for the removed node.</param>
         public virtual void Remove(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-            IWriteableNodeState Owner = inner.Owner;
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
+            IWriteableNodeState Owner = Inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
             Debug.Assert(Contains(ParentIndex));
             Debug.Assert(IndexToState(ParentIndex) == Owner);
             WriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
-            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
-            Debug.Assert(InnerTable[inner.PropertyName] == inner);
+            Debug.Assert(InnerTable.ContainsKey(Inner.PropertyName));
+            Debug.Assert(InnerTable[Inner.PropertyName] == Inner);
 
-            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
+            IndexToPositionAndNode(NodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
 
             bool IsHandled = false;
 
-            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && nodeIndex is IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex)
+            if (Inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && NodeIndex is IWriteableBrowsingExistingBlockNodeIndex ExistingBlockIndex)
             {
                 if (AsBlockListInner.BlockStateList[ExistingBlockIndex.BlockIndex].StateList.Count == 1)
                     RemoveBlock(AsBlockListInner, BlockIndex);
@@ -79,7 +80,7 @@
 
                 IsHandled = true;
             }
-            else if (inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner)
+            else if (Inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner)
             {
                 RemoveNode(AsCollectionInner, BlockIndex, Index);
                 IsHandled = true;
@@ -197,26 +198,26 @@
         /// <param name="lastBlockIndex">Index following the last block to remove.</param>
         public virtual bool IsBlockRangeRemoveable(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex <= inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < Inner.BlockStateList.Count);
+            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex <= Inner.BlockStateList.Count);
             Debug.Assert(firstBlockIndex <= lastBlockIndex);
 
             int DeletedCount = lastBlockIndex - firstBlockIndex;
-            if (inner.BlockStateList.Count > DeletedCount)
+            if (Inner.BlockStateList.Count > DeletedCount)
                 return true;
 
-            Debug.Assert(inner.BlockStateList.Count == DeletedCount);
-            Debug.Assert(inner.Owner != null);
+            Debug.Assert(Inner.BlockStateList.Count == DeletedCount);
+            Debug.Assert(Inner.Owner != null);
 
-            Node Node = inner.Owner.Node;
-            string PropertyName = inner.PropertyName;
+            Node Node = Inner.Owner.Node;
+            string PropertyName = Inner.PropertyName;
             Debug.Assert(Node != null);
 
             bool Result = true;
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            Type InterfaceType = inner.Owner.Node.GetType();
+            Type InterfaceType = Inner.Owner.Node.GetType();
 
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
@@ -237,9 +238,9 @@
         /// <param name="lastBlockIndex">Index following the last block to remove.</param>
         public virtual void RemoveBlockRange(IWriteableBlockListInner inner, int firstBlockIndex, int lastBlockIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < inner.BlockStateList.Count);
-            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex <= inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(firstBlockIndex >= 0 && firstBlockIndex < Inner.BlockStateList.Count);
+            Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex <= Inner.BlockStateList.Count);
             Debug.Assert(firstBlockIndex <= lastBlockIndex);
 
             Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
@@ -251,18 +252,18 @@
 
             for (int i = firstBlockIndex; i < lastBlockIndex; i++)
             {
-                IWriteableBlockState BlockState = (IWriteableBlockState)inner.BlockStateList[i];
+                IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[i];
                 Debug.Assert(BlockState.StateList.Count >= 1);
 
                 // Remove at firstBlockIndex since subsequent blocks are moved as the block at firstBlockIndex is deleted.
                 // Same for nodes inside blokcks, delete them at 0.
                 for (int j = 1; j < BlockState.StateList.Count; j++)
                 {
-                    WriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, 0, HandlerRedoNode, HandlerUndoNode, isNested: true);
+                    WriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(Inner.Owner.Node, Inner.PropertyName, firstBlockIndex, 0, HandlerRedoNode, HandlerUndoNode, isNested: true);
                     OperationList.Add(OperationNode);
                 }
 
-                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, firstBlockIndex, HandlerRedoBlock, HandlerUndoBlock, isNested: true);
+                IWriteableRemoveBlockOperation OperationBlock = CreateRemoveBlockOperation(Inner.Owner.Node, Inner.PropertyName, firstBlockIndex, HandlerRedoBlock, HandlerUndoBlock, isNested: true);
                 OperationList.Add(OperationBlock);
             }
 
@@ -289,17 +290,17 @@
         /// <param name="lastNodeIndex">Index following the last node to remove.</param>
         public virtual bool IsNodeRangeRemoveable(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
         {
-            Debug.Assert(inner != null);
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
 
             bool IsHandled = false;
             bool Result = false;
 
-            if (inner is IWriteableBlockListInner AsBlockListInner)
+            if (Inner is IWriteableBlockListInner AsBlockListInner)
             {
                 Result = IsNodeRangeRemoveable(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex);
                 IsHandled = true;
             }
-            else if (inner is IWriteableListInner AsListInner)
+            else if (Inner is IWriteableListInner AsListInner)
             {
                 Debug.Assert(blockIndex == -1);
                 Result = IsNodeRangeRemoveable(AsListInner, firstNodeIndex, lastNodeIndex);
@@ -310,16 +311,16 @@
 
             if (!Result)
             {
-                Debug.Assert(inner.Owner != null);
+                Debug.Assert(Inner.Owner != null);
 
-                Node Node = inner.Owner.Node;
-                string PropertyName = inner.PropertyName;
+                Node Node = Inner.Owner.Node;
+                string PropertyName = Inner.PropertyName;
                 Debug.Assert(Node != null);
 
                 Result = true;
 
                 //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-                Type InterfaceType = inner.Owner.Node.GetType();
+                Type InterfaceType = Inner.Owner.Node.GetType();
 
                 IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
                 if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
@@ -335,27 +336,27 @@
 
         private protected virtual bool IsNodeRangeRemoveable(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(blockIndex >= 0 && blockIndex < Inner.BlockStateList.Count);
 
-            IWriteableBlockState BlockState = (IWriteableBlockState)inner.BlockStateList[blockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[blockIndex];
             Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < BlockState.StateList.Count);
             Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= BlockState.StateList.Count);
             Debug.Assert(firstNodeIndex <= lastNodeIndex);
 
             int DeletedCount = lastNodeIndex - firstNodeIndex;
-            return inner.BlockStateList.Count > 1 || BlockState.StateList.Count > DeletedCount;
+            return Inner.BlockStateList.Count > 1 || BlockState.StateList.Count > DeletedCount;
         }
 
         private protected virtual bool IsNodeRangeRemoveable(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < inner.StateList.Count);
-            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= inner.StateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableListInner Inner);
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < Inner.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= Inner.StateList.Count);
             Debug.Assert(firstNodeIndex <= lastNodeIndex);
 
             int DeletedCount = lastNodeIndex - firstNodeIndex;
-            return inner.StateList.Count > DeletedCount;
+            return Inner.StateList.Count > DeletedCount;
         }
 
         /// <summary>
@@ -367,16 +368,16 @@
         /// <param name="lastNodeIndex">Index following the last node to remove.</param>
         public virtual void RemoveNodeRange(IWriteableCollectionInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
         {
-            Debug.Assert(inner != null);
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
 
             bool IsHandled = false;
 
-            if (inner is IWriteableBlockListInner AsBlockListInner)
+            if (Inner is IWriteableBlockListInner AsBlockListInner)
             {
                 RemoveNodeRange(AsBlockListInner, blockIndex, firstNodeIndex, lastNodeIndex);
                 IsHandled = true;
             }
-            else if (inner is IWriteableListInner AsListInner)
+            else if (Inner is IWriteableListInner AsListInner)
             {
                 Debug.Assert(blockIndex == -1);
                 RemoveNodeRange(AsListInner, firstNodeIndex, lastNodeIndex);
@@ -389,10 +390,10 @@
         /// <summary></summary>
         public virtual void RemoveNodeRange(IWriteableBlockListInner inner, int blockIndex, int firstNodeIndex, int lastNodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(blockIndex >= 0 && blockIndex < Inner.BlockStateList.Count);
 
-            IWriteableBlockState BlockState = (IWriteableBlockState)inner.BlockStateList[blockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[blockIndex];
             Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < BlockState.StateList.Count);
             Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= BlockState.StateList.Count);
             Debug.Assert(firstNodeIndex <= lastNodeIndex);
@@ -411,9 +412,9 @@
                 IWriteableRemoveOperation Operation;
 
                 if (DeletedCount < BlockState.StateList.Count || i + 1 < lastNodeIndex)
-                    Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, firstNodeIndex, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);
+                    Operation = CreateRemoveNodeOperation(Inner.Owner.Node, Inner.PropertyName, blockIndex, firstNodeIndex, HandlerRedoRemoveNode, HandlerUndoRemoveNode, isNested: true);
                 else
-                    Operation = CreateRemoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, HandlerRedoRemoveBlock, HandlerUndoRemoveBlock, isNested: true);
+                    Operation = CreateRemoveBlockOperation(Inner.Owner.Node, Inner.PropertyName, blockIndex, HandlerRedoRemoveBlock, HandlerUndoRemoveBlock, isNested: true);
 
                 OperationList.Add(Operation);
             }
@@ -435,9 +436,9 @@
         /// <summary></summary>
         public virtual void RemoveNodeRange(IWriteableListInner inner, int firstNodeIndex, int lastNodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < inner.StateList.Count);
-            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= inner.StateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableListInner Inner);
+            Debug.Assert(firstNodeIndex >= 0 && firstNodeIndex < Inner.StateList.Count);
+            Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= Inner.StateList.Count);
             Debug.Assert(firstNodeIndex <= lastNodeIndex);
 
             Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
@@ -447,7 +448,7 @@
 
             for (int i = firstNodeIndex; i < lastNodeIndex; i++)
             {
-                WriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, -1, firstNodeIndex, HandlerRedoNode, HandlerUndoNode, isNested: true);
+                WriteableRemoveNodeOperation OperationNode = CreateRemoveNodeOperation(Inner.Owner.Node, Inner.PropertyName, -1, firstNodeIndex, HandlerRedoNode, HandlerUndoNode, isNested: true);
                 OperationList.Add(OperationNode);
             }
 

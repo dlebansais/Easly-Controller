@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for moving a node in a list or block list.
@@ -71,9 +71,9 @@
         /// <param name="state">State moved.</param>
         public virtual void Update(IWriteablePlaceholderNodeState state)
         {
-            Debug.Assert(state != null);
+            Contract.RequireNotNull(state, out IWriteablePlaceholderNodeState State);
 
-            State = state;
+            this.State = State;
         }
 
         /// <summary>

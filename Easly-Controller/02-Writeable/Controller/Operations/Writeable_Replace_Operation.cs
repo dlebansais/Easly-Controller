@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for replacing a node.
@@ -166,14 +166,14 @@
         /// <param name="newChildState">The new state.</param>
         public virtual void Update(IWriteableBrowsingChildIndex oldBrowsingIndex, IWriteableBrowsingChildIndex newBrowsingIndex, Node oldNode, IWriteableNodeState newChildState)
         {
-            Debug.Assert(oldBrowsingIndex != null);
-            Debug.Assert(newBrowsingIndex != null);
-            Debug.Assert(newChildState != null);
+            Contract.RequireNotNull(oldBrowsingIndex, out IWriteableBrowsingChildIndex OldBrowsingIndex);
+            Contract.RequireNotNull(newBrowsingIndex, out IWriteableBrowsingChildIndex NewBrowsingIndex);
+            Contract.RequireNotNull(newChildState, out IWriteableNodeState NewChildState);
 
-            OldBrowsingIndex = oldBrowsingIndex;
-            NewBrowsingIndex = newBrowsingIndex;
+            this.OldBrowsingIndex = OldBrowsingIndex;
+            this.NewBrowsingIndex = NewBrowsingIndex;
             OldNode = oldNode;
-            NewChildState = newChildState;
+            this.NewChildState = NewChildState;
         }
 
         /// <summary>

@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -19,13 +20,13 @@
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
         public virtual bool IsMoveable(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
 
-            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[NodeIndex];
             Debug.Assert(State != null);
 
-            bool Result = inner.IsMoveable(nodeIndex, direction);
+            bool Result = Inner.IsMoveable(NodeIndex, direction);
 
             return Result;
         }
@@ -38,17 +39,17 @@
         /// <param name="direction">The change in position, relative to the current position.</param>
         public virtual void Move(IWriteableCollectionInner inner, IWriteableBrowsingCollectionNodeIndex nodeIndex, int direction)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingCollectionNodeIndex NodeIndex);
 
-            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[NodeIndex];
             Debug.Assert(State != null);
 
-            IndexToPositionAndNode(nodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
+            IndexToPositionAndNode(NodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMove(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMove(operation);
-            WriteableMoveNodeOperation Operation = CreateMoveNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
+            WriteableMoveNodeOperation Operation = CreateMoveNodeOperation(Inner.Owner.Node, Inner.PropertyName, BlockIndex, Index, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -87,10 +88,10 @@
         /// <param name="direction">Direction of the move, relative to the current position of the item.</param>
         public virtual bool IsBlockMoveable(IWriteableBlockListInner inner, int blockIndex, int direction)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(blockIndex >= 0 && blockIndex < Inner.BlockStateList.Count);
 
-            return blockIndex + direction >= 0 && blockIndex + direction < inner.BlockStateList.Count;
+            return blockIndex + direction >= 0 && blockIndex + direction < Inner.BlockStateList.Count;
         }
 
         /// <summary>
@@ -101,11 +102,11 @@
         /// <param name="direction">The change in position, relative to the current block position.</param>
         public virtual void MoveBlock(IWriteableBlockListInner inner, int blockIndex, int direction)
         {
-            Debug.Assert(inner != null);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMoveBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMoveBlock(operation);
-            WriteableMoveBlockOperation Operation = CreateMoveBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
+            WriteableMoveBlockOperation Operation = CreateMoveBlockOperation(Inner.Owner.Node, Inner.PropertyName, blockIndex, direction, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);

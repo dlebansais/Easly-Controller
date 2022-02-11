@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -21,25 +22,25 @@
         /// <param name="nodeIndex">Index of the inserted node upon return.</param>
         public virtual void Insert(IWriteableCollectionInner inner, IWriteableInsertionCollectionNodeIndex insertedIndex, out IWriteableBrowsingCollectionNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(insertedIndex != null);
-            IWriteableNodeState Owner = inner.Owner;
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
+            Contract.RequireNotNull(insertedIndex, out IWriteableInsertionCollectionNodeIndex InsertedIndex);
+            IWriteableNodeState Owner = Inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
             Debug.Assert(Contains(ParentIndex));
             Debug.Assert(IndexToState(ParentIndex) == Owner);
             WriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
-            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
-            Debug.Assert(InnerTable[inner.PropertyName] == inner);
+            Debug.Assert(InnerTable.ContainsKey(Inner.PropertyName));
+            Debug.Assert(InnerTable[Inner.PropertyName] == Inner);
 
             bool IsHandled = false;
             nodeIndex = null;
 
-            if (inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && insertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
+            if (Inner is IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> AsBlockListInner && InsertedIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockIndex)
             {
                 InsertNewBlock(AsBlockListInner, AsNewBlockIndex, out nodeIndex);
                 IsHandled = true;
             }
-            else if (inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && insertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
+            else if (Inner is IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> AsCollectionInner && InsertedIndex is IWriteableInsertionCollectionNodeIndex AsCollectionIndex)
             {
                 InsertNewNode(AsCollectionInner, AsCollectionIndex, out nodeIndex);
                 IsHandled = true;
@@ -170,14 +171,14 @@
         /// <param name="indexList">List of nodes in blocks to insert.</param>
         public virtual void InsertBlockRange(IWriteableBlockListInner inner, int insertedIndex, IList<IWriteableInsertionBlockNodeIndex> indexList)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(insertedIndex >= 0 && insertedIndex <= inner.BlockStateList.Count);
-            Debug.Assert(indexList != null);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(insertedIndex >= 0 && insertedIndex <= Inner.BlockStateList.Count);
+            Contract.RequireNotNull(indexList, out IList<IWriteableInsertionBlockNodeIndex> IndexList);
 
             int BlockIndex = insertedIndex - 1;
             int BlockNodeIndex = 0;
 
-            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in IndexList)
             {
                 bool IsHandled = false;
 
@@ -212,17 +213,17 @@
 
             WriteableOperationList OperationList = CreateOperationList();
 
-            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in indexList)
+            foreach (IWriteableInsertionBlockNodeIndex NodeIndex in IndexList)
                 if (NodeIndex is IWriteableInsertionNewBlockNodeIndex AsNewBlockNodeIndex)
                 {
-                    IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
-                    IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(inner.Owner.Node, inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
+                    IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(Inner.Owner.Node, Inner.PropertyName, ReplicationStatus.Normal, AsNewBlockNodeIndex.PatternNode, AsNewBlockNodeIndex.SourceNode);
+                    IWriteableInsertBlockOperation OperationInsertBlock = CreateInsertBlockOperation(Inner.Owner.Node, Inner.PropertyName, AsNewBlockNodeIndex.BlockIndex, NewBlock, AsNewBlockNodeIndex.Node, HandlerRedoInsertBlock, HandlerUndoInsertBlock, isNested: true);
                     OperationList.Add(OperationInsertBlock);
                 }
                 else if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out BlockIndex, out int Index, out _, out Node Node);
-                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(Inner.Owner.Node, Inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
 
@@ -251,16 +252,16 @@
         /// <param name="indexList">List of nodes to insert.</param>
         public virtual void InsertNodeRange(IWriteableCollectionInner inner, int blockIndex, int insertedIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
         {
-            Debug.Assert(inner != null);
+            Contract.RequireNotNull(inner, out IWriteableCollectionInner Inner);
 
             bool IsHandled = false;
 
-            if (inner is IWriteableBlockListInner AsBlockListInner)
+            if (Inner is IWriteableBlockListInner AsBlockListInner)
             {
                 InsertNodeRange(AsBlockListInner, blockIndex, insertedIndex, indexList);
                 IsHandled = true;
             }
-            else if (inner is IWriteableListInner AsListInner)
+            else if (Inner is IWriteableListInner AsListInner)
             {
                 Debug.Assert(blockIndex == -1);
                 InsertNodeRange(AsListInner, insertedIndex, indexList);
@@ -273,10 +274,10 @@
         /// <summary></summary>
         public virtual void InsertNodeRange(IWriteableBlockListInner inner, int blockIndex, int insertedIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(blockIndex >= 0 && blockIndex < Inner.BlockStateList.Count);
 
-            IWriteableBlockState BlockState = (IWriteableBlockState)inner.BlockStateList[blockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[blockIndex];
             Debug.Assert(insertedIndex >= 0 && insertedIndex <= BlockState.StateList.Count);
 
             int BlockNodeIndex = insertedIndex;
@@ -308,7 +309,7 @@
                 if (NodeIndex is IWriteableInsertionExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
                     IndexToPositionAndNode(AsExistingBlockNodeIndex, out blockIndex, out int Index, out _, out Node Node);
-                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(Inner.Owner.Node, Inner.PropertyName, blockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
 
@@ -329,8 +330,8 @@
         /// <summary></summary>
         public virtual void InsertNodeRange(IWriteableListInner inner, int insertedIndex, IList<IWriteableInsertionCollectionNodeIndex> indexList)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(insertedIndex >= 0 && insertedIndex <= inner.StateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableListInner Inner);
+            Debug.Assert(insertedIndex >= 0 && insertedIndex <= Inner.StateList.Count);
 
             int BlockNodeIndex = insertedIndex;
 
@@ -360,7 +361,7 @@
                 if (NodeIndex is IWriteableInsertionListNodeIndex AsListNodeIndex)
                 {
                     IndexToPositionAndNode(AsListNodeIndex, out int BlockIndex, out int Index, out _, out Node Node);
-                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
+                    WriteableInsertNodeOperation OperationInsertNode = CreateInsertNodeOperation(Inner.Owner.Node, Inner.PropertyName, BlockIndex, Index, Node, HandlerRedoInsertNode, HandlerUndoInsertNode, isNested: true);
                     OperationList.Add(OperationInsertNode);
                 }
 

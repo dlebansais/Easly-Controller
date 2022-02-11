@@ -111,11 +111,12 @@
         /// <param name="propertyName">Property name of the inner in <paramref name="owner"/>.</param>
         public ReadOnlyInner(IReadOnlyNodeState owner, string propertyName)
         {
-            Debug.Assert(owner != null);
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Contract.RequireNotNull(owner, out IReadOnlyNodeState Owner);
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Debug.Assert(PropertyName.Length > 0);
 
-            Owner = owner;
-            PropertyName = propertyName;
+            this.Owner = Owner;
+            this.PropertyName = PropertyName;
         }
         #endregion
 

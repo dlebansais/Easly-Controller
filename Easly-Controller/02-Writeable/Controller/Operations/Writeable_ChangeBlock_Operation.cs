@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for changing a block.
@@ -64,9 +64,9 @@
         /// <param name="blockState">Block state changed.</param>
         public virtual void Update(IWriteableBlockState blockState)
         {
-            Debug.Assert(blockState != null);
+            Contract.RequireNotNull(blockState, out IWriteableBlockState BlockState);
 
-            BlockState = blockState;
+            this.BlockState = BlockState;
         }
 
         /// <summary>

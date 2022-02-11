@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for assigning or unassigning a node.
@@ -50,9 +50,9 @@
         /// <param name="state">The new state.</param>
         public virtual void Update(IWriteableOptionalNodeState state)
         {
-            Debug.Assert(state != null);
+            Contract.RequireNotNull(state, out IWriteableOptionalNodeState State);
 
-            State = state;
+            this.State = State;
         }
 
         /// <summary>

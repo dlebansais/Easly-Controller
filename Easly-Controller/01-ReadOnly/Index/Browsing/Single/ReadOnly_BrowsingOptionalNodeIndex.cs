@@ -30,13 +30,14 @@
         public ReadOnlyBrowsingOptionalNodeIndex(Node parentNode, string propertyName)
         {
             Contract.RequireNotNull(parentNode, out Node ParentNode);
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(ParentNode, propertyName, out _));
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Debug.Assert(PropertyName.Length > 0);
+            Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(ParentNode, PropertyName, out _));
 
-            Optional = NodeTreeHelperOptional.GetOptionalReference(ParentNode, propertyName);
+            Optional = NodeTreeHelperOptional.GetOptionalReference(ParentNode, PropertyName);
             Debug.Assert(Optional != null);
 
-            PropertyName = propertyName;
+            this.PropertyName = PropertyName;
         }
         #endregion
 

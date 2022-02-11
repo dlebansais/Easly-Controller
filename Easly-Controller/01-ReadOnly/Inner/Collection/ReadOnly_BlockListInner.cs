@@ -416,7 +416,6 @@
         private protected virtual void InsertInBlockStateList(int blockIndex, IReadOnlyBlockState blockState)
         {
             Debug.Assert(blockIndex >= 0 && blockIndex <= BlockStateList.Count);
-            Debug.Assert(blockState != null);
 
             _BlockStateList.Insert(blockIndex, blockState);
 

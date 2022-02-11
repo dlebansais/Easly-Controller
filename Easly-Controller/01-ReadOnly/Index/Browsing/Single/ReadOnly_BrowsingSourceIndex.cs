@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System.Diagnostics;
     using BaseNode;
     using Contracts;
 
@@ -25,9 +24,9 @@
         /// <param name="block">The block containing the indexed source identifier node.</param>
         public ReadOnlyBrowsingSourceIndex(IBlock block)
         {
-            Debug.Assert(block != null);
+            Contract.RequireNotNull(block, out IBlock Block);
 
-            Block = block;
+            this.Block = Block;
         }
 
         private IBlock Block;

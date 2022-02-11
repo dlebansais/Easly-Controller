@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -22,15 +23,15 @@
         /// <param name="isChanged">True upon return if the node was changed. False if the node was already expanded.</param>
         public virtual void Expand(IWriteableNodeIndex expandedIndex, out bool isChanged)
         {
-            Debug.Assert(expandedIndex != null);
-            Debug.Assert(StateTable.ContainsKey(expandedIndex));
-            Debug.Assert(StateTable[expandedIndex] is IWriteablePlaceholderNodeState);
+            Contract.RequireNotNull(expandedIndex, out IWriteableNodeIndex ExpandedIndex);
+            Debug.Assert(StateTable.ContainsKey(ExpandedIndex));
+            Debug.Assert(StateTable[ExpandedIndex] is IWriteablePlaceholderNodeState);
 
             WriteableOperationList OperationList = CreateOperationList();
 
             DebugObjects.AddReference(OperationList);
 
-            Expand(expandedIndex, OperationList);
+            Expand(ExpandedIndex, OperationList);
 
             if (OperationList.Count > 0)
             {
@@ -67,8 +68,6 @@
 
         private protected virtual IWriteablePlaceholderNodeState FindBestExpandReduceState(IWriteablePlaceholderNodeState state)
         {
-            Debug.Assert(state != null);
-
             while (state.InnerTable.Count == 0 && state.ParentState is IWriteablePlaceholderNodeState AsPlaceholderNodeState)
                 state = AsPlaceholderNodeState;
 
@@ -145,13 +144,13 @@
         /// <param name="isChanged">True upon return if the node was changed. False if the node was already reduced.</param>
         public virtual void Reduce(IWriteableNodeIndex reducedIndex, out bool isChanged)
         {
-            Debug.Assert(reducedIndex != null);
-            Debug.Assert(StateTable.ContainsKey(reducedIndex));
-            Debug.Assert(StateTable[reducedIndex] is IWriteablePlaceholderNodeState);
+            Contract.RequireNotNull(reducedIndex, out IWriteableNodeIndex ReducedIndex);
+            Debug.Assert(StateTable.ContainsKey(ReducedIndex));
+            Debug.Assert(StateTable[ReducedIndex] is IWriteablePlaceholderNodeState);
 
             WriteableOperationList OperationList = CreateOperationList();
 
-            Reduce(reducedIndex, OperationList, isNested: false);
+            Reduce(ReducedIndex, OperationList, isNested: false);
 
             if (OperationList.Count > 0)
             {

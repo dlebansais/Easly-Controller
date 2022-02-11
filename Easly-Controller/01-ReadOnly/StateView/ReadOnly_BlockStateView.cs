@@ -30,11 +30,11 @@
         /// <param name="blockState">The block state.</param>
         public ReadOnlyBlockStateView(ReadOnlyControllerView controllerView, IReadOnlyBlockState blockState)
         {
-            Debug.Assert(controllerView != null);
-            Debug.Assert(blockState != null);
+            Contract.RequireNotNull(controllerView, out ReadOnlyControllerView ControllerView);
+            Contract.RequireNotNull(blockState, out IReadOnlyBlockState BlockState);
 
-            ControllerView = controllerView;
-            BlockState = blockState;
+            this.ControllerView = ControllerView;
+            this.BlockState = BlockState;
         }
         #endregion
 

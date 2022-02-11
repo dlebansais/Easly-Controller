@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// Base for all operations modifying the node tree.
@@ -71,11 +71,11 @@
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
         public WriteableOperation(Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            Debug.Assert(handlerRedo != null);
-            Debug.Assert(handlerUndo != null);
+            Contract.RequireNotNull(handlerRedo, out Action<IWriteableOperation> HandlerRedo);
+            Contract.RequireNotNull(handlerUndo, out Action<IWriteableOperation> HandlerUndo);
 
-            HandlerRedo = handlerRedo;
-            HandlerUndo = handlerUndo;
+            this.HandlerRedo = HandlerRedo;
+            this.HandlerUndo = HandlerUndo;
             IsNested = isNested;
         }
         #endregion

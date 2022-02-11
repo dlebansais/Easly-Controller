@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -18,10 +19,10 @@
         /// <param name="isChanged">True upon return if the node was changed. False if the node was already assigned.</param>
         public virtual void Assign(IWriteableBrowsingOptionalNodeIndex nodeIndex, out bool isChanged)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingOptionalNodeIndex NodeIndex);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
 
-            IWriteableOptionalNodeState State = StateTable[nodeIndex] as IWriteableOptionalNodeState;
+            IWriteableOptionalNodeState State = StateTable[NodeIndex] as IWriteableOptionalNodeState;
             Debug.Assert(State != null);
 
             IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = State.ParentInner as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;
@@ -77,10 +78,10 @@
         /// <param name="isChanged">True upon return if the node was changed. False if the node was already not assigned.</param>
         public virtual void Unassign(IWriteableBrowsingOptionalNodeIndex nodeIndex, out bool isChanged)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingOptionalNodeIndex NodeIndex);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
 
-            IWriteableOptionalNodeState State = StateTable[nodeIndex] as IWriteableOptionalNodeState;
+            IWriteableOptionalNodeState State = StateTable[NodeIndex] as IWriteableOptionalNodeState;
             Debug.Assert(State != null);
 
             IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex> Inner = State.ParentInner as IWriteableOptionalInner<IWriteableBrowsingOptionalNodeIndex>;

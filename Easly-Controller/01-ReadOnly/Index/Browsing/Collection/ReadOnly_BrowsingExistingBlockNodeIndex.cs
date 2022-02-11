@@ -38,10 +38,11 @@
         {
             Contract.RequireNotNull(parentNode, out Node ParentNode);
             Contract.RequireNotNull(node, out Node Node);
-            Debug.Assert(propertyName.Length > 0);
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Debug.Assert(PropertyName.Length > 0);
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(ParentNode, propertyName, blockIndex, index, Node));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(ParentNode, PropertyName, blockIndex, index, Node));
 
             this.ParentNode = ParentNode;
             Index = index;

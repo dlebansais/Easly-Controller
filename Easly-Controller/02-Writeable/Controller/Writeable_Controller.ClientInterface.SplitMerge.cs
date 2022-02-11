@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -19,10 +20,10 @@
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         public virtual bool IsSplittable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingExistingBlockNodeIndex NodeIndex);
 
-            return inner.IsSplittable(nodeIndex);
+            return Inner.IsSplittable(NodeIndex);
         }
 
         /// <summary>
@@ -32,19 +33,19 @@
         /// <param name="nodeIndex">Index of the last node to stay in the old block.</param>
         public virtual void SplitBlock(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(inner.IsSplittable(nodeIndex));
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingExistingBlockNodeIndex NodeIndex);
+            Debug.Assert(Inner.IsSplittable(NodeIndex));
 
-            IWriteableBlockState BlockState = (IWriteableBlockState)inner.BlockStateList[nodeIndex.BlockIndex];
+            IWriteableBlockState BlockState = (IWriteableBlockState)Inner.BlockStateList[NodeIndex.BlockIndex];
             ReplicationStatus Replication = BlockState.ChildBlock.Replication;
             Pattern NewPatternNode = NodeHelper.CreateSimplePattern(BlockState.ChildBlock.ReplicationPattern.Text);
             Identifier NewSourceNode = NodeHelper.CreateSimpleIdentifier(BlockState.ChildBlock.SourceIdentifier.Text);
-            IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(inner.Owner.Node, inner.PropertyName, Replication, NewPatternNode, NewSourceNode);
+            IBlock NewBlock = NodeTreeHelperBlockList.CreateBlock(Inner.Owner.Node, Inner.PropertyName, Replication, NewPatternNode, NewSourceNode);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoSplitBlock(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoSplitBlock(operation);
-            WriteableSplitBlockOperation Operation = CreateSplitBlockOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, nodeIndex.Index, NewBlock, HandlerRedo, HandlerUndo, isNested: false);
+            WriteableSplitBlockOperation Operation = CreateSplitBlockOperation(Inner.Owner.Node, Inner.PropertyName, NodeIndex.BlockIndex, NodeIndex.Index, NewBlock, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -104,10 +105,10 @@
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
         public virtual bool IsMergeable(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingExistingBlockNodeIndex NodeIndex);
 
-            return inner.IsMergeable(nodeIndex);
+            return Inner.IsMergeable(NodeIndex);
         }
 
         /// <summary>
@@ -117,13 +118,13 @@
         /// <param name="nodeIndex">Index of the first node in the block to merge.</param>
         public virtual void MergeBlocks(IWriteableBlockListInner inner, IWriteableBrowsingExistingBlockNodeIndex nodeIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(inner.IsMergeable(nodeIndex));
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Contract.RequireNotNull(nodeIndex, out IWriteableBrowsingExistingBlockNodeIndex NodeIndex);
+            Debug.Assert(Inner.IsMergeable(NodeIndex));
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoMergeBlocks(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoMergeBlocks(operation);
-            WriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(inner.Owner.Node, inner.PropertyName, nodeIndex.BlockIndex, HandlerRedo, HandlerUndo, isNested: false);
+            WriteableMergeBlocksOperation Operation = CreateMergeBlocksOperation(Inner.Owner.Node, Inner.PropertyName, NodeIndex.BlockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);

@@ -3,7 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
-    using BaseNodeHelper;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -61,29 +61,29 @@
         /// <param name="secondIndex">Index of the inserted node upon return.</param>
         public virtual void SplitIdentifier(IWriteableListInner inner, IWriteableInsertionListNodeIndex replaceIndex, IWriteableInsertionListNodeIndex insertIndex, out IWriteableBrowsingListNodeIndex firstIndex, out IWriteableBrowsingListNodeIndex secondIndex)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(replaceIndex != null);
-            Debug.Assert(insertIndex != null);
-            IWriteableNodeState Owner = inner.Owner;
+            Contract.RequireNotNull(inner, out IWriteableListInner Inner);
+            Contract.RequireNotNull(replaceIndex, out IWriteableInsertionListNodeIndex ReplaceIndex);
+            Contract.RequireNotNull(insertIndex, out IWriteableInsertionListNodeIndex InsertIndex);
+            IWriteableNodeState Owner = Inner.Owner;
             IWriteableIndex ParentIndex = Owner.ParentIndex;
             Debug.Assert(Contains(ParentIndex));
             Debug.Assert(IndexToState(ParentIndex) == Owner);
             WriteableInnerReadOnlyDictionary<string> InnerTable = Owner.InnerTable;
-            Debug.Assert(InnerTable.ContainsKey(inner.PropertyName));
-            Debug.Assert(InnerTable[inner.PropertyName] == inner);
+            Debug.Assert(InnerTable.ContainsKey(Inner.PropertyName));
+            Debug.Assert(InnerTable[Inner.PropertyName] == Inner);
 
-            int Index = replaceIndex.Index;
-            Debug.Assert(insertIndex.Index == Index + 1);
-            Node ReplacingNode = replaceIndex.Node;
-            Node InsertedNode = insertIndex.Node;
+            int Index = ReplaceIndex.Index;
+            Debug.Assert(InsertIndex.Index == Index + 1);
+            Node ReplacingNode = ReplaceIndex.Node;
+            Node InsertedNode = InsertIndex.Node;
 
             Action<IWriteableOperation> HandlerRedoReplace = (IWriteableOperation operation) => RedoReplace(operation);
             Action<IWriteableOperation> HandlerUndoReplace = (IWriteableOperation operation) => UndoReplace(operation);
-            IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(inner.Owner.Node, inner.PropertyName, -1, Index, clearNode: false, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
+            IWriteableReplaceOperation ReplaceOperation = CreateReplaceOperation(Inner.Owner.Node, Inner.PropertyName, -1, Index, clearNode: false, ReplacingNode, HandlerRedoReplace, HandlerUndoReplace, isNested: true);
 
             Action<IWriteableOperation> HandlerRedoInsert = (IWriteableOperation operation) => RedoInsertNewNode(operation);
             Action<IWriteableOperation> HandlerUndoInsert = (IWriteableOperation operation) => UndoInsertNewNode(operation);
-            WriteableInsertNodeOperation InsertOperation = CreateInsertNodeOperation(inner.Owner.Node, inner.PropertyName, -1, Index + 1, InsertedNode, HandlerRedoInsert, HandlerUndoInsert, isNested: true);
+            WriteableInsertNodeOperation InsertOperation = CreateInsertNodeOperation(Inner.Owner.Node, Inner.PropertyName, -1, Index + 1, InsertedNode, HandlerRedoInsert, HandlerUndoInsert, isNested: true);
 
             ReplaceOperation.Redo();
             InsertOperation.Redo();

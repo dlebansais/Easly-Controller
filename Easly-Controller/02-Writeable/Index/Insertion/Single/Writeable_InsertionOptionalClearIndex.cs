@@ -30,13 +30,14 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         public WriteableInsertionOptionalClearIndex(Node parentNode, string propertyName)
         {
-            Debug.Assert(parentNode != null);
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Contract.RequireNotNull(parentNode, out Node ParentNode);
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Debug.Assert(PropertyName.Length > 0);
 
-            ParentNode = parentNode;
-            PropertyName = propertyName;
+            this.ParentNode = ParentNode;
+            this.PropertyName = PropertyName;
 
-            Optional = NodeTreeHelperOptional.GetOptionalReference(parentNode, propertyName);
+            Optional = NodeTreeHelperOptional.GetOptionalReference(ParentNode, PropertyName);
             Debug.Assert(Optional != null);
         }
         #endregion

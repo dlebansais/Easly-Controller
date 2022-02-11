@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.Controller;
     using EaslyController.ReadOnly;
 
@@ -21,12 +22,12 @@
         /// <param name="replication">New replication value.</param>
         public virtual void ChangeReplication(IWriteableBlockListInner inner, int blockIndex, ReplicationStatus replication)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(blockIndex >= 0 && blockIndex < inner.BlockStateList.Count);
+            Contract.RequireNotNull(inner, out IWriteableBlockListInner Inner);
+            Debug.Assert(blockIndex >= 0 && blockIndex < Inner.BlockStateList.Count);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeReplication(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeReplication(operation);
-            WriteableChangeBlockOperation Operation = CreateChangeBlockOperation(inner.Owner.Node, inner.PropertyName, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
+            WriteableChangeBlockOperation Operation = CreateChangeBlockOperation(Inner.Owner.Node, Inner.PropertyName, blockIndex, replication, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -67,13 +68,13 @@
         /// <param name="value">The new value.</param>
         public virtual void ChangeDiscreteValue(IWriteableIndex nodeIndex, string propertyName, int value)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
+            Contract.RequireNotNull(nodeIndex, out IWriteableIndex NodeIndex);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
             Debug.Assert(value >= 0);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeDiscreteValue(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeDiscreteValue(operation);
-            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[NodeIndex];
             WriteableChangeDiscreteValueOperation Operation = CreateChangeDiscreteValueOperation(State.Node, propertyName, value, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -127,14 +128,14 @@
         /// <param name="text">The new text.</param>
         public virtual void ChangeText(IWriteableIndex nodeIndex, string propertyName, string text)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
-            Debug.Assert(text != null);
+            Contract.RequireNotNull(nodeIndex, out IWriteableIndex NodeIndex);
+            Contract.RequireNotNull(text, out string Text);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeText(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeText(operation);
-            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
-            WriteableChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[NodeIndex];
+            WriteableChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, Text, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -183,14 +184,14 @@
         /// <param name="text">The new comment.</param>
         public virtual void ChangeComment(IWriteableIndex nodeIndex, string text)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
-            Debug.Assert(text != null);
+            Contract.RequireNotNull(nodeIndex, out IWriteableIndex NodeIndex);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
+            Contract.RequireNotNull(text, out string Text);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeComment(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeComment(operation);
-            IWriteableNodeState State = (IWriteableNodeState)StateTable[nodeIndex];
-            WriteableChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, HandlerRedo, HandlerUndo, isNested: false);
+            IWriteableNodeState State = (IWriteableNodeState)StateTable[NodeIndex];
+            WriteableChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, Text, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);

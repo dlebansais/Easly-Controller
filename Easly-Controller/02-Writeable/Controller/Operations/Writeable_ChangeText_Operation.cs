@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for changing text.
@@ -63,9 +63,9 @@
         /// <param name="oldText">The old text.</param>
         public virtual void Update(IWriteableNodeState state, string oldText)
         {
-            Debug.Assert(state != null);
+            Contract.RequireNotNull(state, out IWriteableNodeState State);
 
-            State = state;
+            this.State = State;
             OldText = oldText;
         }
 

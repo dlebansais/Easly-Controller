@@ -25,9 +25,9 @@
         /// <param name="block">The block containing the indexed replication pattern node.</param>
         public ReadOnlyBrowsingPatternIndex(IBlock block)
         {
-            Debug.Assert(block != null);
+            Contract.RequireNotNull(block, out IBlock Block);
 
-            Block = block;
+            this.Block = Block;
         }
 
         private IBlock Block;

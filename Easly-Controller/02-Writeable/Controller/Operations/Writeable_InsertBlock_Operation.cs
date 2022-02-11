@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
@@ -142,13 +142,13 @@
         /// <param name="childState">State inserted.</param>
         public virtual void Update(IWriteableBrowsingExistingBlockNodeIndex browsingIndex, IWriteableBlockState blockState, IWriteablePlaceholderNodeState childState)
         {
-            Debug.Assert(browsingIndex != null);
-            Debug.Assert(blockState != null);
-            Debug.Assert(childState != null);
+            Contract.RequireNotNull(browsingIndex, out IWriteableBrowsingExistingBlockNodeIndex BrowsingIndex);
+            Contract.RequireNotNull(blockState, out IWriteableBlockState BlockState);
+            Contract.RequireNotNull(childState, out IWriteablePlaceholderNodeState ChildState);
 
-            BrowsingIndex = browsingIndex;
-            BlockState = blockState;
-            ChildState = childState;
+            this.BrowsingIndex = BrowsingIndex;
+            this.BlockState = BlockState;
+            this.ChildState = ChildState;
         }
 
         /// <summary>

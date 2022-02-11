@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for splitting a block in a block list.
@@ -71,10 +72,10 @@
         /// <param name="blockState">Block state inserted.</param>
         public virtual void Update(IWriteableBlockState blockState)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(blockState.ChildBlock == NewBlock);
+            Contract.RequireNotNull(blockState, out IWriteableBlockState BlockState);
+            Debug.Assert(BlockState.ChildBlock == NewBlock);
 
-            BlockState = blockState;
+            this.BlockState = BlockState;
         }
 
         /// <summary>

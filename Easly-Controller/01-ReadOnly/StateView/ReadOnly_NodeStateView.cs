@@ -38,11 +38,11 @@
         /// <param name="state">The node state.</param>
         public ReadOnlyNodeStateView(ReadOnlyControllerView controllerView, IReadOnlyNodeState state)
         {
-            Debug.Assert(controllerView != null);
-            Debug.Assert(state != null);
+            Contract.RequireNotNull(controllerView, out ReadOnlyControllerView ControllerView);
+            Contract.RequireNotNull(state, out IReadOnlyNodeState State);
 
-            ControllerView = controllerView;
-            State = state;
+            this.ControllerView = ControllerView;
+            this.State = State;
         }
         #endregion
 

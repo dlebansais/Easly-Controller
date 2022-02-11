@@ -26,14 +26,14 @@
         /// <param name="node">The assigned node.</param>
         public WriteableInsertionPlaceholderNodeIndex(Node parentNode, string propertyName, Node node)
         {
-            Debug.Assert(parentNode != null);
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(node != null);
-            Debug.Assert(NodeTreeHelper.IsAssignable(parentNode, propertyName, node));
+            Contract.RequireNotNull(parentNode, out Node ParentNode);
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Contract.RequireNotNull(node, out Node Node);
+            Debug.Assert(NodeTreeHelper.IsAssignable(ParentNode, PropertyName, Node));
 
-            ParentNode = parentNode;
-            PropertyName = propertyName;
-            Node = node;
+            this.ParentNode = ParentNode;
+            this.PropertyName = PropertyName;
+            this.Node = Node;
         }
         #endregion
 

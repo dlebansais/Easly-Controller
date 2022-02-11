@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for removing a block from a block list.
@@ -126,11 +127,11 @@
         /// <param name="removedState">The state removed.</param>
         public virtual void Update(IWriteableBlockState blockState, IWriteableNodeState removedState)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(blockState.StateList.Count == 0);
+            Contract.RequireNotNull(blockState, out IWriteableBlockState BlockState);
+            Debug.Assert(BlockState.StateList.Count == 0);
 
-            BlockState = blockState;
-            Block = blockState.ChildBlock;
+            this.BlockState = BlockState;
+            Block = BlockState.ChildBlock;
             RemovedState = removedState;
             Node = removedState.Node;
         }

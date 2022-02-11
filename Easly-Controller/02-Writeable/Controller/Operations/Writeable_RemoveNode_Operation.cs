@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for removing a node in a list or block list.
@@ -69,10 +69,10 @@
         /// <param name="childState">State removed.</param>
         public virtual void Update(IWriteablePlaceholderNodeState childState)
         {
-            Debug.Assert(childState != null);
+            Contract.RequireNotNull(childState, out IWriteablePlaceholderNodeState ChildState);
 
-            RemovedState = childState;
-            RemovedNode = childState.Node;
+            RemovedState = ChildState;
+            RemovedNode = ChildState.Node;
         }
 
         /// <summary>

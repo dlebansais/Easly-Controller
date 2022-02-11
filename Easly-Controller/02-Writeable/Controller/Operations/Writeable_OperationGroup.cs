@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// Group of operations to make some tasks atomic.
@@ -40,10 +40,10 @@
         /// <param name="refresh">Optional refresh operation to execute at the end of undo and redo.</param>
         public WriteableOperationGroup(WriteableOperationReadOnlyList operationList, WriteableGenericRefreshOperation refresh)
         {
-            Debug.Assert(operationList != null);
-            Debug.Assert(operationList.Count > 0);
+            Contract.RequireNotNull(operationList, out WriteableOperationReadOnlyList OperationList);
+            Debug.Assert(OperationList.Count > 0);
 
-            OperationList = operationList;
+            this.OperationList = OperationList;
             Refresh = refresh;
         }
         #endregion

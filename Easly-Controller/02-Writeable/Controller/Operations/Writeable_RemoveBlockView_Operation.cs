@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
     using System;
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Operation details for updating a view after block has been removed from a block list.
@@ -57,9 +57,9 @@
         /// <param name="blockState">Block state removed.</param>
         public virtual void Update(IWriteableBlockState blockState)
         {
-            Debug.Assert(blockState != null);
+            Contract.RequireNotNull(blockState, out IWriteableBlockState BlockState);
 
-            BlockState = blockState;
+            this.BlockState = BlockState;
         }
         #endregion
     }
