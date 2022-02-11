@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// View of a IxxxController.
@@ -100,12 +101,12 @@
         /// <param name="state">The state created.</param>
         public virtual void OnNodeStateCreated(IReadOnlyNodeState state)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(!StateViewTable.ContainsKey(state));
+            Contract.RequireNotNull(state, out IReadOnlyNodeState State);
+            Debug.Assert(!StateViewTable.ContainsKey(State));
 
             ReadOnlyNodeStateView StateView = null;
 
-            switch (state)
+            switch (State)
             {
                 case IReadOnlyPatternState AsPatternState:
                     StateView = CreatePatternStateView(AsPatternState);
@@ -126,7 +127,7 @@
 
             Debug.Assert(StateView != null);
 
-            StateViewTable.Add(state, StateView);
+            StateViewTable.Add(State, StateView);
         }
 
         /// <summary>
@@ -135,10 +136,10 @@
         /// <param name="state">The state initialized.</param>
         public virtual void OnNodeStateInitialized(IReadOnlyNodeState state)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Contract.RequireNotNull(state, out IReadOnlyNodeState State);
+            Debug.Assert(StateViewTable.ContainsKey(State));
 
-            IReadOnlyNodeStateView StateView = StateViewTable[state];
+            IReadOnlyNodeStateView StateView = StateViewTable[State];
         }
 
         /// <summary>
@@ -147,10 +148,10 @@
         /// <param name="state">The state removed.</param>
         public virtual void OnNodeStateRemoved(IReadOnlyNodeState state)
         {
-            Debug.Assert(state != null);
-            Debug.Assert(StateViewTable.ContainsKey(state));
+            Contract.RequireNotNull(state, out IReadOnlyNodeState State);
+            Debug.Assert(StateViewTable.ContainsKey(State));
 
-            StateViewTable.Remove(state);
+            StateViewTable.Remove(State);
         }
 
         /// <summary>
@@ -179,11 +180,11 @@
         /// <param name="blockState">The block state created.</param>
         public virtual void OnBlockStateCreated(IReadOnlyBlockState blockState)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(!BlockStateViewTable.ContainsKey(blockState));
+            Contract.RequireNotNull(blockState, out IReadOnlyBlockState BlockState);
+            Debug.Assert(!BlockStateViewTable.ContainsKey(BlockState));
 
-            ReadOnlyBlockStateView BlockStateView = CreateBlockStateView(blockState);
-            BlockStateViewTable.Add(blockState, BlockStateView);
+            ReadOnlyBlockStateView BlockStateView = CreateBlockStateView(BlockState);
+            BlockStateViewTable.Add(BlockState, BlockStateView);
         }
 
         /// <summary>
@@ -192,10 +193,10 @@
         /// <param name="blockState">The block state removed.</param>
         public virtual void OnBlockStateRemoved(IReadOnlyBlockState blockState)
         {
-            Debug.Assert(blockState != null);
-            Debug.Assert(BlockStateViewTable.ContainsKey(blockState));
+            Contract.RequireNotNull(blockState, out IReadOnlyBlockState BlockState);
+            Debug.Assert(BlockStateViewTable.ContainsKey(BlockState));
 
-            BlockStateViewTable.Remove(blockState);
+            BlockStateViewTable.Remove(BlockState);
         }
         #endregion
 
@@ -203,9 +204,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyControllerView AsControllerView))
+            if (!comparer.IsSameType(Other, out ReadOnlyControllerView AsControllerView))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(Controller, AsControllerView.Controller))

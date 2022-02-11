@@ -1,6 +1,6 @@
 ﻿namespace EaslyController
 {
-    using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// Statistics for a node tree.
@@ -49,9 +49,9 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out Stats AsStats))
+            if (!comparer.IsSameType(Other, out Stats AsStats))
                 return comparer.Failed();
 
             if (!comparer.IsSameCount(NodeCount, AsStats.NodeCount))

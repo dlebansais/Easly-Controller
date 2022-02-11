@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
     using EaslyController.Focus;
 
     /// <summary>
@@ -47,9 +47,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutRootNodeIndex AsRootNodeIndex))
+            if (!comparer.IsSameType(Other, out LayoutRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsRootNodeIndex))

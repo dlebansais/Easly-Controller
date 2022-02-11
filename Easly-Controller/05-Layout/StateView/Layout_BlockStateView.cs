@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
     using System.Diagnostics;
+    using Contracts;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
@@ -159,9 +160,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(Other, out LayoutBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))

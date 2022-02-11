@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
     using EaslyController.Writeable;
 
     /// <summary>
@@ -38,9 +38,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FrameInsertionListNodeIndex AsInsertionListNodeIndex))
+            if (!comparer.IsSameType(Other, out FrameInsertionListNodeIndex AsInsertionListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))

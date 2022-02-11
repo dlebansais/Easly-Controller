@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using Easly;
 
     /// <summary>
@@ -28,11 +29,11 @@
         /// <param name="propertyName">Property in <paramref name="parentNode"/> corresponding to the indexed optional node.</param>
         public ReadOnlyBrowsingOptionalNodeIndex(Node parentNode, string propertyName)
         {
-            Debug.Assert(parentNode != null);
+            Contract.RequireNotNull(parentNode, out Node ParentNode);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
-            Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(parentNode, propertyName, out Type ChildNodeType));
+            Debug.Assert(NodeTreeHelperOptional.IsOptionalChildNodeProperty(ParentNode, propertyName, out _));
 
-            Optional = NodeTreeHelperOptional.GetOptionalReference(parentNode, propertyName);
+            Optional = NodeTreeHelperOptional.GetOptionalReference(ParentNode, propertyName);
             Debug.Assert(Optional != null);
 
             PropertyName = propertyName;
@@ -51,9 +52,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingOptionalNodeIndex AsOptionalNodeIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyBrowsingOptionalNodeIndex AsOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(Optional, AsOptionalNodeIndex.Optional))

@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for a node in a block.
@@ -35,14 +36,14 @@
         public ReadOnlyBrowsingExistingBlockNodeIndex(Node parentNode, Node node, string propertyName, int blockIndex, int index)
             : base(node, propertyName, blockIndex)
         {
-            Debug.Assert(parentNode != null);
-            Debug.Assert(node != null);
-            Debug.Assert(!string.IsNullOrEmpty(propertyName));
+            Contract.RequireNotNull(parentNode, out Node ParentNode);
+            Contract.RequireNotNull(node, out Node Node);
+            Debug.Assert(propertyName.Length > 0);
             Debug.Assert(blockIndex >= 0);
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(parentNode, propertyName, blockIndex, index, node));
+            Debug.Assert(NodeTreeHelperBlockList.IsBlockChildNode(ParentNode, propertyName, blockIndex, index, Node));
 
-            ParentNode = parentNode;
+            this.ParentNode = ParentNode;
             Index = index;
         }
         #endregion
@@ -59,9 +60,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(ParentNode, AsExistingBlockNodeIndex.ParentNode))

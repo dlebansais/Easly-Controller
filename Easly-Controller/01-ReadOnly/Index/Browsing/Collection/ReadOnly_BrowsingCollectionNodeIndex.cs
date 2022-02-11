@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Base for list and block list index classes.
@@ -35,10 +36,10 @@
         /// <param name="propertyName">The property for the index.</param>
         public ReadOnlyBrowsingCollectionNodeIndex(Node node, string propertyName)
         {
-            Debug.Assert(node != null);
+            Contract.RequireNotNull(node, out Node Node);
             Debug.Assert(!string.IsNullOrEmpty(propertyName));
 
-            Node = node;
+            this.Node = Node;
             PropertyName = propertyName;
         }
         #endregion

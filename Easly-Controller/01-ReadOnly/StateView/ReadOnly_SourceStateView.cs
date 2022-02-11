@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// View of a source state.
@@ -30,9 +30,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlySourceStateView AsSourceStateView))
+            if (!comparer.IsSameType(Other, out ReadOnlySourceStateView AsSourceStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsSourceStateView))

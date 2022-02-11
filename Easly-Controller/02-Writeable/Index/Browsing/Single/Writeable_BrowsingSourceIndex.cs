@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System.Diagnostics;
+    using Contracts;
     using BaseNode;
     using EaslyController.ReadOnly;
 
@@ -35,9 +35,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableBrowsingSourceIndex AsBrowsingSourceIndex))
+            if (!comparer.IsSameType(Other, out WriteableBrowsingSourceIndex AsBrowsingSourceIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingSourceIndex))

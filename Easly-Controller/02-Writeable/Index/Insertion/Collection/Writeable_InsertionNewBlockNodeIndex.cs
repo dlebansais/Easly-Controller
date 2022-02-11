@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for inserting the first node of a new block.
@@ -92,9 +93,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableInsertionNewBlockNodeIndex AsInsertionNewBlockNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableInsertionNewBlockNodeIndex AsInsertionNewBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionNewBlockNodeIndex))

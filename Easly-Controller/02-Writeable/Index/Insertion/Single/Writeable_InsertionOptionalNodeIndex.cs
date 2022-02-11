@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using Easly;
 
     /// <summary>
@@ -85,9 +86,9 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableInsertionOptionalNodeIndex AsInsertionOptionalNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(ParentNode, AsInsertionOptionalNodeIndex.ParentNode))

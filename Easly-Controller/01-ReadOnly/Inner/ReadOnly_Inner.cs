@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Interface for all inners.
@@ -162,9 +163,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyInner<IIndex> AsInner))
+            if (!comparer.IsSameType(Other, out ReadOnlyInner<IIndex> AsInner))
                 return comparer.Failed();
 
             if (!comparer.VerifyEqual(Owner, AsInner.Owner))

@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Base for list and block list insertion index classes.
@@ -69,9 +70,9 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableInsertionCollectionNodeIndex AsInsertionCollectionNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(ParentNode, AsInsertionCollectionNodeIndex.ParentNode))

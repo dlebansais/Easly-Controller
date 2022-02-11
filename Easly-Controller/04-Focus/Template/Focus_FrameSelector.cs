@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Selects specific frames in the remaining of the cell view tree.
@@ -111,9 +112,9 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out IFocusFrameSelector AsFrameSelector))
+            if (!comparer.IsSameType(Other, out IFocusFrameSelector AsFrameSelector))
                 return comparer.Failed();
 
             if (!comparer.IsSameString(SelectorName, AsFrameSelector.SelectorName))

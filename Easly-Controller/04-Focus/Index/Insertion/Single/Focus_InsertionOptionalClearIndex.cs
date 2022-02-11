@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
     using EaslyController.Frame;
     using EaslyController.Writeable;
 
@@ -37,9 +37,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
+            if (!comparer.IsSameType(Other, out FocusInsertionOptionalClearIndex AsInsertionOptionalClearIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionOptionalClearIndex))

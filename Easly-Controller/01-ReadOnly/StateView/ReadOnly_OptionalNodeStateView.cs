@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// View of an optional node state.
@@ -30,9 +30,9 @@
         /// <inheritdoc/>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyOptionalNodeStateView AsOptionalNodeStateView))
+            if (!comparer.IsSameType(Other, out ReadOnlyOptionalNodeStateView AsOptionalNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsOptionalNodeStateView))

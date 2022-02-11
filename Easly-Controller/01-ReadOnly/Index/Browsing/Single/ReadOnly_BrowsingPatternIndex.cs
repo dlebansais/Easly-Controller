@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Index for the replication pattern node of a block.
@@ -45,9 +46,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingPatternIndex AsPatternIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyBrowsingPatternIndex AsPatternIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(Node, AsPatternIndex.Node))

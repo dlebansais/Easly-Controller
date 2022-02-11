@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.ReadOnly
 {
     using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// View of a block state.
@@ -53,9 +54,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(Other, out ReadOnlyBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(BlockState, AsBlockStateView.BlockState))

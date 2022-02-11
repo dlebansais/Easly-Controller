@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Index for the source identifier node of a block.
@@ -45,9 +46,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingSourceIndex AsSourceIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyBrowsingSourceIndex AsSourceIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(Node, AsSourceIndex.Node))

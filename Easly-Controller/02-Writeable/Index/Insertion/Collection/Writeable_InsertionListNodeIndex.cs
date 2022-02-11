@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for inserting a node in a list of nodes.
@@ -82,9 +83,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableInsertionListNodeIndex AsInsertionListNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableInsertionListNodeIndex AsInsertionListNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsInsertionListNodeIndex))

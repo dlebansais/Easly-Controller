@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System.Diagnostics;
     using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Index for replacing a child a node.
@@ -63,9 +63,9 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableInsertionEmptyNodeIndex AsInsertionEmptyNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableInsertionEmptyNodeIndex AsInsertionEmptyNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(ParentNode, AsInsertionEmptyNodeIndex.ParentNode))

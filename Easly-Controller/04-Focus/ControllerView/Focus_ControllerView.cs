@@ -1,10 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Windows;
     using BaseNode;
-    using EaslyController.Constants;
+    using Contracts;
     using EaslyController.Controller;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
@@ -22,9 +20,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FocusControllerView AsControllerView))
+            if (!comparer.IsSameType(Other, out FocusControllerView AsControllerView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))

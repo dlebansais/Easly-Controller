@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -113,9 +114,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableBrowsingExistingBlockNodeIndex AsBrowsingExistingBlockNodeIndex))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBrowsingExistingBlockNodeIndex))

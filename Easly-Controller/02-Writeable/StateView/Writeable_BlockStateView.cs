@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System.Diagnostics;
+    using Contracts;
     using EaslyController.ReadOnly;
 
     /// <summary>
@@ -53,9 +53,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableBlockStateView AsBlockStateView))
+            if (!comparer.IsSameType(Other, out WriteableBlockStateView AsBlockStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsBlockStateView))

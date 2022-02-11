@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.ReadOnly
 {
     using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// View of a node state.
@@ -61,9 +62,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyNodeStateView AsNodeStateView))
+            if (!comparer.IsSameType(Other, out ReadOnlyNodeStateView AsNodeStateView))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(State, AsNodeStateView.State))

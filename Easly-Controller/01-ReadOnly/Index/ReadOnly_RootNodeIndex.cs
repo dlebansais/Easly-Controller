@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for the root node of the node tree.
@@ -57,9 +58,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyRootNodeIndex AsRootNodeIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyRootNodeIndex AsRootNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(Node, AsRootNodeIndex.Node))

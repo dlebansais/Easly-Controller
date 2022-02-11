@@ -1,9 +1,7 @@
 ﻿namespace EaslyController.Layout
 {
-    using System.Diagnostics;
     using BaseNode;
-    using EaslyController.Constants;
-    using EaslyController.Controller;
+    using Contracts;
     using EaslyController.Focus;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
@@ -21,9 +19,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out LayoutControllerView AsControllerView))
+            if (!comparer.IsSameType(Other, out LayoutControllerView AsControllerView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsControllerView))

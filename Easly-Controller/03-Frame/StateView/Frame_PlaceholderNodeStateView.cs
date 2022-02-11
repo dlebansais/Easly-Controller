@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using BaseNodeHelper;
+    using Contracts;
     using EaslyController.Writeable;
 
     /// <summary>
@@ -210,9 +210,9 @@
         /// <param name="other">The other object.</param>
         public override bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out FramePlaceholderNodeStateView AsPlaceholderNodeStateView))
+            if (!comparer.IsSameType(Other, out FramePlaceholderNodeStateView AsPlaceholderNodeStateView))
                 return comparer.Failed();
 
             if (!base.IsEqual(comparer, AsPlaceholderNodeStateView))

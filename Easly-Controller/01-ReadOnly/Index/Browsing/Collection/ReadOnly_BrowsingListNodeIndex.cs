@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for a node in a list of nodes.
@@ -47,11 +48,11 @@
         public ReadOnlyBrowsingListNodeIndex(Node parentNode, Node node, string propertyName, int index)
             : base(node, propertyName)
         {
-            Debug.Assert(parentNode != null);
+            Contract.RequireNotNull(parentNode, out Node ParentNode);
             Debug.Assert(index >= 0);
-            Debug.Assert(NodeTreeHelperList.IsListChildNode(parentNode, propertyName, index, node));
+            Debug.Assert(NodeTreeHelperList.IsListChildNode(ParentNode, propertyName, index, node));
 
-            ParentNode = parentNode;
+            this.ParentNode = ParentNode;
             Index = index;
         }
         #endregion
@@ -68,9 +69,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingListNodeIndex AsListNodeIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyBrowsingListNodeIndex AsListNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameString(PropertyName, AsListNodeIndex.PropertyName))

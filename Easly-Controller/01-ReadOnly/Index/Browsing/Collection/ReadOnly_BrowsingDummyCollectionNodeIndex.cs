@@ -1,8 +1,6 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System.Diagnostics;
-    using BaseNode;
-    using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for a node in a list of nodes.
@@ -27,9 +25,9 @@
         /// <inheritdoc/>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out ReadOnlyBrowsingDummyCollectionNodeIndex AsListNodeIndex))
+            if (!comparer.IsSameType(Other, out ReadOnlyBrowsingDummyCollectionNodeIndex AsListNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameString(PropertyName, AsListNodeIndex.PropertyName))

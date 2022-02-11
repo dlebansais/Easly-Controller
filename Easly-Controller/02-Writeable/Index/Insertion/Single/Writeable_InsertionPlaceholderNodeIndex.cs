@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Index for replacing a child a node.
@@ -72,9 +73,9 @@
         /// <param name="other">The other object.</param>
         public virtual bool IsEqual(CompareEqual comparer, IEqualComparable other)
         {
-            Debug.Assert(other != null);
+            Contract.RequireNotNull(other, out IEqualComparable Other);
 
-            if (!comparer.IsSameType(other, out WriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
+            if (!comparer.IsSameType(Other, out WriteableInsertionPlaceholderNodeIndex AsInsertionPlaceholderNodeIndex))
                 return comparer.Failed();
 
             if (!comparer.IsSameReference(ParentNode, AsInsertionPlaceholderNodeIndex.ParentNode))
