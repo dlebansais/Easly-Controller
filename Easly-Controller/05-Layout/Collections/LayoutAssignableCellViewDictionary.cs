@@ -7,6 +7,7 @@
 
     /// <inheritdoc/>
     public class LayoutAssignableCellViewDictionary<TKey> : FocusAssignableCellViewDictionary<TKey>, ICollection<KeyValuePair<TKey, ILayoutAssignableCellView>>, IEnumerable<KeyValuePair<TKey, ILayoutAssignableCellView>>, IDictionary<TKey, ILayoutAssignableCellView>, IReadOnlyCollection<KeyValuePair<TKey, ILayoutAssignableCellView>>, IReadOnlyDictionary<TKey, ILayoutAssignableCellView>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public LayoutAssignableCellViewDictionary() : base() { }

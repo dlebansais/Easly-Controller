@@ -7,6 +7,7 @@
 
     /// <inheritdoc/>
     public class FocusInnerDictionary<TKey> : FrameInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusInner>>, IEnumerable<KeyValuePair<TKey, IFocusInner>>, IDictionary<TKey, IFocusInner>, IReadOnlyCollection<KeyValuePair<TKey, IFocusInner>>, IReadOnlyDictionary<TKey, IFocusInner>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public FocusInnerDictionary() : base() { }

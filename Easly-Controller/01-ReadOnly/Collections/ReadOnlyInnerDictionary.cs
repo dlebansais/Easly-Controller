@@ -5,6 +5,7 @@
 
     /// <inheritdoc/>
     public class ReadOnlyInnerDictionary<TKey> : Dictionary<TKey, IReadOnlyInner>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public ReadOnlyInnerDictionary() : base() { }

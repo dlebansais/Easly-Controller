@@ -7,6 +7,7 @@
 
     /// <inheritdoc/>
     public class LayoutInnerDictionary<TKey> : FocusInnerDictionary<TKey>, ICollection<KeyValuePair<TKey, ILayoutInner>>, IEnumerable<KeyValuePair<TKey, ILayoutInner>>, IDictionary<TKey, ILayoutInner>, IReadOnlyCollection<KeyValuePair<TKey, ILayoutInner>>, IReadOnlyDictionary<TKey, ILayoutInner>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public LayoutInnerDictionary() : base() { }

@@ -6,6 +6,7 @@
 
     /// <inheritdoc/>
     public class FrameAssignableCellViewReadOnlyDictionary<TKey> : ReadOnlyDictionary<TKey, IFrameAssignableCellView>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public FrameAssignableCellViewReadOnlyDictionary(FrameAssignableCellViewDictionary<TKey> dictionary)

@@ -29,6 +29,7 @@
             Contract.RequireNotNull(typeName, out string TypeName);
 
             this.TypeName = TypeName;
+            Arg1 = string.Empty;
         }
 
         /// <summary>
@@ -56,11 +57,11 @@
 
             Debug.Assert(TypeName != null);
 
-            IXamlTypeResolver XamlTypeResolver = ServiceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+            IXamlTypeResolver XamlTypeResolver = (IXamlTypeResolver)ServiceProvider.GetService(typeof(IXamlTypeResolver));
 
-            System.Type Type = null;
+            System.Type Type;
 
-            if (Arg1 == null)
+            if (Arg1.Length == 0)
                 Type = XamlTypeResolver.Resolve(TypeName);
             else
             {
@@ -71,7 +72,7 @@
 
                 GenericDefinitionType = XamlTypeResolver.Resolve(TypeName);
                 Assembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
-                GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 1));
+                GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 1))!;
 
                 System.Type[] GenericArguments = new System.Type[] { Arg1Type };
                 Type = GenericDefinitionType.MakeGenericType(GenericArguments);
@@ -91,7 +92,7 @@
         public string TypeName { get; set; }
 
         /// <summary>
-        /// Type argument name #1. Can be null if no generic argument.
+        /// Type argument name #1. Can be <see cref="string.Empty"/> if no generic argument.
         /// </summary>
         public string Arg1 { get; set; }
     }

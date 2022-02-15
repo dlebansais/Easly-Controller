@@ -7,6 +7,7 @@
 
     /// <inheritdoc/>
     public class WriteableInnerReadOnlyDictionary<TKey> : ReadOnlyInnerReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IWriteableInner>>, IEnumerable<KeyValuePair<TKey, IWriteableInner>>, IDictionary<TKey, IWriteableInner>, IReadOnlyCollection<KeyValuePair<TKey, IWriteableInner>>, IReadOnlyDictionary<TKey, IWriteableInner>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public WriteableInnerReadOnlyDictionary(WriteableInnerDictionary<TKey> dictionary)

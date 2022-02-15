@@ -7,6 +7,7 @@
 
     /// <inheritdoc/>
     public class FocusAssignableCellViewReadOnlyDictionary<TKey> : FrameAssignableCellViewReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IEnumerable<KeyValuePair<TKey, IFocusAssignableCellView>>, IDictionary<TKey, IFocusAssignableCellView>, IReadOnlyCollection<KeyValuePair<TKey, IFocusAssignableCellView>>, IReadOnlyDictionary<TKey, IFocusAssignableCellView>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public FocusAssignableCellViewReadOnlyDictionary(FocusAssignableCellViewDictionary<TKey> dictionary)

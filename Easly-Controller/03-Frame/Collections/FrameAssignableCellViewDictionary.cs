@@ -5,6 +5,7 @@
 
     /// <inheritdoc/>
     public class FrameAssignableCellViewDictionary<TKey> : Dictionary<TKey, IFrameAssignableCellView>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public FrameAssignableCellViewDictionary() : base() { }

@@ -8,6 +8,7 @@
 
     /// <inheritdoc/>
     public class FrameInnerReadOnlyDictionary<TKey> : WriteableInnerReadOnlyDictionary<TKey>, ICollection<KeyValuePair<TKey, IFrameInner>>, IEnumerable<KeyValuePair<TKey, IFrameInner>>, IDictionary<TKey, IFrameInner>, IReadOnlyCollection<KeyValuePair<TKey, IFrameInner>>, IReadOnlyDictionary<TKey, IFrameInner>, IEqualComparable
+        where TKey : notnull
     {
         /// <inheritdoc/>
         public FrameInnerReadOnlyDictionary(FrameInnerDictionary<TKey> dictionary)
