@@ -176,11 +176,13 @@
         /// <param name="cellView">The assigned cell view.</param>
         public virtual void AssignCellViewTable(string propertyName, IFrameAssignableCellView cellView)
         {
-            Debug.Assert(_CellViewTable.ContainsKey(propertyName));
-            Debug.Assert(_CellViewTable[propertyName] == null);
-            Debug.Assert(cellView != null);
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Contract.RequireNotNull(cellView, out IFrameAssignableCellView CellView);
 
-            _CellViewTable[propertyName] = cellView;
+            Debug.Assert(_CellViewTable.ContainsKey(PropertyName));
+            Debug.Assert(_CellViewTable[PropertyName] == null);
+
+            _CellViewTable[PropertyName] = CellView;
         }
 
         /// <summary>
@@ -212,11 +214,13 @@
         /// <param name="cellView">The new cell view.</param>
         public virtual void ReplaceCellView(string propertyName, IFrameContainerCellView cellView)
         {
-            Debug.Assert(_CellViewTable.ContainsKey(propertyName));
-            Debug.Assert(_CellViewTable[propertyName] != null);
-            Debug.Assert(cellView != null);
+            Contract.RequireNotNull(propertyName, out string PropertyName);
+            Contract.RequireNotNull(cellView, out IFrameContainerCellView CellView);
 
-            _CellViewTable[propertyName] = cellView;
+            Debug.Assert(_CellViewTable.ContainsKey(PropertyName));
+            Debug.Assert(_CellViewTable[PropertyName] != null);
+
+            _CellViewTable[PropertyName] = CellView;
         }
 
         /// <summary>
@@ -242,10 +246,10 @@
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
         public virtual bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Debug.Assert(handler != null);
+            Contract.RequireNotNull(handler, out Func<IFrameVisibleCellView, bool> Handler);
 
             Debug.Assert(RootCellView != null);
-            return RootCellView.EnumerateVisibleCellViews(handler, out cellView, reversed);
+            return RootCellView.EnumerateVisibleCellViews(Handler, out cellView, reversed);
         }
         #endregion
 

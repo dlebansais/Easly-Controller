@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
 
     /// <summary>
     /// Set of templates used to describe all possible nodes in the tree.
@@ -126,16 +127,16 @@
         /// <param name="nodeTemplateTable">Table of templates.</param>
         public virtual bool IsValid(FrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            Debug.Assert(nodeTemplateTable != null);
+            Contract.RequireNotNull(nodeTemplateTable, out FrameTemplateReadOnlyDictionary NodeTemplateTable);
 
             FrameTemplateDictionary DefaultDictionary = CreateDefaultTemplateDictionary();
 
             bool IsValid = true;
 
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
-                IsValid &= nodeTemplateTable.ContainsKey(Entry.Key);
+                IsValid &= NodeTemplateTable.ContainsKey(Entry.Key);
 
-            foreach (KeyValuePair<Type, IFrameTemplate> Entry in nodeTemplateTable)
+            foreach (KeyValuePair<Type, IFrameTemplate> Entry in NodeTemplateTable)
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
@@ -143,12 +144,8 @@
 
                 IsValid &= Template.IsValid;
                 IsValid &= IsValidNodeType(NodeType, Template.NodeType);
-                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
+                IsValid &= Template.Root.IsValid(NodeType, NodeTemplateTable, ref CommentFrameCount);
                 IsValid &= CommentFrameCount == 1;
-
-                if (!IsValid)
-                {
-                }
 
                 Debug.Assert(IsValid);
             }
@@ -179,7 +176,8 @@
         /// <param name="nodeTemplateTable">Table of templates with all frames.</param>
         public virtual bool IsBlockValid(FrameTemplateReadOnlyDictionary blockTemplateTable, FrameTemplateReadOnlyDictionary nodeTemplateTable)
         {
-            Debug.Assert(blockTemplateTable != null);
+            Contract.RequireNotNull(blockTemplateTable, out FrameTemplateReadOnlyDictionary BlockTemplateTable);
+            Contract.RequireNotNull(nodeTemplateTable, out FrameTemplateReadOnlyDictionary NodeTemplateTable);
 
             IList<Type> BlockKeys = NodeHelper.GetNodeKeys();
 
@@ -190,9 +188,9 @@
             bool IsValid = true;
 
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in DefaultDictionary)
-                IsValid &= blockTemplateTable.ContainsKey(Entry.Key);
+                IsValid &= BlockTemplateTable.ContainsKey(Entry.Key);
 
-            foreach (KeyValuePair<Type, IFrameTemplate> Entry in blockTemplateTable)
+            foreach (KeyValuePair<Type, IFrameTemplate> Entry in BlockTemplateTable)
             {
                 Type NodeType = Entry.Key;
                 IFrameTemplate Template = Entry.Value;
@@ -200,7 +198,7 @@
 
                 IsValid &= NodeTreeHelper.IsBlockInterfaceType(NodeType);
                 IsValid &= Template.IsValid;
-                IsValid &= Template.Root.IsValid(NodeType, nodeTemplateTable, ref CommentFrameCount);
+                IsValid &= Template.Root.IsValid(NodeType, NodeTemplateTable, ref CommentFrameCount);
             }
 
             Debug.Assert(IsValid);
@@ -213,10 +211,10 @@
         /// <param name="nodeType">Type of the node for which a template is requested.</param>
         public virtual IFrameNodeTemplate NodeTypeToTemplate(Type nodeType)
         {
-            Debug.Assert(nodeType != null);
-            Debug.Assert(NodeTemplateTable.ContainsKey(nodeType));
+            Contract.RequireNotNull(nodeType, out Type NodeType);
+            Debug.Assert(NodeTemplateTable.ContainsKey(NodeType));
 
-            return NodeTemplateTable[nodeType] as IFrameNodeTemplate;
+            return NodeTemplateTable[NodeType] as IFrameNodeTemplate;
         }
 
         /// <summary>
@@ -225,10 +223,10 @@
         /// <param name="blockType">Type of the block for which a template is requested.</param>
         public virtual IFrameBlockTemplate BlockTypeToTemplate(Type blockType)
         {
-            Debug.Assert(blockType != null);
-            Debug.Assert(BlockTemplateTable.ContainsKey(blockType));
+            Contract.RequireNotNull(blockType, out Type BlockType);
+            Debug.Assert(BlockTemplateTable.ContainsKey(BlockType));
 
-            return BlockTemplateTable[blockType] as IFrameBlockTemplate;
+            return BlockTemplateTable[BlockType] as IFrameBlockTemplate;
         }
 
         /// <summary>

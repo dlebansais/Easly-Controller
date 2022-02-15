@@ -159,10 +159,10 @@
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
         public virtual bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Debug.Assert(handler != null);
+            Contract.RequireNotNull(handler, out Func<IFrameVisibleCellView, bool> Handler);
 
             Debug.Assert(RootCellView != null);
-            return RootCellView.EnumerateVisibleCellViews(handler, out cellView, reversed);
+            return RootCellView.EnumerateVisibleCellViews(Handler, out cellView, reversed);
         }
         #endregion
 

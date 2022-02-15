@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// Represent objects that can be compared for equality in a tree, while avoiding infinite recursion.
@@ -63,15 +64,15 @@
         /// <param name="obj2">The second object.</param>
         public bool VerifyEqual(IEqualComparable obj1, IEqualComparable obj2)
         {
-            Debug.Assert(obj1 != null);
-            Debug.Assert(obj2 != null);
+            Contract.RequireNotNull(obj1, out IEqualComparable Obj1);
+            Contract.RequireNotNull(obj2, out IEqualComparable Obj2);
 
             bool Result;
 
-            if (!ComparedObjectList.ContainsKey(obj1))
-                ComparedObjectList.Add(obj1, false);
-            else if (!ComparedObjectList.ContainsKey(obj2))
-                ComparedObjectList.Add(obj2, false);
+            if (!ComparedObjectList.ContainsKey(Obj1))
+                ComparedObjectList.Add(Obj1, false);
+            else if (!ComparedObjectList.ContainsKey(Obj2))
+                ComparedObjectList.Add(Obj2, false);
             else
             {
                 Result = true;
@@ -84,7 +85,7 @@
                 return Result;
             }
 
-            if (obj1.IsEqual(this, obj2))
+            if (Obj1.IsEqual(this, Obj2))
                 Result = true;
             else if (CanReturnFalse)
                 Result = false;

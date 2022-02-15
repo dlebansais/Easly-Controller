@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// Helper class for debugging.
@@ -20,13 +20,13 @@
         /// <param name="reference">The added reference.</param>
         public static void AddReference(object reference)
         {
-            Debug.Assert(reference != null);
+            Contract.RequireNotNull(reference, out object Reference);
 
-            Type t = reference.GetType();
+            Type t = Reference.GetType();
             if (ReferenceTable.ContainsKey(t))
-                ReferenceTable[t] = reference;
+                ReferenceTable[t] = Reference;
             else
-                ReferenceTable.Add(t, reference);
+                ReferenceTable.Add(t, Reference);
         }
 
         /// <summary>

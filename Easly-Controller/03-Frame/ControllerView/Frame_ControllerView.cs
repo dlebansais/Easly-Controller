@@ -119,12 +119,12 @@
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
         public bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Debug.Assert(handler != null);
+            Contract.RequireNotNull(handler, out Func<IFrameVisibleCellView, bool> Handler);
 
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = (IFrameNodeStateView)StateViewTable[RootState];
 
-            return RootStateView.EnumerateVisibleCellViews(handler, out cellView, reversed);
+            return RootStateView.EnumerateVisibleCellViews(Handler, out cellView, reversed);
         }
 
         /// <summary>
@@ -330,9 +330,6 @@
 
         private protected virtual void OnBlockListStateInserted(IFrameBlockListInner<IFrameBrowsingBlockNodeIndex> inner, IFrameBrowsingExistingBlockNodeIndex nodeIndex, IFrameNodeState insertedState)
         {
-            Debug.Assert(inner != null);
-            Debug.Assert(nodeIndex != null);
-
             IFrameNodeState OwnerState = inner.Owner;
             IFrameNodeStateView OwnerStateView = (IFrameNodeStateView)StateViewTable[OwnerState];
 

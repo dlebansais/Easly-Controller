@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using Contracts;
 
     /// <summary>
     /// Base frame.
@@ -94,14 +95,14 @@
         /// <param name="parentFrame">The parent frame.</param>
         public virtual void UpdateParent(IFrameTemplate parentTemplate, IFrameFrame parentFrame)
         {
-            Debug.Assert(parentTemplate != null);
-            Debug.Assert(parentFrame != null);
+            Contract.RequireNotNull(parentTemplate, out IFrameTemplate ParentTemplate);
+            Contract.RequireNotNull(parentFrame, out IFrameFrame ParentFrame);
 
-            Debug.Assert(ParentTemplate == null);
-            ParentTemplate = parentTemplate;
+            Debug.Assert(this.ParentTemplate == null);
+            this.ParentTemplate = ParentTemplate;
 
-            Debug.Assert(ParentFrame == null);
-            ParentFrame = parentFrame;
+            Debug.Assert(this.ParentFrame == null);
+            this.ParentFrame = ParentFrame;
         }
         #endregion
     }

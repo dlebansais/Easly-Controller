@@ -2,7 +2,7 @@
 {
     using System.Diagnostics;
     using System.Windows;
-    using BaseNodeHelper;
+    using Contracts;
     using EaslyController.Controller;
 
     /// <summary>
@@ -94,9 +94,9 @@
         /// <param name="isDeleted">True if something was deleted.</param>
         public override void Cut(IDataObject dataObject, out bool isDeleted)
         {
-            Debug.Assert(dataObject != null);
+            Contract.RequireNotNull(dataObject, out IDataObject DataObject);
 
-            CutOrDelete(dataObject, out isDeleted);
+            CutOrDelete(DataObject, out isDeleted);
         }
 
         /// <summary>

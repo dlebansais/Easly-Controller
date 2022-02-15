@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using Contracts;
     using EaslyController.Constants;
     using EaslyController.Frame;
 
@@ -122,9 +123,9 @@
         /// <param name="stateView">The state view.</param>
         public virtual bool IsFirstItem(IFocusNodeStateView stateView)
         {
-            Debug.Assert(stateView != null);
+            Contract.RequireNotNull(stateView, out IFocusNodeStateView StateView);
 
-            IFocusNodeState State = stateView.State;
+            IFocusNodeState State = StateView.State;
             Debug.Assert(State != null);
 
             IFocusInner ParentInner = State.ParentInner;

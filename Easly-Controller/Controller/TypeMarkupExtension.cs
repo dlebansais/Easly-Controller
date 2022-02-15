@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.Reflection;
     using System.Windows.Markup;
-    using BaseNode;
+    using Contracts;
 
     /// <summary>
     /// Markup extension to declare types in Xaml.
@@ -26,9 +26,9 @@
         /// <param name="typeName">Type name, without namespace.</param>
         public Type(string typeName)
         {
-            Debug.Assert(typeName != null);
+            Contract.RequireNotNull(typeName, out string TypeName);
 
-            TypeName = typeName;
+            this.TypeName = TypeName;
         }
 
         /// <summary>
@@ -39,11 +39,11 @@
         /// <param name="arg1">Type argument name.</param>
         public Type(string typeName, string arg1)
         {
-            Debug.Assert(typeName != null);
-            Debug.Assert(arg1 != null);
+            Contract.RequireNotNull(typeName, out string TypeName);
+            Contract.RequireNotNull(arg1, out string Arg1);
 
-            TypeName = typeName;
-            Arg1 = arg1;
+            this.TypeName = TypeName;
+            this.Arg1 = Arg1;
         }
 
         /// <summary>
@@ -52,10 +52,11 @@
         /// <param name="serviceProvider">A service provider helper that can provide services for the markup extension.</param>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            Debug.Assert(serviceProvider != null);
+            Contract.RequireNotNull(serviceProvider, out IServiceProvider ServiceProvider);
+
             Debug.Assert(TypeName != null);
 
-            IXamlTypeResolver XamlTypeResolver = serviceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
+            IXamlTypeResolver XamlTypeResolver = ServiceProvider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
 
             System.Type Type = null;
 

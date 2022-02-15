@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
+    using Contracts;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
@@ -108,17 +109,17 @@
         /// <param name="nodeIndex">Index of the replacing node upon return.</param>
         public virtual void Replace(IFocusInner inner, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, out IFocusBrowsingChildIndex nodeIndex)
         {
-            Debug.Assert(cycleIndexList != null);
-            Debug.Assert(cycleIndexList.Count >= 2);
-            Debug.Assert(cyclePosition >= 0 && cyclePosition < cycleIndexList.Count);
+            Contract.RequireNotNull(cycleIndexList, out FocusInsertionChildNodeIndexList CycleIndexList);
+            Debug.Assert(CycleIndexList.Count >= 2);
+            Debug.Assert(cyclePosition >= 0 && cyclePosition < CycleIndexList.Count);
 
-            IFocusInsertionChildNodeIndex ReplacementIndex = cycleIndexList[cyclePosition];
+            IFocusInsertionChildNodeIndex ReplacementIndex = CycleIndexList[cyclePosition];
 
             IndexToPositionAndNode(ReplacementIndex, out int BlockIndex, out int Index, out _, out Node Node);
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => ExecuteReplaceWithCycle(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoReplaceWithCycle(operation);
-            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, cycleIndexList, cyclePosition, HandlerRedo, HandlerUndo, isNested: false);
+            IFocusReplaceWithCycleOperation Operation = CreateReplaceWithCycleOperation(inner.Owner.Node, inner.PropertyName, BlockIndex, Index, CycleIndexList, cyclePosition, HandlerRedo, HandlerUndo, isNested: false);
 
             ExecuteReplaceWithCycle(Operation);
 
@@ -176,14 +177,14 @@
         /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
         public virtual void ChangeTextAndCaretPosition(IFocusIndex nodeIndex, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
-            Debug.Assert(text != null);
+            Contract.RequireNotNull(nodeIndex, out IFocusIndex NodeIndex);
+            Contract.RequireNotNull(text, out string Text);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeText(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeText(operation);
-            IFocusNodeState State = (IFocusNodeState)StateTable[nodeIndex];
-            FocusChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
+            IFocusNodeState State = (IFocusNodeState)StateTable[NodeIndex];
+            FocusChangeTextOperation Operation = CreateChangeTextOperation(State.Node, propertyName, Text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
@@ -200,14 +201,14 @@
         /// <param name="changeCaretBeforeText">True if the caret should be changed before the text, to preserve the caret invariant.</param>
         public virtual void ChangeCommentAndCaretPosition(IFocusIndex nodeIndex, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText)
         {
-            Debug.Assert(nodeIndex != null);
-            Debug.Assert(StateTable.ContainsKey(nodeIndex));
-            Debug.Assert(text != null);
+            Contract.RequireNotNull(nodeIndex, out IFocusIndex NodeIndex);
+            Contract.RequireNotNull(text, out string Text);
+            Debug.Assert(StateTable.ContainsKey(NodeIndex));
 
             Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoChangeComment(operation);
             Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoChangeComment(operation);
-            IFocusNodeState State = (IFocusNodeState)StateTable[nodeIndex];
-            FocusChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
+            IFocusNodeState State = (IFocusNodeState)StateTable[NodeIndex];
+            FocusChangeCommentOperation Operation = CreateChangeCommentOperation(State.Node, Text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
             SetLastOperation(Operation);
