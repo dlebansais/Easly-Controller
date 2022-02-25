@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame for displaying more frames.
@@ -189,7 +189,7 @@
         /// </summary>
         private protected virtual FrameFrameList CreateItems()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePanelFrame>());
             return new FrameFrameList();
         }
 
@@ -198,7 +198,7 @@
         /// </summary>
         private protected virtual FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePanelFrame>());
             return new FrameCellViewList();
         }
 
@@ -207,7 +207,7 @@
         /// </summary>
         private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFramePlaceholderFrame frame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePanelFrame>());
             return new FrameContainerCellView(stateView, parentCellView, childStateView, frame);
         }
 

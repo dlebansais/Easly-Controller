@@ -5,6 +5,7 @@
     using BaseNodeHelper;
     using Contracts;
     using Easly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for clearing an optional node.
@@ -99,7 +100,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionOptionalClearIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableInsertionOptionalClearIndex>());
             return new WriteableBrowsingOptionalNodeIndex(ParentNode, PropertyName);
         }
         #endregion

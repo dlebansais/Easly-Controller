@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame to display comments.
@@ -84,7 +85,7 @@
         /// </summary>
         private protected override IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, Document documentation)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusCommentFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusCommentFrame>());
             return new FocusCommentCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this, documentation);
         }
 
@@ -93,7 +94,7 @@
         /// </summary>
         private protected override IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusCommentFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusCommentFrame>());
             return new FocusEmptyCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView);
         }
         #endregion

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for describing an child node.
@@ -93,7 +93,7 @@
         /// </summary>
         private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePlaceholderFrame>());
             return new FrameContainerCellView(stateView, parentCellView, childStateView, this);
         }
         #endregion

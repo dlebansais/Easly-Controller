@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Controller;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame to display comments.
@@ -119,7 +119,7 @@
         /// </summary>
         private protected virtual IFrameCommentCellView CreateCommentCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, Document documentation)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameCommentFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameCommentFrame>());
             return new FrameCommentCellView(stateView, parentCellView, this, documentation);
         }
 
@@ -128,7 +128,7 @@
         /// </summary>
         private protected virtual IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameCommentFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameCommentFrame>());
             return new FrameEmptyCellView(stateView, parentCellView);
         }
         #endregion

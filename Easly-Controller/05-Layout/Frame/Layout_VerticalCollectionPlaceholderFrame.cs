@@ -4,6 +4,7 @@
     using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for a placeholder node in a block list displayed vertically.
@@ -62,7 +63,7 @@
         /// </summary>
         private protected override FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalCollectionPlaceholderFrame>());
             return new LayoutCellViewList();
         }
 
@@ -71,7 +72,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalCollectionPlaceholderFrame>());
             return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
@@ -80,7 +81,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalCollectionPlaceholderFrame>());
             return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutCellViewList)list, this);
         }
 
@@ -89,7 +90,7 @@
         /// </summary>
         private protected override FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalCollectionPlaceholderFrame>());
             return new LayoutFrameSelectorList();
         }
         #endregion

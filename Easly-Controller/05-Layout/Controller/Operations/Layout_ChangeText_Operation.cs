@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for changing text.
@@ -23,7 +23,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -40,9 +40,9 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected override FocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override FocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutChangeTextOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutChangeTextOperation>());
             return new LayoutChangeTextOperation(ParentNode, PropertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
         }
         #endregion

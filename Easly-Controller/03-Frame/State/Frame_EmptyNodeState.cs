@@ -4,6 +4,7 @@
     using BaseNode;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an child node.
@@ -76,7 +77,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameNodeStateList();
         }
 
@@ -85,7 +86,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
@@ -94,7 +95,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingOptionalNodeIndex(node, propertyName);
         }
 
@@ -103,7 +104,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
@@ -112,7 +113,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
@@ -121,7 +122,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
@@ -130,7 +131,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameIndexCollection<IFrameBrowsingPlaceholderNodeIndex>(propertyName, new List<IFrameBrowsingPlaceholderNodeIndex>() { (IFrameBrowsingPlaceholderNodeIndex)childNodeIndex });
         }
 
@@ -139,7 +140,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameIndexCollection<IFrameBrowsingOptionalNodeIndex>(propertyName, new List<IFrameBrowsingOptionalNodeIndex>() { (IFrameBrowsingOptionalNodeIndex)optionalNodeIndex });
         }
 
@@ -148,7 +149,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingListNodeIndexList();
         }
 
@@ -157,7 +158,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateListIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingListNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameIndexCollection<IFrameBrowsingListNodeIndex>(propertyName, (FrameBrowsingListNodeIndexList)nodeIndexList);
         }
 
@@ -166,7 +167,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameBrowsingBlockNodeIndexList();
         }
 
@@ -175,7 +176,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateBlockIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameEmptyNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameEmptyNodeState<IInner>>());
             return new FrameIndexCollection<IFrameBrowsingBlockNodeIndex>(propertyName, (FrameBrowsingBlockNodeIndexList)nodeIndexList);
         }
         #endregion

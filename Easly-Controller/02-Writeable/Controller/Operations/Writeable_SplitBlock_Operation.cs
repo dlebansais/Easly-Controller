@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for splitting a block in a block list.
@@ -22,7 +22,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -91,9 +91,9 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        private protected virtual WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableSplitBlockOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableSplitBlockOperation>());
             return new WriteableMergeBlocksOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion

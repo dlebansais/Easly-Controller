@@ -5,6 +5,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a source state.
@@ -195,7 +196,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutSourceStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutSourceStateView>());
             return new LayoutAssignableCellViewDictionary<string>();
         }
         #endregion

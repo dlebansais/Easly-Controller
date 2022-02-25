@@ -1,13 +1,10 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using BaseNode;
-    using BaseNodeHelper;
-    using Easly;
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an optional node.
@@ -88,7 +85,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutNodeStateList();
         }
 
@@ -97,7 +94,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
@@ -106,7 +103,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingOptionalNodeIndex(node, propertyName);
         }
 
@@ -115,7 +112,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
@@ -124,7 +121,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
@@ -133,7 +130,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
@@ -142,7 +139,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutIndexCollection<ILayoutBrowsingPlaceholderNodeIndex>(propertyName, new List<ILayoutBrowsingPlaceholderNodeIndex>() { (ILayoutBrowsingPlaceholderNodeIndex)childNodeIndex });
         }
 
@@ -151,7 +148,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutIndexCollection<ILayoutBrowsingOptionalNodeIndex>(propertyName, new List<ILayoutBrowsingOptionalNodeIndex>() { (ILayoutBrowsingOptionalNodeIndex)optionalNodeIndex });
         }
 
@@ -160,7 +157,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingListNodeIndexList();
         }
 
@@ -169,7 +166,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateListIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingListNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutIndexCollection<ILayoutBrowsingListNodeIndex>(propertyName, (LayoutBrowsingListNodeIndexList)nodeIndexList);
         }
 
@@ -178,7 +175,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutBrowsingBlockNodeIndexList();
         }
 
@@ -187,7 +184,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateBlockIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutIndexCollection<ILayoutBrowsingBlockNodeIndex>(propertyName, (LayoutBrowsingBlockNodeIndexList)nodeIndexList);
         }
 
@@ -196,7 +193,7 @@
         /// </summary>
         private protected override FocusInsertionChildNodeIndexList CreateInsertionChildIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeState<IInner>>());
             return new LayoutInsertionChildNodeIndexList();
         }
         #endregion

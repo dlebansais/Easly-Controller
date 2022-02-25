@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for a child node.
@@ -117,7 +117,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyPlaceholderInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyPlaceholderInner<TIndex>>());
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion

@@ -1,10 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for the first node in a block.
@@ -50,7 +49,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBrowsingNewBlockNodeIndex>());
             return new FrameBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion

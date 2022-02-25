@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a pattern state.
@@ -207,7 +208,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPatternStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPatternStateView>());
             return new FocusAssignableCellViewDictionary<string>();
         }
         #endregion

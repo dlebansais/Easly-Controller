@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for an optional node.
@@ -53,7 +53,7 @@
         /// </summary>
         private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBrowsingOptionalNodeIndex>());
             return new FocusInsertionOptionalNodeIndex(parentNode, PropertyName, node);
         }
 
@@ -62,7 +62,7 @@
         /// </summary>
         private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBrowsingOptionalNodeIndex>());
             return new FocusInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion

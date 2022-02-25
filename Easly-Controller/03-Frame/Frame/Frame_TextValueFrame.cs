@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame describing a string value property in a node.
@@ -63,7 +63,7 @@
         /// </summary>
         private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTextValueFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTextValueFrame>());
             return new FrameStringContentFocusableCellView(stateView, parentCellView, this, PropertyName);
         }
         #endregion

@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
+    using NotNullReflection;
 
     /// <summary>
     /// Template describing all components of a node.
@@ -43,7 +43,7 @@
         /// Type of the node associated to this template (an interface type).
         /// (Set in Xaml)
         /// </summary>
-        public Type NodeType { get; set; }
+        public Type NodeType { get; set; } = Type.Missing;
 
         /// <summary>
         /// Root frame.
@@ -60,7 +60,7 @@
             {
                 bool IsValid = true;
 
-                IsValid &= NodeType != null;
+                IsValid &= NodeType != Type.Missing;
                 IsValid &= Root != null;
                 IsValid &= IsRootValid;
 

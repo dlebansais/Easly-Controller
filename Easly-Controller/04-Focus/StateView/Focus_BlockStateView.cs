@@ -4,6 +4,7 @@
     using BaseNode;
     using Contracts;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a block state.
@@ -116,7 +117,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockStateView>());
             return new FocusAssignableCellViewDictionary<string>();
         }
         #endregion

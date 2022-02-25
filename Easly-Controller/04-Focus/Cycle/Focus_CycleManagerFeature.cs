@@ -1,11 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
-    using Easly;
+    using NotNullReflection;
 
     /// <summary>
     /// Cycle manager for Feature nodes.
@@ -16,7 +15,7 @@
         /// <summary>
         /// Type of the base interface for all nodes participating to the cycle.
         /// </summary>
-        public override Type InterfaceType { get { return typeof(Feature); } }
+        public override Type InterfaceType { get { return Type.FromTypeof<Feature>(); } }
         #endregion
 
         #region Implementation
@@ -28,14 +27,14 @@
             IFocusNodeIndex NodeIndex = state.ParentIndex as IFocusNodeIndex;
             CycleFeatureInfo Info = new();
 
-            List<Type> FeatureTypeList = new List<Type>() { typeof(AttributeFeature), typeof(ConstantFeature), typeof(CreationFeature), typeof(FunctionFeature), typeof(ProcedureFeature), typeof(PropertyFeature), typeof(IndexerFeature) };
+            List<Type> FeatureTypeList = new List<Type>() { Type.FromTypeof<AttributeFeature>(), Type.FromTypeof<ConstantFeature>(), Type.FromTypeof<CreationFeature>(), Type.FromTypeof<FunctionFeature>(), Type.FromTypeof<ProcedureFeature>(), Type.FromTypeof<PropertyFeature>(), Type.FromTypeof<IndexerFeature>() };
             foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)
             {
                 Feature Feature = Index.Node as Feature;
                 Debug.Assert(Feature != null);
 
-                if (FeatureTypeList.Contains(Feature.GetType()))
-                    FeatureTypeList.Remove(Feature.GetType());
+                if (FeatureTypeList.Contains(Type.FromGetType(Feature)))
+                    FeatureTypeList.Remove(Type.FromGetType(Feature));
 
                 Info.Update(Feature);
             }

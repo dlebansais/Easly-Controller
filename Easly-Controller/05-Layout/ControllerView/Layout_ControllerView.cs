@@ -5,6 +5,7 @@
     using EaslyController.Focus;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a IxxxController.
@@ -37,7 +38,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutNodeStateViewDictionary();
         }
 
@@ -46,7 +47,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutBlockStateViewDictionary();
         }
 
@@ -55,7 +56,7 @@
         /// </summary>
         private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
@@ -72,7 +73,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutPlaceholderNodeStateView(this, (ILayoutPlaceholderNodeState)state);
         }
 
@@ -81,7 +82,7 @@
         /// </summary>
         private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutOptionalNodeStateView(this, (ILayoutOptionalNodeState)state);
         }
 
@@ -90,7 +91,7 @@
         /// </summary>
         private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutPatternStateView(this, (ILayoutPatternState)state);
         }
 
@@ -99,7 +100,7 @@
         /// </summary>
         private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutSourceStateView(this, (ILayoutSourceState)state);
         }
 
@@ -108,7 +109,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutBlockStateView(this, (ILayoutBlockState)blockState);
         }
 
@@ -117,7 +118,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, (ILayoutFrame)frame);
         }
 
@@ -126,7 +127,7 @@
         /// </summary>
         private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutBlockCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutBlockStateView)blockStateView);
         }
 
@@ -135,7 +136,7 @@
         /// </summary>
         private protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutCellViewTreeContext(this, (ILayoutNodeStateView)stateView, (ILayoutNodeStateView)ForcedCommentStateView);
         }
 
@@ -144,7 +145,7 @@
         /// </summary>
         private protected override FocusFocusList CreateFocusChain()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutFocusList();
         }
 
@@ -153,7 +154,7 @@
         /// </summary>
         private protected override IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutInsertionNewBlockNodeIndex(parentNode, propertyName, node, 0, patternNode, sourceNode);
         }
 
@@ -162,7 +163,7 @@
         /// </summary>
         private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
 
@@ -171,7 +172,7 @@
         /// </summary>
         private protected override IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutInsertionListNodeIndex(parentNode, propertyName, node, index);
         }
 
@@ -180,7 +181,7 @@
         /// </summary>
         private protected override IFocusEmptySelection CreateEmptySelection()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutEmptySelection(RootStateView);
         }
 
@@ -189,7 +190,7 @@
         /// </summary>
         private protected override IFocusDiscreteContentSelection CreateDiscreteContentSelection(IFocusNodeStateView stateView, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutDiscreteContentSelection((ILayoutNodeStateView)stateView, propertyName);
         }
 
@@ -198,7 +199,7 @@
         /// </summary>
         private protected override IFocusStringContentSelection CreateStringContentSelection(IFocusNodeStateView stateView, string propertyName, int start, int end)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutStringContentSelection((ILayoutNodeStateView)stateView, propertyName, start, end);
         }
 
@@ -207,7 +208,7 @@
         /// </summary>
         private protected override IFocusCommentSelection CreateCommentSelection(IFocusNodeStateView stateView, int start, int end)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutCommentSelection((ILayoutNodeStateView)stateView, start, end);
         }
 
@@ -216,7 +217,7 @@
         /// </summary>
         private protected override IFocusNodeSelection CreateNodeSelection(IFocusNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutNodeSelection((ILayoutNodeStateView)stateView);
         }
 
@@ -225,7 +226,7 @@
         /// </summary>
         private protected override IFocusNodeListSelection CreateNodeListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutNodeListSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
         }
 
@@ -234,7 +235,7 @@
         /// </summary>
         private protected override IFocusBlockNodeListSelection CreateBlockNodeListSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutBlockNodeListSelection((ILayoutNodeStateView)stateView, propertyName, blockIndex, startIndex, endIndex);
         }
 
@@ -243,7 +244,7 @@
         /// </summary>
         private protected override IFocusBlockListSelection CreateBlockListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutControllerView>());
             return new LayoutBlockListSelection((ILayoutNodeStateView)stateView, propertyName, startIndex, endIndex);
         }
         #endregion

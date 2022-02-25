@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for a block list.
@@ -43,12 +43,12 @@
         /// <summary>
         /// Called when a block state is created.
         /// </summary>
-        event Action<IReadOnlyBlockState> BlockStateCreated;
+        event System.Action<IReadOnlyBlockState> BlockStateCreated;
 
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        event Action<IReadOnlyBlockState> BlockStateRemoved;
+        event System.Action<IReadOnlyBlockState> BlockStateRemoved;
 
         /// <summary>
         /// Gets the index of the node at the given position.
@@ -103,12 +103,12 @@
         /// <summary>
         /// Called when a block state is created.
         /// </summary>
-        event Action<IReadOnlyBlockState> BlockStateCreated;
+        event System.Action<IReadOnlyBlockState> BlockStateCreated;
 
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        event Action<IReadOnlyBlockState> BlockStateRemoved;
+        event System.Action<IReadOnlyBlockState> BlockStateRemoved;
 
         /// <summary>
         /// Gets the index of the node at the given position.
@@ -153,7 +153,7 @@
         protected ReadOnlyBlockListInner()
             : base()
         {
-            BlockType = typeof(object);
+            BlockType = Type.FromTypeof<object>();
             _BlockStateList = CreateBlockStateList();
             BlockStateList = _BlockStateList.ToReadOnly();
         }
@@ -165,7 +165,7 @@
         protected ReadOnlyBlockListInner(IReadOnlyNodeState owner)
             : base(owner)
         {
-            BlockType = typeof(object);
+            BlockType = Type.FromTypeof<object>();
             _BlockStateList = CreateBlockStateList();
             BlockStateList = _BlockStateList.ToReadOnly();
         }
@@ -272,29 +272,29 @@
         /// <summary>
         /// Called when a block state is created.
         /// </summary>
-        public event Action<IReadOnlyBlockState> BlockStateCreated
+        public event System.Action<IReadOnlyBlockState> BlockStateCreated
         {
             add { AddBlockStateCreatedDelegate(value); }
             remove { RemoveBlockStateCreatedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IReadOnlyBlockState> BlockStateCreatedHandler;
-        private protected virtual void AddBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
-        private protected virtual void RemoveBlockStateCreatedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
+        private System.Action<IReadOnlyBlockState> BlockStateCreatedHandler;
+        private protected virtual void AddBlockStateCreatedDelegate(System.Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler += handler; }
+        private protected virtual void RemoveBlockStateCreatedDelegate(System.Action<IReadOnlyBlockState> handler) { BlockStateCreatedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
         /// Called when a block state is removed.
         /// </summary>
-        public event Action<IReadOnlyBlockState> BlockStateRemoved
+        public event System.Action<IReadOnlyBlockState> BlockStateRemoved
         {
             add { AddBlockStateRemovedDelegate(value); }
             remove { RemoveBlockStateRemovedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IReadOnlyBlockState> BlockStateRemovedHandler;
-        private protected virtual void AddBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
-        private protected virtual void RemoveBlockStateRemovedDelegate(Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
+        private System.Action<IReadOnlyBlockState> BlockStateRemovedHandler;
+        private protected virtual void AddBlockStateRemovedDelegate(System.Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler += handler; }
+        private protected virtual void RemoveBlockStateRemovedDelegate(System.Action<IReadOnlyBlockState> handler) { BlockStateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -474,7 +474,7 @@
         /// </summary>
         private protected virtual ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyBlockListInner<IIndex>>());
             return new ReadOnlyBlockStateList();
         }
 
@@ -483,7 +483,7 @@
         /// </summary>
         private protected virtual IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyBlockListInner<IIndex>>());
             return new ReadOnlyBlockState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(this, nodeIndex, childBlock);
         }
 
@@ -492,7 +492,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyBlockListInner<IIndex>>());
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
 
@@ -501,7 +501,7 @@
         /// </summary>
         private protected virtual ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyBlockListInner<IIndex>>());
             return new ReadOnlyBrowsingBlockNodeIndexList();
         }
         #endregion

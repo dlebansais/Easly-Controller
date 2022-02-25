@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node.
@@ -53,7 +53,7 @@
         /// </summary>
         private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingPlaceholderNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBrowsingPlaceholderNodeIndex>());
             return new FrameInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);
         }
         #endregion

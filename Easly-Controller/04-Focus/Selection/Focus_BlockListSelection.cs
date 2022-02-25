@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows;
@@ -9,6 +8,7 @@
     using Contracts;
     using EaslyController.Controller;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// A selection of blocks in a block list.
@@ -258,7 +258,7 @@
         /// </summary>
         private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListSelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListSelection>());
             return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
         }
 
@@ -267,7 +267,7 @@
         /// </summary>
         private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListSelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListSelection>());
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion

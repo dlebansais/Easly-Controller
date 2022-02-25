@@ -1,9 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Collections.Generic;
-    using BaseNode;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// State of a source identifier node.
@@ -83,7 +82,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameSourceState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameSourceState<IInner>>());
             return new FrameNodeStateList();
         }
         #endregion

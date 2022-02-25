@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for decoration purpose only.
@@ -126,7 +126,7 @@
         /// </summary>
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusSymbolFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusSymbolFrame>());
             return new FocusVisibleCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
         }
 
@@ -135,7 +135,7 @@
         /// </summary>
         private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusSymbolFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusSymbolFrame>());
             return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion

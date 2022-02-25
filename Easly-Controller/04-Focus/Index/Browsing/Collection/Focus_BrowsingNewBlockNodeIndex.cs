@@ -3,6 +3,7 @@
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for the first node in a block.
@@ -48,7 +49,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBrowsingNewBlockNodeIndex>());
             return new FocusBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion

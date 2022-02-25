@@ -1,12 +1,12 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using Contracts;
     using EaslyController.Constants;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a IxxxController.
@@ -29,7 +29,7 @@
             NodeTreeHelperChild.GetChildNode(stateView.State.Node, propertyName, out Node ChildNode);
             Debug.Assert(ChildNode != null);
 
-            Type NodeType = ChildNode.GetType();
+            Type NodeType = Type.FromGetType(ChildNode);
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
             //Debug.Assert(TemplateSet.NodeTemplateTable.ContainsKey(InterfaceType));
@@ -201,7 +201,7 @@
             switch (State.InnerTable[propertyName])
             {
                 case IFocusPlaceholderInner AsPlaceholderInner:
-                    Debug.Assert(AsPlaceholderInner.InterfaceType == typeof(Identifier));
+                    Debug.Assert(AsPlaceholderInner.InterfaceType.IsTypeof<Identifier>());
                     IFocusPlaceholderNodeState ChildState = AsPlaceholderInner.ChildState as IFocusPlaceholderNodeState;
                     Debug.Assert(ChildState != null);
                     Result = NodeTreeHelper.GetString(ChildState.Node, nameof(Identifier.Text)) == textPattern;

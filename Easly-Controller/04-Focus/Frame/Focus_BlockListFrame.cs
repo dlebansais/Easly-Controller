@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame for a block list.
@@ -99,7 +99,7 @@
         /// </summary>
         private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListFrame>());
             return new FocusFrameSelectorList();
         }
         #endregion

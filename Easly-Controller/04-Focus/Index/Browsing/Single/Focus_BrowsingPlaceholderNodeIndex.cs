@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node.
@@ -54,7 +54,7 @@
         /// </summary>
         private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBrowsingPlaceholderNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBrowsingPlaceholderNodeIndex>());
             return new FocusInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);
         }
         #endregion

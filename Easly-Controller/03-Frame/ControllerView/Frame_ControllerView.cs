@@ -1,11 +1,11 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using Contracts;
     using EaslyController.Constants;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public class FrameControllerView : WriteableControllerView
@@ -117,9 +117,9 @@
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
         /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        public bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
+        public bool EnumerateVisibleCellViews(System.Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Contract.RequireNotNull(handler, out Func<IFrameVisibleCellView, bool> Handler);
+            Contract.RequireNotNull(handler, out System.Func<IFrameVisibleCellView, bool> Handler);
 
             IFrameNodeState RootState = Controller.RootState;
             IFrameNodeStateView RootStateView = (IFrameNodeStateView)StateViewTable[RootState];
@@ -1117,7 +1117,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameNodeStateViewDictionary();
         }
 
@@ -1126,7 +1126,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameBlockStateViewDictionary();
         }
 
@@ -1135,7 +1135,7 @@
         /// </summary>
         private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
@@ -1152,7 +1152,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FramePlaceholderNodeStateView(this, (IFramePlaceholderNodeState)state);
         }
 
@@ -1161,7 +1161,7 @@
         /// </summary>
         private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameOptionalNodeStateView(this, (IFrameOptionalNodeState)state);
         }
 
@@ -1170,7 +1170,7 @@
         /// </summary>
         private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FramePatternStateView(this, (IFramePatternState)state);
         }
 
@@ -1179,7 +1179,7 @@
         /// </summary>
         private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameSourceStateView(this, (IFrameSourceState)state);
         }
 
@@ -1188,7 +1188,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameBlockStateView(this, (IFrameBlockState)blockState);
         }
 
@@ -1197,7 +1197,7 @@
         /// </summary>
         private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameContainerCellView(stateView, parentCellView, childStateView, frame);
         }
 
@@ -1206,7 +1206,7 @@
         /// </summary>
         private protected virtual IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameBlockCellView(stateView, parentCellView, blockStateView);
         }
 
@@ -1215,7 +1215,7 @@
         /// </summary>
         private protected virtual IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameControllerView>());
             return new FrameCellViewTreeContext(this, stateView);
         }
         #endregion

@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame for a list of nodes displayed horizontally.
@@ -165,7 +165,7 @@
         /// </summary>
         private protected override FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusHorizontalListFrame>());
             return new FocusCellViewList();
         }
 
@@ -174,7 +174,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusHorizontalListFrame>());
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView, this);
         }
 
@@ -183,7 +183,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusHorizontalListFrame>());
             return new FocusLine((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusCellViewList)list, this);
         }
 
@@ -192,7 +192,7 @@
         /// </summary>
         private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusHorizontalListFrame>());
             return new FocusFrameSelectorList();
         }
         #endregion

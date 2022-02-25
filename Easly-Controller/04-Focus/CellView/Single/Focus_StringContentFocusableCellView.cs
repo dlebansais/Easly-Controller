@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
@@ -98,7 +99,7 @@
         /// </summary>
         protected virtual IFocusStringContentFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusStringContentFocusableCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusStringContentFocusableCellView>());
             return new FocusStringContentFocus(this);
         }
         #endregion

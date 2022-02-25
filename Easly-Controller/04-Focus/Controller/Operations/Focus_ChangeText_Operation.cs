@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for changing text.
@@ -23,7 +23,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusChangeTextOperation(Node parentNode, string propertyName, string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, text, handlerRedo, handlerUndo, isNested)
         {
             OldCaretPosition = oldCaretPosition;
@@ -68,9 +68,9 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected virtual FocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual FocusChangeTextOperation CreateChangeTextOperation(string text, int oldCaretPosition, int newCaretPosition, bool changeCaretBeforeText, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusChangeTextOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusChangeTextOperation>());
             return new FocusChangeTextOperation(ParentNode, PropertyName, text, oldCaretPosition, newCaretPosition, changeCaretBeforeText, handlerRedo, handlerUndo, isNested);
         }
         #endregion

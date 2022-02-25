@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame describing an enum value that can be displayed with different frames depending on its value.
@@ -114,7 +114,7 @@
         /// </summary>
         private protected virtual FrameKeywordFrameList CreateKeywordFrameList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameDiscreteFrame>());
             return new FrameKeywordFrameList();
         }
 
@@ -123,7 +123,7 @@
         /// </summary>
         private protected virtual IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameKeywordFrame keywordFrame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameDiscreteFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameDiscreteFrame>());
             return new FrameDiscreteContentFocusableCellView(stateView, parentCellView, this, PropertyName, keywordFrame);
         }
         #endregion

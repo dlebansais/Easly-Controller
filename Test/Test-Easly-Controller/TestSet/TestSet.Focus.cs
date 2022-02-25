@@ -10,7 +10,6 @@
     using System.Threading;
     using PolySerializer;
     using System.Collections.Generic;
-    using System;
     using EaslyController;
     using EaslyController.Writeable;
     using EaslyController.Frame;
@@ -20,6 +19,7 @@
     using EaslyController.Layout;
     using EaslyEdit;
     using System.Text;
+    using NotNullReflection;
 
     [TestFixture]
     public partial class TestSet
@@ -571,7 +571,7 @@
             {
                 IFocusOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
-                Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
+                Type NodeInterfaceType = Type.FromGetType(Optional).GetGenericArguments()[0];
                 Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
@@ -2057,7 +2057,7 @@
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        static bool FocusBrowseNode(FocusController controller, IFocusIndex index, Func<IFocusInner, bool> test)
+        static bool FocusBrowseNode(FocusController controller, IFocusIndex index, System.Func<IFocusInner, bool> test)
         {
             Assert.That(index != null, "Focus #0");
             Assert.That(controller.Contains(index), "Focus #1");

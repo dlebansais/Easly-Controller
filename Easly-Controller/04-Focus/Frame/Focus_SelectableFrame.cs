@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame selectable by name.

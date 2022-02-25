@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame visibility that depends if an enum or boolean has the default value.

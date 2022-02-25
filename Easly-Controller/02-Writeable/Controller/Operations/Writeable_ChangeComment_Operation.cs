@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using BaseNode;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for changing a comment.
@@ -18,7 +18,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeCommentOperation(Node parentNode, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeCommentOperation(Node parentNode, string text, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -75,9 +75,9 @@
         /// <summary>
         /// Creates a IxxxChangeCommentOperation object.
         /// </summary>
-        private protected virtual WriteableChangeCommentOperation CreateChangeCommentOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableChangeCommentOperation CreateChangeCommentOperation(string text, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeCommentOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableChangeCommentOperation>());
             return new WriteableChangeCommentOperation(ParentNode, text, handlerRedo, handlerUndo, isNested);
         }
         #endregion

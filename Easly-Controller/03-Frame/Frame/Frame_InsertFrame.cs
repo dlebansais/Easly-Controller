@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for bringing the focus to an insertion point.
@@ -38,7 +38,7 @@
         /// <summary>
         /// Interface type of items in the collection associated to this frame.
         /// </summary>
-        public Type InterfaceType { get; private set; }
+        public Type InterfaceType { get; private set; } = Type.Missing;
 
         private protected override bool IsFrameFocusable { get { return true; } }
         #endregion
@@ -56,7 +56,7 @@
 
             IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
             IsValid &= !string.IsNullOrEmpty(CollectionName);
-            IsValid &= InterfaceType != null;
+            IsValid &= InterfaceType != Type.Missing;
 
             Debug.Assert(IsValid);
             return IsValid;
@@ -76,7 +76,7 @@
 
         private protected virtual void UpdateInterfaceType(Type nodeType)
         {
-            if (InterfaceType == null)
+            if (InterfaceType == Type.Missing)
             {
                 string[] Split = CollectionName.Split('.');
                 Type BaseType = nodeType;

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node.
@@ -65,7 +65,7 @@
         /// </summary>
         private protected virtual IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingPlaceholderNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowsingPlaceholderNodeIndex>());
             return new WriteableInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);
         }
         #endregion

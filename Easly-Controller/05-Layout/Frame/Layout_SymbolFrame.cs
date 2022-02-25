@@ -5,6 +5,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for decoration purpose only.
@@ -120,7 +121,7 @@
         /// </summary>
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutSymbolFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutSymbolFrame>());
             return new LayoutVisibleCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
         }
 
@@ -129,7 +130,7 @@
         /// </summary>
         private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutSymbolFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutSymbolFrame>());
             return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion

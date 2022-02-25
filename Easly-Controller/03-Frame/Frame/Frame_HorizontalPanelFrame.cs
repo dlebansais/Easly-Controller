@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Windows.Markup;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for displaying more frames horizontally.
@@ -21,7 +22,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameHorizontalPanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameHorizontalPanelFrame>());
             return new FrameLine(stateView, parentCellView, list, this);
         }
         #endregion

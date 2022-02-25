@@ -1,8 +1,8 @@
 ﻿namespace EaslyController
 {
-    using System;
     using System.Collections.Generic;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Helper class for debugging.
@@ -22,7 +22,7 @@
         {
             Contract.RequireNotNull(reference, out object Reference);
 
-            Type t = Reference.GetType();
+            Type t = Type.FromGetType(Reference);
             if (ReferenceTable.ContainsKey(t))
                 ReferenceTable[t] = Reference;
             else

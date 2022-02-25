@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for an optional node.
@@ -52,7 +52,7 @@
         /// </summary>
         private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBrowsingOptionalNodeIndex>());
             return new FrameInsertionOptionalNodeIndex(parentNode, PropertyName, node);
         }
 
@@ -61,7 +61,7 @@
         /// </summary>
         private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBrowsingOptionalNodeIndex>());
             return new FrameInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion

@@ -1,11 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
-    using Easly;
+    using NotNullReflection;
 
     /// <summary>
     /// Cycle manager for Body nodes.
@@ -16,7 +15,7 @@
         /// <summary>
         /// Type of the base interface for all nodes participating to the cycle.
         /// </summary>
-        public override Type InterfaceType { get { return typeof(Body); } }
+        public override Type InterfaceType { get { return Type.FromTypeof<Body>(); } }
         #endregion
 
         #region Implementation
@@ -28,13 +27,13 @@
             IFocusIndex NodeIndex = state.ParentIndex;
             CycleBodyInfo Info = new();
 
-            List<Type> BodyTypeList = new List<Type>() { typeof(EffectiveBody), typeof(DeferredBody), typeof(ExternBody), typeof(PrecursorBody) };
+            List<Type> BodyTypeList = new List<Type>() { Type.FromTypeof<EffectiveBody>(), Type.FromTypeof<DeferredBody>(), Type.FromTypeof<ExternBody>(), Type.FromTypeof<PrecursorBody>() };
             foreach (IFocusInsertionChildNodeIndex Index in CycleIndexList)
             {
                 Body Body = (Body)Index.Node;
 
-                if (BodyTypeList.Contains(Body.GetType()))
-                    BodyTypeList.Remove(Body.GetType());
+                if (BodyTypeList.Contains(Type.FromGetType(Body)))
+                    BodyTypeList.Remove(Type.FromGetType(Body));
 
                 Info.Update(Body);
             }

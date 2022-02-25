@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
@@ -102,7 +103,7 @@
         /// </summary>
         protected virtual IFocusFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusFocusableCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusFocusableCellView>());
             return new FocusFocus(this);
         }
         #endregion

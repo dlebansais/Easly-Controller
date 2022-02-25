@@ -1,13 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using BaseNode;
-    using BaseNodeHelper;
-    using Easly;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of a source identifier node.
@@ -87,7 +82,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusSourceState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusSourceState<IInner>>());
             return new FocusNodeStateList();
         }
         #endregion

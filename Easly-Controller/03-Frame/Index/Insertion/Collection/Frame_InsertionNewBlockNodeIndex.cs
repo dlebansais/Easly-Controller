@@ -3,6 +3,7 @@
     using BaseNode;
     using Contracts;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting the first node of a new block.
@@ -58,7 +59,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameInsertionNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameInsertionNewBlockNodeIndex>());
             return new FrameBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion

@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for a child node.
@@ -89,7 +89,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteablePlaceholderInner<TIndex>>());
             return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -98,7 +98,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteablePlaceholderInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteablePlaceholderInner<TIndex>>());
             return new WriteableBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

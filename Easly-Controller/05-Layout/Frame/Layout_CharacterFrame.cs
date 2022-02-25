@@ -6,6 +6,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame describing a single-character string value property in a node.
@@ -133,7 +134,7 @@
         /// </summary>
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutCharacterFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutCharacterFrame>());
             return new LayoutStringContentFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this, PropertyName);
         }
 
@@ -142,7 +143,7 @@
         /// </summary>
         private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutCharacterFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutCharacterFrame>());
             return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion

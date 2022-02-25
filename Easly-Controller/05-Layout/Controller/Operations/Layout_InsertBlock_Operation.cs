@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for inserting a block with a single node in a block list.
@@ -43,7 +43,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutInsertBlockOperation(Node parentNode, string propertyName, int blockIndex, IBlock block, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutInsertBlockOperation(Node parentNode, string propertyName, int blockIndex, IBlock block, Node node, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, block, node, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -70,9 +70,9 @@
         /// <summary>
         /// Creates a IxxxRemoveBlockOperation object.
         /// </summary>
-        private protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableRemoveBlockOperation CreateRemoveBlockOperation(int blockIndex, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutInsertBlockOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutInsertBlockOperation>());
             return new LayoutRemoveBlockOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion

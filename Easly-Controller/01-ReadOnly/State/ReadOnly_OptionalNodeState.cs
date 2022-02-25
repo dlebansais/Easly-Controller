@@ -1,12 +1,12 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using Easly;
     using EaslyController.Constants;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an optional node.
@@ -148,7 +148,7 @@
             if (ChildNode != null)
             {
                 // Create a clone, initially empty and full of null references.
-                NewNode = NodeHelper.CreateEmptyNode(ChildNode.GetType());
+                NewNode = NodeHelper.CreateEmptyNode(Type.FromGetType(ChildNode));
 
                 // Clone and assign reference to all nodes, optional or not, list and block lists.
                 foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)

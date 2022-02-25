@@ -4,6 +4,7 @@
     using Contracts;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting the first node of a new block.
@@ -59,7 +60,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutInsertionNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutInsertionNewBlockNodeIndex>());
             return new LayoutBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion

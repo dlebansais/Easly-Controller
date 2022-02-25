@@ -4,6 +4,7 @@
     using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame for a list of nodes displayed horizontally.
@@ -68,7 +69,7 @@
         /// </summary>
         private protected override FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutHorizontalListFrame>());
             return new LayoutCellViewList();
         }
 
@@ -77,7 +78,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutHorizontalListFrame>());
             return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
@@ -86,7 +87,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutHorizontalListFrame>());
             return new LayoutLine((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutCellViewList)list, this);
         }
 
@@ -95,7 +96,7 @@
         /// </summary>
         private protected override FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutHorizontalListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutHorizontalListFrame>());
             return new LayoutFrameSelectorList();
         }
         #endregion

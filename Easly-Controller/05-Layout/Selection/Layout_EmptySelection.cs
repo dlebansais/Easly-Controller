@@ -2,6 +2,7 @@
 {
     using BaseNode;
     using EaslyController.Focus;
+    using NotNullReflection;
 
     /// <summary>
     /// An empty selection.
@@ -48,7 +49,7 @@
         /// </summary>
         private protected override IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptySelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutEmptySelection>());
             return new LayoutInsertionListNodeIndex(parentNode, propertyName, node, index);
         }
 
@@ -57,7 +58,7 @@
         /// </summary>
         private protected override IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptySelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutEmptySelection>());
             return new LayoutInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
         }
 
@@ -66,7 +67,7 @@
         /// </summary>
         private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutEmptySelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutEmptySelection>());
             return new LayoutInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion

@@ -3,6 +3,7 @@
     using BaseNode;
     using Contracts;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting a node in an existing block of a block list.
@@ -57,7 +58,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameInsertionExistingBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameInsertionExistingBlockNodeIndex>());
             return new FrameBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);
         }
         #endregion

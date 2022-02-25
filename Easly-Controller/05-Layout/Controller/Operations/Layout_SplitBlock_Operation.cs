@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for splitting a block in a block list.
@@ -22,7 +22,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutSplitBlockOperation(Node parentNode, string propertyName, int blockIndex, int index, IBlock newBlock, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, newBlock, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -39,9 +39,9 @@
         /// <summary>
         /// Creates a IxxxxMergeBlocksOperation object.
         /// </summary>
-        private protected override WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMergeBlocksOperation CreateMergeBlocksOperation(int blockIndex, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutSplitBlockOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutSplitBlockOperation>());
             return new LayoutMergeBlocksOperation(ParentNode, PropertyName, blockIndex, handlerRedo, handlerUndo, isNested);
         }
         #endregion

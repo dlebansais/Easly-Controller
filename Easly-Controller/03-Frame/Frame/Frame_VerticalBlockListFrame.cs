@@ -1,5 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
+    using NotNullReflection;
+
     /// <summary>
     /// Frame for a block list displayed vertically.
     /// </summary>
@@ -18,7 +20,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameVerticalBlockListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameVerticalBlockListFrame>());
             return new FrameColumn(stateView, parentCellView, list, this);
         }
         #endregion

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame for frames that describe property in a node.

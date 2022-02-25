@@ -3,8 +3,8 @@
 using EaslyController;
 using EaslyController.Frame;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
+using NotNullReflection;
 
 [TestFixture]
 public class TestCollectionFrame
@@ -15,7 +15,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameAssignableCellViewDictionary<string>, FrameAssignableCellViewReadOnlyDictionary<string>> DictionaryToReadOnlyHandler = (FrameAssignableCellViewDictionary<string> dictionary) => dictionary.ToReadOnly();
+        System.Func<FrameAssignableCellViewDictionary<string>, FrameAssignableCellViewReadOnlyDictionary<string>> DictionaryToReadOnlyHandler = (FrameAssignableCellViewDictionary<string> dictionary) => dictionary.ToReadOnly();
         string NeutralKey = string.Empty;
         IFrameAssignableCellView NeutralValue = FrameCellViewCollection.Empty;
         TestDictionary<FrameAssignableCellViewDictionary<string>, FrameAssignableCellViewReadOnlyDictionary<string>, string, IFrameAssignableCellView> TestDictionaryAssignableCellView = new(DictionaryToReadOnlyHandler, NeutralKey, NeutralValue);
@@ -30,7 +30,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameBlockStateList, FrameBlockStateReadOnlyList> ListToReadOnlyHandler = (FrameBlockStateList list) => (FrameBlockStateReadOnlyList)list.ToReadOnly();
+        System.Func<FrameBlockStateList, FrameBlockStateReadOnlyList> ListToReadOnlyHandler = (FrameBlockStateList list) => (FrameBlockStateReadOnlyList)list.ToReadOnly();
         IFrameBlockState NeutralItem = FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>.Empty;
         TestList<FrameBlockStateList, FrameBlockStateReadOnlyList, IFrameBlockState> TestListBlockState = new(ListToReadOnlyHandler, NeutralItem);
         TestListBlockState.Test();
@@ -42,7 +42,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameBlockStateViewDictionary, FrameBlockStateViewReadOnlyDictionary> DictionaryToReadOnlyHandler = (FrameBlockStateViewDictionary dictionary) => (FrameBlockStateViewReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<FrameBlockStateViewDictionary, FrameBlockStateViewReadOnlyDictionary> DictionaryToReadOnlyHandler = (FrameBlockStateViewDictionary dictionary) => (FrameBlockStateViewReadOnlyDictionary)dictionary.ToReadOnly();
         IFrameBlockState NeutralKey = FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>.Empty;
         FrameBlockStateView NeutralValue = FrameBlockStateView.Empty;
         TestDictionary<FrameBlockStateViewDictionary, FrameBlockStateViewReadOnlyDictionary, IFrameBlockState, FrameBlockStateView> TestDictionaryBlockStateView = new(DictionaryToReadOnlyHandler, NeutralKey, NeutralValue);
@@ -57,7 +57,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameBrowsingBlockNodeIndexList, FrameBrowsingBlockNodeIndexReadOnlyList> ListToReadOnlyHandler = (FrameBrowsingBlockNodeIndexList list) => (FrameBrowsingBlockNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<FrameBrowsingBlockNodeIndexList, FrameBrowsingBlockNodeIndexReadOnlyList> ListToReadOnlyHandler = (FrameBrowsingBlockNodeIndexList list) => (FrameBrowsingBlockNodeIndexReadOnlyList)list.ToReadOnly();
         IFrameBrowsingBlockNodeIndex NeutralItem = FrameBrowsingNewBlockNodeIndex.Empty;
         TestList<FrameBrowsingBlockNodeIndexList, FrameBrowsingBlockNodeIndexReadOnlyList, IFrameBrowsingBlockNodeIndex> TestListBrowsingBlockNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListBrowsingBlockNodeIndex.Test();
@@ -69,7 +69,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameBrowsingListNodeIndexList, FrameBrowsingListNodeIndexReadOnlyList> ListToReadOnlyHandler = (FrameBrowsingListNodeIndexList list) => (FrameBrowsingListNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<FrameBrowsingListNodeIndexList, FrameBrowsingListNodeIndexReadOnlyList> ListToReadOnlyHandler = (FrameBrowsingListNodeIndexList list) => (FrameBrowsingListNodeIndexReadOnlyList)list.ToReadOnly();
         IFrameBrowsingListNodeIndex NeutralItem = FrameBrowsingListNodeIndex.Empty;
         TestList<FrameBrowsingListNodeIndexList, FrameBrowsingListNodeIndexReadOnlyList, IFrameBrowsingListNodeIndex> TestListBrowsingListNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListBrowsingListNodeIndex.Test();
@@ -81,7 +81,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameCellViewList, FrameCellViewReadOnlyList> ListToReadOnlyHandler = (FrameCellViewList list) => list.ToReadOnly();
+        System.Func<FrameCellViewList, FrameCellViewReadOnlyList> ListToReadOnlyHandler = (FrameCellViewList list) => list.ToReadOnly();
         IFrameCellView NeutralItem = FrameCellViewCollection.Empty;
         TestList<FrameCellViewList, FrameCellViewReadOnlyList, IFrameCellView> TestListCellView = new(ListToReadOnlyHandler, NeutralItem);
         TestListCellView.Test();
@@ -93,7 +93,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameFrameList, FrameFrameReadOnlyList> ListToReadOnlyHandler = (FrameFrameList list) => list.ToReadOnly();
+        System.Func<FrameFrameList, FrameFrameReadOnlyList> ListToReadOnlyHandler = (FrameFrameList list) => list.ToReadOnly();
         IFrameFrame NeutralItem = FrameFrame.FrameRoot;
         TestList<FrameFrameList, FrameFrameReadOnlyList, IFrameFrame> TestListFrame = new(ListToReadOnlyHandler, NeutralItem);
         TestListFrame.Test();
@@ -105,7 +105,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameIndexCollectionList, FrameIndexCollectionReadOnlyList> ListToReadOnlyHandler = (FrameIndexCollectionList list) => (FrameIndexCollectionReadOnlyList)list.ToReadOnly();
+        System.Func<FrameIndexCollectionList, FrameIndexCollectionReadOnlyList> ListToReadOnlyHandler = (FrameIndexCollectionList list) => (FrameIndexCollectionReadOnlyList)list.ToReadOnly();
         IFrameIndexCollection NeutralItem = FrameIndexCollection<IFrameBrowsingChildIndex>.Empty;
         TestList<FrameIndexCollectionList, FrameIndexCollectionReadOnlyList, IFrameIndexCollection> TestListIndexCollection = new(ListToReadOnlyHandler, NeutralItem);
         TestListIndexCollection.Test();
@@ -117,7 +117,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameInnerDictionary<string>, FrameInnerReadOnlyDictionary<string>> DictionaryToFrameHandler = (FrameInnerDictionary<string> dictionary) => (FrameInnerReadOnlyDictionary<string>)dictionary.ToReadOnly();
+        System.Func<FrameInnerDictionary<string>, FrameInnerReadOnlyDictionary<string>> DictionaryToFrameHandler = (FrameInnerDictionary<string> dictionary) => (FrameInnerReadOnlyDictionary<string>)dictionary.ToReadOnly();
         string NeutralKey = string.Empty;
         IFrameInner NeutralValue = FrameInner<IFrameBrowsingChildIndex>.Empty;
         TestDictionary<FrameInnerDictionary<string>, FrameInnerReadOnlyDictionary<string>, string, IFrameInner> TestDictionaryInner = new(DictionaryToFrameHandler, NeutralKey, NeutralValue);
@@ -132,7 +132,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameKeywordFrameList, FrameKeywordFrameReadOnlyList> ListToReadOnlyHandler = (FrameKeywordFrameList list) => list.ToReadOnly();
+        System.Func<FrameKeywordFrameList, FrameKeywordFrameReadOnlyList> ListToReadOnlyHandler = (FrameKeywordFrameList list) => list.ToReadOnly();
         IFrameKeywordFrame NeutralItem = FrameKeywordFrame.Empty;
         TestList<FrameKeywordFrameList, FrameKeywordFrameReadOnlyList, IFrameKeywordFrame> TestListKeywordFrame = new(ListToReadOnlyHandler, NeutralItem);
         TestListKeywordFrame.Test();
@@ -144,7 +144,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameNodeStateDictionary, FrameNodeStateReadOnlyDictionary> DictionaryToFrameHandler = (FrameNodeStateDictionary dictionary) => (FrameNodeStateReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<FrameNodeStateDictionary, FrameNodeStateReadOnlyDictionary> DictionaryToFrameHandler = (FrameNodeStateDictionary dictionary) => (FrameNodeStateReadOnlyDictionary)dictionary.ToReadOnly();
         IFrameIndex NeutralKey = FrameRootNodeIndex.Empty;
         IFrameNodeState NeutralValue = FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty;
         TestDictionary<FrameNodeStateDictionary, FrameNodeStateReadOnlyDictionary, IFrameIndex, IFrameNodeState> TestDictionaryNodeState = new(DictionaryToFrameHandler, NeutralKey, NeutralValue);
@@ -159,7 +159,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameNodeStateList, FrameNodeStateReadOnlyList> ListToReadOnlyHandler = (FrameNodeStateList list) => (FrameNodeStateReadOnlyList)list.ToReadOnly();
+        System.Func<FrameNodeStateList, FrameNodeStateReadOnlyList> ListToReadOnlyHandler = (FrameNodeStateList list) => (FrameNodeStateReadOnlyList)list.ToReadOnly();
         IFrameNodeState NeutralItem = FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty;
         TestList<FrameNodeStateList, FrameNodeStateReadOnlyList, IFrameNodeState> TestListNodeState = new(ListToReadOnlyHandler, NeutralItem);
         TestListNodeState.Test();
@@ -171,7 +171,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameNodeStateViewDictionary, FrameNodeStateViewReadOnlyDictionary> DictionaryToFrameHandler = (FrameNodeStateViewDictionary dictionary) => (FrameNodeStateViewReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<FrameNodeStateViewDictionary, FrameNodeStateViewReadOnlyDictionary> DictionaryToFrameHandler = (FrameNodeStateViewDictionary dictionary) => (FrameNodeStateViewReadOnlyDictionary)dictionary.ToReadOnly();
         IFrameNodeState NeutralKey = FrameNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty;
         IFrameNodeStateView NeutralValue = FrameNodeStateView.Empty;
         TestDictionary<FrameNodeStateViewDictionary, FrameNodeStateViewReadOnlyDictionary, IFrameNodeState, IFrameNodeStateView> TestDictionaryNodeStateView = new(DictionaryToFrameHandler, NeutralKey, NeutralValue);
@@ -186,7 +186,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameOperationGroupList, FrameOperationGroupReadOnlyList> ListToReadOnlyHandler = (FrameOperationGroupList list) => (FrameOperationGroupReadOnlyList)list.ToReadOnly();
+        System.Func<FrameOperationGroupList, FrameOperationGroupReadOnlyList> ListToReadOnlyHandler = (FrameOperationGroupList list) => (FrameOperationGroupReadOnlyList)list.ToReadOnly();
         FrameOperationGroup NeutralItem = FrameOperationGroup.Empty;
         TestList<FrameOperationGroupList, FrameOperationGroupReadOnlyList, FrameOperationGroup> TestListOperationGroup = new(ListToReadOnlyHandler, NeutralItem);
         TestListOperationGroup.Test();
@@ -198,7 +198,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameOperationList, FrameOperationReadOnlyList> ListToReadOnlyHandler = (FrameOperationList list) => (FrameOperationReadOnlyList)list.ToReadOnly();
+        System.Func<FrameOperationList, FrameOperationReadOnlyList> ListToReadOnlyHandler = (FrameOperationList list) => (FrameOperationReadOnlyList)list.ToReadOnly();
         IFrameOperation NeutralItem = FrameOperation.Empty;
         TestList<FrameOperationList, FrameOperationReadOnlyList, IFrameOperation> TestListOperation = new(ListToReadOnlyHandler, NeutralItem);
         TestListOperation.Test();
@@ -210,7 +210,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FramePlaceholderNodeStateList, FramePlaceholderNodeStateReadOnlyList> ListToReadOnlyHandler = (FramePlaceholderNodeStateList list) => (FramePlaceholderNodeStateReadOnlyList)list.ToReadOnly();
+        System.Func<FramePlaceholderNodeStateList, FramePlaceholderNodeStateReadOnlyList> ListToReadOnlyHandler = (FramePlaceholderNodeStateList list) => (FramePlaceholderNodeStateReadOnlyList)list.ToReadOnly();
         IFramePlaceholderNodeState NeutralItem = FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>.Empty;
         TestList<FramePlaceholderNodeStateList, FramePlaceholderNodeStateReadOnlyList, IFramePlaceholderNodeState> TestListPlaceholderNodeState = new(ListToReadOnlyHandler, NeutralItem);
         TestListPlaceholderNodeState.Test();
@@ -222,8 +222,8 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameTemplateDictionary, FrameTemplateReadOnlyDictionary> DictionaryToFrameHandler = (FrameTemplateDictionary dictionary) => dictionary.ToReadOnly();
-        Type NeutralKey = typeof(object);
+        System.Func<FrameTemplateDictionary, FrameTemplateReadOnlyDictionary> DictionaryToFrameHandler = (FrameTemplateDictionary dictionary) => dictionary.ToReadOnly();
+        Type NeutralKey = Type.FromTypeof<object>();
         IFrameTemplate NeutralValue = FrameTemplate.Empty;
         TestDictionary<FrameTemplateDictionary, FrameTemplateReadOnlyDictionary, Type, IFrameTemplate> TestDictionaryTemplate = new(DictionaryToFrameHandler, NeutralKey, NeutralValue);
         FrameTemplateDictionary TemplateDictionaryFromSource = new(new Dictionary<Type, IFrameTemplate>());
@@ -237,7 +237,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameTemplateList, FrameTemplateReadOnlyList> ListToReadOnlyHandler = (FrameTemplateList list) => list.ToReadOnly();
+        System.Func<FrameTemplateList, FrameTemplateReadOnlyList> ListToReadOnlyHandler = (FrameTemplateList list) => list.ToReadOnly();
         IFrameTemplate NeutralItem = FrameTemplate.Empty;
         TestList<FrameTemplateList, FrameTemplateReadOnlyList, IFrameTemplate> TestListTemplate = new(ListToReadOnlyHandler, NeutralItem);
         TestListTemplate.Test();
@@ -249,7 +249,7 @@ public class TestCollectionFrame
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FrameVisibleCellViewList, FrameVisibleCellViewReadOnlyList> ListToReadOnlyHandler = (FrameVisibleCellViewList list) => list.ToReadOnly();
+        System.Func<FrameVisibleCellViewList, FrameVisibleCellViewReadOnlyList> ListToReadOnlyHandler = (FrameVisibleCellViewList list) => list.ToReadOnly();
         IFrameVisibleCellView NeutralItem = FrameVisibleCellView.Empty;
         TestList<FrameVisibleCellViewList, FrameVisibleCellViewReadOnlyList, IFrameVisibleCellView> TestListVisibleCellView = new(ListToReadOnlyHandler, NeutralItem);
         TestListVisibleCellView.Test();

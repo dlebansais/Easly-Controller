@@ -4,6 +4,7 @@
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface ILayoutPlaceholderInner : IFocusPlaceholderInner, ILayoutSingleInner
@@ -58,7 +59,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutPlaceholderInner<IIndex>>());
             return new LayoutPlaceholderNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -67,7 +68,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutPlaceholderInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutPlaceholderInner<IIndex>>());
             return new LayoutBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

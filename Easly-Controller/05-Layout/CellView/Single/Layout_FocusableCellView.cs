@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using EaslyController.Controller;
     using EaslyController.Focus;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for discrete elements that can receive the focus but are not always the component of a node (insertion points, keywords and other decorations)
@@ -220,7 +221,7 @@
         /// </summary>
         protected override IFocusFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutFocusableCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutFocusableCellView>());
             return new LayoutFocus(this);
         }
         #endregion

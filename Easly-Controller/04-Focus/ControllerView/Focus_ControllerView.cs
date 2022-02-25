@@ -6,6 +6,7 @@
     using EaslyController.Controller;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a IxxxController.
@@ -77,7 +78,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusNodeStateViewDictionary();
         }
 
@@ -86,7 +87,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusBlockStateViewDictionary();
         }
 
@@ -95,7 +96,7 @@
         /// </summary>
         private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
@@ -112,7 +113,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusPlaceholderNodeStateView(this, (IFocusPlaceholderNodeState)state);
         }
 
@@ -121,7 +122,7 @@
         /// </summary>
         private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusOptionalNodeStateView(this, (IFocusOptionalNodeState)state);
         }
 
@@ -130,7 +131,7 @@
         /// </summary>
         private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusPatternStateView(this, (IFocusPatternState)state);
         }
 
@@ -139,7 +140,7 @@
         /// </summary>
         private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusSourceStateView(this, (IFocusSourceState)state);
         }
 
@@ -148,7 +149,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusBlockStateView(this, (IFocusBlockState)blockState);
         }
 
@@ -157,7 +158,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFrameFrame frame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView, (IFocusFrame)frame);
         }
 
@@ -166,7 +167,7 @@
         /// </summary>
         private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusBlockStateView)blockStateView);
         }
 
@@ -175,7 +176,7 @@
         /// </summary>
         private protected override IFrameCellViewTreeContext CreateCellViewTreeContext(IFrameNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusCellViewTreeContext(this, (IFocusNodeStateView)stateView, ForcedCommentStateView);
         }
 
@@ -184,7 +185,7 @@
         /// </summary>
         private protected virtual FocusFocusList CreateFocusChain()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusFocusList();
         }
 
@@ -193,7 +194,7 @@
         /// </summary>
         private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, 0, patternNode, sourceNode);
         }
 
@@ -202,7 +203,7 @@
         /// </summary>
         private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
 
@@ -211,7 +212,7 @@
         /// </summary>
         private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
         }
 
@@ -220,7 +221,7 @@
         /// </summary>
         private protected virtual IFocusEmptySelection CreateEmptySelection()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusEmptySelection(RootStateView);
         }
 
@@ -229,7 +230,7 @@
         /// </summary>
         private protected virtual IFocusDiscreteContentSelection CreateDiscreteContentSelection(IFocusNodeStateView stateView, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusDiscreteContentSelection(stateView, propertyName);
         }
 
@@ -238,7 +239,7 @@
         /// </summary>
         private protected virtual IFocusStringContentSelection CreateStringContentSelection(IFocusNodeStateView stateView, string propertyName, int start, int end)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusStringContentSelection(stateView, propertyName, start, end);
         }
 
@@ -247,7 +248,7 @@
         /// </summary>
         private protected virtual IFocusCommentSelection CreateCommentSelection(IFocusNodeStateView stateView, int start, int end)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusCommentSelection(stateView, start, end);
         }
 
@@ -256,7 +257,7 @@
         /// </summary>
         private protected virtual IFocusNodeSelection CreateNodeSelection(IFocusNodeStateView stateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusNodeSelection(stateView);
         }
 
@@ -265,7 +266,7 @@
         /// </summary>
         private protected virtual IFocusNodeListSelection CreateNodeListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusNodeListSelection(stateView, propertyName, startIndex, endIndex);
         }
 
@@ -274,7 +275,7 @@
         /// </summary>
         private protected virtual IFocusBlockNodeListSelection CreateBlockNodeListSelection(IFocusNodeStateView stateView, string propertyName, int blockIndex, int startIndex, int endIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusBlockNodeListSelection(stateView, propertyName, blockIndex, startIndex, endIndex);
         }
 
@@ -283,7 +284,7 @@
         /// </summary>
         private protected virtual IFocusBlockListSelection CreateBlockListSelection(IFocusNodeStateView stateView, string propertyName, int startIndex, int endIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusControllerView>());
             return new FocusBlockListSelection(stateView, propertyName, startIndex, endIndex);
         }
         #endregion

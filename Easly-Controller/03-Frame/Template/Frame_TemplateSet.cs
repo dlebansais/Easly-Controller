@@ -1,11 +1,11 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Set of templates used to describe all possible nodes in the tree.
@@ -236,10 +236,10 @@
         public virtual IFrameFrame InnerToFrame(IFrameInner<IFrameBrowsingChildIndex> inner)
         {
             // Call overloads of this method if they exist.
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
 
             IFrameNodeState Owner = inner.Owner;
-            Type OwnerType = Owner.Node.GetType();
+            Type OwnerType = Type.FromGetType(Owner.Node);
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
             //IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
@@ -269,9 +269,9 @@
         public virtual IFrameFrame PropertyToFrame(IFrameNodeState state, string propertyName)
         {
             // Call overloads of this method if they exist.
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
 
-            Type OwnerType = state.Node.GetType();
+            Type OwnerType = Type.FromGetType(state.Node);
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
             //IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
@@ -289,9 +289,9 @@
         public virtual IFrameCommentFrame GetCommentFrame(IFrameNodeState state)
         {
             // Call overloads of this method if they exist.
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
 
-            Type OwnerType = state.Node.GetType();
+            Type OwnerType = Type.FromGetType(state.Node);
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(OwnerType);
             //IFrameNodeTemplate Template = NodeTypeToTemplate(InterfaceType);
@@ -462,7 +462,7 @@
             RootFrame.Items.Add(CollectionPlaceholderFrame);
 
             FrameBlockTemplate RootTemplate = (FrameBlockTemplate)CreateBlockTemplate();
-            RootTemplate.NodeType = typeof(IBlock);
+            RootTemplate.NodeType = Type.FromTypeof<IBlock>();
             RootTemplate.Root = RootFrame;
 
             RootFrame.UpdateParent(RootTemplate, GetRoot());
@@ -494,7 +494,7 @@
         /// </summary>
         private protected virtual FrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameTemplateDictionary();
         }
 
@@ -503,7 +503,7 @@
         /// </summary>
         private protected virtual FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
 
             IList<Type> NodeKeys = NodeHelper.GetNodeKeys();
             IDictionary<Type, IFrameTemplate> Dictionary = new Dictionary<Type, IFrameTemplate>();
@@ -518,7 +518,7 @@
         /// </summary>
         private protected virtual IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameHorizontalPanelFrame();
         }
 
@@ -527,7 +527,7 @@
         /// </summary>
         private protected virtual IFrameHorizontalCollectionPlaceholderFrame CreateHorizontalCollectionPlaceholderFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameHorizontalCollectionPlaceholderFrame();
         }
 
@@ -536,7 +536,7 @@
         /// </summary>
         private protected virtual IFramePlaceholderFrame CreatePlaceholderFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FramePlaceholderFrame();
         }
 
@@ -545,7 +545,7 @@
         /// </summary>
         private protected virtual IFrameOptionalFrame CreateOptionalFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameOptionalFrame();
         }
 
@@ -554,7 +554,7 @@
         /// </summary>
         private protected virtual IFrameHorizontalListFrame CreateHorizontalListFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameHorizontalListFrame();
         }
 
@@ -563,7 +563,7 @@
         /// </summary>
         private protected virtual IFrameHorizontalBlockListFrame CreateHorizontalBlockListFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameHorizontalBlockListFrame();
         }
 
@@ -572,7 +572,7 @@
         /// </summary>
         private protected virtual IFrameDiscreteFrame CreateDiscreteFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameDiscreteFrame();
         }
 
@@ -581,7 +581,7 @@
         /// </summary>
         private protected virtual IFrameKeywordFrame CreateKeywordFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameKeywordFrame();
         }
 
@@ -590,7 +590,7 @@
         /// </summary>
         private protected virtual IFrameTextValueFrame CreateTextValueFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameTextValueFrame();
         }
 
@@ -599,7 +599,7 @@
         /// </summary>
         private protected virtual IFrameCommentFrame CreateCommentFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameCommentFrame();
         }
 
@@ -608,7 +608,7 @@
         /// </summary>
         private protected virtual IFrameNodeTemplate CreateNodeTemplate()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameNodeTemplate();
         }
 
@@ -617,7 +617,7 @@
         /// </summary>
         private protected virtual IFrameBlockTemplate CreateBlockTemplate()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameBlockTemplate();
         }
 
@@ -626,7 +626,7 @@
         /// </summary>
         private protected virtual IFrameTemplateSet CreateDefaultTemplateSet(FrameTemplateReadOnlyDictionary nodeTemplateTable, FrameTemplateReadOnlyDictionary blockTemplateTable)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameTemplateSet>());
             return new FrameTemplateSet(nodeTemplateTable, blockTemplateTable);
         }
         #endregion

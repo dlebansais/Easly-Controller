@@ -10,7 +10,6 @@
     using System.Threading;
     using PolySerializer;
     using System.Collections.Generic;
-    using System;
     using EaslyController;
     using EaslyController.Writeable;
     using EaslyController.Frame;
@@ -20,6 +19,7 @@
     using EaslyController.Layout;
     using EaslyEdit;
     using System.Text;
+    using NotNullReflection;
 
     [TestFixture]
     public partial class TestSet
@@ -572,7 +572,7 @@
             {
                 ILayoutOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
-                Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
+                Type NodeInterfaceType = Type.FromGetType(Optional).GetGenericArguments()[0];
                 Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
@@ -2063,7 +2063,7 @@
             Assert.That(NewController.IsEqual(CompareEqual.New(), Controller));
         }
 
-        static bool LayoutBrowseNode(LayoutController controller, ILayoutIndex index, Func<ILayoutInner, bool> test)
+        static bool LayoutBrowseNode(LayoutController controller, ILayoutIndex index, System.Func<ILayoutInner, bool> test)
         {
             Assert.That(index != null, "Layout #0");
             Assert.That(controller.Contains(index), "Layout #1");

@@ -5,6 +5,7 @@
     using BaseNodeHelper;
     using Contracts;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node in a list of nodes.
@@ -112,7 +113,7 @@
         /// </summary>
         private protected virtual IWriteableInsertionListNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingListNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowsingListNodeIndex>());
             return new WriteableInsertionListNodeIndex(parentNode, PropertyName, node, Index);
         }
         #endregion

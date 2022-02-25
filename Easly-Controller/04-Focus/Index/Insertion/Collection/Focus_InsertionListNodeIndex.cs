@@ -4,6 +4,7 @@
     using Contracts;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting a node in a list of nodes.
@@ -57,7 +58,7 @@
         /// </summary>
         private protected override IWriteableBrowsingListNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusInsertionListNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusInsertionListNodeIndex>());
             return new FocusBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);
         }
         #endregion

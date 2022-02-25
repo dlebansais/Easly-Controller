@@ -3,6 +3,7 @@
     using BaseNode;
     using Contracts;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for replacing an optional node.
@@ -55,7 +56,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameInsertionOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameInsertionOptionalNodeIndex>());
             return new FrameBrowsingOptionalNodeIndex(ParentNode, PropertyName);
         }
         #endregion

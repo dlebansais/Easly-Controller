@@ -1,14 +1,15 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Collections.Generic;
+    using NotNullReflection;
 
     /// <inheritdoc/>
-    public class FrameTemplateDictionary : Dictionary<System.Type, IFrameTemplate>
+    public class FrameTemplateDictionary : Dictionary<Type, IFrameTemplate>
     {
         /// <inheritdoc/>
         public FrameTemplateDictionary() : base() { }
         /// <inheritdoc/>
-        public FrameTemplateDictionary(IDictionary<System.Type, IFrameTemplate> dictionary) : base(dictionary) { }
+        public FrameTemplateDictionary(IDictionary<Type, IFrameTemplate> dictionary) : base(dictionary) { }
         /// <inheritdoc/>
         public FrameTemplateDictionary(int capacity) : base(capacity) { }
 

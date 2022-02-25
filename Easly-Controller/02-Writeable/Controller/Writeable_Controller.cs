@@ -1,11 +1,11 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Controller for a node tree.
@@ -127,7 +127,7 @@
 
         private protected virtual bool IsEmptyListValid(Node node, string propertyName)
         {
-            Type NodeType = node.GetType();
+            Type NodeType = Type.FromGetType(node);
             Debug.Assert(NodeTreeHelperList.IsNodeListProperty(NodeType, propertyName, out Type ChildNodeType));
 
             bool IsValid = true;
@@ -149,7 +149,7 @@
 
         private protected virtual bool IsEmptyBlockListValid(Node node, string propertyName)
         {
-            Type NodeType = node.GetType();
+            Type NodeType = Type.FromGetType(node);
             Debug.Assert(NodeTreeHelperBlockList.IsBlockListProperty(NodeType, propertyName, /*out Type ChildInterfaceType,*/ out Type ChildNodeType));
 
             bool IsValid = true;

@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for describing an child node.
@@ -159,7 +159,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPlaceholderFrame>());
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView, this);
         }
 
@@ -168,7 +168,7 @@
         /// </summary>
         private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPlaceholderFrame>());
             return new FocusFrameSelectorList();
         }
         #endregion

@@ -37,6 +37,9 @@
     <Reference Include="Easly-Language-Helper">
       <HintPath>..\..\..\Easly-Language\Easly-Language-Helper\bin\x64\Debug\$(TargetFramework)\Easly-Language-Helper.dll</HintPath>
     </Reference>
+    <Reference Include="NotNullReflection">
+      <HintPath>..\..\..\NotNullReflection\NotNullReflection\bin\x64\Debug\$(TargetFramework)\NotNullReflection.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

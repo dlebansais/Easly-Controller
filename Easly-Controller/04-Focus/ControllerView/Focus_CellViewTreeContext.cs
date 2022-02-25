@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Context used when building the cell view tree.
@@ -275,14 +275,14 @@
         /// <param name="oldSelectorName">Previous value for a substituted selector name upon return. Null if none.</param>
         public virtual void AddOrReplaceSelectors(FocusFrameSelectorList selectors, out Type oldSelectorType, out string oldSelectorName)
         {
-            oldSelectorType = null;
-            oldSelectorName = null;
+            oldSelectorType = Type.Missing;
+            oldSelectorName = string.Empty;
 
             foreach (IFocusFrameSelector Item in selectors)
                 if (SelectorTable.ContainsKey(Item.SelectorType))
                 {
-                    Debug.Assert(oldSelectorType == null);
-                    Debug.Assert(oldSelectorName == null);
+                    Debug.Assert(oldSelectorType == Type.Missing);
+                    Debug.Assert(oldSelectorName == string.Empty);
 
                     oldSelectorType = Item.SelectorType;
                     oldSelectorName = SelectorTable[Item.SelectorType];

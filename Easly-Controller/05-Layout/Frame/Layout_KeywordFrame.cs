@@ -6,6 +6,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for decoration purpose only.
@@ -163,7 +164,7 @@
         /// </summary>
         private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutKeywordFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutKeywordFrame>());
             return new LayoutFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
         }
 
@@ -172,7 +173,7 @@
         /// </summary>
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutKeywordFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutKeywordFrame>());
             return new LayoutVisibleCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
         }
 
@@ -181,7 +182,7 @@
         /// </summary>
         private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutKeywordFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutKeywordFrame>());
             return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion

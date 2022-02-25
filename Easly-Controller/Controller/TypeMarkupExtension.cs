@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Xaml
 {
-    using System;
     using System.Diagnostics;
-    using System.Reflection;
     using System.Windows.Markup;
+    using IServiceProvider = System.IServiceProvider;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Markup extension to declare types in Xaml.
@@ -59,22 +59,21 @@
 
             IXamlTypeResolver XamlTypeResolver = (IXamlTypeResolver)ServiceProvider.GetService(typeof(IXamlTypeResolver));
 
-            System.Type Type;
+            NotNullReflection.Type Type;
 
             if (Arg1.Length == 0)
-                Type = XamlTypeResolver.Resolve(TypeName);
+            {
+                Type = (NotNullReflection.Type)NotNullReflection.Type.CreateNew(XamlTypeResolver.Resolve(TypeName));
+            }
             else
             {
-                System.Type Arg1Type;
-                System.Type GenericDefinitionType;
+                NotNullReflection.Type GenericDefinitionType;
 
-                Arg1Type = XamlTypeResolver.Resolve(Arg1);
-
-                GenericDefinitionType = XamlTypeResolver.Resolve(TypeName);
+                GenericDefinitionType = (NotNullReflection.Type)NotNullReflection.Type.CreateNew(XamlTypeResolver.Resolve(TypeName));
                 Assembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
                 GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 1))!;
 
-                System.Type[] GenericArguments = new System.Type[] { Arg1Type };
+                NotNullReflection.Type[] GenericArguments = new NotNullReflection.Type[] { (NotNullReflection.Type)NotNullReflection.Type.CreateNew(XamlTypeResolver.Resolve(Arg1)) };
                 Type = GenericDefinitionType.MakeGenericType(GenericArguments);
             }
 

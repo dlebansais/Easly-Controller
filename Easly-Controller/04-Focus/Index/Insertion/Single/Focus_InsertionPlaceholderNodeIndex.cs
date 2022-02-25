@@ -4,6 +4,7 @@
     using Contracts;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for replacing a child a node.
@@ -56,7 +57,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusInsertionPlaceholderNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusInsertionPlaceholderNodeIndex>());
             return new FocusBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);
         }
         #endregion

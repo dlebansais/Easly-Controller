@@ -2,6 +2,7 @@
 {
     using BaseNode;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for replacing a child a node.
@@ -87,7 +88,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionEmptyNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableInsertionEmptyNodeIndex>());
             return new WriteableBrowsingPlaceholderNodeIndex(ParentNode, Node, PropertyName);
         }
         #endregion

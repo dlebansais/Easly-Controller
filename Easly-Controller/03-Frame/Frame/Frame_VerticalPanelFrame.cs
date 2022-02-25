@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Windows.Markup;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for displaying more frames vertically.
@@ -21,7 +22,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameVerticalPanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameVerticalPanelFrame>());
             return new FrameColumn(stateView, parentCellView, list, this);
         }
         #endregion

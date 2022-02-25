@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNode;
+    using NotNullReflection;
 
     /// <summary>
     /// Cycle manager for no nodes.
@@ -12,7 +12,7 @@
         /// <summary>
         /// Type of the base interface for all nodes participating to the cycle.
         /// </summary>
-        public override Type InterfaceType { get { return typeof(Node); } }
+        public override Type InterfaceType { get { return Type.FromTypeof<Node>(); } }
         #endregion
 
         #region Implementation

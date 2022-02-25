@@ -3,8 +3,8 @@
 using EaslyController;
 using EaslyController.Focus;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
+using NotNullReflection;
 
 [TestFixture]
 public class TestCollectionFocus
@@ -15,7 +15,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusAssignableCellViewDictionary<string>, FocusAssignableCellViewReadOnlyDictionary<string>> DictionaryToReadOnlyHandler = (FocusAssignableCellViewDictionary<string> dictionary) => (FocusAssignableCellViewReadOnlyDictionary<string>)dictionary.ToReadOnly();
+        System.Func<FocusAssignableCellViewDictionary<string>, FocusAssignableCellViewReadOnlyDictionary<string>> DictionaryToReadOnlyHandler = (FocusAssignableCellViewDictionary<string> dictionary) => (FocusAssignableCellViewReadOnlyDictionary<string>)dictionary.ToReadOnly();
         string NeutralKey = string.Empty;
         IFocusAssignableCellView NeutralValue = FocusCellViewCollection.Empty;
         TestDictionary<FocusAssignableCellViewDictionary<string>, FocusAssignableCellViewReadOnlyDictionary<string>, string, IFocusAssignableCellView> TestDictionaryAssignableCellView = new(DictionaryToReadOnlyHandler, NeutralKey, NeutralValue);
@@ -30,7 +30,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusBlockStateList, FocusBlockStateReadOnlyList> ListToReadOnlyHandler = (FocusBlockStateList list) => (FocusBlockStateReadOnlyList)list.ToReadOnly();
+        System.Func<FocusBlockStateList, FocusBlockStateReadOnlyList> ListToReadOnlyHandler = (FocusBlockStateList list) => (FocusBlockStateReadOnlyList)list.ToReadOnly();
         IFocusBlockState NeutralItem = FocusBlockState<IFocusInner<IFocusBrowsingChildIndex>>.Empty;
         TestList<FocusBlockStateList, FocusBlockStateReadOnlyList, IFocusBlockState> TestListBlockState = new(ListToReadOnlyHandler, NeutralItem);
         TestListBlockState.Test();
@@ -42,7 +42,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusBlockStateViewDictionary, FocusBlockStateViewReadOnlyDictionary> DictionaryToReadOnlyHandler = (FocusBlockStateViewDictionary dictionary) => (FocusBlockStateViewReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<FocusBlockStateViewDictionary, FocusBlockStateViewReadOnlyDictionary> DictionaryToReadOnlyHandler = (FocusBlockStateViewDictionary dictionary) => (FocusBlockStateViewReadOnlyDictionary)dictionary.ToReadOnly();
         IFocusBlockState NeutralKey = FocusBlockState<IFocusInner<IFocusBrowsingChildIndex>>.Empty;
         FocusBlockStateView NeutralValue = FocusBlockStateView.Empty;
         TestDictionary<FocusBlockStateViewDictionary, FocusBlockStateViewReadOnlyDictionary, IFocusBlockState, FocusBlockStateView> TestDictionaryBlockStateView = new(DictionaryToReadOnlyHandler, NeutralKey, NeutralValue);
@@ -57,7 +57,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusBrowsingBlockNodeIndexList, FocusBrowsingBlockNodeIndexReadOnlyList> ListToReadOnlyHandler = (FocusBrowsingBlockNodeIndexList list) => (FocusBrowsingBlockNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<FocusBrowsingBlockNodeIndexList, FocusBrowsingBlockNodeIndexReadOnlyList> ListToReadOnlyHandler = (FocusBrowsingBlockNodeIndexList list) => (FocusBrowsingBlockNodeIndexReadOnlyList)list.ToReadOnly();
         IFocusBrowsingBlockNodeIndex NeutralItem = FocusBrowsingNewBlockNodeIndex.Empty;
         TestList<FocusBrowsingBlockNodeIndexList, FocusBrowsingBlockNodeIndexReadOnlyList, IFocusBrowsingBlockNodeIndex> TestListBrowsingBlockNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListBrowsingBlockNodeIndex.Test();
@@ -69,7 +69,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusBrowsingListNodeIndexList, FocusBrowsingListNodeIndexReadOnlyList> ListToReadOnlyHandler = (FocusBrowsingListNodeIndexList list) => (FocusBrowsingListNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<FocusBrowsingListNodeIndexList, FocusBrowsingListNodeIndexReadOnlyList> ListToReadOnlyHandler = (FocusBrowsingListNodeIndexList list) => (FocusBrowsingListNodeIndexReadOnlyList)list.ToReadOnly();
         IFocusBrowsingListNodeIndex NeutralItem = FocusBrowsingListNodeIndex.Empty;
         TestList<FocusBrowsingListNodeIndexList, FocusBrowsingListNodeIndexReadOnlyList, IFocusBrowsingListNodeIndex> TestListBrowsingListNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListBrowsingListNodeIndex.Test();
@@ -81,7 +81,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusCellViewList, FocusCellViewReadOnlyList> ListToReadOnlyHandler = (FocusCellViewList list) => (FocusCellViewReadOnlyList)list.ToReadOnly();
+        System.Func<FocusCellViewList, FocusCellViewReadOnlyList> ListToReadOnlyHandler = (FocusCellViewList list) => (FocusCellViewReadOnlyList)list.ToReadOnly();
         IFocusCellView NeutralItem = FocusCellViewCollection.Empty;
         TestList<FocusCellViewList, FocusCellViewReadOnlyList, IFocusCellView> TestListCellView = new(ListToReadOnlyHandler, NeutralItem);
         TestListCellView.Test();
@@ -93,7 +93,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusCycleManagerList, FocusCycleManagerReadOnlyList> ListToReadOnlyHandler = (FocusCycleManagerList list) => list.ToReadOnly();
+        System.Func<FocusCycleManagerList, FocusCycleManagerReadOnlyList> ListToReadOnlyHandler = (FocusCycleManagerList list) => list.ToReadOnly();
         IFocusCycleManager NeutralItem = FocusCycleManager.Empty;
         TestList<FocusCycleManagerList, FocusCycleManagerReadOnlyList, IFocusCycleManager> TestListCycleManager = new(ListToReadOnlyHandler, NeutralItem);
         TestListCycleManager.Test();
@@ -105,7 +105,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusFocusList, FocusFocusReadOnlyList> ListToReadOnlyHandler = (FocusFocusList list) => (FocusFocusReadOnlyList)list.ToReadOnly();
+        System.Func<FocusFocusList, FocusFocusReadOnlyList> ListToReadOnlyHandler = (FocusFocusList list) => (FocusFocusReadOnlyList)list.ToReadOnly();
         IFocusFocus NeutralItem = FocusFocus.Empty;
         TestList<FocusFocusList, FocusFocusReadOnlyList, IFocusFocus> TestListFocus = new(ListToReadOnlyHandler, NeutralItem);
         TestListFocus.Test();
@@ -117,7 +117,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusFrameList, FocusFrameReadOnlyList> ListToReadOnlyHandler = (FocusFrameList list) => (FocusFrameReadOnlyList)list.ToReadOnly();
+        System.Func<FocusFrameList, FocusFrameReadOnlyList> ListToReadOnlyHandler = (FocusFrameList list) => (FocusFrameReadOnlyList)list.ToReadOnly();
         IFocusFrame NeutralItem = FocusFrame.FocusRoot;
         TestList<FocusFrameList, FocusFrameReadOnlyList, IFocusFrame> TestListFocus = new(ListToReadOnlyHandler, NeutralItem);
         TestListFocus.Test();
@@ -129,7 +129,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusFrameSelectorList, FocusFrameSelectorReadOnlyList> ListToReadOnlyHandler = (FocusFrameSelectorList list) => (FocusFrameSelectorReadOnlyList)list.ToReadOnly();
+        System.Func<FocusFrameSelectorList, FocusFrameSelectorReadOnlyList> ListToReadOnlyHandler = (FocusFrameSelectorList list) => (FocusFrameSelectorReadOnlyList)list.ToReadOnly();
         IFocusFrameSelector NeutralItem = FocusFrameSelector.Empty;
         TestList<FocusFrameSelectorList, FocusFrameSelectorReadOnlyList, IFocusFrameSelector> TestListFocus = new(ListToReadOnlyHandler, NeutralItem);
         TestListFocus.Test();
@@ -141,7 +141,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusIndexCollectionList, FocusIndexCollectionReadOnlyList> ListToReadOnlyHandler = (FocusIndexCollectionList list) => (FocusIndexCollectionReadOnlyList)list.ToReadOnly();
+        System.Func<FocusIndexCollectionList, FocusIndexCollectionReadOnlyList> ListToReadOnlyHandler = (FocusIndexCollectionList list) => (FocusIndexCollectionReadOnlyList)list.ToReadOnly();
         IFocusIndexCollection NeutralItem = FocusIndexCollection<IFocusBrowsingChildIndex>.Empty;
         TestList<FocusIndexCollectionList, FocusIndexCollectionReadOnlyList, IFocusIndexCollection> TestListIndexCollection = new(ListToReadOnlyHandler, NeutralItem);
         TestListIndexCollection.Test();
@@ -153,7 +153,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusInnerDictionary<string>, FocusInnerReadOnlyDictionary<string>> DictionaryToFocusHandler = (FocusInnerDictionary<string> dictionary) => (FocusInnerReadOnlyDictionary<string>)dictionary.ToReadOnly();
+        System.Func<FocusInnerDictionary<string>, FocusInnerReadOnlyDictionary<string>> DictionaryToFocusHandler = (FocusInnerDictionary<string> dictionary) => (FocusInnerReadOnlyDictionary<string>)dictionary.ToReadOnly();
         string NeutralKey = string.Empty;
         IFocusInner NeutralValue = FocusInner<IFocusBrowsingChildIndex>.Empty;
         TestDictionary<FocusInnerDictionary<string>, FocusInnerReadOnlyDictionary<string>, string, IFocusInner> TestDictionaryInner = new(DictionaryToFocusHandler, NeutralKey, NeutralValue);
@@ -168,7 +168,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusInsertionChildNodeIndexList, FocusInsertionChildNodeIndexReadOnlyList> ListToReadOnlyHandler = (FocusInsertionChildNodeIndexList list) => list.ToReadOnly();
+        System.Func<FocusInsertionChildNodeIndexList, FocusInsertionChildNodeIndexReadOnlyList> ListToReadOnlyHandler = (FocusInsertionChildNodeIndexList list) => list.ToReadOnly();
         IFocusInsertionChildNodeIndex NeutralItem = FocusInsertionEmptyNodeIndex.Empty;
         TestList<FocusInsertionChildNodeIndexList, FocusInsertionChildNodeIndexReadOnlyList, IFocusInsertionChildNodeIndex> TestListInsertionChildNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListInsertionChildNodeIndex.Test();
@@ -180,7 +180,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusKeywordFrameList, FocusKeywordFrameReadOnlyList> ListToReadOnlyHandler = (FocusKeywordFrameList list) => (FocusKeywordFrameReadOnlyList)list.ToReadOnly();
+        System.Func<FocusKeywordFrameList, FocusKeywordFrameReadOnlyList> ListToReadOnlyHandler = (FocusKeywordFrameList list) => (FocusKeywordFrameReadOnlyList)list.ToReadOnly();
         IFocusKeywordFrame NeutralItem = FocusKeywordFrame.Empty;
         TestList<FocusKeywordFrameList, FocusKeywordFrameReadOnlyList, IFocusKeywordFrame> TestListKeywordFrame = new(ListToReadOnlyHandler, NeutralItem);
         TestListKeywordFrame.Test();
@@ -192,7 +192,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusNodeFrameVisibilityList, FocusNodeFrameVisibilityReadOnlyList> ListToReadOnlyHandler = (FocusNodeFrameVisibilityList list) => list.ToReadOnly();
+        System.Func<FocusNodeFrameVisibilityList, FocusNodeFrameVisibilityReadOnlyList> ListToReadOnlyHandler = (FocusNodeFrameVisibilityList list) => list.ToReadOnly();
         IFocusNodeFrameVisibility NeutralItem = FocusComplexFrameVisibility.Empty;
         TestList<FocusNodeFrameVisibilityList, FocusNodeFrameVisibilityReadOnlyList, IFocusNodeFrameVisibility> TestListNodeFrameVisibility = new(ListToReadOnlyHandler, NeutralItem);
         TestListNodeFrameVisibility.Test();
@@ -204,7 +204,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusNodeStateDictionary, FocusNodeStateReadOnlyDictionary> DictionaryToFocusHandler = (FocusNodeStateDictionary dictionary) => (FocusNodeStateReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<FocusNodeStateDictionary, FocusNodeStateReadOnlyDictionary> DictionaryToFocusHandler = (FocusNodeStateDictionary dictionary) => (FocusNodeStateReadOnlyDictionary)dictionary.ToReadOnly();
         IFocusIndex NeutralKey = FocusRootNodeIndex.Empty;
         IFocusNodeState NeutralValue = FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty;
         TestDictionary<FocusNodeStateDictionary, FocusNodeStateReadOnlyDictionary, IFocusIndex, IFocusNodeState> TestDictionaryNodeState = new(DictionaryToFocusHandler, NeutralKey, NeutralValue);
@@ -219,7 +219,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusNodeStateList, FocusNodeStateReadOnlyList> ListToReadOnlyHandler = (FocusNodeStateList list) => (FocusNodeStateReadOnlyList)list.ToReadOnly();
+        System.Func<FocusNodeStateList, FocusNodeStateReadOnlyList> ListToReadOnlyHandler = (FocusNodeStateList list) => (FocusNodeStateReadOnlyList)list.ToReadOnly();
         IFocusNodeState NeutralItem = FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty;
         TestList<FocusNodeStateList, FocusNodeStateReadOnlyList, IFocusNodeState> TestListNodeState = new(ListToReadOnlyHandler, NeutralItem);
         TestListNodeState.Test();
@@ -231,7 +231,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusNodeStateViewDictionary, FocusNodeStateViewReadOnlyDictionary> DictionaryToFocusHandler = (FocusNodeStateViewDictionary dictionary) => (FocusNodeStateViewReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<FocusNodeStateViewDictionary, FocusNodeStateViewReadOnlyDictionary> DictionaryToFocusHandler = (FocusNodeStateViewDictionary dictionary) => (FocusNodeStateViewReadOnlyDictionary)dictionary.ToReadOnly();
         IFocusNodeState NeutralKey = FocusNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty;
         IFocusNodeStateView NeutralValue = FocusNodeStateView.Empty;
         TestDictionary<FocusNodeStateViewDictionary, FocusNodeStateViewReadOnlyDictionary, IFocusNodeState, IFocusNodeStateView> TestDictionaryNodeStateView = new(DictionaryToFocusHandler, NeutralKey, NeutralValue);
@@ -246,7 +246,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusOperationGroupList, FocusOperationGroupReadOnlyList> ListToReadOnlyHandler = (FocusOperationGroupList list) => (FocusOperationGroupReadOnlyList)list.ToReadOnly();
+        System.Func<FocusOperationGroupList, FocusOperationGroupReadOnlyList> ListToReadOnlyHandler = (FocusOperationGroupList list) => (FocusOperationGroupReadOnlyList)list.ToReadOnly();
         FocusOperationGroup NeutralItem = FocusOperationGroup.Empty;
         TestList<FocusOperationGroupList, FocusOperationGroupReadOnlyList, FocusOperationGroup> TestListOperationGroup = new(ListToReadOnlyHandler, NeutralItem);
         TestListOperationGroup.Test();
@@ -258,7 +258,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusOperationList, FocusOperationReadOnlyList> ListToReadOnlyHandler = (FocusOperationList list) => (FocusOperationReadOnlyList)list.ToReadOnly();
+        System.Func<FocusOperationList, FocusOperationReadOnlyList> ListToReadOnlyHandler = (FocusOperationList list) => (FocusOperationReadOnlyList)list.ToReadOnly();
         IFocusOperation NeutralItem = FocusOperation.Empty;
         TestList<FocusOperationList, FocusOperationReadOnlyList, IFocusOperation> TestListOperation = new(ListToReadOnlyHandler, NeutralItem);
         TestListOperation.Test();
@@ -270,7 +270,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusPlaceholderNodeStateList, FocusPlaceholderNodeStateReadOnlyList> ListToReadOnlyHandler = (FocusPlaceholderNodeStateList list) => (FocusPlaceholderNodeStateReadOnlyList)list.ToReadOnly();
+        System.Func<FocusPlaceholderNodeStateList, FocusPlaceholderNodeStateReadOnlyList> ListToReadOnlyHandler = (FocusPlaceholderNodeStateList list) => (FocusPlaceholderNodeStateReadOnlyList)list.ToReadOnly();
         IFocusPlaceholderNodeState NeutralItem = FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>.Empty;
         TestList<FocusPlaceholderNodeStateList, FocusPlaceholderNodeStateReadOnlyList, IFocusPlaceholderNodeState> TestListPlaceholderNodeState = new(ListToReadOnlyHandler, NeutralItem);
         TestListPlaceholderNodeState.Test();
@@ -282,7 +282,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusSelectableFrameList, FocusSelectableFrameReadOnlyList> ListToReadOnlyHandler = (FocusSelectableFrameList list) => list.ToReadOnly();
+        System.Func<FocusSelectableFrameList, FocusSelectableFrameReadOnlyList> ListToReadOnlyHandler = (FocusSelectableFrameList list) => list.ToReadOnly();
         IFocusSelectableFrame NeutralItem = FocusSelectableFrame.Empty;
         TestList<FocusSelectableFrameList, FocusSelectableFrameReadOnlyList, IFocusSelectableFrame> TestListSelectableFrame = new(ListToReadOnlyHandler, NeutralItem);
         TestListSelectableFrame.Test();
@@ -294,8 +294,8 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusTemplateDictionary, FocusTemplateReadOnlyDictionary> DictionaryToFocusHandler = (FocusTemplateDictionary dictionary) => (FocusTemplateReadOnlyDictionary)dictionary.ToReadOnly();
-        Type NeutralKey = typeof(object);
+        System.Func<FocusTemplateDictionary, FocusTemplateReadOnlyDictionary> DictionaryToFocusHandler = (FocusTemplateDictionary dictionary) => (FocusTemplateReadOnlyDictionary)dictionary.ToReadOnly();
+        Type NeutralKey = Type.FromTypeof<object>();
         IFocusTemplate NeutralValue = FocusTemplate.Empty;
         TestDictionary<FocusTemplateDictionary, FocusTemplateReadOnlyDictionary, Type, IFocusTemplate> TestDictionaryTemplate = new(DictionaryToFocusHandler, NeutralKey, NeutralValue);
         FocusTemplateDictionary TemplateDictionaryFromSource = new(new Dictionary<Type, IFocusTemplate>());
@@ -309,7 +309,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusTemplateList, FocusTemplateReadOnlyList> ListToReadOnlyHandler = (FocusTemplateList list) => (FocusTemplateReadOnlyList)list.ToReadOnly();
+        System.Func<FocusTemplateList, FocusTemplateReadOnlyList> ListToReadOnlyHandler = (FocusTemplateList list) => (FocusTemplateReadOnlyList)list.ToReadOnly();
         IFocusTemplate NeutralItem = FocusTemplate.Empty;
         TestList<FocusTemplateList, FocusTemplateReadOnlyList, IFocusTemplate> TestListTemplate = new(ListToReadOnlyHandler, NeutralItem);
         TestListTemplate.Test();
@@ -321,7 +321,7 @@ public class TestCollectionFocus
     {
         ControllerTools.ResetExpectedName();
 
-        Func<FocusVisibleCellViewList, FocusVisibleCellViewReadOnlyList> ListToReadOnlyHandler = (FocusVisibleCellViewList list) => (FocusVisibleCellViewReadOnlyList)list.ToReadOnly();
+        System.Func<FocusVisibleCellViewList, FocusVisibleCellViewReadOnlyList> ListToReadOnlyHandler = (FocusVisibleCellViewList list) => (FocusVisibleCellViewReadOnlyList)list.ToReadOnly();
         IFocusVisibleCellView NeutralItem = FocusVisibleCellView.Empty;
         TestList<FocusVisibleCellViewList, FocusVisibleCellViewReadOnlyList, IFocusVisibleCellView> TestListVisibleCellView = new(ListToReadOnlyHandler, NeutralItem);
         TestListVisibleCellView.Test();

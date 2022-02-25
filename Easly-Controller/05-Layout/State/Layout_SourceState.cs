@@ -2,6 +2,7 @@
 {
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of a source identifier node.
@@ -81,7 +82,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutSourceState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutSourceState<IInner>>());
             return new LayoutNodeStateList();
         }
         #endregion

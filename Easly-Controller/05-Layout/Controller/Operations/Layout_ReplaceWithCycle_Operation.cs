@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for replacing a node with another from a cycle.
@@ -34,7 +34,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public LayoutReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, LayoutInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public LayoutReplaceWithCycleOperation(Node parentNode, string propertyName, int blockIndex, int index, LayoutInsertionChildNodeIndexList cycleIndexList, int cyclePosition, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -66,9 +66,9 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected override IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(int blockIndex, int index, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IFocusReplaceWithCycleOperation CreateReplaceWithCycleOperation(int blockIndex, int index, FocusInsertionChildNodeIndexList cycleIndexList, int cyclePosition, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutReplaceWithCycleOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutReplaceWithCycleOperation>());
             return new LayoutReplaceWithCycleOperation(ParentNode, PropertyName, blockIndex, index, (LayoutInsertionChildNodeIndexList)cycleIndexList, cyclePosition, handlerRedo, handlerUndo, isNested);
         }
         #endregion

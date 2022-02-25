@@ -4,6 +4,7 @@
     using System.Windows.Markup;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame selecting sub-frames.
@@ -62,7 +63,7 @@
         /// </summary>
         private protected override FocusSelectableFrameList CreateSelectableFrameList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutSelectionFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof < LayoutSelectionFrame>());
             return new LayoutSelectableFrameList();
         }
         #endregion

@@ -1,11 +1,11 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Constants;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for displaying more frames vertically.
@@ -101,7 +101,7 @@
         /// </summary>
         private protected override FrameFrameList CreateItems()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalPanelFrame>());
             return new LayoutFrameList();
         }
 
@@ -110,7 +110,7 @@
         /// </summary>
         private protected override FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalPanelFrame>());
             return new LayoutCellViewList();
         }
 
@@ -119,7 +119,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView, IFramePlaceholderFrame frame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalPanelFrame>());
             return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, (ILayoutPlaceholderFrame)frame);
         }
 
@@ -128,7 +128,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutVerticalPanelFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutVerticalPanelFrame>());
             return new LayoutColumn((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (LayoutCellViewList)list, this);
         }
         #endregion

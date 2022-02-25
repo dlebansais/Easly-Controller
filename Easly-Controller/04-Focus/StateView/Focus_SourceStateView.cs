@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a source state.
@@ -207,7 +208,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusSourceStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusSourceStateView>());
             return new FocusAssignableCellViewDictionary<string>();
         }
         #endregion

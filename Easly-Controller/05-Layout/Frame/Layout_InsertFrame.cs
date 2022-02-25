@@ -6,6 +6,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for bringing the focus to an insertion point.
@@ -119,7 +120,7 @@
         /// </summary>
         private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutInsertFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutInsertFrame>());
             return new LayoutFocusableCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, this);
         }
 
@@ -130,7 +131,7 @@
         /// </summary>
         private protected override IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutInsertFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutInsertFrame>());
             return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion

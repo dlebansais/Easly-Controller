@@ -4,6 +4,7 @@
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for an optional node.
@@ -144,7 +145,7 @@
         /// </summary>
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalInner<TIndex>>());
             return new WriteableOptionalNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableBrowsingOptionalNodeIndex)nodeIndex);
         }
 
@@ -153,7 +154,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalInner<TIndex>>());
             return new WriteableBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

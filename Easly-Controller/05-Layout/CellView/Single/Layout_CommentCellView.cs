@@ -4,6 +4,7 @@
     using BaseNode;
     using EaslyController.Controller;
     using EaslyController.Focus;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
@@ -223,7 +224,7 @@
         /// </summary>
         protected override IFocusCommentFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutCommentCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutCommentCellView>());
             return new LayoutCommentFocus(this);
         }
         #endregion

@@ -4,6 +4,7 @@
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFocusListInner : IFrameListInner, IFocusCollectionInner
@@ -73,7 +74,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusListInner<IIndex>>());
             return new FocusPlaceholderNodeStateList();
         }
 
@@ -82,7 +83,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusListInner<IIndex>>());
             return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusNodeIndex)nodeIndex);
         }
 
@@ -91,7 +92,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusListInner<IIndex>>());
             return new FocusBrowsingListNodeIndexList();
         }
 
@@ -100,7 +101,7 @@
         /// </summary>
         private protected override IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusListInner<IIndex>>());
             return new FocusBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion

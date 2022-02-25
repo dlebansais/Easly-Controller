@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System.Diagnostics;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFocusOptionalInner : IFrameOptionalInner, IFocusSingleInner
@@ -58,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalInner<IIndex>>());
             return new FocusOptionalNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusBrowsingOptionalNodeIndex)nodeIndex);
         }
 
@@ -67,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalInner<IIndex>>());
             return new FocusBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for text components that can receive the focus and be modified (identifiers).
@@ -98,7 +99,7 @@
         /// </summary>
         protected virtual IFocusCommentFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusCommentCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusCommentCellView>());
             return new FocusCommentFocus(this);
         }
         #endregion

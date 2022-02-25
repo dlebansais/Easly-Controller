@@ -4,6 +4,7 @@
     using Contracts;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting a node in an existing block of a block list.
@@ -58,7 +59,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusInsertionExistingBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusInsertionExistingBlockNodeIndex>());
             return new FocusBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, Index);
         }
         #endregion

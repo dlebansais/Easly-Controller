@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node in a block that is not the first.
@@ -56,7 +56,7 @@
         /// </summary>
         private protected override IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBrowsingExistingBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutBrowsingExistingBlockNodeIndex>());
             return new LayoutInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);
         }
         #endregion

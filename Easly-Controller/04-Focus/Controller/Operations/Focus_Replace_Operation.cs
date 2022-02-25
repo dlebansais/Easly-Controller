@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for replacing a node.
@@ -44,7 +44,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, bool clearNode, Node newNode, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusReplaceOperation(Node parentNode, string propertyName, int blockIndex, int index, bool clearNode, Node newNode, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, index, clearNode, newNode, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -71,9 +71,9 @@
         /// <summary>
         /// Creates a IxxxReplaceOperation object.
         /// </summary>
-        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, bool clearNode, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override IWriteableReplaceOperation CreateReplaceOperation(int blockIndex, int index, bool clearNode, Node node, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusReplaceOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusReplaceOperation>());
             return new FocusReplaceOperation(ParentNode, PropertyName, blockIndex, index, clearNode, node, handlerRedo, handlerUndo, isNested);
         }
         #endregion

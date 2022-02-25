@@ -1,16 +1,16 @@
 ﻿namespace Test
 {
+    using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
+    using Guid = System.Guid;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
     using NUnit.Framework;
     using System.Globalization;
     using System.IO;
-    using System.Reflection;
     using System.Threading;
     using PolySerializer;
     using System.Collections.Generic;
-    using System;
     using EaslyController;
     using EaslyController.Writeable;
     using EaslyController.Frame;
@@ -21,6 +21,7 @@
     using EaslyEdit;
     using System.Text;
     using System.Diagnostics;
+    using NotNullReflection;
 
     [TestFixture]
     public partial class TestSet
@@ -197,22 +198,22 @@
 
                 else
                 {
-                    Type NodeType = Node.GetType();
+                    Type NodeType = Type.FromGetType(Node);
                     PropertyInfo Info = NodeType.GetProperty(PropertyName);
 
-                    if (Info.PropertyType == typeof(Document))
+                    if (Info.PropertyType.IsTypeof<Document>())
                     {
                     }
-                    else if (Info.PropertyType == typeof(bool))
+                    else if (Info.PropertyType.IsTypeof<bool>())
                     {
                     }
                     else if (Info.PropertyType.IsEnum)
                     {
                     }
-                    else if (Info.PropertyType == typeof(string))
+                    else if (Info.PropertyType.IsTypeof<string>())
                     {
                     }
-                    else if (Info.PropertyType == typeof(Guid))
+                    else if (Info.PropertyType.IsTypeof<Guid>())
                     {
                     }
                     else

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using BaseNode;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an replication pattern node.
@@ -82,7 +83,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteablePatternState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteablePatternState<IInner>>());
             return new WriteableNodeStateList();
         }
         #endregion

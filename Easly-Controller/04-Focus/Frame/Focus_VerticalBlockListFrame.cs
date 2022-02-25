@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for a block list displayed vertically.
@@ -167,7 +167,7 @@
         /// </summary>
         private protected override FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalBlockListFrame>());
             return new FocusCellViewList();
         }
 
@@ -176,7 +176,7 @@
         /// </summary>
         private protected override IFrameBlockCellView CreateBlockCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameBlockStateView blockStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalBlockListFrame>());
             return new FocusBlockCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusBlockStateView)blockStateView);
         }
 
@@ -185,7 +185,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalBlockListFrame>());
             return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusCellViewList)list, this);
         }
 
@@ -194,7 +194,7 @@
         /// </summary>
         private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalBlockListFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalBlockListFrame>());
             return new FocusFrameSelectorList();
         }
         #endregion

@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Windows.Markup;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame visibility that shows if one frame visibility among a list does.
@@ -82,7 +82,7 @@
         /// </summary>
         private protected virtual FocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusMixedFrameVisibility));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusMixedFrameVisibility>());
             return new FocusNodeFrameVisibilityList();
         }
         #endregion

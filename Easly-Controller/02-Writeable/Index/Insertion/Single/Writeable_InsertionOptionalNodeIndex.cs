@@ -5,6 +5,7 @@
     using BaseNodeHelper;
     using Contracts;
     using Easly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for replacing an optional node.
@@ -111,7 +112,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableInsertionOptionalNodeIndex>());
             return new WriteableBrowsingOptionalNodeIndex(ParentNode, PropertyName);
         }
         #endregion

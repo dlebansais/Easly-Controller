@@ -1,8 +1,7 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System.Collections.Generic;
-    using BaseNode;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of a source identifier node.
@@ -82,7 +81,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableSourceState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableSourceState<IInner>>());
             return new WriteableNodeStateList();
         }
         #endregion

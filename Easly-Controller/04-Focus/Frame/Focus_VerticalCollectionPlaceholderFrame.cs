@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for a placeholder node in a block list displayed vertically.
@@ -71,9 +71,7 @@
         /// <param name="parentCellView">The collection of cell views containing this view. Null for the root of the cell tree.</param>
         public override IFrameCellView BuildBlockCells(IFrameCellViewTreeContext context, IFrameCellViewCollection parentCellView)
         {
-            Type OldSelectorType = null;
-            string OldSelectorName = null;
-            ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(Selectors, out OldSelectorType, out OldSelectorName);
+            ((IFocusCellViewTreeContext)context).AddOrReplaceSelectors(Selectors, out Type OldSelectorType, out string OldSelectorName);
 
             IFocusCellViewCollection EmbeddingCellView = base.BuildBlockCells(context, parentCellView) as IFocusCellViewCollection;
             Debug.Assert(EmbeddingCellView != null);
@@ -105,7 +103,7 @@
         /// </summary>
         private protected override FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalCollectionPlaceholderFrame>());
             return new FocusCellViewList();
         }
 
@@ -114,7 +112,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalCollectionPlaceholderFrame>());
             return new FocusContainerCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (IFocusNodeStateView)childStateView, this);
         }
 
@@ -123,7 +121,7 @@
         /// </summary>
         private protected override IFrameCellViewCollection CreateEmbeddingCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, FrameCellViewList list)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalCollectionPlaceholderFrame>());
             return new FocusColumn((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, (FocusCellViewList)list, this);
         }
 
@@ -132,7 +130,7 @@
         /// </summary>
         private protected virtual FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusVerticalCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusVerticalCollectionPlaceholderFrame>());
             return new FocusFrameSelectorList();
         }
         #endregion

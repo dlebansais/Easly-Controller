@@ -1,8 +1,8 @@
 ﻿namespace EaslyController
 {
-    using System;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
+    using NotNullReflection;
 
     /// <summary>
     /// Tool used to check that objects are created at the same layer than the caller.
@@ -21,7 +21,7 @@
 
         internal static void AssertNoOverride(object thisObject, Type callerType, [CallerMemberName] string callerName = "")
         {
-            Type thisType = thisObject.GetType();
+            Type thisType = Type.FromGetType(thisObject);
             Debug.Assert(callerType.IsAssignableFrom(thisType));
 
             AssertExpectedName(thisType);

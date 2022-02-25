@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame visibility.

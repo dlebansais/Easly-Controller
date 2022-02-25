@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using System.Threading;
+using Exception = System.Exception;
+using ArgumentException = System.ArgumentException;
+using Guid = System.Guid;
 using EaslyController;
 using EaslyController.Constants;
 using EaslyController.Controller;
@@ -13,6 +14,7 @@ using EaslyController.Layout;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using NUnit.Framework;
+using NotNullReflection;
 
 namespace Coverage
 {
@@ -111,26 +113,26 @@ namespace Coverage
 
             ILayoutPlaceholderInner MainPlaceholderTreeInner = RootState.PropertyToInner(nameof(Main.PlaceholderTree)) as ILayoutPlaceholderInner;
             Assert.That(MainPlaceholderTreeInner != null);
-            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
+            Assert.That(MainPlaceholderTreeInner.InterfaceType.IsTypeof<Tree>());
             Assert.That(MainPlaceholderTreeInner.ChildState != null);
             Assert.That(MainPlaceholderTreeInner.ChildState.ParentInner == MainPlaceholderTreeInner);
 
             ILayoutPlaceholderInner MainPlaceholderLeafInner = RootState.PropertyToInner(nameof(Main.PlaceholderLeaf)) as ILayoutPlaceholderInner;
             Assert.That(MainPlaceholderLeafInner != null);
-            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainPlaceholderLeafInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(MainPlaceholderLeafInner.ChildState != null);
             Assert.That(MainPlaceholderLeafInner.ChildState.ParentInner == MainPlaceholderLeafInner);
 
             ILayoutOptionalInner MainUnassignedOptionalInner = RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf)) as ILayoutOptionalInner;
             Assert.That(MainUnassignedOptionalInner != null);
-            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainUnassignedOptionalInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(!MainUnassignedOptionalInner.IsAssigned);
             Assert.That(MainUnassignedOptionalInner.ChildState != null);
             Assert.That(MainUnassignedOptionalInner.ChildState.ParentInner == MainUnassignedOptionalInner);
 
             ILayoutOptionalInner MainAssignedOptionalTreeInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalTree)) as ILayoutOptionalInner;
             Assert.That(MainAssignedOptionalTreeInner != null);
-            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
+            Assert.That(MainAssignedOptionalTreeInner.InterfaceType.IsTypeof<Tree>());
             Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
 
             ILayoutNodeState AssignedOptionalTreeState = MainAssignedOptionalTreeInner.ChildState;
@@ -144,7 +146,7 @@ namespace Coverage
 
             ILayoutOptionalInner MainAssignedOptionalLeafInner = RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf)) as ILayoutOptionalInner;
             Assert.That(MainAssignedOptionalLeafInner != null);
-            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainAssignedOptionalLeafInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
             Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
             Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
@@ -154,9 +156,9 @@ namespace Coverage
             Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
-            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
-            Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
+            Assert.That(MainLeafBlocksInner.InterfaceType.IsTypeof<Leaf>());
+            Assert.That(MainLeafBlocksInner.BlockType.IsTypeof<BaseNode.IBlock<Leaf>>());
+            Assert.That(MainLeafBlocksInner.ItemType.IsTypeof<Leaf>());
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
             Assert.That(MainLeafBlocksInner.BlockStateList.Count == 3);
@@ -200,7 +202,7 @@ namespace Coverage
             ILayoutListInner MainLeafPathInner = RootState.PropertyToInner(nameof(Main.LeafPath)) as ILayoutListInner;
             Assert.That(MainLeafPathInner != null);
             Assert.That(!MainLeafPathInner.IsNeverEmpty);
-            Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainLeafPathInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(MainLeafPathInner.Count == 2);
             Assert.That(MainLeafPathInner.StateList != null);
             Assert.That(MainLeafPathInner.StateList.Count == 2);
@@ -510,7 +512,7 @@ namespace Coverage
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafPath) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafPath) });
                 Assert.That(!Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
 
@@ -568,7 +570,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 Assert.That(Controller.CanUndo);
@@ -609,7 +611,7 @@ namespace Coverage
                 //System.Diagnostics.Debug.Assert(false);
                 LayoutFrameSelectorList FrameSelectorList = null;
                 foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)TestDebug.CoverageLayoutTemplateSet.NodeTemplateDictionary)
-                    if (TemplateEntry.Key == typeof(Root))
+                    if (TemplateEntry.Key.IsTypeof<Root>())
                     {
                         ILayoutNodeTemplate Template = TemplateEntry.Value as ILayoutNodeTemplate;
                         Assert.That(Template != null);
@@ -1352,11 +1354,11 @@ namespace Coverage
                     Controller.Undo();
 
                     IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                    NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                    NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                     Assert.That(!Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
-                    NeverEmptyCollectionTable.Remove(typeof(Main));
+                    NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
                     Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
                     Assert.That(!Controller.CanUndo);
@@ -1467,13 +1469,13 @@ namespace Coverage
                     Controller.Undo();
 
                     IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                    NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                    NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                     Controller.RemoveBlockRange(LeafBlocksInner, 2, 3);
                     Controller.RemoveBlockRange(LeafBlocksInner, 0, 1);
                     Assert.That(!Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
-                    NeverEmptyCollectionTable.Remove(typeof(Main));
+                    NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
                     Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
                     Controller.Undo();
@@ -2729,7 +2731,7 @@ namespace Coverage
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -2744,7 +2746,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2834,7 +2836,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -2895,7 +2897,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -2907,7 +2909,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2920,7 +2922,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -3019,7 +3021,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.PlaceholderTree) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.PlaceholderTree) });
 
                 RemovedListLeafIndex = LeafPathInner.StateList[0].ParentIndex as ILayoutBrowsingListNodeIndex;
                 Assert.That(Controller.Contains(RemovedListLeafIndex));
@@ -3029,7 +3031,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
                 Assert.That(LeafPathInner.Count == 0);
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -3042,7 +3044,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -3079,7 +3081,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, LeafBlocksInner.BlockStateList[0].StateList.Count.ToString());
 
@@ -3089,9 +3091,9 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -3218,7 +3220,7 @@ namespace Coverage
                 }
 
                 //System.Diagnostics.Debug.Assert(false);
-                LayoutOperationGroupList LayoutOperationGroupList = DebugObjects.GetReferenceByInterface(typeof(LayoutOperationGroupList)) as LayoutOperationGroupList;
+                LayoutOperationGroupList LayoutOperationGroupList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationGroupList>()) as LayoutOperationGroupList;
                 if (LayoutOperationGroupList != null)
                 {
                     Assert.That(LayoutOperationGroupList.Count > 0);
@@ -3942,7 +3944,7 @@ namespace Coverage
             LayoutController ControllerBase = LayoutController.Create(RootIndex);
             LayoutController Controller = LayoutController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(LayoutNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutNodeStateDictionary>()) as ReadOnlyNodeStateDictionary;
 
             using (LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CoverageLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default))
             {
@@ -4102,7 +4104,7 @@ namespace Coverage
                 Assert.That(LeafPathInner != null);
 
                 ILayoutPlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                LayoutBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(typeof(LayoutBlockStateList)) as LayoutBlockStateList;
+                LayoutBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutBlockStateList>()) as LayoutBlockStateList;
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
@@ -4612,7 +4614,7 @@ namespace Coverage
 
                 // ILayoutInnerDictionary
 
-                LayoutInnerDictionary<string> LayoutInnerTableModify = DebugObjects.GetReferenceByInterface(typeof(LayoutInnerDictionary<string>)) as LayoutInnerDictionary<string>;
+                LayoutInnerDictionary<string> LayoutInnerTableModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutInnerDictionary<string>>()) as LayoutInnerDictionary<string>;
                 Assert.That(LayoutInnerTableModify != null);
                 Assert.That(LayoutInnerTableModify.Count > 0);
 
@@ -4782,7 +4784,7 @@ namespace Coverage
 
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
-                LayoutNodeStateList LayoutNodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(LayoutNodeStateList)) as LayoutNodeStateList;
+                LayoutNodeStateList LayoutNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutNodeStateList>()) as LayoutNodeStateList;
                 Assert.That(LayoutNodeStateListModify != null);
                 Assert.That(LayoutNodeStateListModify.Count > 0);
                 FirstNodeState = LayoutNodeStateListModify[0] as ILayoutPlaceholderNodeState;
@@ -4940,7 +4942,7 @@ namespace Coverage
 
                 Assert.That(LayoutOperationStack.Count > 0);
                 LayoutOperationGroup FirstOperationGroup = (LayoutOperationGroup)LayoutOperationStack[0];
-                LayoutOperationGroupList LayoutOperationGroupList = DebugObjects.GetReferenceByInterface(typeof(LayoutOperationGroupList)) as LayoutOperationGroupList;
+                LayoutOperationGroupList LayoutOperationGroupList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationGroupList>()) as LayoutOperationGroupList;
                 if (LayoutOperationGroupList != null)
                 {
                     WriteableOperationGroupList WriteableOperationGroupList = LayoutOperationGroupList;
@@ -5052,7 +5054,7 @@ namespace Coverage
                 LayoutOperationReadOnlyList LayoutOperationReadOnlyList = FirstOperationGroup.OperationList;
                 Assert.That(LayoutOperationReadOnlyList.Count > 0);
                 ILayoutOperation FirstOperation = (ILayoutOperation)LayoutOperationReadOnlyList[0];
-                LayoutOperationList LayoutOperationList = DebugObjects.GetReferenceByInterface(typeof(LayoutOperationList)) as LayoutOperationList;
+                LayoutOperationList LayoutOperationList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationList>()) as LayoutOperationList;
                 if (LayoutOperationList != null)
                 {
                     WriteableOperationList WriteableOperationList = LayoutOperationList;
@@ -5162,7 +5164,7 @@ namespace Coverage
 
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
-                LayoutPlaceholderNodeStateList LayoutPlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(LayoutPlaceholderNodeStateList)) as LayoutPlaceholderNodeStateList;
+                LayoutPlaceholderNodeStateList LayoutPlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutPlaceholderNodeStateList>()) as LayoutPlaceholderNodeStateList;
                 if (LayoutPlaceholderNodeStateListModify != null)
                 {
                     Assert.That(LayoutPlaceholderNodeStateListModify.Count > 0);
@@ -5437,7 +5439,7 @@ namespace Coverage
             {
                 // ILayoutAssignableCellViewDictionary
 
-                LayoutAssignableCellViewDictionary<string> ActualCellViewTable = DebugObjects.GetReferenceByInterface(typeof(LayoutAssignableCellViewDictionary<string>)) as LayoutAssignableCellViewDictionary<string>;
+                LayoutAssignableCellViewDictionary<string> ActualCellViewTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutAssignableCellViewDictionary<string>>()) as LayoutAssignableCellViewDictionary<string>;
                 if (ActualCellViewTable != null)
                 {
                     FrameAssignableCellViewDictionary<string> FrameActualCellViewTable = ActualCellViewTable;
@@ -5735,7 +5737,7 @@ namespace Coverage
 
                 // ILayoutFocusList
 
-                LayoutFocusList FocusList = DebugObjects.GetReferenceByInterface(typeof(LayoutFocusList)) as LayoutFocusList;
+                LayoutFocusList FocusList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutFocusList>()) as LayoutFocusList;
                 if (FocusList != null)
                 {
                     Assert.That(FocusList.Count > 0);
@@ -5767,17 +5769,17 @@ namespace Coverage
             // ILayoutTemplateDictionary
 
             LayoutTemplateDictionary NodeTemplateDictionary = TestDebug.CoverageLayoutTemplateSet.NodeTemplateDictionary;
-            Assert.That(NodeTemplateDictionary.ContainsKey(typeof(Leaf)));
-            ILayoutTemplate LeafTemplate = (ILayoutTemplate)NodeTemplateDictionary[typeof(Leaf)];
+            Assert.That(NodeTemplateDictionary.ContainsKey(Type.FromTypeof<Leaf>()));
+            ILayoutTemplate LeafTemplate = (ILayoutTemplate)NodeTemplateDictionary[Type.FromTypeof<Leaf>()];
 
             FrameTemplateDictionary FrameNodeTemplateDictionary = NodeTemplateDictionary;
             IDictionary<Type, IFrameTemplate> FrameNodeTemplateDictionaryAsDictionary = FrameNodeTemplateDictionary;
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.Keys != null);
             Assert.That(FrameNodeTemplateDictionaryAsDictionary.Values != null);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(Leaf)));
-            FrameNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
-            FrameNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
-            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFrameLayoutTemplate));
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.ContainsKey(Type.FromTypeof<Leaf>()));
+            FrameNodeTemplateDictionaryAsDictionary.Remove(Type.FromTypeof<Leaf>());
+            FrameNodeTemplateDictionaryAsDictionary.Add(Type.FromTypeof<Leaf>(), LeafTemplate);
+            Assert.That(FrameNodeTemplateDictionaryAsDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out IFrameTemplate AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out IFrameTemplate AsFrameLayoutTemplate));
             ICollection<KeyValuePair<Type, IFrameTemplate>> FrameNodeTemplateDictionaryAsCollection = FrameNodeTemplateDictionary;
             Assert.That(!FrameNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFrameTemplate> Entry in FrameNodeTemplateDictionary)
@@ -5790,15 +5792,15 @@ namespace Coverage
             FrameNodeTemplateDictionaryAsCollection.CopyTo(new KeyValuePair<Type, IFrameTemplate>[FrameNodeTemplateDictionaryAsCollection.Count], 0);
 
             FocusTemplateDictionary FocusNodeTemplateDictionary = NodeTemplateDictionary;
-            Assert.That(FocusNodeTemplateDictionary[typeof(Leaf)] != null);
+            Assert.That(FocusNodeTemplateDictionary[Type.FromTypeof<Leaf>()] != null);
             IDictionary<Type, IFocusTemplate> FocusNodeTemplateDictionaryAsDictionary = FocusNodeTemplateDictionary;
             Assert.That(FocusNodeTemplateDictionaryAsDictionary.Keys != null);
             Assert.That(FocusNodeTemplateDictionaryAsDictionary.Values != null);
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary.ContainsKey(typeof(Leaf)));
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary[typeof(Leaf)] != null);
-            FocusNodeTemplateDictionaryAsDictionary.Remove(typeof(Leaf));
-            FocusNodeTemplateDictionaryAsDictionary.Add(typeof(Leaf), LeafTemplate);
-            Assert.That(FocusNodeTemplateDictionaryAsDictionary.TryGetValue(typeof(Leaf), out IFocusTemplate AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out IFrameTemplate AsFocusLayoutTemplate));
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary.ContainsKey(Type.FromTypeof<Leaf>()));
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary[Type.FromTypeof<Leaf>()] != null);
+            FocusNodeTemplateDictionaryAsDictionary.Remove(Type.FromTypeof<Leaf>());
+            FocusNodeTemplateDictionaryAsDictionary.Add(Type.FromTypeof<Leaf>(), LeafTemplate);
+            Assert.That(FocusNodeTemplateDictionaryAsDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out IFocusTemplate AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out IFrameTemplate AsFocusLayoutTemplate));
             ICollection<KeyValuePair<Type, IFocusTemplate>> FocusNodeTemplateDictionaryAsCollection = FocusNodeTemplateDictionary;
             Assert.That(!FocusNodeTemplateDictionaryAsCollection.IsReadOnly);
             foreach (KeyValuePair<Type, IFocusTemplate> Entry in (ICollection<KeyValuePair<Type, IFocusTemplate>>)FocusNodeTemplateDictionary)
@@ -5820,22 +5822,22 @@ namespace Coverage
             FrameTemplateReadOnlyDictionary FrameNodeTemplateDictionaryReadOnly = NodeTemplateDictionaryReadOnly;
             FrameNodeTemplateDictionaryReadOnly.GetEnumerator();
             IReadOnlyDictionary<Type, IFrameTemplate> FrameNodeTemplateDictionaryReadOnlyAsDictionary = FrameNodeTemplateDictionaryReadOnly;
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(Leaf)));
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary[typeof(Leaf)] != null);
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(Type.FromTypeof<Leaf>()));
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary[Type.FromTypeof<Leaf>()] != null);
             Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.Keys != null);
             Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.Values != null);
-            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(Leaf), out AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out AsFrameLayoutTemplate));
+            Assert.That(FrameNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out AsFrameTemplate) == NodeTemplateDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out AsFrameLayoutTemplate));
             IEnumerable<KeyValuePair<Type, IFrameTemplate>> FrameNodeTemplateDictionaryReadOnlyAsEnumerable = FrameNodeTemplateDictionaryReadOnly;
             FrameNodeTemplateDictionaryReadOnlyAsEnumerable.GetEnumerator();
 
             FocusTemplateReadOnlyDictionary FocusNodeTemplateDictionaryReadOnly = NodeTemplateDictionaryReadOnly;
             FocusNodeTemplateDictionaryReadOnly.GetEnumerator();
             IReadOnlyDictionary<Type, IFocusTemplate> FocusNodeTemplateDictionaryReadOnlyAsDictionary = FocusNodeTemplateDictionaryReadOnly;
-            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(typeof(Leaf)));
-            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary[typeof(Leaf)] != null);
+            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.ContainsKey(Type.FromTypeof<Leaf>()));
+            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary[Type.FromTypeof<Leaf>()] != null);
             Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.Keys != null);
             Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.Values != null);
-            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(typeof(Leaf), out AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(typeof(Leaf), out AsFocusLayoutTemplate));
+            Assert.That(FocusNodeTemplateDictionaryReadOnlyAsDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out AsFocusTemplate) == NodeTemplateDictionary.TryGetValue(Type.FromTypeof<Leaf>(), out AsFocusLayoutTemplate));
             IEnumerable<KeyValuePair<Type, IFocusTemplate>> FocusNodeTemplateDictionaryReadOnlyAsEnumerable = FocusNodeTemplateDictionaryReadOnly;
             FocusNodeTemplateDictionaryReadOnlyAsEnumerable.GetEnumerator();
 
@@ -5911,7 +5913,7 @@ namespace Coverage
             Assert.That(FocusCycleManagerListAsReadOnlyList[0] == FirstCycleManager);
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)NodeTemplateDictionary)
-                if (TemplateEntry.Key == typeof(Root))
+                if (TemplateEntry.Key.IsTypeof<Root>())
                 {
                     // ILayoutFrameSelectorList 
 
@@ -5950,7 +5952,7 @@ namespace Coverage
                 }
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)NodeTemplateDictionary)
-                if (TemplateEntry.Key == typeof(Main))
+                if (TemplateEntry.Key.IsTypeof<Main>())
                 {
                     // ILayoutNodeFrameVisibilityList
 
@@ -5989,7 +5991,7 @@ namespace Coverage
                 }
 
             foreach (KeyValuePair<Type, ILayoutTemplate> TemplateEntry in (ICollection<KeyValuePair<Type, ILayoutTemplate>>)NodeTemplateDictionary)
-                if (TemplateEntry.Key == typeof(BaseNode.DeferredBody))
+                if (TemplateEntry.Key.IsTypeof<BaseNode.DeferredBody>())
                 {
                     // ILayoutFrameSelectorList 
 
@@ -6070,7 +6072,7 @@ namespace Coverage
         [Category("Coverage")]
         public static void LayoutSelectorTable()
         {
-            BaseNode.Class Root = BaseNodeHelper.NodeHelper.CreateEmptyNode(typeof(BaseNode.Class)) as BaseNode.Class;
+            BaseNode.Class Root = BaseNodeHelper.NodeHelper.CreateEmptyNode(Type.FromTypeof<BaseNode.Class>()) as BaseNode.Class;
             ILayoutRootNodeIndex RootIndex = new LayoutRootNodeIndex(Root);
             LayoutController Controller = LayoutController.Create(RootIndex);
             LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, EaslyEdit.CustomLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default);

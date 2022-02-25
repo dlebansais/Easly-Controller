@@ -1,53 +1,53 @@
-﻿using EaslyController.Focus;
+﻿namespace TestDebug;
+
+using EaslyController.Focus;
 using System.IO;
 using System.Text;
 using System.Windows.Markup;
 
-namespace TestDebug
+public class CustomFocusTemplateSet
 {
-    public class CustomFocusTemplateSet
+    #region Init
+    static CustomFocusTemplateSet()
     {
-        #region Init
-        static CustomFocusTemplateSet()
-        {
-            NodeTemplateDictionary = LoadTemplate(FocusTemplateListString);
-            FocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = (FocusTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
-            BlockTemplateDictionary = LoadTemplate(FocusBlockTemplateString);
-            FocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = (FocusTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
-            FocusTemplateSet = new FocusTemplateSet(FocusCustomNodeTemplates, FocusCustomBlockTemplates);
-        }
+        NodeTemplateDictionary = LoadTemplate(FocusTemplateListString);
+        FocusTemplateReadOnlyDictionary FocusCustomNodeTemplates = (FocusTemplateReadOnlyDictionary)NodeTemplateDictionary.ToReadOnly();
+        BlockTemplateDictionary = LoadTemplate(FocusBlockTemplateString);
+        FocusTemplateReadOnlyDictionary FocusCustomBlockTemplates = (FocusTemplateReadOnlyDictionary)BlockTemplateDictionary.ToReadOnly();
+        FocusTemplateSet = new FocusTemplateSet(FocusCustomNodeTemplates, FocusCustomBlockTemplates);
+    }
 
-        private static FocusTemplateDictionary LoadTemplate(string s)
+    private static FocusTemplateDictionary LoadTemplate(string s)
+    {
+        byte[] ByteArray = Encoding.UTF8.GetBytes(s);
+        using (MemoryStream ms = new MemoryStream(ByteArray))
         {
-            byte[] ByteArray = Encoding.UTF8.GetBytes(s);
-            using (MemoryStream ms = new MemoryStream(ByteArray))
+            FocusTemplateList Templates = (FocusTemplateList)XamlReader.Parse(s);
+
+            FocusTemplateDictionary TemplateDictionary = new FocusTemplateDictionary();
+            foreach (IFocusTemplate Item in Templates)
             {
-                FocusTemplateList Templates = (FocusTemplateList)XamlReader.Parse(s);
-
-                FocusTemplateDictionary TemplateDictionary = new FocusTemplateDictionary();
-                foreach (IFocusTemplate Item in Templates)
-                {
-                    Item.Root.UpdateParent(Item, FocusFrame.FocusRoot);
-                    TemplateDictionary.Add(Item.NodeType, Item);
-                }
-
-                return TemplateDictionary;
+                Item.Root.UpdateParent(Item, FocusFrame.FocusRoot);
+                TemplateDictionary.Add(Item.NodeType, Item);
             }
+
+            return TemplateDictionary;
         }
+    }
 
-        private CustomFocusTemplateSet()
-        {
-        }
-        #endregion
+    private CustomFocusTemplateSet()
+    {
+    }
+    #endregion
 
-        #region Properties
-        public static FocusTemplateDictionary NodeTemplateDictionary { get; private set; }
-        public static FocusTemplateDictionary BlockTemplateDictionary { get; private set; }
-        public static IFocusTemplateSet FocusTemplateSet { get; private set; }
-        #endregion
+    #region Properties
+    public static FocusTemplateDictionary NodeTemplateDictionary { get; private set; }
+    public static FocusTemplateDictionary BlockTemplateDictionary { get; private set; }
+    public static IFocusTemplateSet FocusTemplateSet { get; private set; }
+    #endregion
 
-        #region Node Templates
-        static string FocusTemplateListString =
+    #region Node Templates
+    static string FocusTemplateListString =
 @"<FocusTemplateList
     xmlns=""clr-namespace:EaslyController.Focus;assembly=Easly-Controller""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -3149,10 +3149,10 @@ namespace TestDebug
         </FocusHorizontalPanelFrame>
     </FocusNodeTemplate>
 </FocusTemplateList>";
-        #endregion
+    #endregion
 
-        #region Block Templates
-        static string FocusBlockTemplateString =
+    #region Block Templates
+    static string FocusBlockTemplateString =
 @"<FocusTemplateList
     xmlns=""clr-namespace:EaslyController.Focus;assembly=Easly-Controller""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
@@ -3981,6 +3981,5 @@ namespace TestDebug
     </FocusBlockTemplate>
 </FocusTemplateList>
 ";
-        #endregion
-    }
+    #endregion
 }

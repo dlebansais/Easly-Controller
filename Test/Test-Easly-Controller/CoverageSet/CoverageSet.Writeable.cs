@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using System.Threading;
+using Exception = System.Exception;
+using ArgumentException = System.ArgumentException;
+using Guid = System.Guid;
 using EaslyController;
 using EaslyController.Constants;
 using EaslyController.Controller;
@@ -13,6 +14,7 @@ using EaslyController.Layout;
 using EaslyController.ReadOnly;
 using EaslyController.Writeable;
 using NUnit.Framework;
+using NotNullReflection;
 
 namespace Coverage
 {
@@ -111,26 +113,26 @@ namespace Coverage
 
             IWriteablePlaceholderInner MainPlaceholderTreeInner = (IWriteablePlaceholderInner)RootState.PropertyToInner(nameof(Main.PlaceholderTree));
             Assert.That(MainPlaceholderTreeInner != null);
-            Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
+            Assert.That(MainPlaceholderTreeInner.InterfaceType.IsTypeof<Tree>());
             Assert.That(MainPlaceholderTreeInner.ChildState != null);
             Assert.That(MainPlaceholderTreeInner.ChildState.ParentInner == MainPlaceholderTreeInner);
 
             IWriteablePlaceholderInner MainPlaceholderLeafInner = (IWriteablePlaceholderInner)RootState.PropertyToInner(nameof(Main.PlaceholderLeaf));
             Assert.That(MainPlaceholderLeafInner != null);
-            Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainPlaceholderLeafInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(MainPlaceholderLeafInner.ChildState != null);
             Assert.That(MainPlaceholderLeafInner.ChildState.ParentInner == MainPlaceholderLeafInner);
 
             IWriteableOptionalInner MainUnassignedOptionalInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(Main.UnassignedOptionalLeaf));
             Assert.That(MainUnassignedOptionalInner != null);
-            Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainUnassignedOptionalInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(!MainUnassignedOptionalInner.IsAssigned);
             Assert.That(MainUnassignedOptionalInner.ChildState != null);
             Assert.That(MainUnassignedOptionalInner.ChildState.ParentInner == MainUnassignedOptionalInner);
 
             IWriteableOptionalInner MainAssignedOptionalTreeInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalTree));
             Assert.That(MainAssignedOptionalTreeInner != null);
-            Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
+            Assert.That(MainAssignedOptionalTreeInner.InterfaceType.IsTypeof<Tree>());
             Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
 
             IWriteableNodeState AssignedOptionalTreeState = MainAssignedOptionalTreeInner.ChildState;
@@ -144,7 +146,7 @@ namespace Coverage
 
             IWriteableOptionalInner MainAssignedOptionalLeafInner = (IWriteableOptionalInner)RootState.PropertyToInner(nameof(Main.AssignedOptionalLeaf));
             Assert.That(MainAssignedOptionalLeafInner != null);
-            Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainAssignedOptionalLeafInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
             Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
             Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
@@ -154,9 +156,9 @@ namespace Coverage
             Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
             Assert.That(!MainLeafBlocksInner.IsEmpty);
             Assert.That(!MainLeafBlocksInner.IsSingle);
-            Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-            Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
-            Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
+            Assert.That(MainLeafBlocksInner.InterfaceType.IsTypeof<Leaf>());
+            Assert.That(MainLeafBlocksInner.BlockType.IsTypeof<BaseNode.IBlock<Leaf>>());
+            Assert.That(MainLeafBlocksInner.ItemType.IsTypeof<Leaf>());
             Assert.That(MainLeafBlocksInner.Count == 4);
             Assert.That(MainLeafBlocksInner.BlockStateList != null);
             Assert.That(MainLeafBlocksInner.BlockStateList.Count == 3);
@@ -200,7 +202,7 @@ namespace Coverage
             IWriteableListInner MainLeafPathInner = (IWriteableListInner)RootState.PropertyToInner(nameof(Main.LeafPath));
             Assert.That(MainLeafPathInner != null);
             Assert.That(!MainLeafPathInner.IsNeverEmpty);
-            Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
+            Assert.That(MainLeafPathInner.InterfaceType.IsTypeof<Leaf>());
             Assert.That(MainLeafPathInner.Count == 2);
             Assert.That(MainLeafPathInner.StateList != null);
             Assert.That(MainLeafPathInner.StateList.Count == 2);
@@ -588,7 +590,7 @@ namespace Coverage
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafPath) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafPath) });
                 Assert.That(!Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
 
@@ -646,7 +648,7 @@ namespace Coverage
                 Controller.Undo();
 
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
                 Assert.That(Controller.IsRemoveable(LeafPathInner, RemovedLeafIndex0));
 
                 Assert.That(Controller.CanUndo);
@@ -704,11 +706,11 @@ namespace Coverage
                 Controller.Undo();
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(!Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
                 Assert.That(Controller.IsBlockRangeRemoveable(LeafBlocksInner, 0, 3));
 
                 Assert.That(!Controller.CanUndo);
@@ -792,13 +794,13 @@ namespace Coverage
                 Controller.Undo();
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.RemoveBlockRange(LeafBlocksInner, 2, 3);
                 Controller.RemoveBlockRange(LeafBlocksInner, 0, 1);
                 Assert.That(!Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
                 Assert.That(Controller.IsNodeRangeRemoveable(LeafBlocksInner, 0, 0, 2));
 
                 Controller.Undo();
@@ -1765,7 +1767,7 @@ namespace Coverage
                 Assert.That(AllChildren6.Count == AllChildren5.Count, $"New count: {AllChildren6.Count - AllChildren5.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -1780,7 +1782,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -1868,7 +1870,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 9, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -1928,7 +1930,7 @@ namespace Coverage
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 //System.Diagnostics.Debug.Assert(false);
                 Controller.Reduce(RootIndex, out IsChanged);
@@ -1940,7 +1942,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -1953,7 +1955,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2051,7 +2053,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
 
                 IDictionary<Type, string[]> NeverEmptyCollectionTable = BaseNodeHelper.NodeHelper.NeverEmptyCollectionTable as IDictionary<Type, string[]>;
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.PlaceholderTree) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.PlaceholderTree) });
 
                 RemovedListLeafIndex = LeafPathInner.StateList[0].ParentIndex as IWriteableBrowsingListNodeIndex;
                 Assert.That(Controller.Contains(RemovedListLeafIndex));
@@ -2061,7 +2063,7 @@ namespace Coverage
                 Assert.That(!Controller.Contains(RemovedListLeafIndex));
                 Assert.That(LeafPathInner.Count == 0);
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2074,7 +2076,7 @@ namespace Coverage
                 Assert.That(AllChildren0.Count == 12, $"New count: {AllChildren0.Count}");
 
                 IDictionary<Type, string[]> WithExpandCollectionTable = BaseNodeHelper.NodeHelper.WithExpandCollectionTable as IDictionary<Type, string[]>;
-                WithExpandCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                WithExpandCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
 
                 Controller.Expand(RootIndex, out IsChanged);
                 Assert.That(IsChanged);
@@ -2113,7 +2115,7 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Add(typeof(Main), new string[] { nameof(Main.LeafBlocks) });
+                NeverEmptyCollectionTable.Add(Type.FromTypeof<Main>(), new string[] { nameof(Main.LeafBlocks) });
                 Assert.That(LeafBlocksInner.BlockStateList.Count == 1);
                 Assert.That(LeafBlocksInner.BlockStateList[0].StateList.Count == 1, LeafBlocksInner.BlockStateList[0].StateList.Count.ToString());
 
@@ -2123,9 +2125,9 @@ namespace Coverage
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
 
-                NeverEmptyCollectionTable.Remove(typeof(Main));
+                NeverEmptyCollectionTable.Remove(Type.FromTypeof<Main>());
 
-                WithExpandCollectionTable.Remove(typeof(Main));
+                WithExpandCollectionTable.Remove(Type.FromTypeof<Main>());
 
                 Assert.That(Controller.CanUndo);
                 Controller.Undo();
@@ -2229,7 +2231,7 @@ namespace Coverage
             WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
             WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(typeof(WriteableNodeStateDictionary)) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableNodeStateDictionary>()) as ReadOnlyNodeStateDictionary;
 
             using (WriteableControllerView ControllerView = WriteableControllerView.Create(Controller))
             {
@@ -2287,7 +2289,7 @@ namespace Coverage
 
                 //System.Diagnostics.Debug.Assert(false);
                 IWriteablePlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                WriteableBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(typeof(WriteableBlockStateList)) as WriteableBlockStateList;
+                WriteableBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableBlockStateList>()) as WriteableBlockStateList;
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
@@ -2436,7 +2438,7 @@ namespace Coverage
                 // WriteableInnerDictionary
 
                 //System.Diagnostics.Debug.Assert(false);
-                WriteableInnerDictionary<string> InnerTableModify = DebugObjects.GetReferenceByInterface(typeof(WriteableInnerDictionary<string>)) as WriteableInnerDictionary<string>;
+                WriteableInnerDictionary<string> InnerTableModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableInnerDictionary<string>>()) as WriteableInnerDictionary<string>;
                 Assert.That(InnerTableModify != null);
                 Assert.That(InnerTableModify.Count > 0);
 
@@ -2490,7 +2492,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                WriteableNodeStateList NodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(WriteableNodeStateList)) as WriteableNodeStateList;
+                WriteableNodeStateList NodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableNodeStateList>()) as WriteableNodeStateList;
                 Assert.That(NodeStateListModify != null);
                 Assert.That(NodeStateListModify.Count > 0);
                 FirstNodeState = NodeStateListModify[0] as IWriteablePlaceholderNodeState;
@@ -2543,7 +2545,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                WriteablePlaceholderNodeStateList PlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(typeof(WriteablePlaceholderNodeStateList)) as WriteablePlaceholderNodeStateList;
+                WriteablePlaceholderNodeStateList PlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteablePlaceholderNodeStateList>()) as WriteablePlaceholderNodeStateList;
                 if (PlaceholderNodeStateListModify != null)
                 {
                     Assert.That(PlaceholderNodeStateListModify.Count > 0);

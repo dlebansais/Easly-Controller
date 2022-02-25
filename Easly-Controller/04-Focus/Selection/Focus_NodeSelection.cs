@@ -6,6 +6,7 @@
     using Contracts;
     using EaslyController.Controller;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// A selection of a node an all its content and children.
@@ -64,7 +65,7 @@
             if (ClipboardHelper.TryReadNode(out Node Node))
             {
                 IFocusNodeState State = StateView.State;
-                if ((State.ParentInner != null && State.ParentInner.InterfaceType.IsAssignableFrom(Node.GetType())) || (State.ParentInner == null && Node.GetType() == State.Node.GetType()))
+                if ((State.ParentInner != null && State.ParentInner.InterfaceType.IsAssignableFrom(Type.FromGetType(Node))) || (State.ParentInner == null && Type.FromGetType(Node) == Type.FromGetType(State.Node)))
                 {
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {

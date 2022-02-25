@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using Contracts;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a child node.
@@ -42,7 +42,7 @@
         {
             get
             {
-                Type NodeType = State.Node.GetType();
+                Type NodeType = Type.FromGetType(State.Node);
                 Debug.Assert(!NodeType.IsInterface && !NodeType.IsAbstract);
 
                 //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(NodeType);
@@ -197,9 +197,9 @@
         /// <param name="cellView">The cell view for which <paramref name="handler"/> returned true. Null if none.</param>
         /// <param name="reversed">If true, search in reverse order.</param>
         /// <returns>The last value returned by <paramref name="handler"/>.</returns>
-        public virtual bool EnumerateVisibleCellViews(Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
+        public virtual bool EnumerateVisibleCellViews(System.Func<IFrameVisibleCellView, bool> handler, out IFrameVisibleCellView cellView, bool reversed)
         {
-            Contract.RequireNotNull(handler, out Func<IFrameVisibleCellView, bool> Handler);
+            Contract.RequireNotNull(handler, out System.Func<IFrameVisibleCellView, bool> Handler);
 
             Debug.Assert(RootCellView != null);
             return RootCellView.EnumerateVisibleCellViews(Handler, out cellView, reversed);
@@ -288,7 +288,7 @@
         /// </summary>
         private protected virtual FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderNodeStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePlaceholderNodeStateView>());
             return new FrameAssignableCellViewDictionary<string>();
         }
         #endregion

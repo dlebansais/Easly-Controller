@@ -2,6 +2,7 @@
 {
     using System.Windows.Markup;
     using EaslyController.Focus;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame visibility that shows if one frame visibility among a list does.
@@ -35,7 +36,7 @@
         /// </summary>
         private protected override FocusNodeFrameVisibilityList CreateNodeFrameVisibilityList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutMixedFrameVisibility));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutMixedFrameVisibility>());
             return new LayoutNodeFrameVisibilityList();
         }
         #endregion

@@ -3,8 +3,8 @@
 using EaslyController;
 using EaslyController.Layout;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
+using NotNullReflection;
 
 [TestFixture]
 public class TestCollectionLayout
@@ -15,7 +15,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutAssignableCellViewDictionary<string>, LayoutAssignableCellViewReadOnlyDictionary<string>> DictionaryToReadOnlyHandler = (LayoutAssignableCellViewDictionary<string> dictionary) => (LayoutAssignableCellViewReadOnlyDictionary<string>)dictionary.ToReadOnly();
+        System.Func<LayoutAssignableCellViewDictionary<string>, LayoutAssignableCellViewReadOnlyDictionary<string>> DictionaryToReadOnlyHandler = (LayoutAssignableCellViewDictionary<string> dictionary) => (LayoutAssignableCellViewReadOnlyDictionary<string>)dictionary.ToReadOnly();
         string NeutralKey = string.Empty;
         ILayoutAssignableCellView NeutralValue = LayoutCellViewCollection.Empty;
         TestDictionary<LayoutAssignableCellViewDictionary<string>, LayoutAssignableCellViewReadOnlyDictionary<string>, string, ILayoutAssignableCellView> TestDictionaryAssignableCellView = new(DictionaryToReadOnlyHandler, NeutralKey, NeutralValue);
@@ -30,7 +30,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutBlockStateList, LayoutBlockStateReadOnlyList> ListToReadOnlyHandler = (LayoutBlockStateList list) => (LayoutBlockStateReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutBlockStateList, LayoutBlockStateReadOnlyList> ListToReadOnlyHandler = (LayoutBlockStateList list) => (LayoutBlockStateReadOnlyList)list.ToReadOnly();
         ILayoutBlockState NeutralItem = LayoutBlockState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty;
         TestList<LayoutBlockStateList, LayoutBlockStateReadOnlyList, ILayoutBlockState> TestListBlockState = new(ListToReadOnlyHandler, NeutralItem);
         TestListBlockState.Test();
@@ -42,7 +42,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutBlockStateViewDictionary, LayoutBlockStateViewReadOnlyDictionary> DictionaryToReadOnlyHandler = (LayoutBlockStateViewDictionary dictionary) => (LayoutBlockStateViewReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<LayoutBlockStateViewDictionary, LayoutBlockStateViewReadOnlyDictionary> DictionaryToReadOnlyHandler = (LayoutBlockStateViewDictionary dictionary) => (LayoutBlockStateViewReadOnlyDictionary)dictionary.ToReadOnly();
         ILayoutBlockState NeutralKey = LayoutBlockState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty;
         LayoutBlockStateView NeutralValue = LayoutBlockStateView.Empty;
         TestDictionary<LayoutBlockStateViewDictionary, LayoutBlockStateViewReadOnlyDictionary, ILayoutBlockState, LayoutBlockStateView> TestDictionaryBlockStateView = new(DictionaryToReadOnlyHandler, NeutralKey, NeutralValue);
@@ -57,7 +57,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutBrowsingBlockNodeIndexList, LayoutBrowsingBlockNodeIndexReadOnlyList> ListToReadOnlyHandler = (LayoutBrowsingBlockNodeIndexList list) => (LayoutBrowsingBlockNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutBrowsingBlockNodeIndexList, LayoutBrowsingBlockNodeIndexReadOnlyList> ListToReadOnlyHandler = (LayoutBrowsingBlockNodeIndexList list) => (LayoutBrowsingBlockNodeIndexReadOnlyList)list.ToReadOnly();
         ILayoutBrowsingBlockNodeIndex NeutralItem = LayoutBrowsingNewBlockNodeIndex.Empty;
         TestList<LayoutBrowsingBlockNodeIndexList, LayoutBrowsingBlockNodeIndexReadOnlyList, ILayoutBrowsingBlockNodeIndex> TestListBrowsingBlockNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListBrowsingBlockNodeIndex.Test();
@@ -69,7 +69,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutBrowsingListNodeIndexList, LayoutBrowsingListNodeIndexReadOnlyList> ListToReadOnlyHandler = (LayoutBrowsingListNodeIndexList list) => (LayoutBrowsingListNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutBrowsingListNodeIndexList, LayoutBrowsingListNodeIndexReadOnlyList> ListToReadOnlyHandler = (LayoutBrowsingListNodeIndexList list) => (LayoutBrowsingListNodeIndexReadOnlyList)list.ToReadOnly();
         ILayoutBrowsingListNodeIndex NeutralItem = LayoutBrowsingListNodeIndex.Empty;
         TestList<LayoutBrowsingListNodeIndexList, LayoutBrowsingListNodeIndexReadOnlyList, ILayoutBrowsingListNodeIndex> TestListBrowsingListNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListBrowsingListNodeIndex.Test();
@@ -81,7 +81,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutCellViewList, LayoutCellViewReadOnlyList> ListToReadOnlyHandler = (LayoutCellViewList list) => (LayoutCellViewReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutCellViewList, LayoutCellViewReadOnlyList> ListToReadOnlyHandler = (LayoutCellViewList list) => (LayoutCellViewReadOnlyList)list.ToReadOnly();
         ILayoutCellView NeutralItem = LayoutCellViewCollection.Empty;
         TestList<LayoutCellViewList, LayoutCellViewReadOnlyList, ILayoutCellView> TestListCellView = new(ListToReadOnlyHandler, NeutralItem);
         TestListCellView.Test();
@@ -93,7 +93,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutCycleManagerList, LayoutCycleManagerReadOnlyList> ListToReadOnlyHandler = (LayoutCycleManagerList list) => (LayoutCycleManagerReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutCycleManagerList, LayoutCycleManagerReadOnlyList> ListToReadOnlyHandler = (LayoutCycleManagerList list) => (LayoutCycleManagerReadOnlyList)list.ToReadOnly();
         ILayoutCycleManager NeutralItem = LayoutCycleManager.Empty;
         TestList<LayoutCycleManagerList, LayoutCycleManagerReadOnlyList, ILayoutCycleManager> TestListCycleManager = new(ListToReadOnlyHandler, NeutralItem);
         TestListCycleManager.Test();
@@ -105,7 +105,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutFocusList, LayoutFocusReadOnlyList> ListToReadOnlyHandler = (LayoutFocusList list) => (LayoutFocusReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutFocusList, LayoutFocusReadOnlyList> ListToReadOnlyHandler = (LayoutFocusList list) => (LayoutFocusReadOnlyList)list.ToReadOnly();
         ILayoutFocus NeutralItem = LayoutFocus.Empty;
         TestList<LayoutFocusList, LayoutFocusReadOnlyList, ILayoutFocus> TestListLayout = new(ListToReadOnlyHandler, NeutralItem);
         TestListLayout.Test();
@@ -117,7 +117,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutFrameList, LayoutFrameReadOnlyList> ListToReadOnlyHandler = (LayoutFrameList list) => (LayoutFrameReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutFrameList, LayoutFrameReadOnlyList> ListToReadOnlyHandler = (LayoutFrameList list) => (LayoutFrameReadOnlyList)list.ToReadOnly();
         ILayoutFrame NeutralItem = LayoutFrame.LayoutRoot;
         TestList<LayoutFrameList, LayoutFrameReadOnlyList, ILayoutFrame> TestListLayout = new(ListToReadOnlyHandler, NeutralItem);
         TestListLayout.Test();
@@ -129,7 +129,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutFrameSelectorList, LayoutFrameSelectorReadOnlyList> ListToReadOnlyHandler = (LayoutFrameSelectorList list) => (LayoutFrameSelectorReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutFrameSelectorList, LayoutFrameSelectorReadOnlyList> ListToReadOnlyHandler = (LayoutFrameSelectorList list) => (LayoutFrameSelectorReadOnlyList)list.ToReadOnly();
         ILayoutFrameSelector NeutralItem = LayoutFrameSelector.Empty;
         TestList<LayoutFrameSelectorList, LayoutFrameSelectorReadOnlyList, ILayoutFrameSelector> TestListLayout = new(ListToReadOnlyHandler, NeutralItem);
         TestListLayout.Test();
@@ -141,7 +141,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutIndexCollectionList, LayoutIndexCollectionReadOnlyList> ListToReadOnlyHandler = (LayoutIndexCollectionList list) => (LayoutIndexCollectionReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutIndexCollectionList, LayoutIndexCollectionReadOnlyList> ListToReadOnlyHandler = (LayoutIndexCollectionList list) => (LayoutIndexCollectionReadOnlyList)list.ToReadOnly();
         ILayoutIndexCollection NeutralItem = LayoutIndexCollection<ILayoutBrowsingChildIndex>.Empty;
         TestList<LayoutIndexCollectionList, LayoutIndexCollectionReadOnlyList, ILayoutIndexCollection> TestListIndexCollection = new(ListToReadOnlyHandler, NeutralItem);
         TestListIndexCollection.Test();
@@ -153,7 +153,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutInnerDictionary<string>, LayoutInnerReadOnlyDictionary<string>> DictionaryToLayoutHandler = (LayoutInnerDictionary<string> dictionary) => (LayoutInnerReadOnlyDictionary<string>)dictionary.ToReadOnly();
+        System.Func<LayoutInnerDictionary<string>, LayoutInnerReadOnlyDictionary<string>> DictionaryToLayoutHandler = (LayoutInnerDictionary<string> dictionary) => (LayoutInnerReadOnlyDictionary<string>)dictionary.ToReadOnly();
         string NeutralKey = string.Empty;
         ILayoutInner NeutralValue = LayoutInner<ILayoutBrowsingChildIndex>.Empty;
         TestDictionary<LayoutInnerDictionary<string>, LayoutInnerReadOnlyDictionary<string>, string, ILayoutInner> TestDictionaryInner = new(DictionaryToLayoutHandler, NeutralKey, NeutralValue);
@@ -168,7 +168,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutInsertionChildNodeIndexList, LayoutInsertionChildNodeIndexReadOnlyList> ListToReadOnlyHandler = (LayoutInsertionChildNodeIndexList list) => (LayoutInsertionChildNodeIndexReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutInsertionChildNodeIndexList, LayoutInsertionChildNodeIndexReadOnlyList> ListToReadOnlyHandler = (LayoutInsertionChildNodeIndexList list) => (LayoutInsertionChildNodeIndexReadOnlyList)list.ToReadOnly();
         ILayoutInsertionChildNodeIndex NeutralItem = LayoutInsertionEmptyNodeIndex.Empty;
         TestList<LayoutInsertionChildNodeIndexList, LayoutInsertionChildNodeIndexReadOnlyList, ILayoutInsertionChildNodeIndex> TestListInsertionChildNodeIndex = new(ListToReadOnlyHandler, NeutralItem);
         TestListInsertionChildNodeIndex.Test();
@@ -180,7 +180,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutKeywordFrameList, LayoutKeywordFrameReadOnlyList> ListToReadOnlyHandler = (LayoutKeywordFrameList list) => (LayoutKeywordFrameReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutKeywordFrameList, LayoutKeywordFrameReadOnlyList> ListToReadOnlyHandler = (LayoutKeywordFrameList list) => (LayoutKeywordFrameReadOnlyList)list.ToReadOnly();
         ILayoutKeywordFrame NeutralItem = LayoutKeywordFrame.Empty;
         TestList<LayoutKeywordFrameList, LayoutKeywordFrameReadOnlyList, ILayoutKeywordFrame> TestListKeywordFrame = new(ListToReadOnlyHandler, NeutralItem);
         TestListKeywordFrame.Test();
@@ -192,7 +192,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutNodeFrameVisibilityList, LayoutNodeFrameVisibilityReadOnlyList> ListToReadOnlyHandler = (LayoutNodeFrameVisibilityList list) => (LayoutNodeFrameVisibilityReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutNodeFrameVisibilityList, LayoutNodeFrameVisibilityReadOnlyList> ListToReadOnlyHandler = (LayoutNodeFrameVisibilityList list) => (LayoutNodeFrameVisibilityReadOnlyList)list.ToReadOnly();
         ILayoutNodeFrameVisibility NeutralItem = LayoutComplexFrameVisibility.Empty;
         TestList<LayoutNodeFrameVisibilityList, LayoutNodeFrameVisibilityReadOnlyList, ILayoutNodeFrameVisibility> TestListNodeFrameVisibility = new(ListToReadOnlyHandler, NeutralItem);
         TestListNodeFrameVisibility.Test();
@@ -204,7 +204,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutNodeStateDictionary, LayoutNodeStateReadOnlyDictionary> DictionaryToLayoutHandler = (LayoutNodeStateDictionary dictionary) => (LayoutNodeStateReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<LayoutNodeStateDictionary, LayoutNodeStateReadOnlyDictionary> DictionaryToLayoutHandler = (LayoutNodeStateDictionary dictionary) => (LayoutNodeStateReadOnlyDictionary)dictionary.ToReadOnly();
         ILayoutIndex NeutralKey = LayoutRootNodeIndex.Empty;
         ILayoutNodeState NeutralValue = LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty;
         TestDictionary<LayoutNodeStateDictionary, LayoutNodeStateReadOnlyDictionary, ILayoutIndex, ILayoutNodeState> TestDictionaryNodeState = new(DictionaryToLayoutHandler, NeutralKey, NeutralValue);
@@ -219,7 +219,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutNodeStateList, LayoutNodeStateReadOnlyList> ListToReadOnlyHandler = (LayoutNodeStateList list) => (LayoutNodeStateReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutNodeStateList, LayoutNodeStateReadOnlyList> ListToReadOnlyHandler = (LayoutNodeStateList list) => (LayoutNodeStateReadOnlyList)list.ToReadOnly();
         ILayoutNodeState NeutralItem = LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty;
         TestList<LayoutNodeStateList, LayoutNodeStateReadOnlyList, ILayoutNodeState> TestListNodeState = new(ListToReadOnlyHandler, NeutralItem);
         TestListNodeState.Test();
@@ -231,7 +231,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutNodeStateViewDictionary, LayoutNodeStateViewReadOnlyDictionary> DictionaryToLayoutHandler = (LayoutNodeStateViewDictionary dictionary) => (LayoutNodeStateViewReadOnlyDictionary)dictionary.ToReadOnly();
+        System.Func<LayoutNodeStateViewDictionary, LayoutNodeStateViewReadOnlyDictionary> DictionaryToLayoutHandler = (LayoutNodeStateViewDictionary dictionary) => (LayoutNodeStateViewReadOnlyDictionary)dictionary.ToReadOnly();
         ILayoutNodeState NeutralKey = LayoutNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty;
         ILayoutNodeStateView NeutralValue = LayoutNodeStateView.Empty;
         TestDictionary<LayoutNodeStateViewDictionary, LayoutNodeStateViewReadOnlyDictionary, ILayoutNodeState, ILayoutNodeStateView> TestDictionaryNodeStateView = new(DictionaryToLayoutHandler, NeutralKey, NeutralValue);
@@ -246,7 +246,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutOperationGroupList, LayoutOperationGroupReadOnlyList> ListToReadOnlyHandler = (LayoutOperationGroupList list) => (LayoutOperationGroupReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutOperationGroupList, LayoutOperationGroupReadOnlyList> ListToReadOnlyHandler = (LayoutOperationGroupList list) => (LayoutOperationGroupReadOnlyList)list.ToReadOnly();
         LayoutOperationGroup NeutralItem = LayoutOperationGroup.Empty;
         TestList<LayoutOperationGroupList, LayoutOperationGroupReadOnlyList, LayoutOperationGroup> TestListOperationGroup = new(ListToReadOnlyHandler, NeutralItem);
         TestListOperationGroup.Test();
@@ -258,7 +258,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutOperationList, LayoutOperationReadOnlyList> ListToReadOnlyHandler = (LayoutOperationList list) => (LayoutOperationReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutOperationList, LayoutOperationReadOnlyList> ListToReadOnlyHandler = (LayoutOperationList list) => (LayoutOperationReadOnlyList)list.ToReadOnly();
         ILayoutOperation NeutralItem = LayoutOperation.Empty;
         TestList<LayoutOperationList, LayoutOperationReadOnlyList, ILayoutOperation> TestListOperation = new(ListToReadOnlyHandler, NeutralItem);
         TestListOperation.Test();
@@ -270,7 +270,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutPlaceholderNodeStateList, LayoutPlaceholderNodeStateReadOnlyList> ListToReadOnlyHandler = (LayoutPlaceholderNodeStateList list) => (LayoutPlaceholderNodeStateReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutPlaceholderNodeStateList, LayoutPlaceholderNodeStateReadOnlyList> ListToReadOnlyHandler = (LayoutPlaceholderNodeStateList list) => (LayoutPlaceholderNodeStateReadOnlyList)list.ToReadOnly();
         ILayoutPlaceholderNodeState NeutralItem = LayoutPlaceholderNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>.Empty;
         TestList<LayoutPlaceholderNodeStateList, LayoutPlaceholderNodeStateReadOnlyList, ILayoutPlaceholderNodeState> TestListPlaceholderNodeState = new(ListToReadOnlyHandler, NeutralItem);
         TestListPlaceholderNodeState.Test();
@@ -282,7 +282,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutSelectableFrameList, LayoutSelectableFrameReadOnlyList> ListToReadOnlyHandler = (LayoutSelectableFrameList list) => (LayoutSelectableFrameReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutSelectableFrameList, LayoutSelectableFrameReadOnlyList> ListToReadOnlyHandler = (LayoutSelectableFrameList list) => (LayoutSelectableFrameReadOnlyList)list.ToReadOnly();
         ILayoutSelectableFrame NeutralItem = LayoutSelectableFrame.Empty;
         TestList<LayoutSelectableFrameList, LayoutSelectableFrameReadOnlyList, ILayoutSelectableFrame> TestListSelectableFrame = new(ListToReadOnlyHandler, NeutralItem);
         TestListSelectableFrame.Test();
@@ -294,8 +294,8 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutTemplateDictionary, LayoutTemplateReadOnlyDictionary> DictionaryToLayoutHandler = (LayoutTemplateDictionary dictionary) => (LayoutTemplateReadOnlyDictionary)dictionary.ToReadOnly();
-        Type NeutralKey = typeof(object);
+        System.Func<LayoutTemplateDictionary, LayoutTemplateReadOnlyDictionary> DictionaryToLayoutHandler = (LayoutTemplateDictionary dictionary) => (LayoutTemplateReadOnlyDictionary)dictionary.ToReadOnly();
+        Type NeutralKey = Type.FromTypeof<object>();
         ILayoutTemplate NeutralValue = LayoutTemplate.Empty;
         TestDictionary<LayoutTemplateDictionary, LayoutTemplateReadOnlyDictionary, Type, ILayoutTemplate> TestDictionaryTemplate = new(DictionaryToLayoutHandler, NeutralKey, NeutralValue);
         LayoutTemplateDictionary TemplateDictionaryFromSource = new(new Dictionary<Type, ILayoutTemplate>());
@@ -309,7 +309,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutTemplateList, LayoutTemplateReadOnlyList> ListToReadOnlyHandler = (LayoutTemplateList list) => (LayoutTemplateReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutTemplateList, LayoutTemplateReadOnlyList> ListToReadOnlyHandler = (LayoutTemplateList list) => (LayoutTemplateReadOnlyList)list.ToReadOnly();
         ILayoutTemplate NeutralItem = LayoutTemplate.Empty;
         TestList<LayoutTemplateList, LayoutTemplateReadOnlyList, ILayoutTemplate> TestListTemplate = new(ListToReadOnlyHandler, NeutralItem);
         TestListTemplate.Test();
@@ -321,7 +321,7 @@ public class TestCollectionLayout
     {
         ControllerTools.ResetExpectedName();
 
-        Func<LayoutVisibleCellViewList, LayoutVisibleCellViewReadOnlyList> ListToReadOnlyHandler = (LayoutVisibleCellViewList list) => (LayoutVisibleCellViewReadOnlyList)list.ToReadOnly();
+        System.Func<LayoutVisibleCellViewList, LayoutVisibleCellViewReadOnlyList> ListToReadOnlyHandler = (LayoutVisibleCellViewList list) => (LayoutVisibleCellViewReadOnlyList)list.ToReadOnly();
         ILayoutVisibleCellView NeutralItem = LayoutVisibleCellView.Empty;
         TestList<LayoutVisibleCellViewList, LayoutVisibleCellViewReadOnlyList, ILayoutVisibleCellView> TestListVisibleCellView = new(ListToReadOnlyHandler, NeutralItem);
         TestListVisibleCellView.Test();

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using BaseNode;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for inserting a node in a list or block list.
@@ -21,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableInsertNodeOperation(Node parentNode, string propertyName, int blockIndex, int index, Node node, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -97,9 +97,9 @@
         /// <summary>
         /// Creates a IxxxRemoveNodeOperation object.
         /// </summary>
-        private protected virtual WriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableRemoveNodeOperation CreateRemoveNodeOperation(int blockIndex, int index, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertNodeOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableInsertNodeOperation>());
             return new WriteableRemoveNodeOperation(ParentNode, PropertyName, blockIndex, index, handlerRedo, handlerUndo, isNested);
         }
         #endregion

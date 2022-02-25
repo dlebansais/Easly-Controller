@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for a list of nodes.
@@ -240,7 +240,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableListInner<TIndex>>());
             return new WriteablePlaceholderNodeStateList();
         }
 
@@ -249,7 +249,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableListInner<TIndex>>());
             return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableNodeIndex)nodeIndex);
         }
 
@@ -258,7 +258,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableListInner<TIndex>>());
             return new WriteableBrowsingListNodeIndexList();
         }
 
@@ -267,7 +267,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableListInner<TIndex>>());
             return new WriteableBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion

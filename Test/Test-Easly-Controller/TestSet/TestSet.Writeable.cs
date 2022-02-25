@@ -6,11 +6,9 @@
     using NUnit.Framework;
     using System.Globalization;
     using System.IO;
-    using System.Reflection;
     using System.Threading;
     using PolySerializer;
     using System.Collections.Generic;
-    using System;
     using EaslyController;
     using EaslyController.Writeable;
     using EaslyController.Frame;
@@ -20,6 +18,7 @@
     using EaslyController.Layout;
     using EaslyEdit;
     using System.Text;
+    using NotNullReflection;
 
     [TestFixture]
     public partial class TestSet
@@ -52,7 +51,7 @@
 
             TestWriteableStats(index, name, rootNode, out Stats Stats);
 
-            Random rand = new Random(0x123456);
+            System.Random rand = new System.Random(0x123456);
 
             IWriteableRootNodeIndex RootIndex = new WriteableRootNodeIndex(rootNode);
             WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
@@ -784,7 +783,7 @@
             {
                 IWriteableOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
-                Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
+                Type NodeInterfaceType = Type.FromGetType(Optional).GetGenericArguments()[0];
                 Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
@@ -1481,7 +1480,7 @@
             }
         }
 
-        static bool WriteableBrowseNode(WriteableController controller, IWriteableIndex index, Func<IWriteableInner, bool> test)
+        static bool WriteableBrowseNode(WriteableController controller, IWriteableIndex index, System.Func<IWriteableInner, bool> test)
         {
             Assert.That(index != null, "Writeable #0");
             Assert.That(controller.Contains(index), "Writeable #1");
@@ -1584,7 +1583,7 @@
             return true;
         }
 
-        static bool WriteableBrowseValues(WriteableController controller, IWriteableIndex index, Func<IWriteableIndex, string, bool> test)
+        static bool WriteableBrowseValues(WriteableController controller, IWriteableIndex index, System.Func<IWriteableIndex, string, bool> test)
         {
             Assert.That(index != null, "Writeable #7");
             Assert.That(controller.Contains(index), "Writeable #8");

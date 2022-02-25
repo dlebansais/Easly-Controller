@@ -10,7 +10,6 @@
     using System.Threading;
     using PolySerializer;
     using System.Collections.Generic;
-    using System;
     using EaslyController;
     using EaslyController.Writeable;
     using EaslyController.Frame;
@@ -20,6 +19,7 @@
     using EaslyController.Layout;
     using EaslyEdit;
     using System.Text;
+    using NotNullReflection;
 
     [TestFixture]
     public partial class TestSet
@@ -53,7 +53,7 @@
 
             TestFrameStats(index, name, rootNode, out Stats Stats);
 
-            Random rand = new Random(0x123456);
+            System.Random rand = new System.Random(0x123456);
 
             IFrameRootNodeIndex RootIndex = new FrameRootNodeIndex(rootNode);
             FrameController Controller = FrameController.Create(RootIndex);
@@ -571,7 +571,7 @@
             {
                 IFrameOptionalNodeState State = AsOptionalInner.ChildState;
                 IOptionalReference Optional = State.ParentIndex.Optional;
-                Type NodeInterfaceType = Optional.GetType().GetGenericArguments()[0];
+                Type NodeInterfaceType = Type.FromGetType(Optional).GetGenericArguments()[0];
                 Node NewNode = NodeHelper.CreateDefaultFromType(NodeInterfaceType);
                 Assert.That(NewNode != null, $"Type: {AsOptionalInner.InterfaceType}");
 
@@ -1662,7 +1662,7 @@
             return false;
         }
 
-        static bool FrameBrowseNode(FrameController controller, IFrameIndex index, Func<IFrameInner, bool> test)
+        static bool FrameBrowseNode(FrameController controller, IFrameIndex index, System.Func<IFrameInner, bool> test)
         {
             Assert.That(index != null, "Frame #0");
             Assert.That(controller.Contains(index), "Frame #1");

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Constants;
+    using NotNullReflection;
 
     /// <summary>
     /// Context for browsing child nodes of a parent node.
@@ -145,7 +146,7 @@
         /// </summary>
         private protected virtual ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowseContext));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyBrowseContext>());
             return new ReadOnlyIndexCollectionList();
         }
         #endregion

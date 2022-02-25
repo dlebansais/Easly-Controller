@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Layout
 {
-    using System;
     using System.Diagnostics;
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame.

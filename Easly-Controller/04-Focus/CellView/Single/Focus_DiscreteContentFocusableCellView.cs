@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
@@ -108,7 +109,7 @@
         /// </summary>
         protected virtual IFocusDiscreteContentFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteContentFocusableCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusDiscreteContentFocusableCellView>());
             return new FocusDiscreteContentFocus(this);
         }
         #endregion

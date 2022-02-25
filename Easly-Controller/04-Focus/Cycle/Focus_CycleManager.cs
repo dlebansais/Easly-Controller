@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
+    using NotNullReflection;
 
     /// <summary>
     /// Base interface for cycle managers.

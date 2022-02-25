@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     internal class WriteableBrowseContext : ReadOnlyBrowseContext
@@ -57,7 +58,7 @@
                     InternalList.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    if (InternalList.GetType() == typeof(WriteableIndexCollectionList))
+                    if (Type.FromGetType(InternalList).IsTypeof<WriteableIndexCollectionList>())
                         InternalList.CopyTo((IReadOnlyIndexCollection[])(new IWriteableIndexCollection[InternalList.Count]), 0);
 
                     IEnumerable<IWriteableIndexCollection> AsEnumerable = InternalList;
@@ -81,7 +82,7 @@
         /// <inheritdoc/>
         private protected override ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowseContext));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowseContext>());
             return new WriteableIndexCollectionList();
         }
         #endregion

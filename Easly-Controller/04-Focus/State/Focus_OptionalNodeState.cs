@@ -1,13 +1,11 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using BaseNode;
-    using BaseNodeHelper;
-    using Easly;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an optional node.
@@ -140,7 +138,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusNodeStateList();
         }
 
@@ -149,7 +147,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
@@ -158,7 +156,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingOptionalNodeIndex(node, propertyName);
         }
 
@@ -167,7 +165,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
@@ -176,7 +174,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
@@ -185,7 +183,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
@@ -194,7 +192,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusIndexCollection<IFocusBrowsingPlaceholderNodeIndex>(propertyName, new List<IFocusBrowsingPlaceholderNodeIndex>() { (IFocusBrowsingPlaceholderNodeIndex)childNodeIndex });
         }
 
@@ -203,7 +201,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusIndexCollection<IFocusBrowsingOptionalNodeIndex>(propertyName, new List<IFocusBrowsingOptionalNodeIndex>() { (IFocusBrowsingOptionalNodeIndex)optionalNodeIndex });
         }
 
@@ -212,7 +210,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingListNodeIndexList();
         }
 
@@ -221,7 +219,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateListIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingListNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusIndexCollection<IFocusBrowsingListNodeIndex>(propertyName, (FocusBrowsingListNodeIndexList)nodeIndexList);
         }
 
@@ -230,7 +228,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusBrowsingBlockNodeIndexList();
         }
 
@@ -239,7 +237,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateBlockIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusIndexCollection<IFocusBrowsingBlockNodeIndex>(propertyName, (FocusBrowsingBlockNodeIndexList)nodeIndexList);
         }
 
@@ -248,7 +246,7 @@
         /// </summary>
         private protected virtual FocusInsertionChildNodeIndexList CreateInsertionChildIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusOptionalNodeState<IInner>>());
             return new FocusInsertionChildNodeIndexList();
         }
         #endregion

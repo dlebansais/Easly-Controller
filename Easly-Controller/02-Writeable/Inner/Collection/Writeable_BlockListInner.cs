@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for a block list.
@@ -707,7 +707,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBlockListInner<IIndex>>());
             return new WriteableBlockStateList();
         }
 
@@ -716,7 +716,7 @@
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBlockListInner<IIndex>>());
             return new WriteableBlockState<IWriteableInner<IWriteableBrowsingChildIndex>>(this, (IWriteableBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
@@ -725,7 +725,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBlockListInner<IIndex>>());
             return new WriteablePlaceholderNodeState<IWriteableInner<IWriteableBrowsingChildIndex>>((IWriteableNodeIndex)nodeIndex);
         }
 
@@ -734,7 +734,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBlockListInner<IIndex>>());
             return new WriteableBrowsingBlockNodeIndexList();
         }
 
@@ -743,7 +743,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBlockListInner<IIndex>>());
             return new WriteableBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
@@ -752,7 +752,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBlockListInner<IIndex>>());
             return new WriteableBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

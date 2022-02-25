@@ -4,6 +4,7 @@
     using BaseNode;
     using BaseNodeHelper;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting the first node of a new block.
@@ -120,7 +121,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableInsertionNewBlockNodeIndex>());
             return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion

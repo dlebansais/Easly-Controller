@@ -5,6 +5,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for describing an optional child node.
@@ -98,7 +99,7 @@
         /// </summary>
         private protected override IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalFrame>());
             return new LayoutContainerCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView, (ILayoutNodeStateView)childStateView, this);
         }
 
@@ -107,7 +108,7 @@
         /// </summary>
         private protected override FocusFrameSelectorList CreateEmptySelectorList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalFrame>());
             return new LayoutFrameSelectorList();
         }
         #endregion

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using BaseNode;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for the first node in a block.
@@ -48,7 +48,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowsingNewBlockNodeIndex>());
             return new WriteableBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion

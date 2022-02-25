@@ -4,6 +4,7 @@
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for an optional node.
@@ -53,7 +54,7 @@
         /// </summary>
         private protected override IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutBrowsingOptionalNodeIndex>());
             return new LayoutInsertionOptionalNodeIndex(parentNode, PropertyName, node);
         }
 
@@ -62,7 +63,7 @@
         /// </summary>
         private protected override IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutBrowsingOptionalNodeIndex>());
             return new LayoutInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion

@@ -113,7 +113,7 @@ namespace Coverage
             Assert.That(MainPlaceholderTreeInner != null);
             if (MainPlaceholderTreeInner != null)
             {
-                Assert.That(MainPlaceholderTreeInner.InterfaceType == typeof(Tree));
+                Assert.That(MainPlaceholderTreeInner.InterfaceType.IsTypeof<Tree>());
                 Assert.That(MainPlaceholderTreeInner.ChildState != null);
                 Assert.That(MainPlaceholderTreeInner.ChildState?.ParentInner == MainPlaceholderTreeInner);
             }
@@ -122,7 +122,7 @@ namespace Coverage
             Assert.That(MainPlaceholderLeafInner != null);
             if (MainPlaceholderLeafInner != null)
             {
-                Assert.That(MainPlaceholderLeafInner.InterfaceType == typeof(Leaf));
+                Assert.That(MainPlaceholderLeafInner.InterfaceType.IsTypeof<Leaf>());
                 Assert.That(MainPlaceholderLeafInner.ChildState != null);
                 Assert.That(MainPlaceholderLeafInner.ChildState?.ParentInner == MainPlaceholderLeafInner);
             }
@@ -131,7 +131,7 @@ namespace Coverage
             Assert.That(MainUnassignedOptionalInner != null);
             if (MainUnassignedOptionalInner != null)
             {
-                Assert.That(MainUnassignedOptionalInner.InterfaceType == typeof(Leaf));
+                Assert.That(MainUnassignedOptionalInner.InterfaceType.IsTypeof<Leaf>());
                 Assert.That(!MainUnassignedOptionalInner.IsAssigned);
                 Assert.That(MainUnassignedOptionalInner.ChildState != null);
                 Assert.That(MainUnassignedOptionalInner.ChildState?.ParentInner == MainUnassignedOptionalInner);
@@ -141,7 +141,7 @@ namespace Coverage
             Assert.That(MainAssignedOptionalTreeInner != null);
             if (MainAssignedOptionalTreeInner != null)
             {
-                Assert.That(MainAssignedOptionalTreeInner.InterfaceType == typeof(Tree));
+                Assert.That(MainAssignedOptionalTreeInner.InterfaceType.IsTypeof<Tree>());
                 Assert.That(MainAssignedOptionalTreeInner.IsAssigned);
             }
 
@@ -160,7 +160,7 @@ namespace Coverage
             Assert.That(MainAssignedOptionalLeafInner != null);
             if (MainAssignedOptionalLeafInner != null)
             {
-                Assert.That(MainAssignedOptionalLeafInner.InterfaceType == typeof(Leaf));
+                Assert.That(MainAssignedOptionalLeafInner.InterfaceType.IsTypeof<Leaf>());
                 Assert.That(MainAssignedOptionalLeafInner.IsAssigned);
                 Assert.That(MainAssignedOptionalLeafInner.ChildState != null);
                 Assert.That(MainAssignedOptionalLeafInner.ChildState.ParentInner == MainAssignedOptionalLeafInner);
@@ -173,9 +173,9 @@ namespace Coverage
                 Assert.That(!MainLeafBlocksInner.IsNeverEmpty);
                 Assert.That(!MainLeafBlocksInner.IsEmpty);
                 Assert.That(!MainLeafBlocksInner.IsSingle);
-                Assert.That(MainLeafBlocksInner.InterfaceType == typeof(Leaf));
-                Assert.That(MainLeafBlocksInner.BlockType == typeof(BaseNode.IBlock<Leaf>));
-                Assert.That(MainLeafBlocksInner.ItemType == typeof(Leaf));
+                Assert.That(MainLeafBlocksInner.InterfaceType.IsTypeof<Leaf>());
+                Assert.That(MainLeafBlocksInner.BlockType.IsTypeof<BaseNode.IBlock<Leaf>>());
+                Assert.That(MainLeafBlocksInner.ItemType.IsTypeof<Leaf>());
                 Assert.That(MainLeafBlocksInner.Count == 4);
                 Assert.That(MainLeafBlocksInner.BlockStateList != null);
                 Assert.That(MainLeafBlocksInner.BlockStateList.Count == 3);
@@ -222,7 +222,7 @@ namespace Coverage
             if (MainLeafPathInner != null)
             {
                 Assert.That(!MainLeafPathInner.IsNeverEmpty);
-                Assert.That(MainLeafPathInner.InterfaceType == typeof(Leaf));
+                Assert.That(MainLeafPathInner.InterfaceType.IsTypeof<Leaf>());
                 Assert.That(MainLeafPathInner.Count == 2);
                 Assert.That(MainLeafPathInner.StateList != null);
                 Assert.That(MainLeafPathInner.StateList?.Count == 2);

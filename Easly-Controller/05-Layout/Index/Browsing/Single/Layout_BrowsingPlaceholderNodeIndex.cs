@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System.Diagnostics;
     using BaseNode;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node.
@@ -54,7 +54,7 @@
         /// </summary>
         private protected override IWriteableInsertionPlaceholderNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBrowsingPlaceholderNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutBrowsingPlaceholderNodeIndex>());
             return new LayoutInsertionPlaceholderNodeIndex(parentNode, PropertyName, node);
         }
         #endregion

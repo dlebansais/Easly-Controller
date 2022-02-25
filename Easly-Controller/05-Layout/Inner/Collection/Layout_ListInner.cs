@@ -4,6 +4,7 @@
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface ILayoutListInner : IFocusListInner, ILayoutCollectionInner
@@ -73,7 +74,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutListInner<IIndex>>());
             return new LayoutPlaceholderNodeStateList();
         }
 
@@ -82,7 +83,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutListInner<IIndex>>());
             return new LayoutPlaceholderNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutNodeIndex)nodeIndex);
         }
 
@@ -91,7 +92,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutListInner<IIndex>>());
             return new LayoutBrowsingListNodeIndexList();
         }
 
@@ -100,7 +101,7 @@
         /// </summary>
         private protected override IWriteableBrowsingListNodeIndex CreateBrowsingNodeIndex(Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutListInner<IIndex>>());
             return new LayoutBrowsingListNodeIndex(Owner.Node, node, PropertyName, index);
         }
         #endregion

@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for an optional node.
@@ -136,7 +136,7 @@
         /// </summary>
         private protected virtual IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyOptionalInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyOptionalInner<TIndex>>());
             return new ReadOnlyOptionalNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion

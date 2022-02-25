@@ -1,8 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
+    using IDisposable = System.IDisposable;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a IxxxController.
@@ -228,7 +229,7 @@
         /// </summary>
         private protected virtual ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyNodeStateViewDictionary();
         }
 
@@ -237,7 +238,7 @@
         /// </summary>
         private protected virtual ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyBlockStateViewDictionary();
         }
 
@@ -246,7 +247,7 @@
         /// </summary>
         private protected virtual ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
@@ -263,7 +264,7 @@
         /// </summary>
         private protected virtual ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyPlaceholderNodeStateView(this, state);
         }
 
@@ -272,7 +273,7 @@
         /// </summary>
         private protected virtual ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyOptionalNodeStateView(this, state);
         }
 
@@ -281,7 +282,7 @@
         /// </summary>
         private protected virtual ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyPatternStateView(this, state);
         }
 
@@ -290,7 +291,7 @@
         /// </summary>
         private protected virtual ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlySourceStateView(this, state);
         }
 
@@ -299,7 +300,7 @@
         /// </summary>
         private protected virtual ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyControllerView>());
             return new ReadOnlyBlockStateView(this, blockState);
         }
         #endregion
@@ -329,7 +330,7 @@
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
+            System.GC.SuppressFinalize(this);
         }
         #endregion
     }

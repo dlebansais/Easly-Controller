@@ -4,6 +4,7 @@
     using BaseNode;
     using BaseNodeHelper;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for inserting a node in a list of nodes.
@@ -104,7 +105,7 @@
         /// </summary>
         private protected virtual IWriteableBrowsingListNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableInsertionListNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableInsertionListNodeIndex>());
             return new WriteableBrowsingListNodeIndex(ParentNode, Node, PropertyName, Index);
         }
         #endregion

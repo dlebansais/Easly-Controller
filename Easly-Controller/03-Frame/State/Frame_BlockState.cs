@@ -3,6 +3,7 @@
     using BaseNode;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// State of a block in a block list.
@@ -120,7 +121,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FramePlaceholderNodeStateList();
         }
 
@@ -129,7 +130,7 @@
         /// </summary>
         private protected override ReadOnlyInnerDictionary<string> CreateInnerTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FrameInnerDictionary<string>();
         }
 
@@ -138,7 +139,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePatternInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex>((IFrameNodeState)owner, nameof(IBlock.ReplicationPattern));
         }
 
@@ -147,7 +148,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreateSourceInner(IReadOnlyNodeState owner)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FramePlaceholderInner<IFrameBrowsingPlaceholderNodeIndex>((IFrameNodeState)owner, nameof(IBlock.SourceIdentifier));
         }
 
@@ -156,7 +157,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPatternIndex CreateExistingPatternIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FrameBrowsingPatternIndex(ChildBlock);
         }
 
@@ -165,7 +166,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingSourceIndex CreateExistingSourceIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FrameBrowsingSourceIndex(ChildBlock);
         }
 
@@ -174,7 +175,7 @@
         /// </summary>
         private protected override IReadOnlyPatternState CreatePatternState(IReadOnlyBrowsingPatternIndex patternIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FramePatternState<IInner>(this, (IFrameBrowsingPatternIndex)patternIndex);
         }
 
@@ -183,7 +184,7 @@
         /// </summary>
         private protected override IReadOnlySourceState CreateSourceState(IReadOnlyBrowsingSourceIndex sourceIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockState<IInner>>());
             return new FrameSourceState<IInner>(this, (IFrameBrowsingSourceIndex)sourceIndex);
         }
         #endregion

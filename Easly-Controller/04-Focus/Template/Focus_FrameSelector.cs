@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Diagnostics;
     using BaseNodeHelper;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Selects specific frames in the remaining of the cell view tree.
@@ -48,7 +48,7 @@
         /// Base type this selector can specify.
         /// (Set in Xaml)
         /// </summary>
-        public Type SelectorType { get; set; }
+        public Type SelectorType { get; set; } = Type.Missing;
 
         /// <summary>
         /// Selector name.
@@ -68,7 +68,7 @@
         {
             bool IsValid = true;
 
-            IsValid &= SelectorType != null;
+            IsValid &= SelectorType != Type.Missing;
             IsValid &= !string.IsNullOrEmpty(SelectorName);
 
             Type ChildInterfaceType, ChildNodeType;

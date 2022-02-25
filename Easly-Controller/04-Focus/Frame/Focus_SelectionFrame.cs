@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame selecting sub-frames.
@@ -111,6 +111,10 @@
                     IsValid &= FirstItem.IsEqual(Comparer, TableWithPropertyList[i]);
             }
 
+            if (!IsValid)
+            {
+            }
+
             Debug.Assert(IsValid);
             return IsValid;
         }
@@ -181,7 +185,7 @@
         /// </summary>
         private protected virtual FocusSelectableFrameList CreateSelectableFrameList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusSelectionFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusSelectionFrame>());
             return new FocusSelectableFrameList();
         }
         #endregion

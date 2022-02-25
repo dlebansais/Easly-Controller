@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame visibility that depends if the current block is replicated.

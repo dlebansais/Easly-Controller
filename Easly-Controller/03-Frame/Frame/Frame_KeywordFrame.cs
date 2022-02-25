@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using System.Windows.Markup;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for decoration purpose only.

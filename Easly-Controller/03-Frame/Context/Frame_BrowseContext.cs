@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Context for browsing child nodes of a parent node.
@@ -63,7 +64,7 @@
                     InternalList.Remove(InternalItem);
                     InternalList.Insert(0, InternalItem);
 
-                    if (InternalList.GetType() == typeof(FrameIndexCollectionList))
+                    if (Type.FromGetType(InternalList).IsTypeof<FrameIndexCollectionList>())
                     {
                         InternalList.CopyTo((IReadOnlyIndexCollection[])(new IFrameIndexCollection[InternalList.Count]), 0);
                         InternalList.CopyTo((IWriteableIndexCollection[])(new IFrameIndexCollection[InternalList.Count]), 0);
@@ -118,7 +119,7 @@
         /// </summary>
         private protected override ReadOnlyIndexCollectionList CreateIndexCollectionList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBrowseContext));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBrowseContext>());
             return new FrameIndexCollectionList();
         }
         #endregion

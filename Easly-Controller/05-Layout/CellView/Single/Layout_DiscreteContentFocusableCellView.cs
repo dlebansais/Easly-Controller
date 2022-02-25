@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using EaslyController.Controller;
     using EaslyController.Focus;
+    using NotNullReflection;
 
     /// <summary>
     /// Cell view for discrete components that can receive the focus and be modified (enum, bool...)
@@ -225,7 +226,7 @@
         /// </summary>
         protected override IFocusDiscreteContentFocus CreateFocus()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutDiscreteContentFocusableCellView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutDiscreteContentFocusableCellView>());
             return new LayoutDiscreteContentFocus(this);
         }
         #endregion

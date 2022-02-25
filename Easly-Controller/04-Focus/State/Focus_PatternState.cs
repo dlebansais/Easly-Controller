@@ -2,6 +2,7 @@
 {
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an replication pattern node.
@@ -81,7 +82,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPatternState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPatternState<IInner>>());
             return new FocusNodeStateList();
         }
         #endregion

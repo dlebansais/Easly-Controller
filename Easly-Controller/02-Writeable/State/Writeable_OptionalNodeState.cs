@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using BaseNode;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// State of an optional node.
@@ -77,7 +78,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateList CreateNodeStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableNodeStateList();
         }
 
@@ -86,7 +87,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingPlaceholderNodeIndex CreateChildNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingPlaceholderNodeIndex(node, childNode, propertyName);
         }
 
@@ -95,7 +96,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingOptionalNodeIndex CreateOptionalNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingOptionalNodeIndex(node, propertyName);
         }
 
@@ -104,7 +105,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingListNodeIndex CreateListNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, Node childNode, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingListNodeIndex(node, childNode, propertyName, index);
         }
 
@@ -113,7 +114,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingNewBlockNodeIndex(node, childNode, propertyName, blockIndex);
         }
 
@@ -122,7 +123,7 @@
         /// </summary>
         private protected override IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockNodeIndex(ReadOnlyBrowseContext browseNodeContext, Node node, string propertyName, int blockIndex, int index, Node childNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingExistingBlockNodeIndex(node, childNode, propertyName, blockIndex, index);
         }
 
@@ -131,7 +132,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreatePlaceholderIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingPlaceholderNodeIndex childNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableIndexCollection<IWriteableBrowsingPlaceholderNodeIndex>(propertyName, new List<IWriteableBrowsingPlaceholderNodeIndex>() { (IWriteableBrowsingPlaceholderNodeIndex)childNodeIndex });
         }
 
@@ -140,7 +141,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateOptionalIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, IReadOnlyBrowsingOptionalNodeIndex optionalNodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableIndexCollection<IWriteableBrowsingOptionalNodeIndex>(propertyName, new List<IWriteableBrowsingOptionalNodeIndex>() { (IWriteableBrowsingOptionalNodeIndex)optionalNodeIndex });
         }
 
@@ -149,7 +150,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingListNodeIndexList CreateBrowsingListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingListNodeIndexList();
         }
 
@@ -158,7 +159,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateListIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingListNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableIndexCollection<IWriteableBrowsingListNodeIndex>(propertyName, (WriteableBrowsingListNodeIndexList)nodeIndexList);
         }
 
@@ -167,7 +168,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBrowsingBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableBrowsingBlockNodeIndexList();
         }
 
@@ -176,7 +177,7 @@
         /// </summary>
         private protected override IReadOnlyIndexCollection CreateBlockIndexCollection(ReadOnlyBrowseContext browseNodeContext, string propertyName, ReadOnlyBrowsingBlockNodeIndexList nodeIndexList)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableOptionalNodeState<IInner>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableOptionalNodeState<IInner>>());
             return new WriteableIndexCollection<IWriteableBrowsingBlockNodeIndex>(propertyName, (WriteableBrowsingBlockNodeIndexList)nodeIndexList);
         }
         #endregion

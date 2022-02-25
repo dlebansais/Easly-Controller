@@ -1,6 +1,5 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows;
@@ -10,6 +9,7 @@
     using EaslyController.Controller;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a IxxxController.
@@ -48,7 +48,7 @@
             bool Result = false;
 
             Type InsertType = frame.InsertType;
-            Debug.Assert(InsertType != null);
+            Debug.Assert(InsertType != Type.Missing);
             Debug.Assert(!InsertType.IsInterface);
             Debug.Assert(!InsertType.IsAbstract);
 
@@ -101,7 +101,7 @@
             return Result;
         }
 
-        private protected virtual bool IsListExtremumItem(IFocusNodeState state, IFocusContentFocusableCellView cellView, Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
+        private protected virtual bool IsListExtremumItem(IFocusNodeState state, IFocusContentFocusableCellView cellView, System.Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, System.Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
         {
             inner = null;
             index = null;
@@ -159,7 +159,7 @@
             return Result;
         }
 
-        private protected virtual bool IsExtremumCheckParent(IFocusNodeState state, IFocusContentFocusableCellView cellView, Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
+        private protected virtual bool IsExtremumCheckParent(IFocusNodeState state, IFocusContentFocusableCellView cellView, System.Func<IFocusNodeState, IFocusContentFocusableCellView, bool> isGoodFocusableCellView, System.Func<int, int> getInsertPosition, out IFocusCollectionInner inner, out IFocusInsertionCollectionNodeIndex index)
         {
             inner = null;
             index = null;
@@ -516,7 +516,7 @@
                     if (SimplifiedNode != null)
                     {
                         Type InterfaceType = CurrentState.ParentInner.InterfaceType;
-                        if (InterfaceType.IsAssignableFrom(SimplifiedNode.GetType()))
+                        if (InterfaceType.IsAssignableFrom(Type.FromGetType(SimplifiedNode)))
                         {
                             IFocusBrowsingChildIndex ParentIndex = CurrentState.ParentIndex as IFocusBrowsingChildIndex;
                             Debug.Assert(ParentIndex != null);
@@ -559,7 +559,7 @@
                     bool IsAssignable = true;
 
                     foreach (Node ComplexifiedNode in ComplexifiedNodeList)
-                        IsAssignable &= InterfaceType.IsAssignableFrom(ComplexifiedNode.GetType());
+                        IsAssignable &= InterfaceType.IsAssignableFrom(Type.FromGetType(ComplexifiedNode));
 
                     if (IsAssignable)
                     {

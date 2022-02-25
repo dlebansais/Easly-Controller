@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using BaseNode;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for changing text.
@@ -19,7 +19,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public WriteableChangeTextOperation(Node parentNode, string propertyName, string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public WriteableChangeTextOperation(Node parentNode, string propertyName, string text, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(handlerRedo, handlerUndo, isNested)
         {
             ParentNode = parentNode;
@@ -82,9 +82,9 @@
         /// <summary>
         /// Creates a IxxxChangeTextOperation object.
         /// </summary>
-        private protected virtual WriteableChangeTextOperation CreateChangeTextOperation(string text, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected virtual WriteableChangeTextOperation CreateChangeTextOperation(string text, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableChangeTextOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableChangeTextOperation>());
             return new WriteableChangeTextOperation(ParentNode, PropertyName, text, handlerRedo, handlerUndo, isNested);
         }
         #endregion

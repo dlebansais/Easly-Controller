@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using Contracts;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a IxxxController.
@@ -356,7 +357,7 @@
         /// </summary>
         private protected override ReadOnlyNodeStateViewDictionary CreateStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteableNodeStateViewDictionary();
         }
 
@@ -365,7 +366,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateViewDictionary CreateBlockStateViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteableBlockStateViewDictionary();
         }
 
@@ -374,7 +375,7 @@
         /// </summary>
         private protected override ReadOnlyAttachCallbackSet CreateCallbackSet()
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteableAttachCallbackSet()
             {
                 NodeStateAttachedHandler = OnNodeStateCreated,
@@ -391,7 +392,7 @@
         /// </summary>
         private protected override ReadOnlyPlaceholderNodeStateView CreatePlaceholderNodeStateView(IReadOnlyPlaceholderNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteablePlaceholderNodeStateView(this, (IWriteablePlaceholderNodeState)state);
         }
 
@@ -400,7 +401,7 @@
         /// </summary>
         private protected override ReadOnlyOptionalNodeStateView CreateOptionalNodeStateView(IReadOnlyOptionalNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteableOptionalNodeStateView(this, (IWriteableOptionalNodeState)state);
         }
 
@@ -409,7 +410,7 @@
         /// </summary>
         private protected override ReadOnlyPatternStateView CreatePatternStateView(IReadOnlyPatternState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteablePatternStateView(this, (IWriteablePatternState)state);
         }
 
@@ -418,7 +419,7 @@
         /// </summary>
         private protected override ReadOnlySourceStateView CreateSourceStateView(IReadOnlySourceState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteableSourceStateView(this, (IWriteableSourceState)state);
         }
 
@@ -427,7 +428,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateView CreateBlockStateView(IReadOnlyBlockState blockState)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableControllerView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableControllerView>());
             return new WriteableBlockStateView(this, (IWriteableBlockState)blockState);
         }
         #endregion

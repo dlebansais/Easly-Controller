@@ -1,7 +1,7 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame visibility that depends if a collection has at least one item.

@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame describing a number string value property in a node.
@@ -136,7 +136,7 @@
         /// </summary>
         private protected override IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusNumberFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusNumberFrame>());
             return new FocusStringContentFocusableCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this, PropertyName);
         }
 
@@ -145,7 +145,7 @@
         /// </summary>
         private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusNumberFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusNumberFrame>());
             return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion

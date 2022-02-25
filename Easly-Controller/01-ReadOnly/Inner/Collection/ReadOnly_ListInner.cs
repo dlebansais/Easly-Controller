@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Inner for a list of nodes.
@@ -259,21 +259,21 @@
         /// <inheritdoc/>
         private protected virtual ReadOnlyPlaceholderNodeStateList CreateStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyListInner<TIndex>>());
             return new ReadOnlyPlaceholderNodeStateList();
         }
 
         /// <inheritdoc/>
         private protected virtual IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyListInner<TIndex>>());
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
 
         /// <inheritdoc/>
         private protected virtual ReadOnlyBrowsingListNodeIndexList CreateListNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyListInner<TIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyListInner<TIndex>>());
             return new ReadOnlyBrowsingListNodeIndexList();
         }
         #endregion

@@ -4,6 +4,7 @@
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFocusPlaceholderInner : IFramePlaceholderInner, IFocusSingleInner
@@ -58,7 +59,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPlaceholderInner<IIndex>>());
             return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -67,7 +68,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPlaceholderInner<IIndex>>());
             return new FocusBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

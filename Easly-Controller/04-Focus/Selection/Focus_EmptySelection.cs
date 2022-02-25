@@ -6,6 +6,7 @@
     using BaseNode;
     using EaslyController.Controller;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// An empty selection.
@@ -77,7 +78,7 @@
             if (ControllerView.Focus is IFocusTextFocus AsTextFocus)
             {
                 IFocusNodeState State = AsTextFocus.CellView.StateView.State;
-                if (State.Node.GetType().IsAssignableFrom(node.GetType()))
+                if (Type.FromGetType(State.Node).IsAssignableFrom(Type.FromGetType(node)))
                 {
                     if (State.ParentIndex is IFocusBrowsingInsertableIndex AsInsertableIndex)
                     {
@@ -109,7 +110,7 @@
                 {
                     State = ParentState;
 
-                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner && (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType())))
+                    if (State.ParentInner is IFocusCollectionInner AsCollectionInner && (nodeList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(Type.FromGetType(nodeList[0]))))
                         IsAssignable = true;
 
                     ParentState = State.ParentState;
@@ -130,7 +131,7 @@
         {
             isChanged = false;
 
-            Debug.Assert(nodeList.Count == 0 || listInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()));
+            Debug.Assert(nodeList.Count == 0 || listInner.InterfaceType.IsAssignableFrom(Type.FromGetType(nodeList[0])));
 
             List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
             FocusController Controller = StateView.ControllerView.Controller;
@@ -152,7 +153,7 @@
         {
             isChanged = false;
 
-            Debug.Assert(nodeList.Count == 0 || blockListInner.InterfaceType.IsAssignableFrom(nodeList[0].GetType()));
+            Debug.Assert(nodeList.Count == 0 || blockListInner.InterfaceType.IsAssignableFrom(Type.FromGetType(nodeList[0])));
 
             List<IWriteableInsertionCollectionNodeIndex> IndexList = new List<IWriteableInsertionCollectionNodeIndex>();
             FocusController Controller = StateView.ControllerView.Controller;
@@ -185,7 +186,7 @@
                 {
                     State = ParentState;
 
-                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner && (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType())))
+                    if (State.ParentInner is IFocusBlockListInner AsCollectionInner && (blockList.Count == 0 || AsCollectionInner.InterfaceType.IsAssignableFrom(Type.FromGetType(blockList[0].NodeList[0]))))
                         IsAssignable = true;
 
                     ParentState = State.ParentState;
@@ -193,7 +194,7 @@
 
                 if (IsAssignable && State.ParentInner is IFocusBlockListInner AsBlockListInner && State.ParentIndex is IFocusBrowsingExistingBlockNodeIndex AsExistingBlockNodeIndex)
                 {
-                    Debug.Assert(blockList.Count == 0 || AsBlockListInner.InterfaceType.IsAssignableFrom(blockList[0].NodeList[0].GetType()));
+                    Debug.Assert(blockList.Count == 0 || AsBlockListInner.InterfaceType.IsAssignableFrom(Type.FromGetType(blockList[0].NodeList[0])));
 
                     List<IWriteableInsertionBlockNodeIndex> IndexList = new List<IWriteableInsertionBlockNodeIndex>();
                     FocusController Controller = StateView.ControllerView.Controller;
@@ -285,7 +286,7 @@
         /// </summary>
         private protected virtual IFocusInsertionListNodeIndex CreateListNodeIndex(Node parentNode, string propertyName, Node node, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusEmptySelection>());
             return new FocusInsertionListNodeIndex(parentNode, propertyName, node, index);
         }
 
@@ -294,7 +295,7 @@
         /// </summary>
         private protected virtual IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusEmptySelection>());
             return new FocusInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
         }
 
@@ -303,7 +304,7 @@
         /// </summary>
         private protected virtual IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusEmptySelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusEmptySelection>());
             return new FocusInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion

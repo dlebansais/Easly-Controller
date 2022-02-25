@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Operation details for moving a block in a block list.
@@ -21,7 +21,7 @@
         /// <param name="handlerRedo">Handler to execute to redo the operation.</param>
         /// <param name="handlerUndo">Handler to execute to undo the operation.</param>
         /// <param name="isNested">True if the operation is nested within another more general one.</param>
-        public FocusMoveBlockOperation(Node parentNode, string propertyName, int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        public FocusMoveBlockOperation(Node parentNode, string propertyName, int blockIndex, int direction, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
             : base(parentNode, propertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested)
         {
         }
@@ -38,9 +38,9 @@
         /// <summary>
         /// Creates a IxxxxMoveBlockOperation object.
         /// </summary>
-        private protected override WriteableMoveBlockOperation CreateMoveBlockOperation(int blockIndex, int direction, Action<IWriteableOperation> handlerRedo, Action<IWriteableOperation> handlerUndo, bool isNested)
+        private protected override WriteableMoveBlockOperation CreateMoveBlockOperation(int blockIndex, int direction, System.Action<IWriteableOperation> handlerRedo, System.Action<IWriteableOperation> handlerUndo, bool isNested)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusMoveBlockOperation));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusMoveBlockOperation>());
             return new FocusMoveBlockOperation(ParentNode, PropertyName, blockIndex, direction, handlerRedo, handlerUndo, isNested);
         }
         #endregion

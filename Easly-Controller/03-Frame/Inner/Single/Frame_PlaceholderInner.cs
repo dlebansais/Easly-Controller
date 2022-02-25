@@ -3,6 +3,7 @@
     using BaseNode;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFramePlaceholderInner : IWriteablePlaceholderInner, IFrameSingleInner
@@ -57,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyBrowsingPlaceholderNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePlaceholderInner<IIndex>>());
             return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameBrowsingPlaceholderNodeIndex)nodeIndex);
         }
 
@@ -66,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingPlaceholderNodeIndex CreateBrowsingNodeIndex(Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FramePlaceholderInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FramePlaceholderInner<IIndex>>());
             return new FrameBrowsingPlaceholderNodeIndex(Owner.Node, node, PropertyName);
         }
         #endregion

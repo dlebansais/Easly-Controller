@@ -4,6 +4,7 @@
     using Contracts;
     using EaslyController.Focus;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for replacing an optional node.
@@ -56,7 +57,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutInsertionOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutInsertionOptionalNodeIndex>());
             return new LayoutBrowsingOptionalNodeIndex(ParentNode, PropertyName);
         }
         #endregion

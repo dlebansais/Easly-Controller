@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Diagnostics;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for decoration purpose only.
@@ -54,7 +55,7 @@
         /// </summary>
         private protected virtual IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameStaticFrame>());
             return new FrameFocusableCellView(stateView, parentCellView, this);
         }
 
@@ -63,7 +64,7 @@
         /// </summary>
         private protected virtual IFrameVisibleCellView CreateVisibleCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameStaticFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameStaticFrame>());
             return new FrameVisibleCellView(stateView, parentCellView, this);
         }
         #endregion

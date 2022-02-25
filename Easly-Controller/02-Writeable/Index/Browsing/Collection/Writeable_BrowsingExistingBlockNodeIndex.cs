@@ -5,6 +5,7 @@
     using BaseNodeHelper;
     using Contracts;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for a node in a block that is not the first.
@@ -132,7 +133,7 @@
         /// </summary>
         private protected virtual IWriteableInsertionExistingBlockNodeIndex CreateInsertionIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingExistingBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowsingExistingBlockNodeIndex>());
             return new WriteableInsertionExistingBlockNodeIndex(parentNode, PropertyName, node, BlockIndex, Index);
         }
         #endregion

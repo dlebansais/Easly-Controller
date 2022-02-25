@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Layout
 {
+    using System.Collections.Generic;
     using BaseNodeHelper;
     using EaslyController.Focus;
     using EaslyController.Frame;
-    using System;
-    using System.Collections.Generic;
+    using NotNullReflection;
 
     /// <summary>
     /// Set of templates used to describe all possible nodes in the tree.
@@ -83,7 +83,7 @@
         /// </summary>
         private protected override FrameTemplateDictionary CreateEmptyTemplateDictionary()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutTemplateDictionary();
         }
 
@@ -92,7 +92,7 @@
         /// </summary>
         private protected override FrameTemplateDictionary CreateDefaultTemplateDictionary()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
 
             IList<Type> NodeKeys = NodeHelper.GetNodeKeys();
             IDictionary<Type, ILayoutTemplate> Dictionary = new Dictionary<Type, ILayoutTemplate>();
@@ -107,7 +107,7 @@
         /// </summary>
         private protected override IFrameHorizontalPanelFrame CreateHorizontalPanelFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutHorizontalPanelFrame();
         }
 
@@ -116,7 +116,7 @@
         /// </summary>
         private protected override IFrameHorizontalCollectionPlaceholderFrame CreateHorizontalCollectionPlaceholderFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutHorizontalCollectionPlaceholderFrame();
         }
 
@@ -125,7 +125,7 @@
         /// </summary>
         private protected override IFramePlaceholderFrame CreatePlaceholderFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutPlaceholderFrame();
         }
 
@@ -134,7 +134,7 @@
         /// </summary>
         private protected override IFrameOptionalFrame CreateOptionalFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutOptionalFrame();
         }
 
@@ -143,7 +143,7 @@
         /// </summary>
         private protected override IFrameHorizontalListFrame CreateHorizontalListFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutHorizontalListFrame();
         }
 
@@ -152,7 +152,7 @@
         /// </summary>
         private protected override IFrameHorizontalBlockListFrame CreateHorizontalBlockListFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutHorizontalBlockListFrame();
         }
 
@@ -161,7 +161,7 @@
         /// </summary>
         private protected override IFrameDiscreteFrame CreateDiscreteFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutDiscreteFrame();
         }
 
@@ -170,7 +170,7 @@
         /// </summary>
         private protected override IFrameKeywordFrame CreateKeywordFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutKeywordFrame();
         }
 
@@ -179,7 +179,7 @@
         /// </summary>
         private protected override IFrameTextValueFrame CreateTextValueFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutTextValueFrame();
         }
 
@@ -188,7 +188,7 @@
         /// </summary>
         private protected override IFrameCommentFrame CreateCommentFrame()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutCommentFrame();
         }
 
@@ -197,7 +197,7 @@
         /// </summary>
         private protected override IFrameNodeTemplate CreateNodeTemplate()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutNodeTemplate();
         }
 
@@ -206,7 +206,7 @@
         /// </summary>
         private protected override IFrameBlockTemplate CreateBlockTemplate()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutBlockTemplate();
         }
 
@@ -215,7 +215,7 @@
         /// </summary>
         private protected override IFrameTemplateSet CreateDefaultTemplateSet(FrameTemplateReadOnlyDictionary nodeTemplateTable, FrameTemplateReadOnlyDictionary blockTemplateTable)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutTemplateSet));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutTemplateSet>());
             return new LayoutTemplateSet((LayoutTemplateReadOnlyDictionary)nodeTemplateTable, (LayoutTemplateReadOnlyDictionary)blockTemplateTable);
         }
         #endregion

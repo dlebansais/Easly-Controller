@@ -1,12 +1,13 @@
 ﻿namespace EaslyController.Writeable
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using NotImplementedException = System.NotImplementedException;
     using BaseNode;
     using BaseNodeHelper;
     using Contracts;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Controller for a node tree.
@@ -37,7 +38,7 @@
             bool Result = true;
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            Type InterfaceType = Inner.Owner.Node.GetType();
+            Type InterfaceType = Type.FromGetType(Inner.Owner.Node);
 
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
@@ -91,8 +92,8 @@
 
         private protected virtual void RemoveBlock(IWriteableBlockListInner<IWriteableBrowsingBlockNodeIndex> blockListInner, int blockIndex)
         {
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+            System.Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            System.Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveBlock(operation);
             IWriteableRemoveBlockOperation Operation = CreateRemoveBlockOperation(blockListInner.Owner.Node, blockListInner.PropertyName, blockIndex, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -152,8 +153,8 @@
 
         private protected virtual void RemoveNode(IWriteableCollectionInner<IWriteableBrowsingCollectionNodeIndex> inner, int blockIndex, int index)
         {
-            Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => UndoRemoveNode(operation);
             WriteableRemoveNodeOperation Operation = CreateRemoveNodeOperation(inner.Owner.Node, inner.PropertyName, blockIndex, index, HandlerRedo, HandlerUndo, isNested: false);
 
             Operation.Redo();
@@ -217,7 +218,7 @@
             bool Result = true;
 
             //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-            Type InterfaceType = Inner.Owner.Node.GetType();
+            Type InterfaceType = Type.FromGetType(Inner.Owner.Node);
 
             IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
             if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
@@ -243,10 +244,10 @@
             Debug.Assert(lastBlockIndex >= 0 && lastBlockIndex <= Inner.BlockStateList.Count);
             Debug.Assert(firstBlockIndex <= lastBlockIndex);
 
-            Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerRedoBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndoBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+            System.Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerRedoBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            System.Action<IWriteableOperation> HandlerUndoBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
 
             WriteableOperationList OperationList = CreateOperationList();
 
@@ -270,8 +271,8 @@
             if (OperationList.Count > 0)
             {
                 WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                System.Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                System.Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
                 WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
@@ -320,7 +321,7 @@
                 Result = true;
 
                 //Type InterfaceType = NodeTreeHelper.NodeTypeToInterfaceType(inner.Owner.Node.GetType());
-                Type InterfaceType = Inner.Owner.Node.GetType();
+                Type InterfaceType = Type.FromGetType(Inner.Owner.Node);
 
                 IReadOnlyDictionary<Type, string[]> NeverEmptyCollectionTable = NodeHelper.NeverEmptyCollectionTable;
                 if (NeverEmptyCollectionTable.ContainsKey(InterfaceType))
@@ -400,10 +401,10 @@
 
             int DeletedCount = lastNodeIndex - firstNodeIndex;
 
-            Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
-            Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
+            System.Action<IWriteableOperation> HandlerRedoRemoveNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerUndoRemoveNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerRedoRemoveBlock = (IWriteableOperation operation) => RedoRemoveBlock(operation);
+            System.Action<IWriteableOperation> HandlerUndoRemoveBlock = (IWriteableOperation operation) => UndoRemoveBlock(operation);
 
            WriteableOperationList OperationList = CreateOperationList();
 
@@ -422,8 +423,8 @@
             if (OperationList.Count > 0)
             {
                 WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                System.Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                System.Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
                 WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 
@@ -441,8 +442,8 @@
             Debug.Assert(lastNodeIndex >= 0 && lastNodeIndex <= Inner.StateList.Count);
             Debug.Assert(firstNodeIndex <= lastNodeIndex);
 
-            Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
-            Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerRedoNode = (IWriteableOperation operation) => RedoRemoveNode(operation);
+            System.Action<IWriteableOperation> HandlerUndoNode = (IWriteableOperation operation) => UndoRemoveNode(operation);
 
             WriteableOperationList OperationList = CreateOperationList();
 
@@ -455,8 +456,8 @@
             if (OperationList.Count > 0)
             {
                 WriteableOperationReadOnlyList OperationReadOnlyList = OperationList.ToReadOnly();
-                Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
-                Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
+                System.Action<IWriteableOperation> HandlerRedo = (IWriteableOperation operation) => RedoRefresh(operation);
+                System.Action<IWriteableOperation> HandlerUndo = (IWriteableOperation operation) => throw new NotImplementedException(); // Undo is not possible.
                 WriteableGenericRefreshOperation RefreshOperation = CreateGenericRefreshOperation(RootState, HandlerRedo, HandlerUndo, isNested: false);
                 WriteableOperationGroup OperationGroup = CreateOperationGroup(OperationReadOnlyList, RefreshOperation);
 

@@ -1,7 +1,5 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System.Diagnostics;
-
     /// <summary>
     /// Base inner for a list or a block list.
     /// </summary>

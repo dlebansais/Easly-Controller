@@ -5,6 +5,7 @@
     using EaslyController.Controller;
     using EaslyController.Focus;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of an optional node state.
@@ -203,7 +204,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeStateView>());
             return new LayoutAssignableCellViewDictionary<string>();
         }
 
@@ -212,7 +213,7 @@
         /// </summary>
         private protected override IFrameEmptyCellView CreateEmptyCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalNodeStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalNodeStateView>());
             return new LayoutEmptyCellView((ILayoutNodeStateView)stateView, (ILayoutCellViewCollection)parentCellView);
         }
         #endregion

@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using System.Diagnostics;
     using Contracts;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame.

@@ -4,6 +4,7 @@
     using BaseNode;
     using EaslyController.Controller;
     using EaslyController.Focus;
+    using NotNullReflection;
 
     /// <summary>
     /// A selection of blocks in a block list.
@@ -73,7 +74,7 @@
         /// </summary>
         private protected override IFocusInsertionNewBlockNodeIndex CreateNewBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, Pattern patternNode, Identifier sourceNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListSelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutBlockListSelection>());
             return new LayoutInsertionNewBlockNodeIndex(parentNode, propertyName, node, blockIndex, patternNode, sourceNode);
         }
 
@@ -82,7 +83,7 @@
         /// </summary>
         private protected override IFocusInsertionExistingBlockNodeIndex CreateExistingBlockNodeIndex(Node parentNode, string propertyName, Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutBlockListSelection));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutBlockListSelection>());
             return new LayoutInsertionExistingBlockNodeIndex(parentNode, propertyName, node, blockIndex, index);
         }
         #endregion

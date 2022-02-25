@@ -1,16 +1,15 @@
 ﻿namespace Test
 {
+    using Environment = System.Environment;
     using BaseNode;
     using BaseNodeHelper;
     using EaslyController.ReadOnly;
     using NUnit.Framework;
     using System.Globalization;
     using System.IO;
-    using System.Reflection;
     using System.Threading;
     using PolySerializer;
     using System.Collections.Generic;
-    using System;
     using EaslyController;
     using EaslyController.Writeable;
     using EaslyController.Frame;
@@ -20,6 +19,7 @@
     using EaslyController.Layout;
     using EaslyEdit;
     using System.Text;
+    using NotNullReflection;
 
     [TestFixture]
     public partial class TestSet
@@ -41,9 +41,9 @@
             }
             catch
             {
-                EaslyControllerAssembly = null;
+                EaslyControllerAssembly = Assembly.Missing;
             }
-            Assume.That(EaslyControllerAssembly != null);
+            Assume.That(EaslyControllerAssembly != Assembly.Missing);
 
             string StartDirectory = Environment.CurrentDirectory;
             while (Path.GetFileName(StartDirectory) != "Test-Easly-Controller" && StartDirectory.Length > 0)
@@ -95,7 +95,7 @@
             Callbacks.IsRecursive = true;
             Callbacks.HandlerRoot = OnUpdateRoot;
             Callbacks.HandlerNode = OnUpdateNode;
-            NodeTreeWalk.Walk(RootNode, Callbacks, String.Empty);
+            NodeTreeWalk.Walk(RootNode, Callbacks, string.Empty);
 
             return RootNode;
         }

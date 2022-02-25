@@ -1,11 +1,11 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Markup;
     using BaseNodeHelper;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame for bringing the focus to an insertion point.
@@ -64,12 +64,12 @@
         /// Type to use when creating a new item in the associated block list or list. Only when it's an abstract type.
         /// (Set in Xaml)
         /// </summary>
-        public Type ItemType { get; set; }
+        public Type ItemType { get; set; } = Type.Missing;
 
         /// <summary>
         /// Type to use when inserting a new item in the collection.
         /// </summary>
-        public Type InsertType { get; private set; }
+        public Type InsertType { get; private set; } = Type.Missing;
         #endregion
 
         #region Client Interface
@@ -86,7 +86,7 @@
             IsValid &= base.IsValid(nodeType, nodeTemplateTable, ref commentFrameCount);
             IsValid &= Visibility == null || Visibility.IsValid(nodeType);
 
-            Debug.Assert(InsertType != null);
+            Debug.Assert(InsertType != Type.Missing);
 
             IsValid &= !InsertType.IsInterface;
             IsValid &= !InsertType.IsAbstract;
@@ -99,9 +99,9 @@
         {
             base.UpdateInterfaceType(nodeType);
 
-            Debug.Assert(InterfaceType != null);
+            Debug.Assert(InterfaceType != Type.Missing);
 
-            if (ItemType != null)
+            if (ItemType != Type.Missing)
                 InsertType = ItemType;
             else if (InterfaceType.IsInterface)
             {
@@ -234,7 +234,7 @@
         /// </summary>
         private protected override IFrameFocusableCellView CreateFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusInsertFrame>());
             return new FocusFocusableCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this);
         }
 
@@ -245,7 +245,7 @@
         /// </summary>
         private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusInsertFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusInsertFrame>());
             return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion

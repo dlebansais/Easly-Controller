@@ -1,10 +1,11 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using Guid = System.Guid;
     using BaseNode;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Controller for a node tree.
@@ -82,57 +83,57 @@
         /// <summary>
         /// Called when a state is created.
         /// </summary>
-        public event Action<IReadOnlyNodeState> NodeStateCreated
+        public event System.Action<IReadOnlyNodeState> NodeStateCreated
         {
             add { AddNodeStateCreatedDelegate(value); }
             remove { RemoveNodeStateCreatedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IReadOnlyNodeState> NodeStateCreatedHandler;
-        private protected virtual void AddNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler += handler; }
-        private protected virtual void RemoveNodeStateCreatedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler -= handler; }
+        private System.Action<IReadOnlyNodeState> NodeStateCreatedHandler;
+        private protected virtual void AddNodeStateCreatedDelegate(System.Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler += handler; }
+        private protected virtual void RemoveNodeStateCreatedDelegate(System.Action<IReadOnlyNodeState> handler) { NodeStateCreatedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is initialized.
         /// </summary>
-        public event Action<IReadOnlyNodeState> NodeStateInitialized
+        public event System.Action<IReadOnlyNodeState> NodeStateInitialized
         {
             add { AddNodeStateInitializedDelegate(value); }
             remove { RemoveNodeStateInitializedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IReadOnlyNodeState> NodeStateInitializedHandler;
-        private protected virtual void AddNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler += handler; }
-        private protected virtual void RemoveNodeStateInitializedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler -= handler; }
+        private System.Action<IReadOnlyNodeState> NodeStateInitializedHandler;
+        private protected virtual void AddNodeStateInitializedDelegate(System.Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler += handler; }
+        private protected virtual void RemoveNodeStateInitializedDelegate(System.Action<IReadOnlyNodeState> handler) { NodeStateInitializedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
         /// Called when a state is removed.
         /// </summary>
-        public event Action<IReadOnlyNodeState> NodeStateRemoved
+        public event System.Action<IReadOnlyNodeState> NodeStateRemoved
         {
             add { AddNodeStateRemovedDelegate(value); }
             remove { RemoveNodeStateRemovedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IReadOnlyNodeState> NodeStateRemovedHandler;
-        private protected virtual void AddNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler += handler; }
-        private protected virtual void RemoveNodeStateRemovedDelegate(Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler -= handler; }
+        private System.Action<IReadOnlyNodeState> NodeStateRemovedHandler;
+        private protected virtual void AddNodeStateRemovedDelegate(System.Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler += handler; }
+        private protected virtual void RemoveNodeStateRemovedDelegate(System.Action<IReadOnlyNodeState> handler) { NodeStateRemovedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
         /// Called when a block list inner is created.
         /// </summary>
-        public event Action<IReadOnlyBlockListInner> BlockListInnerCreated
+        public event System.Action<IReadOnlyBlockListInner> BlockListInnerCreated
         {
             add { AddBlockListInnerCreatedDelegate(value); }
             remove { RemoveBlockListInnerCreatedDelegate(value); }
         }
 #pragma warning disable 1591
-        private Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
-        private protected virtual void AddBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
-        private protected virtual void RemoveBlockListInnerCreatedDelegate(Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
+        private System.Action<IReadOnlyBlockListInner> BlockListInnerCreatedHandler;
+        private protected virtual void AddBlockListInnerCreatedDelegate(System.Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler += handler; }
+        private protected virtual void RemoveBlockListInnerCreatedDelegate(System.Action<IReadOnlyBlockListInner> handler) { BlockListInnerCreatedHandler -= handler; }
 #pragma warning restore 1591
 
         /// <summary>
@@ -692,7 +693,7 @@
         /// </summary>
         private protected virtual ReadOnlyNodeStateDictionary CreateStateTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyNodeStateDictionary();
         }
 
@@ -701,7 +702,7 @@
         /// </summary>
         private protected virtual ReadOnlyInnerDictionary<string> CreateInnerTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyInnerDictionary<string>();
         }
 
@@ -710,7 +711,7 @@
         /// </summary>
         private protected virtual ReadOnlyNodeStateDictionary CreateChildStateTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyNodeStateDictionary();
         }
 
@@ -719,7 +720,7 @@
         /// </summary>
         private protected virtual ReadOnlyBrowseContext CreateBrowseContext(ReadOnlyBrowseContext parentBrowseContext, IReadOnlyNodeState state)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyBrowseContext(state);
         }
 
@@ -728,7 +729,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex> CreatePlaceholderInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingPlaceholderNodeIndex> nodeIndexCollection)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyPlaceholderInner<IReadOnlyBrowsingPlaceholderNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
@@ -737,7 +738,7 @@
         /// </summary>
         private protected virtual IReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex> CreateOptionalInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingOptionalNodeIndex> nodeIndexCollection)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyOptionalInner<IReadOnlyBrowsingOptionalNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
@@ -746,7 +747,7 @@
         /// </summary>
         private protected virtual IReadOnlyListInner<IReadOnlyBrowsingListNodeIndex> CreateListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingListNodeIndex> nodeIndexCollection)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyListInner<IReadOnlyBrowsingListNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
@@ -755,7 +756,7 @@
         /// </summary>
         private protected virtual IReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex> CreateBlockListInner(IReadOnlyNodeState owner, IReadOnlyIndexCollection<IReadOnlyBrowsingBlockNodeIndex> nodeIndexCollection)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyBlockListInner<IReadOnlyBrowsingBlockNodeIndex>(owner, nodeIndexCollection.PropertyName);
         }
 
@@ -764,7 +765,7 @@
         /// </summary>
         private protected virtual IReadOnlyPlaceholderNodeState CreateRootNodeState(IReadOnlyRootNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyController));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyController>());
             return new ReadOnlyPlaceholderNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>(nodeIndex);
         }
         #endregion

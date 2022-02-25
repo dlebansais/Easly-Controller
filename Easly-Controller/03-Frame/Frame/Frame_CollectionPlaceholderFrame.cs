@@ -1,6 +1,7 @@
 ﻿namespace EaslyController.Frame
 {
     using System.Diagnostics;
+    using NotNullReflection;
 
     /// <summary>
     /// Base frame for a placeholder node in a block list.
@@ -85,7 +86,7 @@
         /// </summary>
         private protected virtual FrameCellViewList CreateCellViewList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameCollectionPlaceholderFrame>());
             return new FrameCellViewList();
         }
 
@@ -94,7 +95,7 @@
         /// </summary>
         private protected virtual IFrameContainerCellView CreateFrameCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameNodeStateView childStateView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameCollectionPlaceholderFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameCollectionPlaceholderFrame>());
             return new FrameContainerCellView(stateView, parentCellView, childStateView, this);
         }
 

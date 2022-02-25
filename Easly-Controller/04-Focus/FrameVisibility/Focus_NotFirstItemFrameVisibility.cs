@@ -1,6 +1,6 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame visibility that depends if the current state is not the first in the parent.

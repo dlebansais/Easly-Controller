@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Frame
 {
-    using System;
     using BaseNode;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFrameBlockListInner : IWriteableBlockListInner, IFrameCollectionInner
@@ -95,7 +95,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockListInner<IIndex>>());
             return new FrameBlockStateList();
         }
 
@@ -104,7 +104,7 @@
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockListInner<IIndex>>());
             return new FrameBlockState<IFrameInner<IFrameBrowsingChildIndex>>(this, (IFrameBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
@@ -113,7 +113,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockListInner<IIndex>>());
             return new FramePlaceholderNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameNodeIndex)nodeIndex);
         }
 
@@ -122,7 +122,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockListInner<IIndex>>());
             return new FrameBrowsingBlockNodeIndexList();
         }
 
@@ -131,7 +131,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockListInner<IIndex>>());
             return new FrameBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
@@ -140,7 +140,7 @@
         /// </summary>
         private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameBlockListInner<IIndex>>());
             return new FrameBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

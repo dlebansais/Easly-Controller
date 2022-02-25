@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.Windows.Markup;
+    using NotNullReflection;
 
     /// <summary>
     /// Template describing all components of a node.
@@ -53,7 +54,7 @@
         public virtual IFrameNamedFrame PropertyToFrame(string propertyName)
         {
             // Call overloads of this method if they exist.
-            ControllerTools.AssertNoOverride(this, typeof(FrameNodeTemplate));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameNodeTemplate>());
 
             bool Found = GetFirstNamedFrame(Root, propertyName, out IFrameNamedFrame Result);
             Debug.Assert(Found);
@@ -95,7 +96,7 @@
         public virtual IFrameCommentFrame GetCommentFrame()
         {
             // Call overloads of this method if they exist.
-            ControllerTools.AssertNoOverride(this, typeof(FrameNodeTemplate));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameNodeTemplate>());
 
             bool Found = GetFirstCommentFrame(Root, out IFrameCommentFrame Result);
             Debug.Assert(Found);

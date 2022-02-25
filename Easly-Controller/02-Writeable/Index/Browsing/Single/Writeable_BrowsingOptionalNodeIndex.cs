@@ -3,6 +3,7 @@
     using BaseNode;
     using Contracts;
     using EaslyController.ReadOnly;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for an optional node.
@@ -69,7 +70,7 @@
         /// </summary>
         private protected virtual IWriteableInsertionOptionalNodeIndex CreateInsertionOptionalNodeIndex(Node parentNode, Node node)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowsingOptionalNodeIndex>());
             return new WriteableInsertionOptionalNodeIndex(parentNode, PropertyName, node);
         }
 
@@ -78,7 +79,7 @@
         /// </summary>
         private protected virtual IWriteableInsertionOptionalClearIndex CreateInsertionOptionalClearIndex(Node parentNode)
         {
-            ControllerTools.AssertNoOverride(this, typeof(WriteableBrowsingOptionalNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<WriteableBrowsingOptionalNodeIndex>());
             return new WriteableInsertionOptionalClearIndex(parentNode, PropertyName);
         }
         #endregion

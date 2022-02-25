@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using BaseNode;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// View of a child node.
@@ -186,7 +187,7 @@
         /// </summary>
         private protected override FrameAssignableCellViewDictionary<string> CreateCellViewTable()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusPlaceholderNodeStateView));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusPlaceholderNodeStateView>());
             return new FocusAssignableCellViewDictionary<string>();
         }
         #endregion

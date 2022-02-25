@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.Layout
 {
-    using System.Diagnostics;
     using EaslyController.Focus;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface ILayoutOptionalInner : IFocusOptionalInner, ILayoutSingleInner
@@ -58,7 +58,7 @@
         /// </summary>
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalInner<IIndex>>());
             return new LayoutOptionalNodeState<ILayoutInner<ILayoutBrowsingChildIndex>>((ILayoutBrowsingOptionalNodeIndex)nodeIndex);
         }
 
@@ -67,7 +67,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(LayoutOptionalInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<LayoutOptionalInner<IIndex>>());
             return new LayoutBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

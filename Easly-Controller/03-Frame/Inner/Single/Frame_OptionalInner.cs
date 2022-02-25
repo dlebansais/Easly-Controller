@@ -1,8 +1,8 @@
 ﻿namespace EaslyController.Frame
 {
-    using System.Diagnostics;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFrameOptionalInner : IWriteableOptionalInner, IFrameSingleInner
@@ -57,7 +57,7 @@
         /// </summary>
         private protected override IReadOnlyOptionalNodeState CreateNodeState(IReadOnlyBrowsingOptionalNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameOptionalInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameOptionalInner<IIndex>>());
             return new FrameOptionalNodeState<IFrameInner<IFrameBrowsingChildIndex>>((IFrameBrowsingOptionalNodeIndex)nodeIndex);
         }
 
@@ -66,7 +66,7 @@
         /// </summary>
         private protected override IWriteableBrowsingOptionalNodeIndex CreateBrowsingNodeIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FrameOptionalInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FrameOptionalInner<IIndex>>());
             return new FrameBrowsingOptionalNodeIndex(Owner.Node, PropertyName);
         }
         #endregion

@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Windows.Markup;
     using EaslyController.Frame;
+    using NotNullReflection;
 
     /// <summary>
     /// Frame describing an enum value that can be displayed with different frames depending on its value.
@@ -145,7 +145,7 @@
         /// </summary>
         private protected override FrameKeywordFrameList CreateKeywordFrameList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusDiscreteFrame>());
             return new FocusKeywordFrameList();
         }
 
@@ -154,7 +154,7 @@
         /// </summary>
         private protected override IFrameDiscreteContentFocusableCellView CreateDiscreteContentFocusableCellView(IFrameNodeStateView stateView, IFrameCellViewCollection parentCellView, IFrameKeywordFrame keywordFrame)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusDiscreteFrame>());
             return new FocusDiscreteContentFocusableCellView((IFocusNodeStateView)stateView, (IFocusCellViewCollection)parentCellView, this, PropertyName, (IFocusKeywordFrame)keywordFrame);
         }
 
@@ -163,7 +163,7 @@
         /// </summary>
         private protected virtual IFocusEmptyCellView CreateEmptyCellView(IFocusNodeStateView stateView, IFocusCellViewCollection parentCellView)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusDiscreteFrame));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusDiscreteFrame>());
             return new FocusEmptyCellView(stateView, parentCellView);
         }
         #endregion

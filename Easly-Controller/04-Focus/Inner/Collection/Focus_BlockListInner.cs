@@ -1,10 +1,10 @@
 ﻿namespace EaslyController.Focus
 {
-    using System;
     using BaseNode;
     using EaslyController.Frame;
     using EaslyController.ReadOnly;
     using EaslyController.Writeable;
+    using NotNullReflection;
 
     /// <inheritdoc/>
     public interface IFocusBlockListInner : IFrameBlockListInner, IFocusCollectionInner
@@ -96,7 +96,7 @@
         /// </summary>
         private protected override ReadOnlyBlockStateList CreateBlockStateList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListInner<IIndex>>());
             return new FocusBlockStateList();
         }
 
@@ -105,7 +105,7 @@
         /// </summary>
         private protected override IReadOnlyBlockState CreateBlockState(IReadOnlyBrowsingNewBlockNodeIndex nodeIndex, IBlock childBlock)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListInner<IIndex>>());
             return new FocusBlockState<IFocusInner<IFocusBrowsingChildIndex>>(this, (IFocusBrowsingNewBlockNodeIndex)nodeIndex, childBlock);
         }
 
@@ -114,7 +114,7 @@
         /// </summary>
         private protected override IReadOnlyPlaceholderNodeState CreateNodeState(IReadOnlyNodeIndex nodeIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListInner<IIndex>>());
             return new FocusPlaceholderNodeState<IFocusInner<IFocusBrowsingChildIndex>>((IFocusNodeIndex)nodeIndex);
         }
 
@@ -123,7 +123,7 @@
         /// </summary>
         private protected override ReadOnlyBrowsingBlockNodeIndexList CreateBlockNodeIndexList()
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListInner<IIndex>>());
             return new FocusBrowsingBlockNodeIndexList();
         }
 
@@ -132,7 +132,7 @@
         /// </summary>
         private protected override IWriteableBrowsingExistingBlockNodeIndex CreateBrowsingNodeIndex(Node node, int blockIndex, int index)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListInner<IIndex>>());
             return new FocusBrowsingExistingBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex, index);
         }
 
@@ -141,7 +141,7 @@
         /// </summary>
         private protected override IWriteableBrowsingNewBlockNodeIndex CreateNewBlockNodeIndex(Node node, int blockIndex)
         {
-            ControllerTools.AssertNoOverride(this, typeof(FocusBlockListInner<IIndex>));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<FocusBlockListInner<IIndex>>());
             return new FocusBrowsingNewBlockNodeIndex(Owner.Node, node, PropertyName, blockIndex);
         }
         #endregion

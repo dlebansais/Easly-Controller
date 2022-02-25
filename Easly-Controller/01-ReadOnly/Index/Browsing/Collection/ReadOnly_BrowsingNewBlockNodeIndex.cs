@@ -1,9 +1,9 @@
 ﻿namespace EaslyController.ReadOnly
 {
-    using System;
     using System.Diagnostics;
     using BaseNode;
     using BaseNodeHelper;
+    using NotNullReflection;
 
     /// <summary>
     /// Index for the first node in a block.
@@ -75,7 +75,7 @@
         /// </summary>
         private protected virtual IReadOnlyBrowsingExistingBlockNodeIndex CreateExistingBlockIndex()
         {
-            ControllerTools.AssertNoOverride(this, typeof(ReadOnlyBrowsingNewBlockNodeIndex));
+            ControllerTools.AssertNoOverride(this, Type.FromTypeof<ReadOnlyBrowsingNewBlockNodeIndex>());
             return new ReadOnlyBrowsingExistingBlockNodeIndex(ParentNode, Node, PropertyName, BlockIndex, 0);
         }
         #endregion
