@@ -28,6 +28,8 @@
     <PackageReference Include="Easly-Number" Version="1.2.7" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
     <PackageReference Include="PolySerializer-Debug" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
     <PackageReference Include="PolySerializer" Version="1.2.11" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
+    <PackageReference Include="NotNullReflection-Debug" Version="0.0.1" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <PackageReference Include="NotNullReflection" Version="0.0.1" Condition="'$(Configuration)|$(Platform)'!='Debug|x64'" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,9 +38,6 @@
     </Reference>
     <Reference Include="Easly-Language-Helper">
       <HintPath>..\..\..\Easly-Language\Easly-Language-Helper\bin\x64\Debug\$(TargetFramework)\Easly-Language-Helper.dll</HintPath>
-    </Reference>
-    <Reference Include="NotNullReflection">
-      <HintPath>..\..\..\NotNullReflection\NotNullReflection\bin\x64\Debug\$(TargetFramework)\NotNullReflection.dll</HintPath>
     </Reference>
   </ItemGroup>
 

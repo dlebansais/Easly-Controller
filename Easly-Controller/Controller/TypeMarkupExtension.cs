@@ -4,7 +4,8 @@
     using System.Windows.Markup;
     using IServiceProvider = System.IServiceProvider;
     using Contracts;
-    using NotNullReflection;
+    using NotNullType = NotNullReflection.Type;
+    using NotNullAssembly = NotNullReflection.Assembly;
 
     /// <summary>
     /// Markup extension to declare types in Xaml.
@@ -59,25 +60,30 @@
 
             IXamlTypeResolver XamlTypeResolver = (IXamlTypeResolver)ServiceProvider.GetService(typeof(IXamlTypeResolver));
 
-            NotNullReflection.Type Type;
+            NotNullType Type;
 
             if (Arg1.Length == 0)
             {
-                Type = (NotNullReflection.Type)NotNullReflection.Type.CreateNew(XamlTypeResolver.Resolve(TypeName));
+                Type = TypeFromName(XamlTypeResolver, TypeName);
             }
             else
             {
-                NotNullReflection.Type GenericDefinitionType;
+                NotNullType GenericDefinitionType = TypeFromName(XamlTypeResolver, TypeName);
 
-                GenericDefinitionType = (NotNullReflection.Type)NotNullReflection.Type.CreateNew(XamlTypeResolver.Resolve(TypeName));
-                Assembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
+                NotNullAssembly GenericDefinitionAssembly = GenericDefinitionType.Assembly;
                 GenericDefinitionType = GenericDefinitionAssembly.GetType(ToFullNameWithArguments(GenericDefinitionType.Name, 1))!;
 
-                NotNullReflection.Type[] GenericArguments = new NotNullReflection.Type[] { (NotNullReflection.Type)NotNullReflection.Type.CreateNew(XamlTypeResolver.Resolve(Arg1)) };
+                NotNullType[] GenericArguments = new NotNullType[] { TypeFromName(XamlTypeResolver, Arg1) };
                 Type = GenericDefinitionType.MakeGenericType(GenericArguments);
             }
 
             return Type;
+        }
+
+        private NotNullType TypeFromName(IXamlTypeResolver xamlTypeResolver, string name)
+        {
+            NotNullType Result = NotNullType.GetType(xamlTypeResolver.Resolve(name).AssemblyQualifiedName);
+            return Result;
         }
 
         private string ToFullNameWithArguments(string name, int argCount)
