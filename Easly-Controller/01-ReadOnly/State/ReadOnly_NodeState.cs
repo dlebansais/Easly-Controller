@@ -48,6 +48,11 @@
         string Comment { get; }
 
         /// <summary>
+        /// Gets a value indicating whether <see cref="ValuePropertyTypeTable"/> is the empty object.
+        /// </summary>
+        bool IsEmptyValuePropertyTypeTable { get; }
+
+        /// <summary>
         /// Gets the inner corresponding to a property.
         /// </summary>
         /// <param name="propertyName">Property name.</param>
@@ -122,6 +127,8 @@
         /// </summary>
         public static ReadOnlyNodeState<IInner> Empty { get; } = new ReadOnlyEmptyNodeState<IInner>();
 
+        private static Dictionary<string, ValuePropertyType> EmptyValuePropertyTypeTable { get; } = new();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyNodeState{IInner}"/> class.
         /// </summary>
@@ -139,8 +146,8 @@
         public ReadOnlyNodeState(IReadOnlyIndex parentIndex)
         {
             ParentIndex = parentIndex;
-            ValuePropertyTypeTable = null;
             IsInitialized = false;
+            ValuePropertyTypeTable = EmptyValuePropertyTypeTable;
         }
 
         /// <summary>
@@ -154,7 +161,7 @@
             Debug.Assert(!IsInitialized);
             Debug.Assert(ParentInner == null);
             Debug.Assert(InnerTable == null);
-            Debug.Assert(ValuePropertyTypeTable == null);
+            Debug.Assert(IsEmptyValuePropertyTypeTable);
 
             InitParentInner(parentInner);
             if (parentInner != null) // The root node doesn't have a parent inner.
@@ -376,6 +383,11 @@
         /// The comment associated to this state. Null if none.
         /// </summary>
         public abstract string Comment { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="ValuePropertyTypeTable"/> is the empty object.
+        /// </summary>
+        public bool IsEmptyValuePropertyTypeTable { get { return ValuePropertyTypeTable == EmptyValuePropertyTypeTable; } }
         #endregion
 
         #region Client Interface

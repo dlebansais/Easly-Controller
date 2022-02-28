@@ -458,7 +458,7 @@
             Debug.Assert(State.ParentIndex == nodeIndex);
             Debug.Assert(State.ParentState == null);
             Debug.Assert(State.InnerTable == null);
-            Debug.Assert(State.ValuePropertyTypeTable == null || State.ValuePropertyTypeTable.Count == 0);
+            Debug.Assert(State.IsEmptyValuePropertyTypeTable || State.ValuePropertyTypeTable.Count == 0);
 
             ((IReadOnlyNodeState<IReadOnlyInner<IReadOnlyBrowsingChildIndex>>)State).Init(parentInner, innerTable, browseContext.ValuePropertyTypeTable);
 

@@ -199,7 +199,6 @@
         private protected override void CheckInvariant()
         {
             InvariantAssert(IsInitialized);
-            InvariantAssert(InnerTable != null);
 
             foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
