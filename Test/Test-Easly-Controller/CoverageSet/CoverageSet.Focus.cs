@@ -3536,7 +3536,7 @@ namespace Coverage
             FocusController ControllerBase = FocusController.Create(RootIndex);
             FocusController Controller = FocusController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusNodeStateDictionary>()) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = (ReadOnlyNodeStateDictionary)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusNodeStateDictionary>());
 
             using (FocusControllerView ControllerView = FocusControllerView.Create(Controller, TestDebug.CoverageFocusTemplateSet.FocusTemplateSet))
             {
@@ -3676,7 +3676,7 @@ namespace Coverage
                 Assert.That(LeafPathInner != null);
 
                 IFocusPlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                FocusBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusBlockStateList>()) as FocusBlockStateList;
+                FocusBlockStateList DebugBlockStateList = (FocusBlockStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusBlockStateList>());
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
@@ -4074,7 +4074,7 @@ namespace Coverage
 
                 // IFocusInnerDictionary
 
-                FocusInnerDictionary<string> FocusInnerTableModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusInnerDictionary<string>>()) as FocusInnerDictionary<string>;
+                FocusInnerDictionary<string> FocusInnerTableModify = (FocusInnerDictionary<string>)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusInnerDictionary<string>>());
                 Assert.That(FocusInnerTableModify != null);
                 Assert.That(FocusInnerTableModify.Count > 0);
 
@@ -4208,7 +4208,7 @@ namespace Coverage
 
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
-                FocusNodeStateList FocusNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusNodeStateList>()) as FocusNodeStateList;
+                FocusNodeStateList FocusNodeStateListModify = (FocusNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusNodeStateList>());
                 Assert.That(FocusNodeStateListModify != null);
                 Assert.That(FocusNodeStateListModify.Count > 0);
                 FirstNodeState = FocusNodeStateListModify[0] as IFocusPlaceholderNodeState;
@@ -4334,7 +4334,7 @@ namespace Coverage
                 //System.Diagnostics.Debug.Assert(false);
                 Assert.That(FocusOperationStack.Count > 0);
                 FocusOperationGroup FirstOperationGroup = (FocusOperationGroup)FocusOperationStack[0];
-                FocusOperationGroupList FocusOperationGroupList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusOperationGroupList>()) as FocusOperationGroupList;
+                FocusOperationGroupList FocusOperationGroupList = (FocusOperationGroupList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusOperationGroupList>());
                 if (FocusOperationGroupList != null)
                 {
                     WriteableOperationGroupList WriteableOperationGroupList = FocusOperationGroupList;
@@ -4412,7 +4412,7 @@ namespace Coverage
                 FocusOperationReadOnlyList FocusOperationReadOnlyList = FirstOperationGroup.OperationList;
                 Assert.That(FocusOperationReadOnlyList.Count > 0);
                 IFocusOperation FirstOperation = (IFocusOperation)FocusOperationReadOnlyList[0];
-                FocusOperationList FocusOperationList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusOperationList>()) as FocusOperationList;
+                FocusOperationList FocusOperationList = (FocusOperationList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusOperationList>());
                 if (FocusOperationList != null)
                 {
                     WriteableOperationList WriteableOperationList = FocusOperationList;
@@ -4488,7 +4488,7 @@ namespace Coverage
 
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
-                FocusPlaceholderNodeStateList FocusPlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusPlaceholderNodeStateList>()) as FocusPlaceholderNodeStateList;
+                FocusPlaceholderNodeStateList FocusPlaceholderNodeStateListModify = (FocusPlaceholderNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusPlaceholderNodeStateList>());
                 if (FocusPlaceholderNodeStateListModify != null)
                 {
                     Assert.That(FocusPlaceholderNodeStateListModify.Count > 0);
@@ -4700,7 +4700,7 @@ namespace Coverage
             {
                 // IFocusAssignableCellViewDictionary
 
-                FocusAssignableCellViewDictionary<string> ActualCellViewTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusAssignableCellViewDictionary<string>>()) as FocusAssignableCellViewDictionary<string>;
+                FocusAssignableCellViewDictionary<string> ActualCellViewTable = (FocusAssignableCellViewDictionary<string>)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FocusAssignableCellViewDictionary<string>>());
                 if (ActualCellViewTable != null)
                 {
                     FrameAssignableCellViewDictionary<string> FrameActualCellViewTable = ActualCellViewTable;

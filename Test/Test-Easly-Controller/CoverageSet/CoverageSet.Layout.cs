@@ -3220,7 +3220,7 @@ namespace Coverage
                 }
 
                 //System.Diagnostics.Debug.Assert(false);
-                LayoutOperationGroupList LayoutOperationGroupList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationGroupList>()) as LayoutOperationGroupList;
+                LayoutOperationGroupList LayoutOperationGroupList = (LayoutOperationGroupList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationGroupList>());
                 if (LayoutOperationGroupList != null)
                 {
                     Assert.That(LayoutOperationGroupList.Count > 0);
@@ -3944,7 +3944,7 @@ namespace Coverage
             LayoutController ControllerBase = LayoutController.Create(RootIndex);
             LayoutController Controller = LayoutController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutNodeStateDictionary>()) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = (ReadOnlyNodeStateDictionary)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutNodeStateDictionary>());
 
             using (LayoutControllerView ControllerView = LayoutControllerView.Create(Controller, TestDebug.CoverageLayoutTemplateSet.LayoutTemplateSet, TestDebug.LayoutDrawPrintContext.Default))
             {
@@ -4104,7 +4104,7 @@ namespace Coverage
                 Assert.That(LeafPathInner != null);
 
                 ILayoutPlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                LayoutBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutBlockStateList>()) as LayoutBlockStateList;
+                LayoutBlockStateList DebugBlockStateList = (LayoutBlockStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutBlockStateList>());
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
@@ -4614,7 +4614,7 @@ namespace Coverage
 
                 // ILayoutInnerDictionary
 
-                LayoutInnerDictionary<string> LayoutInnerTableModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutInnerDictionary<string>>()) as LayoutInnerDictionary<string>;
+                LayoutInnerDictionary<string> LayoutInnerTableModify = (LayoutInnerDictionary<string>)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutInnerDictionary<string>>());
                 Assert.That(LayoutInnerTableModify != null);
                 Assert.That(LayoutInnerTableModify.Count > 0);
 
@@ -4784,7 +4784,7 @@ namespace Coverage
 
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
-                LayoutNodeStateList LayoutNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutNodeStateList>()) as LayoutNodeStateList;
+                LayoutNodeStateList LayoutNodeStateListModify = (LayoutNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutNodeStateList>());
                 Assert.That(LayoutNodeStateListModify != null);
                 Assert.That(LayoutNodeStateListModify.Count > 0);
                 FirstNodeState = LayoutNodeStateListModify[0] as ILayoutPlaceholderNodeState;
@@ -4942,7 +4942,7 @@ namespace Coverage
 
                 Assert.That(LayoutOperationStack.Count > 0);
                 LayoutOperationGroup FirstOperationGroup = (LayoutOperationGroup)LayoutOperationStack[0];
-                LayoutOperationGroupList LayoutOperationGroupList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationGroupList>()) as LayoutOperationGroupList;
+                LayoutOperationGroupList LayoutOperationGroupList = (LayoutOperationGroupList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationGroupList>());
                 if (LayoutOperationGroupList != null)
                 {
                     WriteableOperationGroupList WriteableOperationGroupList = LayoutOperationGroupList;
@@ -5054,7 +5054,7 @@ namespace Coverage
                 LayoutOperationReadOnlyList LayoutOperationReadOnlyList = FirstOperationGroup.OperationList;
                 Assert.That(LayoutOperationReadOnlyList.Count > 0);
                 ILayoutOperation FirstOperation = (ILayoutOperation)LayoutOperationReadOnlyList[0];
-                LayoutOperationList LayoutOperationList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationList>()) as LayoutOperationList;
+                LayoutOperationList LayoutOperationList = (LayoutOperationList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutOperationList>());
                 if (LayoutOperationList != null)
                 {
                     WriteableOperationList WriteableOperationList = LayoutOperationList;
@@ -5164,7 +5164,7 @@ namespace Coverage
 
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
-                LayoutPlaceholderNodeStateList LayoutPlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutPlaceholderNodeStateList>()) as LayoutPlaceholderNodeStateList;
+                LayoutPlaceholderNodeStateList LayoutPlaceholderNodeStateListModify = (LayoutPlaceholderNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutPlaceholderNodeStateList>());
                 if (LayoutPlaceholderNodeStateListModify != null)
                 {
                     Assert.That(LayoutPlaceholderNodeStateListModify.Count > 0);
@@ -5439,7 +5439,7 @@ namespace Coverage
             {
                 // ILayoutAssignableCellViewDictionary
 
-                LayoutAssignableCellViewDictionary<string> ActualCellViewTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutAssignableCellViewDictionary<string>>()) as LayoutAssignableCellViewDictionary<string>;
+                LayoutAssignableCellViewDictionary<string> ActualCellViewTable = (LayoutAssignableCellViewDictionary<string>)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutAssignableCellViewDictionary<string>>());
                 if (ActualCellViewTable != null)
                 {
                     FrameAssignableCellViewDictionary<string> FrameActualCellViewTable = ActualCellViewTable;
@@ -5737,7 +5737,7 @@ namespace Coverage
 
                 // ILayoutFocusList
 
-                LayoutFocusList FocusList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutFocusList>()) as LayoutFocusList;
+                LayoutFocusList FocusList = (LayoutFocusList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<LayoutFocusList>());
                 if (FocusList != null)
                 {
                     Assert.That(FocusList.Count > 0);

@@ -82,7 +82,8 @@
 
         private NotNullType TypeFromName(IXamlTypeResolver xamlTypeResolver, string name)
         {
-            NotNullType Result = NotNullType.GetType(xamlTypeResolver.Resolve(name).AssemblyQualifiedName);
+            string AssemblyQualifiedName = Contract.NullSupressed(xamlTypeResolver.Resolve(name).AssemblyQualifiedName);
+            NotNullType Result = NotNullType.GetType(AssemblyQualifiedName);
             return Result;
         }
 

@@ -100,10 +100,12 @@
         /// </summary>
         /// <param name="format">A format.</param>
         /// <param name="formatProvider">A format provider.</param>
+#nullable disable
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return $"{Left},{Top},{Right},{Bottom}";
         }
+#nullable restore
         #endregion
     }
 }

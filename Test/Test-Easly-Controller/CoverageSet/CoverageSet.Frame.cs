@@ -2263,7 +2263,7 @@ namespace Coverage
             FrameController ControllerBase = FrameController.Create(RootIndex);
             FrameController Controller = FrameController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameNodeStateDictionary>()) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = (ReadOnlyNodeStateDictionary)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameNodeStateDictionary>());
 
             using (FrameControllerView ControllerView = FrameControllerView.Create(Controller, TestDebug.CoverageFrameTemplateSet.FrameTemplateSet))
             {
@@ -2363,7 +2363,7 @@ namespace Coverage
                 Assert.That(LeafPathInner != null);
 
                 IFramePlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                FrameBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameBlockStateList>()) as FrameBlockStateList;
+                FrameBlockStateList DebugBlockStateList = (FrameBlockStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameBlockStateList>());
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
@@ -2652,7 +2652,7 @@ namespace Coverage
 
                 // IFrameInnerDictionary
 
-                FrameInnerDictionary<string> FrameInnerTableModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameInnerDictionary<string>>()) as FrameInnerDictionary<string>;
+                FrameInnerDictionary<string> FrameInnerTableModify = (FrameInnerDictionary<string>)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameInnerDictionary<string>>());
                 Assert.That(FrameInnerTableModify != null);
                 Assert.That(FrameInnerTableModify.Count > 0);
 
@@ -2747,7 +2747,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                FrameNodeStateList FrameNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameNodeStateList>()) as FrameNodeStateList;
+                FrameNodeStateList FrameNodeStateListModify = (FrameNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameNodeStateList>());
                 Assert.That(FrameNodeStateListModify != null);
                 Assert.That(FrameNodeStateListModify.Count > 0);
                 FirstNodeState = FrameNodeStateListModify[0] as IFramePlaceholderNodeState;
@@ -2844,7 +2844,7 @@ namespace Coverage
                 Assert.That(FrameOperationStack.Count > 0);
                 FrameOperationGroup FirstOperationGroup = (FrameOperationGroup)FrameOperationStack[0];
 
-                FrameOperationGroupList FrameOperationGroupList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameOperationGroupList>()) as FrameOperationGroupList;
+                FrameOperationGroupList FrameOperationGroupList = (FrameOperationGroupList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameOperationGroupList>());
                 if (FrameOperationGroupList != null)
                 {
                     WriteableOperationGroupList WriteableOperationGroupList = FrameOperationGroupList;
@@ -2892,7 +2892,7 @@ namespace Coverage
                 Assert.That(FrameOperationReadOnlyList.Count > 0);
                 IFrameOperation FirstOperation = (IFrameOperation)FrameOperationReadOnlyList[0];
 
-                FrameOperationList FrameOperationList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameOperationList>()) as FrameOperationList;
+                FrameOperationList FrameOperationList = (FrameOperationList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FrameOperationList>());
                 if (FrameOperationList != null)
                 {
                     WriteableOperationList WriteableOperationList = FrameOperationList;
@@ -2938,7 +2938,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                FramePlaceholderNodeStateList FramePlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<FramePlaceholderNodeStateList>()) as FramePlaceholderNodeStateList;
+                FramePlaceholderNodeStateList FramePlaceholderNodeStateListModify = (FramePlaceholderNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<FramePlaceholderNodeStateList>());
                 if (FramePlaceholderNodeStateListModify != null)
                 {
                     Assert.That(FramePlaceholderNodeStateListModify.Count > 0);

@@ -2231,7 +2231,7 @@ namespace Coverage
             WriteableController ControllerBase = (WriteableController)WriteableController.Create(RootIndex);
             WriteableController Controller = (WriteableController)WriteableController.Create(RootIndex);
 
-            ReadOnlyNodeStateDictionary ControllerStateTable = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableNodeStateDictionary>()) as ReadOnlyNodeStateDictionary;
+            ReadOnlyNodeStateDictionary ControllerStateTable = (ReadOnlyNodeStateDictionary)DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableNodeStateDictionary>());
 
             using (WriteableControllerView ControllerView = WriteableControllerView.Create(Controller))
             {
@@ -2289,7 +2289,7 @@ namespace Coverage
 
                 //System.Diagnostics.Debug.Assert(false);
                 IWriteablePlaceholderNodeState FirstNodeState = LeafBlocksInner.FirstNodeState;
-                WriteableBlockStateList DebugBlockStateList = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableBlockStateList>()) as WriteableBlockStateList;
+                WriteableBlockStateList DebugBlockStateList = (WriteableBlockStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableBlockStateList>());
                 if (DebugBlockStateList != null)
                 {
                     Assert.That(DebugBlockStateList.Count > 0);
@@ -2438,7 +2438,7 @@ namespace Coverage
                 // WriteableInnerDictionary
 
                 //System.Diagnostics.Debug.Assert(false);
-                WriteableInnerDictionary<string> InnerTableModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableInnerDictionary<string>>()) as WriteableInnerDictionary<string>;
+                WriteableInnerDictionary<string> InnerTableModify = (WriteableInnerDictionary<string>)DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableInnerDictionary<string>>());
                 Assert.That(InnerTableModify != null);
                 Assert.That(InnerTableModify.Count > 0);
 
@@ -2492,7 +2492,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                WriteableNodeStateList NodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableNodeStateList>()) as WriteableNodeStateList;
+                WriteableNodeStateList NodeStateListModify = (WriteableNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteableNodeStateList>());
                 Assert.That(NodeStateListModify != null);
                 Assert.That(NodeStateListModify.Count > 0);
                 FirstNodeState = NodeStateListModify[0] as IWriteablePlaceholderNodeState;
@@ -2545,7 +2545,7 @@ namespace Coverage
                 FirstNodeState = LeafPathInner.FirstNodeState;
                 Assert.That(FirstNodeState != null);
 
-                WriteablePlaceholderNodeStateList PlaceholderNodeStateListModify = DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteablePlaceholderNodeStateList>()) as WriteablePlaceholderNodeStateList;
+                WriteablePlaceholderNodeStateList PlaceholderNodeStateListModify = (WriteablePlaceholderNodeStateList)DebugObjects.GetReferenceByInterface(Type.FromTypeof<WriteablePlaceholderNodeStateList>());
                 if (PlaceholderNodeStateListModify != null)
                 {
                     Assert.That(PlaceholderNodeStateListModify.Count > 0);
