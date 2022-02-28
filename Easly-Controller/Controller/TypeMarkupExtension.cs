@@ -56,8 +56,6 @@
         {
             Contract.RequireNotNull(serviceProvider, out IServiceProvider ServiceProvider);
 
-            Debug.Assert(TypeName != null);
-
             IXamlTypeResolver XamlTypeResolver = (IXamlTypeResolver)ServiceProvider.GetService(typeof(IXamlTypeResolver));
 
             NotNullType Type;

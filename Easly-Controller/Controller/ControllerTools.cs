@@ -9,14 +9,14 @@
     /// </summary>
     public static class ControllerTools
     {
-        private static string ExpectedName = null;
+        private static string ExpectedName = string.Empty;
 
         /// <summary>
         /// Reset the tool (for debug purpose).
         /// </summary>
         public static void ResetExpectedName()
         {
-            ExpectedName = null;
+            ExpectedName = string.Empty;
         }
 
         internal static void AssertNoOverride(object thisObject, Type callerType, [CallerMemberName] string callerName = "")
@@ -47,7 +47,7 @@
                     if (ThisNameIndex >= 0)
                         ThisName = ThisName.Substring(0, ThisNameIndex);
 
-                if (ExpectedName == null)
+                if (ExpectedName.Length == 0)
                     ExpectedName = ThisName;
 
                 if (ThisName != ExpectedName)

@@ -142,58 +142,54 @@
         /// <returns>The cloned node.</returns>
         public override Node CloneNode()
         {
-            Node NewNode = null;
-
             NodeTreeHelperOptional.GetChildNode(Optional, out bool IsAssigned, out Node ChildNode);
-            if (ChildNode != null)
+
+            // Create a clone, initially empty and full of null references.
+            Node NewNode = NodeHelper.CreateEmptyNode(Type.FromGetType(ChildNode));
+
+            // Clone and assign reference to all nodes, optional or not, list and block lists.
+            foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
             {
-                // Create a clone, initially empty and full of null references.
-                NewNode = NodeHelper.CreateEmptyNode(Type.FromGetType(ChildNode));
-
-                // Clone and assign reference to all nodes, optional or not, list and block lists.
-                foreach (KeyValuePair<string, IReadOnlyInner> Entry in InnerTable)
-                {
-                    string PropertyName = Entry.Key;
-                    IReadOnlyInner Inner = Entry.Value;
-                    ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
-                }
-
-                // Copy other properties.
-                foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
-                {
-                    string PropertyName = Entry.Key;
-                    ValuePropertyType Type = Entry.Value;
-                    bool IsHandled = false;
-
-                    switch (Type)
-                    {
-                        case ValuePropertyType.Boolean:
-                            NodeTreeHelper.CopyBooleanProperty(Node, NewNode, Entry.Key);
-                            IsHandled = true;
-                            break;
-
-                        case ValuePropertyType.Enum:
-                            NodeTreeHelper.CopyEnumProperty(Node, NewNode, Entry.Key);
-                            IsHandled = true;
-                            break;
-
-                        case ValuePropertyType.String:
-                            NodeTreeHelper.CopyStringProperty(Node, NewNode, Entry.Key);
-                            IsHandled = true;
-                            break;
-
-                        case ValuePropertyType.Guid:
-                            NodeTreeHelper.CopyGuidProperty(Node, NewNode, Entry.Key);
-                            IsHandled = true;
-                            break;
-                    }
-
-                    Debug.Assert(IsHandled);
-                }
-
-                // Also copy comments.
-                NodeTreeHelper.CopyDocumentation(Node, NewNode, cloneCommentGuid: true);
+                string PropertyName = Entry.Key;
+                IReadOnlyInner Inner = Entry.Value;
+                ((IReadOnlyInner<IReadOnlyBrowsingChildIndex>)Inner).CloneChildren(NewNode);
             }
+
+            // Copy other properties.
+            foreach (KeyValuePair<string, ValuePropertyType> Entry in ValuePropertyTypeTable)
+            {
+                string PropertyName = Entry.Key;
+                ValuePropertyType Type = Entry.Value;
+                bool IsHandled = false;
+
+                switch (Type)
+                {
+                    case ValuePropertyType.Boolean:
+                        NodeTreeHelper.CopyBooleanProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
+                        break;
+
+                    case ValuePropertyType.Enum:
+                        NodeTreeHelper.CopyEnumProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
+                        break;
+
+                    case ValuePropertyType.String:
+                        NodeTreeHelper.CopyStringProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
+                        break;
+
+                    case ValuePropertyType.Guid:
+                        NodeTreeHelper.CopyGuidProperty(Node, NewNode, Entry.Key);
+                        IsHandled = true;
+                        break;
+                }
+
+                Debug.Assert(IsHandled);
+            }
+
+            // Also copy comments.
+            NodeTreeHelper.CopyDocumentation(Node, NewNode, cloneCommentGuid: true);
 
             return NewNode;
         }
